@@ -55361,6 +55361,11 @@
                 });
             }
         }, {
+            key: "closeMiniCartModal",
+            value: function closeMiniCartModal() {
+                $('#sellerModal').removeClass('opened');
+            }
+        }, {
             key: "init",
             value: function init() {
     
@@ -55421,16 +55426,19 @@
                 });
                 $('.mobile-nav-search').click(function (e) {
                     e.preventDefault();
+                    that.closeMiniCartModal();
                     $(window).trigger('close-inactive-nav');
                     that.searchToggle();
                 });
                 $('.mobile-nav-account').click(function (e) {
                     e.preventDefault();
+                    that.closeMiniCartModal();
                     $(window).trigger('close-inactive-nav');
                     that.userToggle();
                 });
                 $('.mobile-nav-home').addClass('active');
                 $('.mobile-nav-home').click(function (e) {
+                    that.closeMiniCartModal();
                     $(window).trigger('close-inactive-nav');
                     if (!$('body').hasClass('home-supernosso-theme')) {
                         window.location.href = '/';
@@ -55551,6 +55559,8 @@
                 });
                 $('.mobile-nav-category').click(function (e) {
                     e.preventDefault();
+                    var modal = $('#sellerModal');
+                    modal.removeClass('opened');
                     $(window).trigger('close-inactive-nav');
                     that.navToggle();
                 });
@@ -56312,12 +56322,12 @@
           var orderedStoresByDistance = this.getDistanceToUserPostalCode();
           if (orderedStoresByDistance) {
             return '\n      ' + orderedStoresByDistance.map(function (store) {
-              return '\n              <div class="seller-modal-store-item">\n                  <a href="javascript:;" class="store-link" data-seller=' + store.sc + ' data-pickup=' + store.pickUpId + '>\n                      <p class="store-info">\n                          <span class="store-title">\n                              ' + store.name + '\n                          </span>\n                          <p class="store-address">\n                             ' + store.number + ' - ' + store.neighborhood + ', ' + store.city + ' / ' + store.state + ' ' + store.postalCode + '\n                          </p>\n                          <p class="store-distance" >' + store.distanceToUserPostalCode + ' km</p>\n                      </p>\n                  </a> \n              </div>\n          ';
-            }).join(' ') + '       \n      ';
+              return '\n              <div class="seller-modal-store-item">\n                  <a href="javascript:;" class="store-link" data-seller=' + store.sc + ' data-pickup=' + store.pickUpId + '>\n                      <p class="store-info">\n                          <span class="store-title">\n                              ' + store.name + '\n                          </span>\n                          <p class="store-address">\n                             ' + store.number + ' - ' + store.neighborhood + ', ' + store.city + ' / ' + store.state + ' ' + store.postalCode + '\n                          </p>\n                          <p class="store-distance" >' + store.distanceToUserPostalCode + ' km</p>\n                      </p>\n                  </a>\n              </div>\n          ';
+            }).join(' ') + '\n      ';
           } else {
             return '\n            ' + this.stores.map(function (store) {
               return '\n                    <div class="seller-modal-store-item">\n                        <a href="javascript:;" class="store-link" data-seller=' + store.sc + ' data-pickup=' + store.pickUpId + '>\n                            <p class="store-info">\n                                <span class="store-title">\n                                    ' + store.name + '\n                                </span>\n                                <p class="store-address">\n                                   ' + store.number + ' - ' + store.neighborhood + ', ' + store.city + ' / ' + store.state + ' ' + store.postalCode + '\n                                </p>\n                                <p class="store-distance" >' + store.distanceToUserPostalCode + ' km</p>\n                            </p>\n                        </a>\n                    </div>\n                ';
-            }).join(' ') + '       \n        ';
+            }).join(' ') + '\n        ';
           }
         }
       }, {
@@ -56326,7 +56336,7 @@
           var hasStore = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
     
           var address = this.getAddress();
-          return '\n        <div class="delivery-choose">\n            <div class="delivery-item home-delivery">\n                <a class="delivery-link" data-delivery="delivery" href="javascript:;"><img src="https://supernossoemcasa.vteximg.com.br/arquivos/minicart-image-2.png"><div class=\'delivery-point-text\'><h3>Quero receber</h3></div><div class=\'address\'>' + (address.includes('null') ? '' : address) + '</div></a>\n            </div>\n            <div class="delivery-item ' + (hasStore == false ? 'delivery-unavailable' : '') + '">\n                <a class="delivery-link" data-delivery="pickup" href="javascript:;"><img src="https://supernossoemcasa.vteximg.com.br/arquivos/minicart-image-1.png"><div class=\'pickup-point-text\'><h3>Quero retirar na loja</h3><p>Sem limite de compra</p><p class=\'free-shipping\'>Frete gr\xE1tis</p></div></a>\n            </div>\n        </div>            \n        ';
+          return '\n        <div class="delivery-choose">\n            <div class="delivery-item home-delivery">\n                <a class="delivery-link" data-delivery="delivery" href="javascript:;"><img src="https://supernossoemcasa.vteximg.com.br/arquivos/minicart-image-2.png"><div class=\'delivery-point-text\'><h3>Quero receber</h3></div><div class=\'address\'>' + (address.includes('null') ? '' : address) + '</div></a>\n            </div>\n            <div class="delivery-item ' + (hasStore == false ? 'delivery-unavailable' : '') + '">\n                <a class="delivery-link" data-delivery="pickup" href="javascript:;"><img src="https://supernossoemcasa.vteximg.com.br/arquivos/minicart-image-1.png"><div class=\'pickup-point-text\'><h3>Quero retirar na loja</h3><p>Sem limite de compra</p><p class=\'free-shipping\'>Frete gr\xE1tis</p></div></a>\n            </div>\n        </div>\n        ';
         }
       }, {
         key: 'getAddress',
@@ -56393,7 +56403,7 @@
           var hasStore = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
     
           var that = this;
-          var unifiedTemplate = '\n                <div id="sellerModal" class="seller-modal">\n                <div class="seller-modal-inner">\n                    <div class="seller-modal-header">\n                        <div class="black-bar">\n                            <h3>Meu Carrinho</h3>\n                            <span class="close-modal">&times;</span>\n                        </div>\n                    </div>\n                    <div class=\'delivery-modality\'>Modalidade de entrega</div> \n                    <div class=\'delivery-availability\'>\n                        <div class=\'has-delivery\'>\n                            <div>\n                                <h4>Atendemos sua regi\xE3o</h4>\n                                <p>CEP informado: <b></b>\n                                </p>\n                            </div>\n                        </div>\n                        <div class=\'no-delivery\'>\n                            <div>\n                                <h4>Ainda n\xE3o atendemos sua regi\xE3o</h4>\n                                <p>CEP informado: <b></b>\n                                </p>\n                            </div>\n                        </div>\n                        <div class=\'change-postal-code\'>\n                            <button>Trocar</button>\n                        </div>\n                    </div>\n                    <div class="seller-modal-body modal-postal-code">\n                        <div class="postal-code-info">\n                            <h2>Informe seu CEP</h2>\n                            <p>Para adicionar os produtos no carrinho, informe seu CEP. Indicaremos a loja mais pr\xF3xima ou\n                            verificaremos se a entrega est\xE1 dispon\xEDvel para \n                            sua regi\xE3o. </p>\n                        </div>\n                        <div class=\'postalcode-input\'>\n                            <h4>Digite seu CEP</h4>\n                            <input maxlength="9" type="tel" class=\'seller-postal-code\'>\n                            <button class=\'enter-postal-code\'>Buscar</button>\n                            <a href="http://www.buscacep.correios.com.br/servicos/dnec/index.do">N\xE3o sei meu CEP</a>\n                        </div>\n                    </div>\n                    <div class="seller-modal-body modal-delivery-modality">\n                        <h4>Sobre seus produtos:</h4>\n                        ' + this.deliveryChoose(hasStore, that) + '\n\n                        <div class="link-modal">\n                          <a\n                            href=""\n                            id="btn-show-modal" \n                            data-toggle="modal" \n                            data-target="#videoClickModal"\n                          >\n                            <u>saiba mais sobre este servi\xE7o</u>\n                          </a>\n                        </div>\n                    </div>\n\n                    <div class="modal fade" id="videoClickModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">\n                      <div class="modal-dialog modal-dialog-centered" role="document">\n\n                        <div class="col">\n                          <div class="close-icon">\n                            <a href="">\n                              <img src="https://supernossoemcasa.vteximg.com.br/arquivos/icon-close.png"/>\n                            </a>\n                          </div>\n                        \n                          <div class="modal-content">\n                            <iframe id="video-click" src="https://www.youtube.com/embed/QZ8H8O8H_tU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>\n                            <p>Escolha os produtos que deseja no site, e busque tudo separado e embalado na unidade mais pr\xF3xima de voc\xEA.\n                            Saiba mais <a href="https://conteudo.blogsupernosso.com.br/clique-e-retire-2" target="_blank"><u>aqui</u>.</a></p>\n                          </div>\n                        </div>\n                          \n                      </div>\n                    </div>\n            \n                    <div class="seller-modal-body seller-modal-stores">\n                     ' + this.storeList() + '\n                    </div>                    \n                </div>\n            </div>\n        ';
+          var unifiedTemplate = '\n                <div id="sellerModal" class="seller-modal">\n                <div class="seller-modal-inner">\n                    <div class="seller-modal-header">\n                        <div class="black-bar">\n                            <h3>Meu Carrinho</h3>\n                            <span class="close-modal">&times;</span>\n                        </div>\n                    </div>\n                    <div class=\'delivery-modality\'>Modalidade de entrega</div>\n                    <div class=\'delivery-availability\'>\n                        <div class=\'has-delivery\'>\n                            <div>\n                                <h4>Atendemos sua regi\xE3o</h4>\n                                <p>CEP informado: <b></b>\n                                </p>\n                            </div>\n                        </div>\n                        <div class=\'no-delivery\'>\n                            <div>\n                                <h4>Ainda n\xE3o atendemos sua regi\xE3o</h4>\n                                <p>CEP informado: <b></b>\n                                </p>\n                            </div>\n                        </div>\n                        <div class=\'change-postal-code\'>\n                            <button>Trocar</button>\n                        </div>\n                    </div>\n                    <div class="seller-modal-body modal-postal-code">\n                        <div class="postal-code-info">\n                            <h2>Informe seu CEP</h2>\n                            <p>Para adicionar os produtos no carrinho, informe seu CEP. Indicaremos a loja mais pr\xF3xima ou\n                            verificaremos se a entrega est\xE1 dispon\xEDvel para\n                            sua regi\xE3o. </p>\n                        </div>\n                        <div class=\'postalcode-input\'>\n                            <h4>Digite seu CEP</h4>\n                            <input maxlength="9" type="tel" class=\'seller-postal-code\'>\n                            <button class=\'enter-postal-code\'>Buscar</button>\n                            <a href="http://www.buscacep.correios.com.br/servicos/dnec/index.do">N\xE3o sei meu CEP</a>\n                        </div>\n                    </div>\n                    <div class="seller-modal-body modal-delivery-modality">\n                        <h4>Sobre seus produtos:</h4>\n                        ' + this.deliveryChoose(hasStore, that) + '\n\n                        <div class="link-modal">\n                          <a\n                            href=""\n                            id="btn-show-modal"\n                            data-toggle="modal"\n                            data-target="#videoClickModal"\n                          >\n                            <u>saiba mais sobre este servi\xE7o</u>\n                          </a>\n                        </div>\n                    </div>\n\n                    <div class="modal fade" id="videoClickModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">\n                      <div class="modal-dialog modal-dialog-centered" role="document">\n\n                        <div class="col">\n                          <div class="close-icon">\n                            <a href="">\n                              <img src="https://supernossoemcasa.vteximg.com.br/arquivos/icon-close.png"/>\n                            </a>\n                          </div>\n\n                          <div class="modal-content">\n                            <iframe id="video-click" src="https://www.youtube.com/embed/QZ8H8O8H_tU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>\n                            <p>Escolha os produtos que deseja no site, e busque tudo separado e embalado na unidade mais pr\xF3xima de voc\xEA.\n                            Saiba mais <a href="https://conteudo.blogsupernosso.com.br/clique-e-retire-2" target="_blank"><u>aqui</u>.</a></p>\n                          </div>\n                        </div>\n\n                      </div>\n                    </div>\n\n                    <div class="seller-modal-body seller-modal-stores">\n                     ' + this.storeList() + '\n                    </div>\n                </div>\n            </div>\n        ';
           // ${hasStore ? this.deliveryChoose() : this.deliveryChoose(false)}
     
     
@@ -56488,7 +56498,7 @@
                     simulate(postalCode).done(function (response) {
     
                       if (!response.logisticsInfo.length || !response.logisticsInfo[0].slas.length) {
-                        //nao tem 
+                        //nao tem
                         _this2.checkIfHasDelivery(false);
                       }
                       var slas = response.logisticsInfo[0].slas;
@@ -57545,70 +57555,67 @@
                     this.textToggle('.category-desc');
                     this.mainCategories();
                     this.filterAccordeon();
-                    $(document).ajaxStop(function (e) {
-                        var elementPages = $('body').find(".pager:first").attr("id");
-                        var id = elementPages.split('_')[1];
-                        var page_count = window['pagecount_' + id];
-                        if (pages != page_count) {
-                            pages = page_count;
-                            currentPage = 1;
-                        }
     
-                        setTimeout(function (e) {
-                            var items = $('body').find('.item-shelf').length;
+                    // -- desativar load more
+                    // $(document).ajaxStop(function(e) {
+                    //     let elementPages=$('body').find(".pager:first").attr("id");
+                    //     let id = elementPages.split('_')[1]
+                    //     let page_count = window[`pagecount_${id}`];
+                    //     if(pages != page_count){
+                    //       pages = page_count
+                    //       currentPage = 1;
+                    //     }
     
-                            var isInteger = Number.isInteger(items / 12);
-                            if (!isInteger) {
-                                //$('.load-more').hide();
-                                $('.load-more').remove();
-                            }
-                        }, 1200);
-                    });
+                    //     setTimeout(function(e){
+                    //         let items = $('body').find('.item-shelf').length;
+    
+                    //         let isInteger = Number.isInteger(items/12)
+                    //         if(!isInteger){
+                    //             //$('.load-more').hide();
+                    //             $('.load-more').remove();
+                    //         }
+                    //     },1200);
+    
+                    // })
     
                     if (window.matchMedia("(max-width:768px)").matches == true) {
                         this.filterBy();
                     }
     
                     if ($('body').hasClass('resultado-busca')) {
-                        if (!$("#departament-navegador input[type='checkbox']").length) {
-                            $(".prateleira[id*=ResultItems]").QD_infinityScroll({
-                                lastShelf: ">div:last",
-                                insertContent: function insertContent(currentItems, ajaxData) {
-                                    currentItems.after(ajaxData);
-                                },
-                                authorizeScroll: function authorizeScroll() {
-                                    return false;
-                                }
-                            });
-                        }
+                        // -- desativar load more
+                        // if(!$("#departament-navegador input[type='checkbox']").length) {
+                        //     $(".prateleira[id*=ResultItems]").QD_infinityScroll({
+                        //         lastShelf: ">div:last",
+                        //         insertContent: function (currentItems, ajaxData) {
+                        //             currentItems.after(ajaxData);
+                        //         },
+                        //         authorizeScroll: function () {
+                        //             return false;
+                        //         }
+                        //     })
+                        // }
+    
                     } else {
+                        // -- desativar load more
+                        // $("#departament-navegador input[type='checkbox']").vtexSmartResearch({
+                        //     elemLoading: '',
+                        //     authorizeScroll:function(){return false;},
+                        //     ajaxCallback:function(o){},
+                        //     pageLimit:null, // Número máximo de páginas que o script irá retornar. Exemplo "pageLimit=3" só será retornado resultados até a terceira página
+                        //     authorizeUpdate:function(){return true;},
+                        // });
     
-                        $("#departament-navegador input[type='checkbox']").vtexSmartResearch({
-                            elemLoading: '',
-                            authorizeScroll: function authorizeScroll() {
-                                return false;
-                            },
-                            ajaxCallback: function ajaxCallback(o) {},
-                            pageLimit: null, // Número máximo de páginas que o script irá retornar. Exemplo "pageLimit=3" só será retornado resultados até a terceira página
-                            authorizeUpdate: function authorizeUpdate() {
-                                return true;
-                            }
-                        });
+                        // $(".mobile-category-filter-view input[type='checkbox']").vtexSmartResearch({
+                        //     elemLoading: '',
+                        //     authorizeScroll:function(){return false;},
+                        //     ajaxCallback:function(o){},
+                        //     emptySearchCallback:function(o){},
+                        //     pageLimit:null, // Número máximo de páginas que o script irá retornar. Exemplo "pageLimit=3" só será retornado resultados até a terceira página
+                        //     authorizeUpdate:function(){return true;},
+                        // });
     
-                        $(".mobile-category-filter-view input[type='checkbox']").vtexSmartResearch({
-                            elemLoading: '',
-                            authorizeScroll: function authorizeScroll() {
-                                return false;
-                            },
-                            ajaxCallback: function ajaxCallback(o) {},
-                            emptySearchCallback: function emptySearchCallback(o) {},
-                            pageLimit: null, // Número máximo de páginas que o script irá retornar. Exemplo "pageLimit=3" só será retornado resultados até a terceira página
-                            authorizeUpdate: function authorizeUpdate() {
-                                return true;
-                            }
-                        });
-    
-                        $('#collections').append('<a href="javascript:;" class="load-more">Carregar mais</a>');
+                        // $('#collections').append(`<a href="javascript:;" class="load-more">Carregar mais</a>`);
     
                         $('.back-button-category').click(function (e) {
                             e.preventDefault();
@@ -57616,10 +57623,11 @@
                         });
                     }
     
-                    $(document).on('click', '.load-more', function (e) {
-                        currentPage++;
-                        $('#ajaxBusy').addClass('hide-ajaxBusy');
-                    });
+                    // -- desativar load more
+                    // $(document).on('click','.load-more',function(e){
+                    //     currentPage++;
+                    //     $('#ajaxBusy').addClass('hide-ajaxBusy');
+                    // });
                 }
             }
         }]);
@@ -64520,11 +64528,6 @@
                       )
                     )
                   )
-                ),
-                this.state.total < this.state.limit && _react2.default.createElement(
-                  "a",
-                  { href: "javascript:;", className: "load-more", onClick: this.loadMore.bind(this) },
-                  "Carregar mais"
                 )
               )
             )
