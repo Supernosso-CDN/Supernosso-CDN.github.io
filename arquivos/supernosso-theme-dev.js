@@ -55344,15 +55344,16 @@ var StorePicker = function () {
 
       vtexjs.checkout.getOrderForm().done(function (of) {
         var pc = '';
+
         if (of.shippingData && of.shippingData.address && of.shippingData.address.postalCode) {
-          // pc = of.shippingData.address.postalCode
           var availableAddresses = vtexjs.checkout.orderForm && !!of.shippingData && !!of.shippingData.availableAddresses && of.shippingData.availableAddresses.length ? of.shippingData.availableAddresses : null;
 
-          if (!availableAddresses) return;
-
-          pc = _this2.getLastDeliveryAddress(of.shippingData.availableAddresses).postalCode;
-
-          // console.log('pc', pc);
+          if (availableAddresses) {
+            var lastAddress = _this2.getLastDeliveryAddress(availableAddresses);
+            pc = lastAddress && lastAddress.postalCode ? lastAddress.postalCode : '';
+          } else {
+            pc = of.shippingData.address.postalCode;
+          }
 
           _this2.simulate(pc).done(function (response) {
             if (!response.logisticsInfo.length || !response.logisticsInfo[0].slas.length) {
@@ -55521,8 +55522,6 @@ var StorePicker = function () {
             var address = _this3.getLastDeliveryAddress(availableAddresses);
             var formatedAddress = _this3.getAddress(address);
 
-            // console.log(address)
-
             $('.delivery-link .address').text(formatedAddress);
 
             if (!response.logisticsInfo.length || !response.logisticsInfo[0].slas.length) {
@@ -55590,7 +55589,6 @@ var StorePicker = function () {
     value: function deliveryLinkEvent(hasStore, that, postalCode) {
       var pc = postalCode ? postalCode : '';
       $('.postalcode-input input').val(pc);
-
       // $('.modal-delivery-modality').html('<h4>Sobre seus produtos:</h4>'+this.deliveryChoose(hasStore))
 
       $(document).on('click', '.delivery-item', function (e) {
@@ -55607,8 +55605,9 @@ var StorePicker = function () {
             // modal.find('.seller-modal-header').find('h2').text('local de retirada');
             // modal.find('.seller-modal-header').find('p').text('escolha uma loja abaixo para retirar seu pedido');
           } else {
-            that.setDeliveryShippingData(pc).done(function () {
-              // console.log('mudou')
+            var postalCodeDelivery = $('.postalcode-input input').val();
+
+            that.setDeliveryShippingData(postalCodeDelivery).done(function () {
               that.removeStorage('selectedPickup');
 
               that.setDelivery();
@@ -62030,6 +62029,9 @@ var ProductLimit = exports.ProductLimit = function () {
         fetch(url).then(function (res) {
           return res.json();
         }).then(function (res) {
+
+          return;
+
           var _loop = function _loop(i) {
             var product = res[i];
 
