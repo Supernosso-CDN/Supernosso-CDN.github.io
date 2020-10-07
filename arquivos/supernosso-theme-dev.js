@@ -62029,9 +62029,6 @@ var ProductLimit = exports.ProductLimit = function () {
         fetch(url).then(function (res) {
           return res.json();
         }).then(function (res) {
-
-          return;
-
           var _loop = function _loop(i) {
             var product = res[i];
 
