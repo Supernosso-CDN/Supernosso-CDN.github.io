@@ -9657,22 +9657,6 @@ body {
   width: auto;
   font-weight: bold;
 }
-.top-bar {
-  background: #333;
-  display: flex;
-  align-items: center;
-  position: fixed;
-  width: 100%;
-  z-index: 999;
-  top: 0;
-}
-.top-bar strong {
-  color: #CCC;
-  font-family: 'Roboto', sans-serif;
-  font-style: normal;
-  font-weight: lighter;
-  font-size: 14px;
-}
 header {
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.08);
   position: fixed;
@@ -9683,169 +9667,14 @@ header {
   top: 32px;
   transition: all 0.2 ease-in-out;
 }
-header .header-content {
-  align-items: center;
-  justify-content: space-between;
-  position: relative;
-  z-index: 20;
-}
-header .header-content .logo {
-  opacity: 1;
-  transition: opacity 0.2s ease-in-out;
-}
-header .header-content .logo a {
-  min-width: 106px;
-  display: block;
-}
-header .header-content .nav .nav-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-header .header-content .nav .nav-list .nav-item {
-  margin-left: 25px;
-}
-header .header-content .nav .nav-list .nav-item a {
-  font-family: 'Roboto', sans-serif;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 16px;
-  color: #333;
-  text-decoration: none;
-}
-header .header-content .nav .nav-list .nav-item a img {
-  margin-right: 15px;
-}
-header .header-content .nav .nav-list .nav-item a svg {
-  margin-right: 15px;
-  width: 28px;
-}
-header .header-content .search-bar .busca {
-  position: relative;
-}
-header .header-content .search-bar .busca legend,
-header .header-content .search-bar .busca label,
-header .header-content .search-bar .busca select {
-  display: none;
-}
-header .header-content .search-bar .busca input[type=text] {
-  background: #FFFFFF;
-  border: 1px solid #CCCCCC;
-  border-radius: 24px;
-  padding: 12px 25px;
-  font-family: 'Roboto', sans-serif;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 14px;
-  color: #999;
-  width: 100%;
-  min-width: 390px;
-}
-header .header-content .search-bar .busca input[type=text]::placeholder {
-  font-family: 'Roboto', sans-serif;
-  color: #999;
-  font-size: 14px;
-}
-header .header-content .search-bar .busca input[type=button] {
-  border: 0;
-  background: transparent url('https://supernossoemcasa.vteximg.com.br/arquivos/icon-search.png') no-repeat center center;
-  text-indent: -9000px;
-  position: absolute;
-  right: 25px;
-  top: 50%;
-  margin-top: -11px;
-  width: 22px;
-  height: 22.23px;
-}
-header .header-content .user-info a {
-  font-family: Museo, sans-serif;
-  font-size: 16px;
-  line-height: 19px;
-  display: flex;
-  align-items: center;
-  text-transform: lowercase;
-  color: #999;
-}
-header .header-content .user-info a strong {
-  margin-left: 5px;
-  font-family: Museo, sans-serif;
-  color: #333;
-}
-header .header-content .user-info a img {
-  margin-right: 10px;
-}
-header .header-content .user-info a svg {
-  width: 28px;
-  margin-right: 10px;
-}
-header .header-content .cart .minicart-toggle {
-  position: relative;
-}
-header .header-content .cart .minicart-toggle > span {
-  background: #f2f2f2;
-  width: 20px;
-  height: 20px;
-  border-radius: 100%;
-  color: #D99A06;
-  font-family: 'Roboto', sans-serif;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 14px;
-  line-height: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  right: -8px;
-  top: -8px;
-}
-header .header-content .cart .minicart-toggle svg {
-  width: 28px;
-}
 header.fixed-on-top {
   top: 0;
-}
-header.fixed-on-top .header-content .logo a {
-  min-width: auto;
-}
-header.fixed-on-top .search-bar {
-  width: 390px;
-  display: flex;
-  justify-content: flex-end;
-}
-header.fixed-on-top .search-bar .busca {
-  width: 240px;
-}
-header.fixed-on-top .search-bar .busca input[type=text] {
-  min-width: 240px;
-  width: 240px;
-}
-header.fixed-on-top .cart .minicart-toggle:after {
-  content: 'carrinho';
-  font-family: 'Roboto', sans-serif;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 16px;
-  color: #333;
-  margin-left: 12px;
-}
-header.fixed-on-top .cart .minicart-toggle > span {
-  right: auto;
-  left: 16px;
 }
 header .user-mobile-data a[href] span {
   margin-left: 10px;
 }
 header .user-data-toggle strong {
   margin-left: 10px;
-}
-body {
-  height: 100vh;
-  -webkit-overflow-scrolling: touch;
-  padding-top: 112px;
-}
-body .home-supernosso-theme {
-  padding-top: 80px;
 }
 #nav-categories {
   display: none !important;
