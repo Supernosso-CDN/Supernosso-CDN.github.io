@@ -55252,13 +55252,29 @@ var StorePicker = function () {
     value: function deliveryChoose() {
       var hasStore = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
 
-      var address = this.getAddress();
+      var availableAddresses = vtexjs.checkout.orderForm && !!vtexjs.checkout.orderForm.shippingData && !!vtexjs.checkout.orderForm.shippingData.availableAddresses && vtexjs.checkout.orderForm.shippingData.availableAddresses.length ? vtexjs.checkout.orderForm.shippingData.availableAddresses : null;
+
+      var lastAddress = availableAddresses ? this.getLastDeliveryAddress(availableAddresses) : null;
+      var address = lastAddress ? this.getAddress(lastAddress) : this.getAddress();
+
+      // debugger;
+      // console.log(address);
+      // console.log(lastAddress);
+
       return '\n        <div class="delivery-choose">\n            <div class="delivery-item home-delivery">\n                <a class="delivery-link" data-delivery="delivery" href="javascript:;"><img src="https://supernossoemcasa.vteximg.com.br/arquivos/minicart-image-2.png"><div class=\'delivery-point-text\'><h3>Quero receber</h3></div><div class=\'address\'>' + (address.includes('null') ? '' : address) + '</div></a>\n            </div>\n            <div class="delivery-item ' + (hasStore == false ? 'delivery-unavailable' : '') + '">\n                <a class="delivery-link" data-delivery="pickup" href="javascript:;"><img src="https://supernossoemcasa.vteximg.com.br/arquivos/minicart-image-1.png"><div class=\'pickup-point-text\'><h3>Quero retirar na loja</h3><p>Sem limite de compra</p><p class=\'free-shipping\'>Gr\xE1tis</p></div></a>\n            </div>\n        </div>\n        ';
     }
   }, {
     key: 'getAddress',
-    value: function getAddress() {
+    value: function getAddress(deliveryAddress) {
       var formattedAd = '';
+
+      if (deliveryAddress) {
+        var address = deliveryAddress;
+        formattedAd = address.street + ', ' + address.neighborhood + ' - ' + address.city + ' - ' + address.state;
+
+        return formattedAd;
+      }
+
       if (vtexjs.checkout.orderForm && vtexjs.checkout.orderForm.shippingData && vtexjs.checkout.orderForm.shippingData.address) {
         var address = vtexjs.checkout.orderForm.shippingData.address;
         formattedAd = address.street + ', ' + address.neighborhood + ' - ' + address.city + ' - ' + address.state;
@@ -55328,10 +55344,18 @@ var StorePicker = function () {
 
       vtexjs.checkout.getOrderForm().done(function (of) {
         var pc = '';
-        if (of.shippingData && of.shippingData.address && of.shippingData.address.postalCode) {
-          pc = of.shippingData.address.postalCode;
 
-          simulate(pc).done(function (response) {
+        if (of.shippingData && of.shippingData.address && of.shippingData.address.postalCode) {
+          var availableAddresses = vtexjs.checkout.orderForm && !!of.shippingData && !!of.shippingData.availableAddresses && of.shippingData.availableAddresses.length ? of.shippingData.availableAddresses : null;
+
+          if (availableAddresses) {
+            var lastAddress = _this2.getLastDeliveryAddress(availableAddresses);
+            pc = lastAddress && lastAddress.postalCode ? lastAddress.postalCode : '';
+          } else {
+            pc = of.shippingData.address.postalCode;
+          }
+
+          _this2.simulate(pc).done(function (response) {
             if (!response.logisticsInfo.length || !response.logisticsInfo[0].slas.length) {
               _this2.checkIfHasDelivery(false);
             }
@@ -55402,58 +55426,8 @@ var StorePicker = function () {
           if (!isValid) return;
 
           if (postalCodeInput.replace('-', '').length > 7) {
-            var pc = $('.seller-postal-code').val();
-            vtexjs.checkout.getOrderForm().done(function (a) {
-              vtexjs.checkout.sendAttachment('shippingData', {
-                address: {
-                  country: 'BRA',
-                  postalCode: pc,
-                  addressType: 'residential'
-                }
-              }).done(function (orf) {
-                var postalCode = orf.shippingData.address.postalCode;
-                simulate(postalCode).done(function (response) {
-
-                  if (!response.logisticsInfo.length || !response.logisticsInfo[0].slas.length) {
-                    //nao tem
-                    _this2.checkIfHasDelivery(false);
-                  }
-                  var slas = response.logisticsInfo[0].slas;
-                  var aux = false;
-                  for (var i = 0; i < slas.length; i++) {
-                    if (slas[i].deliveryChannel == 'delivery') {
-                      aux = true;
-                      break;
-                    }
-                  }
-
-                  if (aux) {
-                    _this2.checkIfHasDelivery(true);
-                  } else {
-                    _this2.checkIfHasDelivery(false);
-                  }
-
-                  $('.delivery-availability').show().find('b').text(postalCode);
-                  $('.modal-delivery-modality').show();
-                  $('.delivery-modality').show();
-                  $('.modal-postal-code').hide();
-
-                  var address = _this2.getAddress();
-                  if (!address.includes('null')) $('.delivery-link .address').text(_this2.getAddress());
-
-                  var orderedStores = _this2.getDistanceToUserPostalCode();
-                  var elements = document.querySelectorAll('.seller-modal-store-item');
-                  if (orderedStores && elements.length > 0) {
-                    orderedStores.forEach(function (store, index) {
-                      elements[index].querySelector('.store-link').dataset.pickup = store.pickUpId;
-                      elements[index].querySelector('.store-link').dataset.seller = store.sc;
-                      elements[index].querySelector('.store-title').innerText = store.name;
-                      elements[index].querySelector('.store-address').innerText = store.number + ' - ' + store.neighborhood + ', ' + store.city + ' / ' + store.state + ' ' + store.postalCode;
-                      elements[index].querySelector('.store-distance').innerText = store.distanceToUserPostalCode + ' km';
-                    });
-                  }
-                });
-              });
+            _this2.setDeliveryShippingData(postalCodeInput).done(function () {
+              that.removeStorage('selectedPickup');
             });
           }
         });
@@ -55465,26 +55439,6 @@ var StorePicker = function () {
         $('#video-click').attr('src', '');
         $('#video-click').attr('src', url);
       });
-
-      function simulate(postalCode) {
-        var data = {
-          items: [{
-            id: 989,
-            quantity: 1,
-            seller: 1
-          }],
-          country: 'BRA',
-          postalCode: postalCode
-        };
-
-        return $.ajax({
-          url: '/api/checkout/pub/orderforms/simulation',
-          type: 'POST',
-          dataType: 'JSON',
-          contentType: 'application/json',
-          data: JSON.stringify(data)
-        });
-      }
 
       function events(that) {
         $(document).on('click', '.store-link', function (e) {
@@ -55528,6 +55482,109 @@ var StorePicker = function () {
       }
     }
   }, {
+    key: 'getLastDeliveryAddress',
+    value: function getLastDeliveryAddress(availableAddresses) {
+      if (!availableAddresses) return;
+
+      var lastDeliveryAddress = availableAddresses.filter(function (address) {
+        return typeof address.addressType !== 'undefined' && address.addressType === 'residential';
+      });
+
+      if (!lastDeliveryAddress.length) return;
+
+      return lastDeliveryAddress.pop();
+    }
+  }, {
+    key: 'setDeliveryShippingData',
+    value: function setDeliveryShippingData(postalCodeInput) {
+      var _this3 = this;
+
+      return vtexjs.checkout.getOrderForm().then(function (a) {
+        return vtexjs.checkout.sendAttachment('shippingData', {
+          address: {
+            country: 'BRA',
+            postalCode: postalCodeInput,
+            addressType: 'residential'
+          }
+        }).done(function (orf) {
+          _this3.setStorage('activeDeliveryChannel', 'delivery');
+          _this3.setStorage('aditionalShippingData', JSON.stringify({
+            activeTab: "delivery",
+            isScheduledDeliveryActive: true,
+            originComponent: "omnishipping",
+            selectedLeanShippingOption: "CHEAPEST"
+          }));
+
+          var postalCode = orf.shippingData.address.postalCode;
+
+          return _this3.simulate(postalCode).then(function (response) {
+            var availableAddresses = orf.shippingData.availableAddresses;
+            var address = _this3.getLastDeliveryAddress(availableAddresses);
+            var formatedAddress = _this3.getAddress(address);
+
+            $('.delivery-link .address').text(formatedAddress);
+
+            if (!response.logisticsInfo.length || !response.logisticsInfo[0].slas.length) {
+              //nao tem
+              _this3.checkIfHasDelivery(false);
+            }
+            var slas = response.logisticsInfo[0].slas;
+            var aux = false;
+            for (var i = 0; i < slas.length; i++) {
+              if (slas[i].deliveryChannel == 'delivery') {
+                aux = true;
+                break;
+              }
+            }
+
+            if (aux) {
+              _this3.checkIfHasDelivery(true);
+            } else {
+              _this3.checkIfHasDelivery(false);
+            }
+
+            $('.delivery-availability').show().find('b').text(postalCode);
+            $('.modal-delivery-modality').show();
+            $('.delivery-modality').show();
+            $('.modal-postal-code').hide();
+
+            var orderedStores = _this3.getDistanceToUserPostalCode();
+            var elements = document.querySelectorAll('.seller-modal-store-item');
+            if (orderedStores && elements.length > 0) {
+              orderedStores.forEach(function (store, index) {
+                elements[index].querySelector('.store-link').dataset.pickup = store.pickUpId;
+                elements[index].querySelector('.store-link').dataset.seller = store.sc;
+                elements[index].querySelector('.store-title').innerText = store.name;
+                elements[index].querySelector('.store-address').innerText = store.number + ' - ' + store.neighborhood + ', ' + store.city + ' / ' + store.state + ' ' + store.postalCode;
+                elements[index].querySelector('.store-distance').innerText = store.distanceToUserPostalCode + ' km';
+              });
+            }
+          });
+        });
+      });
+    }
+  }, {
+    key: 'simulate',
+    value: function simulate(postalCode) {
+      var data = {
+        items: [{
+          id: 989,
+          quantity: 1,
+          seller: 1
+        }],
+        country: 'BRA',
+        postalCode: postalCode
+      };
+
+      return $.ajax({
+        url: '/api/checkout/pub/orderforms/simulation',
+        type: 'POST',
+        dataType: 'JSON',
+        contentType: 'application/json',
+        data: JSON.stringify(data)
+      });
+    }
+  }, {
     key: 'deliveryLinkEvent',
     value: function deliveryLinkEvent(hasStore, that, postalCode) {
       var pc = postalCode ? postalCode : '';
@@ -55548,8 +55605,14 @@ var StorePicker = function () {
             // modal.find('.seller-modal-header').find('h2').text('local de retirada');
             // modal.find('.seller-modal-header').find('p').text('escolha uma loja abaixo para retirar seu pedido');
           } else {
-            that.setDelivery();
-            that.modalClose();
+            var postalCodeDelivery = $('.postalcode-input input').val();
+
+            that.setDeliveryShippingData(postalCodeDelivery).done(function () {
+              that.removeStorage('selectedPickup');
+
+              that.setDelivery();
+              that.modalClose();
+            });
           }
         }
       });
@@ -55575,26 +55638,26 @@ var StorePicker = function () {
   }, {
     key: 'init',
     value: function init() {
-      var _this3 = this;
+      var _this4 = this;
 
       var that = this;
       var count = 0;
-      fetch('/api/dataentities/SP/search?_fields=id,city,complement,name,neighborhood,number,pickUpId,postalCode,sc,state,street,status,lat,long').then(function (r) {
+      fetch('/api/dataentities/SP/search?_fields=id,city,complement,name,neighborhood,number,pickUpId,postalCode,sc,state,street,status,lat,long&an=supernossoemcasa').then(function (r) {
         return r.status == 200 ? r.json() : console.log(r);
       }).then(function (r) {
         // this.stores = r.filter(x => x.status = true);
-        _this3.stores = r.filter(function (x) {
+        _this4.stores = r.filter(function (x) {
           return x.status;
         });
 
-        if (_this3.stores.length > 0) {
-          _this3.templateModal();
+        if (_this4.stores.length > 0) {
+          _this4.templateModal();
           // this.renderStores();
         } else {
-          _this3.templateModal(false);
+          _this4.templateModal(false);
         }
 
-        _this3.addUserInfo('delivery');
+        _this4.addUserInfo('delivery');
 
         $(document).on('click', '.change-delivery', function (e) {
           e.preventDefault();
@@ -55609,14 +55672,14 @@ var StorePicker = function () {
           $('#sellerModal').toggleClass('opened');
         });
 
-        var seller = _this3.getStorage('selectedSeller');
-        var pickUpId = _this3.getStorage('selectedPickup');
+        var seller = _this4.getStorage('selectedSeller');
+        var pickUpId = _this4.getStorage('selectedPickup');
 
         if (seller && seller != 'delivery' && pickUpId) {
-          var store = _this3.getStore(pickUpId);
+          var store = _this4.getStore(pickUpId);
 
           if (store) {
-            _this3.addUserInfo(store);
+            _this4.addUserInfo(store);
 
             var orderForm = vtexjs.checkout.orderForm;
 
@@ -55651,11 +55714,25 @@ var StorePicker = function () {
                   };
                 });
 
+                window.addTeste = JSON.stringify({
+                  clearAddressIfPostalCodeNotFound: false,
+                  selectedAddresses: [newAddress],
+                  logisticsInfo: logisticsInfo
+                });
+
                 vtexjs.checkout.sendAttachment('shippingData', {
                   clearAddressIfPostalCodeNotFound: false,
                   selectedAddresses: [newAddress],
                   logisticsInfo: logisticsInfo
-                }, null);
+                }, null).done(function () {
+                  that.setStorage('activeDeliveryChannel', 'pickup-in-point');
+                  that.setStorage('aditionalShippingData', JSON.stringify({
+                    activeTab: "pickup-in-point",
+                    isScheduledDeliveryActive: true,
+                    originComponent: "omnishipping",
+                    selectedLeanShippingOption: "CHEAPEST"
+                  }));
+                });
 
                 $(window).load(function (e) {
                   if (vtexjs.session) {
@@ -60122,7 +60199,7 @@ var ConfigurableShipping = function () {
     value: function getSteps() {
       var _this = this;
 
-      return fetch('/api/dataentities/FF/search?_fields=de,ate,frete&_sort=de asc').then(function (res) {
+      return fetch('/api/dataentities/FF/search?_fields=de,ate,frete&_sort=de asc&an=supernossoemcasa').then(function (res) {
         return res.json();
       }).then(function (steps) {
 
@@ -62097,7 +62174,7 @@ var MobCart = exports.MobCart = function (_React$Component) {
 
     };
 
-    fetch('/api/dataentities/FR/documents/53a2eb0a-a4b3-11e9-82b1-0a795aec6fd6?_fields=id,Faixa01,Faixa02,Faixa03,Faixa04,Faixa01Valor,Faixa02Valor,Faixa03Valor,Faixa04Valor').then(function (res) {
+    fetch('/api/dataentities/FR/documents/53a2eb0a-a4b3-11e9-82b1-0a795aec6fd6?_fields=id,Faixa01,Faixa02,Faixa03,Faixa04,Faixa01Valor,Faixa02Valor,Faixa03Valor,Faixa04Valor&an=supernossoemcasa').then(function (res) {
       return res.json();
     }).then(function (res) {
 
@@ -62139,7 +62216,7 @@ var MobCart = exports.MobCart = function (_React$Component) {
       //   return; // não renderiza o mini cart no desktop
       //   if(!$('body').hasClass('produto')){
       //     return;
-      //   } 
+      //   }
       // } else {
       //   if($('body').hasClass('produto')){
       //    // return;
