@@ -10547,6 +10547,7 @@ footer .institutional-section .dev-nav span img {
   display: block !important;
   height: 2.5rem;
   overflow: hidden;
+  pointer-events: none;
 }
 .prateleira.supernossoshelf ul li .item-shelf .promo-flags p.flag {
   font-family: 'Roboto', sans-serif;
@@ -10563,7 +10564,7 @@ footer .institutional-section .dev-nav span img {
   margin-top: 0;
   background-color: #D99A06;
   text-align: center;
-  width: 100%;
+  width: auto;
   min-height: 2.4rem;
   display: flex;
   justify-content: center;
@@ -14040,6 +14041,18 @@ p.text-seo span.full {
 #product-page #product-content .product-info .limiteDeOfertaText {
   color: #86232B;
   font-size: 14px;
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  font-weight: bold;
+}
+#product-page #product-content .product-info .pesavelIcon {
+  color: #000;
+  margin-right: 0.5em;
+}
+#product-page #product-content .product-info .pesavelText {
+  color: #000;
+  font-size: 14px;
+  margin-left: 1em;
   font-family: 'Roboto', sans-serif;
   font-style: normal;
   font-weight: bold;
@@ -21718,6 +21731,7 @@ body#recipes-page .top-chefs .chef-list .list .list-item .recipes {
   .prateleira.supernossoshelf ul li .item-shelf .promo-flags {
     min-height: 68px;
     height: auto;
+    pointer-events: none;
   }
   .prateleira.supernossoshelf ul li .item-shelf .promo-flags p {
     margin-bottom: 0;
@@ -21748,6 +21762,7 @@ body#recipes-page .top-chefs .chef-list .list .list-item .recipes {
   .prateleira.supernossoshelf .slick-slider li .item-shelf .promo-flags {
     min-height: 68px;
     height: auto;
+    pointer-events: none;
   }
   .prateleira.supernossoshelf .slick-slider li .item-shelf .promo-flags p {
     margin-bottom: 0;
