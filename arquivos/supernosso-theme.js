@@ -63522,6 +63522,11 @@ var ReactShelf = exports.ReactShelf = function (_React$Component) {
                   )
                 )
               )
+            ),
+            this.state.total < this.state.limit && _react2.default.createElement(
+              "a",
+              { href: "javascript:;", className: "load-more", onClick: this.loadMore.bind(this) },
+              "Carregar mais"
             )
           )
         )
