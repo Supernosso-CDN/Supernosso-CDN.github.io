@@ -13306,10 +13306,6 @@ p.text-seo span.full {
 #category-page aside.sidebar {
   position: relative;
 }
-#category-page aside.sidebar #departament-navegador.fixed {
-  position: fixed !important;
-  top: 120px !important;
-}
 #category-page #content {
   padding: 48px 0;
 }
