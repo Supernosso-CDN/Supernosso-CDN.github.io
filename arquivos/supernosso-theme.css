@@ -2442,6 +2442,7 @@ input[type=submit].btn-block {
   width: 100vw;
   height: 100vh;
   background-color: #000;
+  display: none !important;
 }
 .modal-backdrop.fade {
   opacity: 0;
