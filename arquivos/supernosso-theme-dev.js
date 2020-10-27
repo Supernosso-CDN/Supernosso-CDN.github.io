@@ -62980,7 +62980,7 @@
         });
   
         $.ajax({
-          url: "https://mali.supernosso.com.br/IntegraSnc_Core/rest/IntegraSnc/GetOfrExclusivas?Cpf_Cnpj=" + document
+          url: "https://mauricio.supernosso.com.br/IntegraSnc_Core/rest/IntegraSnc/GetOfrExclusivas?Cpf_Cnpj=" + document
         }).done(function (data) {
           _this2.setState({
             products: data
@@ -62997,7 +62997,7 @@
       key: "checkPriceTable",
       value: function checkPriceTable(email) {
         return new Promise(function (resolve, reject) {
-          fetch("https://mali.supernosso.com.br/IntegraSnc_Core/rest/IntegraSnc/PriceTableConfirm?Email=" + email).then(function (res) {
+          fetch("https://mauricio.supernosso.com.br/IntegraSnc_Core/rest/IntegraSnc/PriceTableConfirm?Email=" + email).then(function (res) {
             return res.json();
           }).then(function (res) {
             resolve(res);
@@ -63023,7 +63023,7 @@
   
             /*user.Email='bruno.pedra@supernosso.com.br'*/
   
-            fetch("https://mali.supernosso.com.br/IntegraSnc_Core/rest/IntegraSnc/GetOfrExclusivas?Email=" + user.Email).then(function (res) {
+            fetch("https://mauricio.supernosso.com.br/IntegraSnc_Core/rest/IntegraSnc/GetOfrExclusivas?Email=" + user.Email).then(function (res) {
               return res.json();
             }).then(function (res) {
               if (!res.length) {
@@ -63032,7 +63032,7 @@
                 });
                 return;
               } else {
-                fetch("https://mali.supernosso.com.br/IntegraSnc_Core/rest/IntegraSnc/AllocatePriceTable?Email=" + user.Email).then(async function (price) {
+                fetch("https://mauricio.supernosso.com.br/IntegraSnc_Core/rest/IntegraSnc/AllocatePriceTable?Email=" + user.Email).then(async function (price) {
   
                   var allocated = await _this3.checkPriceTable(user.Email);
   
@@ -63041,7 +63041,7 @@
                     allocated = await _this3.checkPriceTable(user.Email);
                   }
   
-                  fetch("https://mali.supernosso.com.br/IntegraSnc_Core/rest/IntegraSnc/GetOfrExclusivas?Email=" + user.Email).then(function (res) {
+                  fetch("https://mauricio.supernosso.com.br/IntegraSnc_Core/rest/IntegraSnc/GetOfrExclusivas?Email=" + user.Email).then(function (res) {
                     return res.json();
                   }).then(function (offers) {
                     _this3.setState({
