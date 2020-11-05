@@ -56506,52 +56506,52 @@ var Shelf = function () {
         that.syncShelfNoProduct();
       });
 
-      // $(document).on('click','.buy-button-shelf a',async function(e){ 
-      //     e.preventDefault();
-      //     e.stopPropagation();
+      $(document).on('click', '.buy-button-shelf a', async function (e) {
+        e.preventDefault();
+        e.stopPropagation();
 
-      //     let id = $(this).parents('.item-shelf').attr('data-product-id') || $(this).attr('data-product-id');
-      //     let sku = $(this).parent().attr('id');   
+        var id = $(this).parents('.item-shelf').attr('data-product-id') || $(this).attr('data-product-id');
+        var sku = $(this).parent().attr('id');
 
-      //     // Checa se o item está disponível no inventário do pickup point escolhido
-      //     const seller = localStorage.getItem('selectedSeller') ? localStorage.getItem('selectedSeller') == 'delivery' ? 1 : parseInt(localStorage.getItem('selectedSeller')) : 1;            
-      //     const warehouseId = seller == "1" ? "1_1" : localStorage.getItem("selectedPickup");     
+        // Checa se o item está disponível no inventário do pickup point escolhido
+        var seller = localStorage.getItem('selectedSeller') ? localStorage.getItem('selectedSeller') == 'delivery' ? 1 : parseInt(localStorage.getItem('selectedSeller')) : 1;
+        var warehouseId = seller == "1" ? "1_1" : localStorage.getItem("selectedPickup");
 
-      //     if(warehouseId){
-      //       const hasInventory = await checkProductInventory(sku, warehouseId);
+        if (warehouseId) {
+          var hasInventory = await (0, _checkProductInventoryAvailability.checkProductInventory)(sku, warehouseId);
 
-      //       if(!hasInventory){  
-      //         if(seller == "1"){
-      //           toastr.error("O item não foi adicionado ao carrinho pois não está disponível no estoque.");
-      //         }else {
-      //           toastr.error("O item não foi adicionado ao carrinho pois não está disponível no estoque do ponto de retirada escolhido.");
-      //         }
+          if (!hasInventory) {
+            if (seller == "1") {
+              toastr.error("O item não foi adicionado ao carrinho pois não está disponível no estoque.");
+            } else {
+              toastr.error("O item não foi adicionado ao carrinho pois não está disponível no estoque do ponto de retirada escolhido.");
+            }
 
-      //         return;
-      //       }
-      //     }
+            return;
+          }
+        }
 
-      //     if(that.timeout){
-      //       clearTimeout(that.timeout)
-      //     }
+        if (that.timeout) {
+          clearTimeout(that.timeout);
+        }
 
-      //     that.ignore = true;
+        that.ignore = true;
 
-      //     that.timeout = setTimeout(function(e){
-      //       that.ignore = false;
-      //     },5000)
+        that.timeout = setTimeout(function (e) {
+          that.ignore = false;
+        }, 5000);
 
-      //     $(this).parent('.buy-button-normal').hide();
+        $(this).parent('.buy-button-normal').hide();
 
-      //     that.qtyLayout(1, $(this),id,sku);
+        that.qtyLayout(1, $(this), id, sku);
 
-      //     let el = $(this)
-      //     let value = $(el).val();
+        var el = $(this);
+        var value = $(el).val();
 
-      //     value = value ? value : 1
+        value = value ? value : 1;
 
-      //     update(id,el,value,sku)
-      // })
+        update(id, el, value, sku);
+      });
 
       var isUpdating = false;
 
@@ -58501,41 +58501,39 @@ var Product = function () {
                     }
                 });
 
-                // $(document).on('click', '.buy-button-ref', async function(e){
-                //     e.preventDefault();
-                //     const skuId = skuJson_0.skus[0].sku;
+                $(document).on('click', '.buy-button-ref', async function (e) {
+                    e.preventDefault();
+                    var skuId = skuJson_0.skus[0].sku;
 
-                //     // Checa se o item está disponível no inventário do pickup point escolhido
-                //     const seller = localStorage.getItem('selectedSeller') ? localStorage.getItem('selectedSeller') == 'delivery' ? 1 : parseInt(localStorage.getItem('selectedSeller')) : 1;
-                //     const warehouseId = seller == "1" ? "1_1" : localStorage.getItem("selectedPickup");    
+                    // Checa se o item está disponível no inventário do pickup point escolhido
+                    var seller = localStorage.getItem('selectedSeller') ? localStorage.getItem('selectedSeller') == 'delivery' ? 1 : parseInt(localStorage.getItem('selectedSeller')) : 1;
+                    var warehouseId = seller == "1" ? "1_1" : localStorage.getItem("selectedPickup");
 
-                //     if(warehouseId){
-                //         const hasInventory = await checkProductInventory(skuId, warehouseId);
+                    if (warehouseId) {
+                        var hasInventory = await (0, _checkProductInventoryAvailability.checkProductInventory)(skuId, warehouseId);
 
-                //         if(!hasInventory){  
-                //             if(seller == "1"){
-                //                 toastr.error("O item não foi adicionado ao carrinho pois não está disponível no estoque.");
-                //             }else {
-                //                 toastr.error("O item não foi adicionado ao carrinho pois não está disponível no estoque do ponto de retirada escolhido.");
-                //             }
+                        if (!hasInventory) {
+                            if (seller == "1") {
+                                toastr.error("O item não foi adicionado ao carrinho pois não está disponível no estoque.");
+                            } else {
+                                toastr.error("O item não foi adicionado ao carrinho pois não está disponível no estoque do ponto de retirada escolhido.");
+                            }
 
-                //             return;
-                //         }      
-                //     }
+                            return;
+                        }
+                    }
 
-                //     that.ignore = true;
+                    that.ignore = true;
 
-                //     setTimeout(function(e){
-                //       that.ignore = false;
-                //     },8000)
+                    setTimeout(function (e) {
+                        that.ignore = false;
+                    }, 8000);
 
-
-                //     $(this).addClass('d-none');
-                //     let id = skuJson_0.productId;
-                //     that.qtyLayout(1, $(this),id, skuJson_0.skus[0].sku);
-                //     $('#minicart-wrapper').trigger('product-update', [skuJson_0.productId, $(this),1,skuJson_0.skus[0].sku])
-
-                // })
+                    $(this).addClass('d-none');
+                    var id = skuJson_0.productId;
+                    that.qtyLayout(1, $(this), id, skuJson_0.skus[0].sku);
+                    $('#minicart-wrapper').trigger('product-update', [skuJson_0.productId, $(this), 1, skuJson_0.skus[0].sku]);
+                });
 
                 // Sync button
                 $(window).on('orderFormUpdated.vtex', function (evt, orderForm) {
