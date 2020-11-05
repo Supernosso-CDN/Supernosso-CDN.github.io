@@ -56116,22 +56116,22 @@
           var sku = $(this).parent().attr('id');
   
           // Checa se o item está disponível no inventário do pickup point escolhido
-          var seller = localStorage.getItem('selectedSeller') ? localStorage.getItem('selectedSeller') == 'delivery' ? 1 : parseInt(localStorage.getItem('selectedSeller')) : 1;
-          var warehouseId = seller == "1" ? "1_1" : localStorage.getItem("selectedPickup");
+          // const seller = localStorage.getItem('selectedSeller') ? localStorage.getItem('selectedSeller') == 'delivery' ? 1 : parseInt(localStorage.getItem('selectedSeller')) : 1;            
+          // const warehouseId = seller == "1" ? "1_1" : localStorage.getItem("selectedPickup");     
   
-          if (warehouseId) {
-            var hasInventory = await (0, _checkProductInventoryAvailability.checkProductInventory)(sku, warehouseId);
+          // if(warehouseId){
+          //   const hasInventory = await checkProductInventory(sku, warehouseId);
   
-            if (!hasInventory) {
-              if (seller == "1") {
-                toastr.error("O item não foi adicionado ao carrinho pois não está disponível no estoque.");
-              } else {
-                toastr.error("O item não foi adicionado ao carrinho pois não está disponível no estoque do ponto de retirada escolhido.");
-              }
+          //   if(!hasInventory){  
+          //     if(seller == "1"){
+          //       toastr.error("O item não foi adicionado ao carrinho pois não está disponível no estoque.");
+          //     }else {
+          //       toastr.error("O item não foi adicionado ao carrinho pois não está disponível no estoque do ponto de retirada escolhido.");
+          //     }
   
-              return;
-            }
-          }
+          //     return;
+          //   }
+          // }
   
           if (that.timeout) {
             clearTimeout(that.timeout);
@@ -58106,22 +58106,22 @@
                       var skuId = skuJson_0.skus[0].sku;
   
                       // Checa se o item está disponível no inventário do pickup point escolhido
-                      var seller = localStorage.getItem('selectedSeller') ? localStorage.getItem('selectedSeller') == 'delivery' ? 1 : parseInt(localStorage.getItem('selectedSeller')) : 1;
-                      var warehouseId = seller == "1" ? "1_1" : localStorage.getItem("selectedPickup");
+                      // const seller = localStorage.getItem('selectedSeller') ? localStorage.getItem('selectedSeller') == 'delivery' ? 1 : parseInt(localStorage.getItem('selectedSeller')) : 1;
+                      // const warehouseId = seller == "1" ? "1_1" : localStorage.getItem("selectedPickup");    
   
-                      if (warehouseId) {
-                          var hasInventory = await (0, _checkProductInventoryAvailability.checkProductInventory)(skuId, warehouseId);
+                      // if(warehouseId){
+                      //     const hasInventory = await checkProductInventory(skuId, warehouseId);
   
-                          if (!hasInventory) {
-                              if (seller == "1") {
-                                  toastr.error("O item não foi adicionado ao carrinho pois não está disponível no estoque.");
-                              } else {
-                                  toastr.error("O item não foi adicionado ao carrinho pois não está disponível no estoque do ponto de retirada escolhido.");
-                              }
+                      //     if(!hasInventory){  
+                      //         if(seller == "1"){
+                      //             toastr.error("O item não foi adicionado ao carrinho pois não está disponível no estoque.");
+                      //         }else {
+                      //             toastr.error("O item não foi adicionado ao carrinho pois não está disponível no estoque do ponto de retirada escolhido.");
+                      //         }
   
-                              return;
-                          }
-                      }
+                      //         return;
+                      //     }      
+                      // }
   
                       that.ignore = true;
   
@@ -61615,7 +61615,7 @@
           });
           if (orderForm.items) {
             $('header .cart .minicart-toggle').find('span.badge').text(orderForm.items.length);
-            $('#mobile-nav .mobile-nav-cart').find('span.badge').text(orderForm.items.length);
+            $('.header-mobile .mobile-nav-cart').find('span.badge').text(orderForm.items.length);
           }
   
           // Update shelf
