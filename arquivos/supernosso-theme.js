@@ -55927,7 +55927,7 @@
     }, {
       key: 'qtyLayout',
       value: function qtyLayout(qty, el, id, sku) {
-        var html = '\n            <div class="product-qty" data-product-id="' + id + '" data-product-sku="' + sku + '">\n                <div class="shelf-less-qty">\n                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">\n                        <circle cx="16" cy="16" r="15.5" fill="#F2F2F2" stroke="#F2F2F2"/>\n                        <rect x="8.7998" y="15.2002" width="14.4" height="1.6" rx="0.8" fill="#841F27"/>\n                    </svg>                                        \n                </div>\n                <div class="shelf-input-qty">\n                    <input type="text" class="shelf-input-qty-control" value="' + (qty == 0 ? '-' : qty) + '" />\n                </div>\n                <div class="shelf-more-qty">\n                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">\n                        <circle cx="16" cy="16" r="15.5" fill="#F2F2F2" stroke="#F2F2F2"/>\n                        <path d="M23.1538 16.2341C23.1519 15.7928 22.794 15.438 22.3527 15.4399L16.826 15.4578L16.8024 9.92542C16.8005 9.48419 16.4426 9.12933 16.0014 9.13122C15.5602 9.1331 15.2053 9.491 15.2072 9.93223L15.2308 15.4646L9.69845 15.4882C9.25722 15.4901 8.90236 15.848 8.90425 16.2892C8.90613 16.7304 9.26403 17.0853 9.70526 17.0834L15.2376 17.0598L15.2612 22.5922C15.2631 23.0334 15.621 23.3882 16.0622 23.3864C16.5035 23.3845 16.8583 23.0266 16.8564 22.5853L16.8328 17.053L22.3652 17.0294C22.7951 17.0276 23.1556 16.664 23.1538 16.2341Z" fill="#841F27"/>\n                    </svg>                \n                </div>\n            </div>\n        ';
+        var html = '\n        <div class="product-qty" data-product-id="' + id + '" data-product-sku="' + sku + '">\n        <div class="shelf-less-qty">\n            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">\n                <circle cx="16" cy="16" r="15.5" fill="#F2F2F2" stroke="#F2F2F2"/>\n                <rect x="8.7998" y="15.2002" width="14.4" height="1.6" rx="0.8" fill="#841F27"/>\n            </svg>                                        \n        </div>\n        <div class="shelf-input-qty">\n            <input type="text" class="shelf-input-qty-control" value="' + (qty == 0 ? '-' : qty) + '" />\n        </div>\n        <div class="shelf-more-qty">\n            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">\n                <circle cx="16" cy="16" r="15.5" fill="#F2F2F2" stroke="#F2F2F2"/>\n                <path d="M23.1538 16.2341C23.1519 15.7928 22.794 15.438 22.3527 15.4399L16.826 15.4578L16.8024 9.92542C16.8005 9.48419 16.4426 9.12933 16.0014 9.13122C15.5602 9.1331 15.2053 9.491 15.2072 9.93223L15.2308 15.4646L9.69845 15.4882C9.25722 15.4901 8.90236 15.848 8.90425 16.2892C8.90613 16.7304 9.26403 17.0853 9.70526 17.0834L15.2376 17.0598L15.2612 22.5922C15.2631 23.0334 15.621 23.3882 16.0622 23.3864C16.5035 23.3845 16.8583 23.0266 16.8564 22.5853L16.8328 17.053L22.3652 17.0294C22.7951 17.0276 23.1556 16.664 23.1538 16.2341Z" fill="#841F27"/>\n            </svg>                \n        </div>\n      </div>\n        ';
         $(html).prependTo($(el).parents('.buy-button-shelf'));
       }
     }, {
@@ -56116,22 +56116,22 @@
           var sku = $(this).parent().attr('id');
   
           // Checa se o item está disponível no inventário do pickup point escolhido
-          var seller = localStorage.getItem('selectedSeller') ? localStorage.getItem('selectedSeller') == 'delivery' ? 1 : parseInt(localStorage.getItem('selectedSeller')) : 1;
-          var warehouseId = seller == "1" ? "1_1" : localStorage.getItem("selectedPickup");
+          // const seller = localStorage.getItem('selectedSeller') ? localStorage.getItem('selectedSeller') == 'delivery' ? 1 : parseInt(localStorage.getItem('selectedSeller')) : 1;            
+          // const warehouseId = seller == "1" ? "1_1" : localStorage.getItem("selectedPickup");     
   
-          if (warehouseId) {
-            var hasInventory = await (0, _checkProductInventoryAvailability.checkProductInventory)(sku, warehouseId);
+          // if(warehouseId){
+          //   const hasInventory = await checkProductInventory(sku, warehouseId);
   
-            if (!hasInventory) {
-              if (seller == "1") {
-                toastr.error("O item não foi adicionado ao carrinho pois não está disponível no estoque.");
-              } else {
-                toastr.error("O item não foi adicionado ao carrinho pois não está disponível no estoque do ponto de retirada escolhido.");
-              }
+          //   if(!hasInventory){  
+          //     if(seller == "1"){
+          //       toastr.error("O item não foi adicionado ao carrinho pois não está disponível no estoque.");
+          //     }else {
+          //       toastr.error("O item não foi adicionado ao carrinho pois não está disponível no estoque do ponto de retirada escolhido.");
+          //     }
   
-              return;
-            }
-          }
+          //     return;
+          //   }
+          // }
   
           if (that.timeout) {
             clearTimeout(that.timeout);
@@ -58106,22 +58106,22 @@
                       var skuId = skuJson_0.skus[0].sku;
   
                       // Checa se o item está disponível no inventário do pickup point escolhido
-                      var seller = localStorage.getItem('selectedSeller') ? localStorage.getItem('selectedSeller') == 'delivery' ? 1 : parseInt(localStorage.getItem('selectedSeller')) : 1;
-                      var warehouseId = seller == "1" ? "1_1" : localStorage.getItem("selectedPickup");
+                      // const seller = localStorage.getItem('selectedSeller') ? localStorage.getItem('selectedSeller') == 'delivery' ? 1 : parseInt(localStorage.getItem('selectedSeller')) : 1;
+                      // const warehouseId = seller == "1" ? "1_1" : localStorage.getItem("selectedPickup");    
   
-                      if (warehouseId) {
-                          var hasInventory = await (0, _checkProductInventoryAvailability.checkProductInventory)(skuId, warehouseId);
+                      // if(warehouseId){
+                      //     const hasInventory = await checkProductInventory(skuId, warehouseId);
   
-                          if (!hasInventory) {
-                              if (seller == "1") {
-                                  toastr.error("O item não foi adicionado ao carrinho pois não está disponível no estoque.");
-                              } else {
-                                  toastr.error("O item não foi adicionado ao carrinho pois não está disponível no estoque do ponto de retirada escolhido.");
-                              }
+                      //     if(!hasInventory){  
+                      //         if(seller == "1"){
+                      //             toastr.error("O item não foi adicionado ao carrinho pois não está disponível no estoque.");
+                      //         }else {
+                      //             toastr.error("O item não foi adicionado ao carrinho pois não está disponível no estoque do ponto de retirada escolhido.");
+                      //         }
   
-                              return;
-                          }
-                      }
+                      //         return;
+                      //     }      
+                      // }
   
                       that.ignore = true;
   
@@ -60767,6 +60767,16 @@
           }
         }
   
+        console.log("cart");
+  
+        if (localStorage.getItem("activeDeliveryChannel")) {
+          if (localStorage.getItem("activeDeliveryChannel") == 'pickup-in-point') {
+            $(".cart-retirada-label").remove();
+            $(".cart-entrega .cart-total-label").append("<span class='cart-retirada-label'>retirada em loja</span>");
+            document.querySelector(".cart-entrega .cart-total-value").textContent = "grátis";
+          }
+        }
+  
         if (hasTotalizer) {
           return frete;
         }
@@ -61605,7 +61615,7 @@
           });
           if (orderForm.items) {
             $('header .cart .minicart-toggle').find('span.badge').text(orderForm.items.length);
-            $('#mobile-nav .mobile-nav-cart').find('span.badge').text(orderForm.items.length);
+            $('.header-mobile .mobile-nav-cart').find('span.badge').text(orderForm.items.length);
           }
   
           // Update shelf
