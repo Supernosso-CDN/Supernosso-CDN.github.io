@@ -10029,6 +10029,15 @@ header .user-data-toggle strong {
   margin-left: 0.8em !important;
   font-family: Museo, sans-serif !important;
 }
+#minicart-wrapper .minicart-inner .minicart-body .cart-content .cart-top-content .cart-total-inner .cart-retirada-label {
+  background-color: #ebf8ff !important;
+  border-radius: 5px !important;
+  color: #3172b7 !important;
+  padding: 0.2em 0.5em !important;
+  font-size: 12px !important;
+  margin-left: 0.8em !important;
+  font-family: Museo, sans-serif !important;
+}
 #minicart-wrapper .minicart-inner .minicart-body .cart-content .cart-top-content .cart-total-inner .cart-total-info {
   display: flex;
   justify-content: space-between;
@@ -11397,6 +11406,28 @@ section.main-categories .main-cat-card a span {
 .newsletter {
   background: #FAFAFA url('https://supernossoemcasa.vteximg.com.br/arquivos/newsletter.png') center left no-repeat;
   padding: 45px 0;
+}
+@media (max-width: 768px) {
+  .newsletter {
+    background: none;
+  }
+}
+@media (max-width: 768px) {
+  .newsletter .container {
+    padding: 0;
+  }
+}
+@media (max-width: 768px) {
+  .newsletter .container .newsletter-banner {
+    display: flex;
+    height: 160px;
+    align-items: center;
+    justify-content: center;
+    background-size: cover;
+    background-image: url('https://supernossoemcasabeta.netlify.app/assets/banners/newsletter/pexels-jéshoots-4831.jpg');
+    background-repeat: no-repeat;
+    background-position: center center;
+  }
 }
 .newsletter .newsletter-form {
   display: flex;
@@ -12825,18 +12856,11 @@ p.text-seo span.full {
 }
 .home-supernosso-theme .header-info .header-slider .slick-dots li button {
   padding: 0;
-  width: 12px;
-  max-width: 12px;
-  height: 12px;
   background: #CCC;
   border-radius: 100%;
   border: 0;
-  margin: 0 12px;
   text-indent: -9000px;
   transition: all 0.2s ease-in-out;
-}
-.home-supernosso-theme .header-info .header-slider .slick-dots li.slick-active button {
-  background: #666;
 }
 .home-supernosso-theme .header-info .header-slider .slick-slide img {
   height: auto;
@@ -13555,7 +13579,14 @@ p.text-seo span.full {
   overflow: visible !important;
 }
 #category-page #content #collections .main .vitrine .prateleira.supernossoshelf ul {
+  flex-wrap: wrap;
   margin-bottom: 24px;
+}
+#category-page #content #collections .main .vitrine .prateleira.supernossoshelf ul .infinite-scroll-component__outerdiv {
+  width: 100%;
+}
+#category-page #content #collections .main .vitrine .prateleira.supernossoshelf ul .infinite-scroll-component__outerdiv .infinite-scroll-component {
+  display: flex;
   flex-wrap: wrap;
 }
 #category-page #content #collections .main .vitrine .prateleira.supernossoshelf ul li {
@@ -18183,9 +18214,6 @@ body#wishlist-page.create #collections .action-area .form-action .save input[typ
   background-color: #9D4C52;
 }
 @media screen and (max-width: 992px) {
-  .prateleira.supernossoshelf ul {
-    padding: 12px 15px !important;
-  }
   .prateleira.supernossoshelf ul li .item-shelf {
     padding: 0 6px 12px;
   }
@@ -21634,32 +21662,67 @@ body#recipes-page .top-chefs .chef-list .list .list-item .recipes {
 }
 @media screen and (max-width: 992px) {
   section.newsletter {
-    background: url('https://supernossoemcasa.vteximg.com.br/arquivos/newsletter-bg-mobile.png') no-repeat center bottom 45px;
     padding: 0;
     background-size: cover;
+    background-color: #C5132A;
   }
-  section.newsletter .newsletter-form {
-    flex-direction: column;
-  }
-  section.newsletter .newsletter-form .newsletter-title {
-    font-size: 20px;
-    margin-top: 33px;
-    margin-bottom: 26px;
+  section.newsletter .newsletter-title {
+    color: white;
+    font-size: 14px;
+    margin-top: 15px;
     line-height: 24px;
+    margin-left: 10px;
+    font-weight: normal;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.25);
   }
-  section.newsletter .newsletter-form .form-newsletter {
+  section.newsletter .newsletter-title p {
+    margin: 0;
+  }
+  section.newsletter .form-newsletter {
     max-width: 100%;
   }
-  section.newsletter .newsletter-form .form-newsletter .form-group input[type=email] {
-    padding: 25px 15px;
+  section.newsletter .form-newsletter .form-group {
+    display: flex;
+    margin-top: 15px;
+    align-items: center;
+    justify-content: space-around;
   }
-  section.newsletter .newsletter-form .form-newsletter .form-check {
+  section.newsletter .form-newsletter .form-group input[type="email"] {
+    border: none;
+    width: 80%;
+    padding: 10px 10px 10px 20px;
+    border-radius: 8px;
+  }
+  section.newsletter .form-newsletter .form-group button {
+    width: 40px;
+    max-width: 40px;
+    height: 100%;
+    border: none;
+    border-radius: 6px;
+    background-color: #fff;
+    color: #8f2b31;
+  }
+  section.newsletter .form-newsletter .form-check {
     display: flex;
     align-items: center;
+    gap: 12px;
+    padding: 0 10px 20px 10px;
   }
-  section.newsletter .newsletter-form .form-newsletter .form-check label {
-    margin-bottom: 0;
+  section.newsletter .form-newsletter .form-check label {
+    color: #fff;
+    font-size: 14px;
     margin-top: 2px;
+    margin-bottom: 0;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  section.newsletter .form-newsletter .form-check label a {
+    color: #fff;
+    font-size: 14px;
   }
 }
 @media screen and (max-width: 320px) {
@@ -22327,12 +22390,34 @@ body#recipes-page .top-chefs .chef-list .list .list-item .recipes {
   }
 }
 @media screen and (max-width: 992px) {
-  #category-page > .top-bar,
-  #category-page #box-bread-brumb {
+  #category-page > .top-bar {
     display: none;
   }
   #category-page .cat-title {
-    padding-top: 0;
+    background-color: #fcfcfc;
+    width: 100%;
+    padding: 0 0;
+  }
+  #category-page .cat-title #box-bread-brumb .bread-crumb ul li:first-child {
+    display: none;
+  }
+  #category-page .cat-title .title-category {
+    display: flex;
+    align-items: center;
+    margin-top: 1em;
+    margin-bottom: 0;
+  }
+  #category-page .cat-title .title-category .bread-crumb {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  #category-page .cat-title .title-category .bread-crumb .last a {
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
+  #category-page .cat-title .title-category .bread-crumb a {
+    color: black;
   }
   #category-page .cat-title .title-category .titulo-sessao {
     font-size: 20px;
@@ -22367,6 +22452,7 @@ body#recipes-page .top-chefs .chef-list .list .list-item .recipes {
     padding-left: 15px;
     padding-right: 15px;
     padding-top: 24px;
+    background: #fcfcfc;
   }
   #category-page #content #collections .main .resultado-busca-filtro {
     display: none;
@@ -22393,16 +22479,6 @@ body#recipes-page .top-chefs .chef-list .list .list-item .recipes {
   }
   #category-page #content #collections .main .mobile-category-inner .right-item a img {
     margin-left: 8px;
-  }
-  #category-page #content #collections .main .vitrine .prateleira.supernossoshelf ul {
-    flex-wrap: wrap;
-  }
-  #category-page #content #collections .main .vitrine .prateleira.supernossoshelf ul li {
-    width: 46%;
-    margin: 0 6px 12px;
-  }
-  #category-page #content #collections .main .vitrine .prateleira.supernossoshelf ul li .item-shelf {
-    padding: 0 16px 16px;
   }
   #category-page #content #collections .load-more {
     width: 100%;
