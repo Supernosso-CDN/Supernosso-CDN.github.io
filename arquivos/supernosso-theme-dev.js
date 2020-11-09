@@ -62217,7 +62217,7 @@
         var discountTotalizer = this.getTotalizer('Discounts');
         var subtotal = _currency.Currency.convert(subTotalizer);
         var totalDiscount = _currency.Currency.convert(discountTotalizer);
-        var totalShipping = localStorage.getItem("activeDeliveryChannel") == 'pickup-in-point' ? 'grátis' : _currency.Currency.convert(this.getFrete());
+        var totalShipping = localStorage.getItem("selectedSeller") != 'delivery' ? 'grátis' : _currency.Currency.convert(this.getFrete());
         //let totalShipping = Currency.convert(shippingTotalizer)
         //let total = Currency.convert(this.state.orderForm.value)
         var total = _currency.Currency.convert(subTotalizer + discountTotalizer + this.getFrete());
