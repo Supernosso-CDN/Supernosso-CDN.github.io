@@ -275,7 +275,7 @@
     var undefined;
   
     /** Used as the semantic version number. */
-    var VERSION = '4.17.20';
+    var VERSION = '4.17.15';
   
     /** Used as the size to enable large array optimizations. */
     var LARGE_ARRAY_SIZE = 200;
@@ -3982,21 +3982,8 @@
        * @returns {Array} Returns the new sorted array.
        */
       function baseOrderBy(collection, iteratees, orders) {
-        if (iteratees.length) {
-          iteratees = arrayMap(iteratees, function(iteratee) {
-            if (isArray(iteratee)) {
-              return function(value) {
-                return baseGet(value, iteratee.length === 1 ? iteratee[0] : iteratee);
-              }
-            }
-            return iteratee;
-          });
-        } else {
-          iteratees = [identity];
-        }
-  
         var index = -1;
-        iteratees = arrayMap(iteratees, baseUnary(getIteratee()));
+        iteratees = arrayMap(iteratees.length ? iteratees : [identity], baseUnary(getIteratee()));
   
         var result = baseMap(collection, function(value, key, collection) {
           var criteria = arrayMap(iteratees, function(iteratee) {
@@ -4253,10 +4240,6 @@
           var key = toKey(path[index]),
               newValue = value;
   
-          if (key === '__proto__' || key === 'constructor' || key === 'prototype') {
-            return object;
-          }
-  
           if (index != lastIndex) {
             var objValue = nested[key];
             newValue = customizer ? customizer(objValue, key, nested) : undefined;
@@ -4409,14 +4392,11 @@
        *  into `array`.
        */
       function baseSortedIndexBy(array, value, iteratee, retHighest) {
-        var low = 0,
-            high = array == null ? 0 : array.length;
-        if (high === 0) {
-          return 0;
-        }
-  
         value = iteratee(value);
-        var valIsNaN = value !== value,
+  
+        var low = 0,
+            high = array == null ? 0 : array.length,
+            valIsNaN = value !== value,
             valIsNull = value === null,
             valIsSymbol = isSymbol(value),
             valIsUndefined = value === undefined;
@@ -5901,11 +5881,10 @@
         if (arrLength != othLength && !(isPartial && othLength > arrLength)) {
           return false;
         }
-        // Check that cyclic values are equal.
-        var arrStacked = stack.get(array);
-        var othStacked = stack.get(other);
-        if (arrStacked && othStacked) {
-          return arrStacked == other && othStacked == array;
+        // Assume cyclic values are equal.
+        var stacked = stack.get(array);
+        if (stacked && stack.get(other)) {
+          return stacked == other;
         }
         var index = -1,
             result = true,
@@ -6067,11 +6046,10 @@
             return false;
           }
         }
-        // Check that cyclic values are equal.
-        var objStacked = stack.get(object);
-        var othStacked = stack.get(other);
-        if (objStacked && othStacked) {
-          return objStacked == other && othStacked == object;
+        // Assume cyclic values are equal.
+        var stacked = stack.get(object);
+        if (stacked && stack.get(other)) {
+          return stacked == other;
         }
         var result = true;
         stack.set(object, other);
@@ -9452,10 +9430,6 @@
        * // The `_.property` iteratee shorthand.
        * _.filter(users, 'active');
        * // => objects for ['barney']
-       *
-       * // Combining several predicates using `_.overEvery` or `_.overSome`.
-       * _.filter(users, _.overSome([{ 'age': 36 }, ['age', 40]]));
-       * // => objects for ['fred', 'barney']
        */
       function filter(collection, predicate) {
         var func = isArray(collection) ? arrayFilter : baseFilter;
@@ -10205,15 +10179,15 @@
        * var users = [
        *   { 'user': 'fred',   'age': 48 },
        *   { 'user': 'barney', 'age': 36 },
-       *   { 'user': 'fred',   'age': 30 },
+       *   { 'user': 'fred',   'age': 40 },
        *   { 'user': 'barney', 'age': 34 }
        * ];
        *
        * _.sortBy(users, [function(o) { return o.user; }]);
-       * // => objects for [['barney', 36], ['barney', 34], ['fred', 48], ['fred', 30]]
+       * // => objects for [['barney', 36], ['barney', 34], ['fred', 48], ['fred', 40]]
        *
        * _.sortBy(users, ['user', 'age']);
-       * // => objects for [['barney', 34], ['barney', 36], ['fred', 30], ['fred', 48]]
+       * // => objects for [['barney', 34], ['barney', 36], ['fred', 40], ['fred', 48]]
        */
       var sortBy = baseRest(function(collection, iteratees) {
         if (collection == null) {
@@ -15088,11 +15062,11 @@
   
         // Use a sourceURL for easier debugging.
         // The sourceURL gets injected into the source that's eval-ed, so be careful
-        // to normalize all kinds of whitespace, so e.g. newlines (and unicode versions of it) can't sneak in
-        // and escape the comment, thus injecting code that gets evaled.
+        // with lookup (in case of e.g. prototype pollution), and strip newlines if any.
+        // A newline wouldn't be a valid sourceURL anyway, and it'd enable code injection.
         var sourceURL = '//# sourceURL=' +
           (hasOwnProperty.call(options, 'sourceURL')
-            ? (options.sourceURL + '').replace(/\s/g, ' ')
+            ? (options.sourceURL + '').replace(/[\r\n]/g, ' ')
             : ('lodash.templateSources[' + (++templateCounter) + ']')
           ) + '\n';
   
@@ -15125,6 +15099,8 @@
   
         // If `variable` is not specified wrap a with-statement around the generated
         // code to add the data object to the top of the scope chain.
+        // Like with sourceURL, we take care to not check the option's prototype,
+        // as this configuration is a code injection vector.
         var variable = hasOwnProperty.call(options, 'variable') && options.variable;
         if (!variable) {
           source = 'with (obj) {\n' + source + '\n}\n';
@@ -15831,9 +15807,6 @@
        * values against any array or object value, respectively. See `_.isEqual`
        * for a list of supported value comparisons.
        *
-       * **Note:** Multiple values can be checked by combining several matchers
-       * using `_.overSome`
-       *
        * @static
        * @memberOf _
        * @since 3.0.0
@@ -15849,10 +15822,6 @@
        *
        * _.filter(objects, _.matches({ 'a': 4, 'c': 6 }));
        * // => [{ 'a': 4, 'b': 5, 'c': 6 }]
-       *
-       * // Checking for several possible values
-       * _.filter(objects, _.overSome([_.matches({ 'a': 1 }), _.matches({ 'a': 4 })]));
-       * // => [{ 'a': 1, 'b': 2, 'c': 3 }, { 'a': 4, 'b': 5, 'c': 6 }]
        */
       function matches(source) {
         return baseMatches(baseClone(source, CLONE_DEEP_FLAG));
@@ -15866,9 +15835,6 @@
        * **Note:** Partial comparisons will match empty array and empty object
        * `srcValue` values against any array or object value, respectively. See
        * `_.isEqual` for a list of supported value comparisons.
-       *
-       * **Note:** Multiple values can be checked by combining several matchers
-       * using `_.overSome`
        *
        * @static
        * @memberOf _
@@ -15886,10 +15852,6 @@
        *
        * _.find(objects, _.matchesProperty('a', 4));
        * // => { 'a': 4, 'b': 5, 'c': 6 }
-       *
-       * // Checking for several possible values
-       * _.filter(objects, _.overSome([_.matchesProperty('a', 1), _.matchesProperty('a', 4)]));
-       * // => [{ 'a': 1, 'b': 2, 'c': 3 }, { 'a': 4, 'b': 5, 'c': 6 }]
        */
       function matchesProperty(path, srcValue) {
         return baseMatchesProperty(path, baseClone(srcValue, CLONE_DEEP_FLAG));
@@ -16113,10 +16075,6 @@
        * Creates a function that checks if **all** of the `predicates` return
        * truthy when invoked with the arguments it receives.
        *
-       * Following shorthands are possible for providing predicates.
-       * Pass an `Object` and it will be used as an parameter for `_.matches` to create the predicate.
-       * Pass an `Array` of parameters for `_.matchesProperty` and the predicate will be created using them.
-       *
        * @static
        * @memberOf _
        * @since 4.0.0
@@ -16143,10 +16101,6 @@
        * Creates a function that checks if **any** of the `predicates` return
        * truthy when invoked with the arguments it receives.
        *
-       * Following shorthands are possible for providing predicates.
-       * Pass an `Object` and it will be used as an parameter for `_.matches` to create the predicate.
-       * Pass an `Array` of parameters for `_.matchesProperty` and the predicate will be created using them.
-       *
        * @static
        * @memberOf _
        * @since 4.0.0
@@ -16166,9 +16120,6 @@
        *
        * func(NaN);
        * // => false
-       *
-       * var matchesFunc = _.overSome([{ 'a': 1 }, { 'a': 2 }])
-       * var matchesPropertyFunc = _.overSome([['a', 1], ['a', 2]])
        */
       var overSome = createOver(arraySome);
   
@@ -47476,7 +47427,7 @@
   }
   
   }).call(this,require('_process'))
-  },{"_process":8,"object-assign":7,"prop-types/checkPropTypes":9,"react":19,"scheduler":24,"scheduler/tracing":25}],12:[function(require,module,exports){
+  },{"_process":8,"object-assign":7,"prop-types/checkPropTypes":9,"react":20,"scheduler":25,"scheduler/tracing":26}],12:[function(require,module,exports){
   /** @license React v16.13.0
    * react-dom.production.min.js
    *
@@ -47770,7 +47721,7 @@
   exports.unmountComponentAtNode=function(a){if(!gk(a))throw Error(u(40));return a._reactRootContainer?(Nj(function(){ik(null,null,a,!1,function(){a._reactRootContainer=null;a[Od]=null})}),!0):!1};exports.unstable_batchedUpdates=Mj;exports.unstable_createPortal=function(a,b){return kk(a,b,2<arguments.length&&void 0!==arguments[2]?arguments[2]:null)};
   exports.unstable_renderSubtreeIntoContainer=function(a,b,c,d){if(!gk(c))throw Error(u(200));if(null==a||void 0===a._reactInternalFiber)throw Error(u(38));return ik(a,b,c,!1,d)};exports.version="16.13.0";
   
-  },{"object-assign":7,"react":19,"scheduler":24}],13:[function(require,module,exports){
+  },{"object-assign":7,"react":20,"scheduler":25}],13:[function(require,module,exports){
   (function (process){
   'use strict';
   
@@ -47813,6 +47764,453 @@
   
   }).call(this,require('_process'))
   },{"./cjs/react-dom.development.js":11,"./cjs/react-dom.production.min.js":12,"_process":8}],14:[function(require,module,exports){
+  'use strict';
+  
+  function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
+  
+  var React = require('react');
+  var React__default = _interopDefault(React);
+  
+  /*! *****************************************************************************
+  Copyright (c) Microsoft Corporation. All rights reserved.
+  Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+  this file except in compliance with the License. You may obtain a copy of the
+  License at http://www.apache.org/licenses/LICENSE-2.0
+  
+  THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
+  WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
+  MERCHANTABLITY OR NON-INFRINGEMENT.
+  
+  See the Apache Version 2.0 License for specific language governing permissions
+  and limitations under the License.
+  ***************************************************************************** */
+  /* global Reflect, Promise */
+  
+  var extendStatics = function(d, b) {
+      extendStatics = Object.setPrototypeOf ||
+          ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+          function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+      return extendStatics(d, b);
+  };
+  
+  function __extends(d, b) {
+      extendStatics(d, b);
+      function __() { this.constructor = d; }
+      d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  }
+  
+  var __assign = function() {
+      __assign = Object.assign || function __assign(t) {
+          for (var s, i = 1, n = arguments.length; i < n; i++) {
+              s = arguments[i];
+              for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+          }
+          return t;
+      };
+      return __assign.apply(this, arguments);
+  };
+  
+  /* eslint-disable no-undefined,no-param-reassign,no-shadow */
+  
+  /**
+   * Throttle execution of a function. Especially useful for rate limiting
+   * execution of handlers on events like resize and scroll.
+   *
+   * @param  {Number}    delay          A zero-or-greater delay in milliseconds. For event callbacks, values around 100 or 250 (or even higher) are most useful.
+   * @param  {Boolean}   [noTrailing]   Optional, defaults to false. If noTrailing is true, callback will only execute every `delay` milliseconds while the
+   *                                    throttled-function is being called. If noTrailing is false or unspecified, callback will be executed one final time
+   *                                    after the last throttled-function call. (After the throttled-function has not been called for `delay` milliseconds,
+   *                                    the internal counter is reset)
+   * @param  {Function}  callback       A function to be executed after delay milliseconds. The `this` context and all arguments are passed through, as-is,
+   *                                    to `callback` when the throttled-function is executed.
+   * @param  {Boolean}   [debounceMode] If `debounceMode` is true (at begin), schedule `clear` to execute after `delay` ms. If `debounceMode` is false (at end),
+   *                                    schedule `callback` to execute after `delay` ms.
+   *
+   * @return {Function}  A new, throttled, function.
+   */
+  function throttle (delay, noTrailing, callback, debounceMode) {
+    /*
+     * After wrapper has stopped being called, this timeout ensures that
+     * `callback` is executed at the proper times in `throttle` and `end`
+     * debounce modes.
+     */
+    var timeoutID;
+    var cancelled = false; // Keep track of the last time `callback` was executed.
+  
+    var lastExec = 0; // Function to clear existing timeout
+  
+    function clearExistingTimeout() {
+      if (timeoutID) {
+        clearTimeout(timeoutID);
+      }
+    } // Function to cancel next exec
+  
+  
+    function cancel() {
+      clearExistingTimeout();
+      cancelled = true;
+    } // `noTrailing` defaults to falsy.
+  
+  
+    if (typeof noTrailing !== 'boolean') {
+      debounceMode = callback;
+      callback = noTrailing;
+      noTrailing = undefined;
+    }
+    /*
+     * The `wrapper` function encapsulates all of the throttling / debouncing
+     * functionality and when executed will limit the rate at which `callback`
+     * is executed.
+     */
+  
+  
+    function wrapper() {
+      var self = this;
+      var elapsed = Date.now() - lastExec;
+      var args = arguments;
+  
+      if (cancelled) {
+        return;
+      } // Execute `callback` and update the `lastExec` timestamp.
+  
+  
+      function exec() {
+        lastExec = Date.now();
+        callback.apply(self, args);
+      }
+      /*
+       * If `debounceMode` is true (at begin) this is used to clear the flag
+       * to allow future `callback` executions.
+       */
+  
+  
+      function clear() {
+        timeoutID = undefined;
+      }
+  
+      if (debounceMode && !timeoutID) {
+        /*
+         * Since `wrapper` is being called for the first time and
+         * `debounceMode` is true (at begin), execute `callback`.
+         */
+        exec();
+      }
+  
+      clearExistingTimeout();
+  
+      if (debounceMode === undefined && elapsed > delay) {
+        /*
+         * In throttle mode, if `delay` time has been exceeded, execute
+         * `callback`.
+         */
+        exec();
+      } else if (noTrailing !== true) {
+        /*
+         * In trailing throttle mode, since `delay` time has not been
+         * exceeded, schedule `callback` to execute `delay` ms after most
+         * recent execution.
+         *
+         * If `debounceMode` is true (at begin), schedule `clear` to execute
+         * after `delay` ms.
+         *
+         * If `debounceMode` is false (at end), schedule `callback` to
+         * execute after `delay` ms.
+         */
+        timeoutID = setTimeout(debounceMode ? clear : exec, debounceMode === undefined ? delay - elapsed : delay);
+      }
+    }
+  
+    wrapper.cancel = cancel; // Return the wrapper function.
+  
+    return wrapper;
+  }
+  
+  var ThresholdUnits = {
+      Pixel: 'Pixel',
+      Percent: 'Percent',
+  };
+  var defaultThreshold = {
+      unit: ThresholdUnits.Percent,
+      value: 0.8,
+  };
+  function parseThreshold(scrollThreshold) {
+      if (typeof scrollThreshold === 'number') {
+          return {
+              unit: ThresholdUnits.Percent,
+              value: scrollThreshold * 100,
+          };
+      }
+      if (typeof scrollThreshold === 'string') {
+          if (scrollThreshold.match(/^(\d*(\.\d+)?)px$/)) {
+              return {
+                  unit: ThresholdUnits.Pixel,
+                  value: parseFloat(scrollThreshold),
+              };
+          }
+          if (scrollThreshold.match(/^(\d*(\.\d+)?)%$/)) {
+              return {
+                  unit: ThresholdUnits.Percent,
+                  value: parseFloat(scrollThreshold),
+              };
+          }
+          console.warn('scrollThreshold format is invalid. Valid formats: "120px", "50%"...');
+          return defaultThreshold;
+      }
+      console.warn('scrollThreshold should be string or number');
+      return defaultThreshold;
+  }
+  
+  var InfiniteScroll = /** @class */ (function (_super) {
+      __extends(InfiniteScroll, _super);
+      function InfiniteScroll(props) {
+          var _this = _super.call(this, props) || this;
+          _this.lastScrollTop = 0;
+          _this.actionTriggered = false;
+          // variables to keep track of pull down behaviour
+          _this.startY = 0;
+          _this.currentY = 0;
+          _this.dragging = false;
+          // will be populated in componentDidMount
+          // based on the height of the pull down element
+          _this.maxPullDownDistance = 0;
+          _this.getScrollableTarget = function () {
+              if (_this.props.scrollableTarget instanceof HTMLElement)
+                  return _this.props.scrollableTarget;
+              if (typeof _this.props.scrollableTarget === 'string') {
+                  return document.getElementById(_this.props.scrollableTarget);
+              }
+              if (_this.props.scrollableTarget === null) {
+                  console.warn("You are trying to pass scrollableTarget but it is null. This might\n        happen because the element may not have been added to DOM yet.\n        See https://github.com/ankeetmaini/react-infinite-scroll-component/issues/59 for more info.\n      ");
+              }
+              return null;
+          };
+          _this.onStart = function (evt) {
+              if (_this.lastScrollTop)
+                  return;
+              _this.dragging = true;
+              if (evt instanceof MouseEvent) {
+                  _this.startY = evt.pageY;
+              }
+              else if (evt instanceof TouchEvent) {
+                  _this.startY = evt.touches[0].pageY;
+              }
+              _this.currentY = _this.startY;
+              if (_this._infScroll) {
+                  _this._infScroll.style.willChange = 'transform';
+                  _this._infScroll.style.transition = "transform 0.2s cubic-bezier(0,0,0.31,1)";
+              }
+          };
+          _this.onMove = function (evt) {
+              if (!_this.dragging)
+                  return;
+              if (evt instanceof MouseEvent) {
+                  _this.currentY = evt.pageY;
+              }
+              else if (evt instanceof TouchEvent) {
+                  _this.currentY = evt.touches[0].pageY;
+              }
+              // user is scrolling down to up
+              if (_this.currentY < _this.startY)
+                  return;
+              if (_this.currentY - _this.startY >=
+                  Number(_this.props.pullDownToRefreshThreshold)) {
+                  _this.setState({
+                      pullToRefreshThresholdBreached: true,
+                  });
+              }
+              // so you can drag upto 1.5 times of the maxPullDownDistance
+              if (_this.currentY - _this.startY > _this.maxPullDownDistance * 1.5)
+                  return;
+              if (_this._infScroll) {
+                  _this._infScroll.style.overflow = 'visible';
+                  _this._infScroll.style.transform = "translate3d(0px, " + (_this.currentY -
+                      _this.startY) + "px, 0px)";
+              }
+          };
+          _this.onEnd = function () {
+              _this.startY = 0;
+              _this.currentY = 0;
+              _this.dragging = false;
+              if (_this.state.pullToRefreshThresholdBreached) {
+                  _this.props.refreshFunction && _this.props.refreshFunction();
+                  _this.setState({
+                      pullToRefreshThresholdBreached: false,
+                  });
+              }
+              requestAnimationFrame(function () {
+                  // this._infScroll
+                  if (_this._infScroll) {
+                      _this._infScroll.style.overflow = 'auto';
+                      _this._infScroll.style.transform = 'none';
+                      _this._infScroll.style.willChange = 'none';
+                  }
+              });
+          };
+          _this.onScrollListener = function (event) {
+              if (typeof _this.props.onScroll === 'function') {
+                  // Execute this callback in next tick so that it does not affect the
+                  // functionality of the library.
+                  setTimeout(function () { return _this.props.onScroll && _this.props.onScroll(event); }, 0);
+              }
+              var target = _this.props.height || _this._scrollableNode
+                  ? event.target
+                  : document.documentElement.scrollTop
+                      ? document.documentElement
+                      : document.body;
+              // return immediately if the action has already been triggered,
+              // prevents multiple triggers.
+              if (_this.actionTriggered)
+                  return;
+              var atBottom = _this.props.inverse
+                  ? _this.isElementAtTop(target, _this.props.scrollThreshold)
+                  : _this.isElementAtBottom(target, _this.props.scrollThreshold);
+              // call the `next` function in the props to trigger the next data fetch
+              if (atBottom && _this.props.hasMore) {
+                  _this.actionTriggered = true;
+                  _this.setState({ showLoader: true });
+                  _this.props.next && _this.props.next();
+              }
+              _this.lastScrollTop = target.scrollTop;
+          };
+          _this.state = {
+              showLoader: false,
+              pullToRefreshThresholdBreached: false,
+          };
+          _this.throttledOnScrollListener = throttle(150, _this.onScrollListener).bind(_this);
+          _this.onStart = _this.onStart.bind(_this);
+          _this.onMove = _this.onMove.bind(_this);
+          _this.onEnd = _this.onEnd.bind(_this);
+          return _this;
+      }
+      InfiniteScroll.prototype.componentDidMount = function () {
+          if (typeof this.props.dataLength === 'undefined') {
+              throw new Error("mandatory prop \"dataLength\" is missing. The prop is needed" +
+                  " when loading more content. Check README.md for usage");
+          }
+          this._scrollableNode = this.getScrollableTarget();
+          this.el = this.props.height
+              ? this._infScroll
+              : this._scrollableNode || window;
+          if (this.el) {
+              this.el.addEventListener('scroll', this
+                  .throttledOnScrollListener);
+          }
+          if (typeof this.props.initialScrollY === 'number' &&
+              this.el &&
+              this.el instanceof HTMLElement &&
+              this.el.scrollHeight > this.props.initialScrollY) {
+              this.el.scrollTo(0, this.props.initialScrollY);
+          }
+          if (this.props.pullDownToRefresh && this.el) {
+              this.el.addEventListener('touchstart', this.onStart);
+              this.el.addEventListener('touchmove', this.onMove);
+              this.el.addEventListener('touchend', this.onEnd);
+              this.el.addEventListener('mousedown', this.onStart);
+              this.el.addEventListener('mousemove', this.onMove);
+              this.el.addEventListener('mouseup', this.onEnd);
+              // get BCR of pullDown element to position it above
+              this.maxPullDownDistance =
+                  (this._pullDown &&
+                      this._pullDown.firstChild &&
+                      this._pullDown.firstChild.getBoundingClientRect()
+                          .height) ||
+                      0;
+              this.forceUpdate();
+              if (typeof this.props.refreshFunction !== 'function') {
+                  throw new Error("Mandatory prop \"refreshFunction\" missing.\n          Pull Down To Refresh functionality will not work\n          as expected. Check README.md for usage'");
+              }
+          }
+      };
+      InfiniteScroll.prototype.componentWillUnmount = function () {
+          if (this.el) {
+              this.el.removeEventListener('scroll', this
+                  .throttledOnScrollListener);
+              if (this.props.pullDownToRefresh) {
+                  this.el.removeEventListener('touchstart', this.onStart);
+                  this.el.removeEventListener('touchmove', this.onMove);
+                  this.el.removeEventListener('touchend', this.onEnd);
+                  this.el.removeEventListener('mousedown', this.onStart);
+                  this.el.removeEventListener('mousemove', this.onMove);
+                  this.el.removeEventListener('mouseup', this.onEnd);
+              }
+          }
+      };
+      InfiniteScroll.prototype.UNSAFE_componentWillReceiveProps = function (props) {
+          // do nothing when dataLength is unchanged
+          if (this.props.dataLength === props.dataLength)
+              return;
+          this.actionTriggered = false;
+          // update state when new data was sent in
+          this.setState({
+              showLoader: false,
+          });
+      };
+      InfiniteScroll.prototype.isElementAtTop = function (target, scrollThreshold) {
+          if (scrollThreshold === void 0) { scrollThreshold = 0.8; }
+          var clientHeight = target === document.body || target === document.documentElement
+              ? window.screen.availHeight
+              : target.clientHeight;
+          var threshold = parseThreshold(scrollThreshold);
+          if (threshold.unit === ThresholdUnits.Pixel) {
+              return (target.scrollTop <=
+                  threshold.value + clientHeight - target.scrollHeight + 1 ||
+                  target.scrollTop === 0);
+          }
+          return (target.scrollTop <=
+              threshold.value / 100 + clientHeight - target.scrollHeight + 1 ||
+              target.scrollTop === 0);
+      };
+      InfiniteScroll.prototype.isElementAtBottom = function (target, scrollThreshold) {
+          if (scrollThreshold === void 0) { scrollThreshold = 0.8; }
+          var clientHeight = target === document.body || target === document.documentElement
+              ? window.screen.availHeight
+              : target.clientHeight;
+          var threshold = parseThreshold(scrollThreshold);
+          if (threshold.unit === ThresholdUnits.Pixel) {
+              return (target.scrollTop + clientHeight >= target.scrollHeight - threshold.value);
+          }
+          return (target.scrollTop + clientHeight >=
+              (threshold.value / 100) * target.scrollHeight);
+      };
+      InfiniteScroll.prototype.render = function () {
+          var _this = this;
+          var style = __assign({ height: this.props.height || 'auto', overflow: 'auto', WebkitOverflowScrolling: 'touch' }, this.props.style);
+          var hasChildren = this.props.hasChildren ||
+              !!(this.props.children &&
+                  this.props.children instanceof Array &&
+                  this.props.children.length);
+          // because heighted infiniteScroll visualy breaks
+          // on drag down as overflow becomes visible
+          var outerDivStyle = this.props.pullDownToRefresh && this.props.height
+              ? { overflow: 'auto' }
+              : {};
+          return (React__default.createElement("div", { style: outerDivStyle, className: "infinite-scroll-component__outerdiv" },
+              React__default.createElement("div", { className: "infinite-scroll-component " + (this.props.className || ''), ref: function (infScroll) { return (_this._infScroll = infScroll); }, style: style },
+                  this.props.pullDownToRefresh && (React__default.createElement("div", { style: { position: 'relative' }, ref: function (pullDown) { return (_this._pullDown = pullDown); } },
+                      React__default.createElement("div", { style: {
+                              position: 'absolute',
+                              left: 0,
+                              right: 0,
+                              top: -1 * this.maxPullDownDistance,
+                          } }, this.state.pullToRefreshThresholdBreached
+                          ? this.props.releaseToRefreshContent
+                          : this.props.pullDownToRefreshContent))),
+                  this.props.children,
+                  !this.state.showLoader &&
+                      !hasChildren &&
+                      this.props.hasMore &&
+                      this.props.loader,
+                  this.state.showLoader && this.props.hasMore && this.props.loader,
+                  !this.props.hasMore && this.props.endMessage)));
+      };
+      return InfiniteScroll;
+  }(React.Component));
+  
+  module.exports = InfiniteScroll;
+  
+  
+  },{"react":20}],15:[function(require,module,exports){
   (function (process){
   if (process.env.NODE_ENV === 'production') {
     module.exports = require('./lib/react-input-mask.production.min.js');
@@ -47821,7 +48219,7 @@
   }
   
   }).call(this,require('_process'))
-  },{"./lib/react-input-mask.development.js":15,"./lib/react-input-mask.production.min.js":16,"_process":8}],15:[function(require,module,exports){
+  },{"./lib/react-input-mask.development.js":16,"./lib/react-input-mask.production.min.js":17,"_process":8}],16:[function(require,module,exports){
   (function (process){
   'use strict';
   
@@ -48951,10 +49349,10 @@
   module.exports = InputElement;
   
   }).call(this,require('_process'))
-  },{"_process":8,"invariant":4,"react":19,"react-dom":13,"warning":27}],16:[function(require,module,exports){
+  },{"_process":8,"invariant":4,"react":20,"react-dom":13,"warning":28}],17:[function(require,module,exports){
   "use strict";function _interopDefault(e){return e&&"object"==typeof e&&"default"in e?e["default"]:e}var React=_interopDefault(require("react")),reactDom=require("react-dom");function _defaults2(e,t){for(var n=Object.getOwnPropertyNames(t),a=0;a<n.length;a++){var i=n[a],r=Object.getOwnPropertyDescriptor(t,i);r&&r.configurable&&e[i]===undefined&&Object.defineProperty(e,i,r)}return e}function _extends(){return(_extends=Object.assign||function(e){for(var t=1;t<arguments.length;t++){var n=arguments[t];for(var a in n)Object.prototype.hasOwnProperty.call(n,a)&&(e[a]=n[a])}return e}).apply(this,arguments)}function _inheritsLoose(e,t){e.prototype=Object.create(t.prototype),_defaults2(e.prototype.constructor=e,t)}function _objectWithoutPropertiesLoose(e,t){if(null==e)return{};var n,a,i={},r=Object.keys(e);for(a=0;a<r.length;a++)n=r[a],0<=t.indexOf(n)||(i[n]=e[n]);return i}function _assertThisInitialized(e){if(void 0===e)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return e}var invariant=function(e,t,n,a,i,r,o,s){if(!e){var l;if(t===undefined)l=new Error("Minified exception occurred; use the non-minified dev environment for the full error message and additional helpful warnings.");else{var u=[n,a,i,r,o,s],c=0;(l=new Error(t.replace(/%s/g,function(){return u[c++]}))).name="Invariant Violation"}throw l.framesToPop=1,l}},invariant_1=invariant;function setInputSelection(e,t,n){if("selectionStart"in e&&"selectionEnd"in e)e.selectionStart=t,e.selectionEnd=n;else{var a=e.createTextRange();a.collapse(!0),a.moveStart("character",t),a.moveEnd("character",n-t),a.select()}}function getInputSelection(e){var t=0,n=0;if("selectionStart"in e&&"selectionEnd"in e)t=e.selectionStart,n=e.selectionEnd;else{var a=document.selection.createRange();a.parentElement()===e&&(t=-a.moveStart("character",-e.value.length),n=-a.moveEnd("character",-e.value.length))}return{start:t,end:n,length:n-t}}var defaultFormatChars={9:"[0-9]",a:"[A-Za-z]","*":"[A-Za-z0-9]"},defaultMaskChar="_";function parseMask(e,t,n){var a="",i="",r=null,o=[];if(t===undefined&&(t=defaultMaskChar),null==n&&(n=defaultFormatChars),!e||"string"!=typeof e)return{maskChar:t,formatChars:n,mask:null,prefix:null,lastEditablePosition:null,permanents:[]};var s=!1;return e.split("").forEach(function(e){s=!s&&"\\"===e||(s||!n[e]?(o.push(a.length),a.length===o.length-1&&(i+=e)):r=a.length+1,a+=e,!1)}),{maskChar:t,formatChars:n,prefix:i,mask:a,lastEditablePosition:r,permanents:o}}function isPermanentCharacter(e,t){return-1!==e.permanents.indexOf(t)}function isAllowedCharacter(e,t,n){var a=e.mask,i=e.formatChars;if(!n)return!1;if(isPermanentCharacter(e,t))return a[t]===n;var r=i[a[t]];return new RegExp(r).test(n)}function isEmpty(n,e){return e.split("").every(function(e,t){return isPermanentCharacter(n,t)||!isAllowedCharacter(n,t,e)})}function getFilledLength(e,t){var n=e.maskChar,a=e.prefix;if(!n){for(;t.length>a.length&&isPermanentCharacter(e,t.length-1);)t=t.slice(0,t.length-1);return t.length}for(var i=a.length,r=t.length;r>=a.length;r--){var o=t[r];if(!isPermanentCharacter(e,r)&&isAllowedCharacter(e,r,o)){i=r+1;break}}return i}function isFilled(e,t){return getFilledLength(e,t)===e.mask.length}function formatValue(e,t){var n=e.maskChar,a=e.mask,i=e.prefix;if(!n){for((t=insertString(e,"",t,0)).length<i.length&&(t=i);t.length<a.length&&isPermanentCharacter(e,t.length);)t+=a[t.length];return t}if(t)return insertString(e,formatValue(e,""),t,0);for(var r=0;r<a.length;r++)isPermanentCharacter(e,r)?t+=a[r]:t+=n;return t}function clearRange(n,e,a,t){var i=a+t,r=n.maskChar,o=n.mask,s=n.prefix,l=e.split("");if(r)return l.map(function(e,t){return t<a||i<=t?e:isPermanentCharacter(n,t)?o[t]:r}).join("");for(var u=i;u<l.length;u++)isPermanentCharacter(n,u)&&(l[u]="");return a=Math.max(s.length,a),l.splice(a,i-a),e=l.join(""),formatValue(n,e)}function insertString(r,o,e,s){var l=r.mask,u=r.maskChar,c=r.prefix,t=e.split(""),h=isFilled(r,o);return!u&&s>o.length&&(o+=l.slice(o.length,s)),t.every(function(e){for(;i=e,isPermanentCharacter(r,a=s)&&i!==l[a];){if(s>=o.length&&(o+=l[s]),t=e,n=s,u&&isPermanentCharacter(r,n)&&t===u)return!0;if(++s>=l.length)return!1}var t,n,a,i;return!isAllowedCharacter(r,s,e)&&e!==u||(s<o.length?o=u||h||s<c.length?o.slice(0,s)+e+o.slice(s+1):(o=o.slice(0,s)+e+o.slice(s),formatValue(r,o)):u||(o+=e),++s<l.length)}),o}function getInsertStringLength(a,e,t,i){var r=a.mask,o=a.maskChar,n=t.split(""),s=i;return n.every(function(e){for(;n=e,isPermanentCharacter(a,t=i)&&n!==r[t];)if(++i>=r.length)return!1;var t,n;return(isAllowedCharacter(a,i,e)||e===o)&&i++,i<r.length}),i-s}function getLeftEditablePosition(e,t){for(var n=t;0<=n;--n)if(!isPermanentCharacter(e,n))return n;return null}function getRightEditablePosition(e,t){for(var n=e.mask,a=t;a<n.length;++a)if(!isPermanentCharacter(e,a))return a;return null}function getStringValue(e){return e||0===e?e+"":""}function processChange(e,t,n,a,i){var r=e.mask,o=e.prefix,s=e.lastEditablePosition,l=t,u="",c=0,h=0,f=Math.min(i.start,n.start);if(n.end>i.start?h=(c=getInsertStringLength(e,a,u=l.slice(i.start,n.end),f))?i.length:0:l.length<a.length&&(h=a.length-l.length),l=a,h){if(1===h&&!i.length)f=i.start===n.start?getRightEditablePosition(e,n.start):getLeftEditablePosition(e,n.start);l=clearRange(e,l,f,h)}return l=insertString(e,l,u,f),(f+=c)>=r.length?f=r.length:f<o.length&&!c?f=o.length:f>=o.length&&f<s&&c&&(f=getRightEditablePosition(e,f)),u||(u=null),{value:l=formatValue(e,l),enteredString:u,selection:{start:f,end:f}}}function isWindowsPhoneBrowser(){var e=new RegExp("windows","i"),t=new RegExp("phone","i"),n=navigator.userAgent;return e.test(n)&&t.test(n)}function isFunction(e){return"function"==typeof e}function getRequestAnimationFrame(){return window.requestAnimationFrame||window.webkitRequestAnimationFrame||window.mozRequestAnimationFrame}function getCancelAnimationFrame(){return window.cancelAnimationFrame||window.webkitCancelRequestAnimationFrame||window.webkitCancelAnimationFrame||window.mozCancelAnimationFrame}function defer(e){return(!!getCancelAnimationFrame()?getRequestAnimationFrame():function(){return setTimeout(e,1e3/60)})(e)}function cancelDefer(e){(getCancelAnimationFrame()||clearTimeout)(e)}var InputElement=function(c){function e(e){var f=c.call(this,e)||this;f.focused=!1,f.mounted=!1,f.previousSelection=null,f.selectionDeferId=null,f.saveSelectionLoopDeferId=null,f.saveSelectionLoop=function(){f.previousSelection=f.getSelection(),f.saveSelectionLoopDeferId=defer(f.saveSelectionLoop)},f.runSaveSelectionLoop=function(){null===f.saveSelectionLoopDeferId&&f.saveSelectionLoop()},f.stopSaveSelectionLoop=function(){null!==f.saveSelectionLoopDeferId&&(cancelDefer(f.saveSelectionLoopDeferId),f.saveSelectionLoopDeferId=null,f.previousSelection=null)},f.getInputDOMNode=function(){if(!f.mounted)return null;var e=reactDom.findDOMNode(_assertThisInitialized(_assertThisInitialized(f))),t="undefined"!=typeof window&&e instanceof window.Element;if(e&&!t)return null;if("INPUT"!==e.nodeName&&(e=e.querySelector("input")),!e)throw new Error("react-input-mask: inputComponent doesn't contain input node");return e},f.getInputValue=function(){var e=f.getInputDOMNode();return e?e.value:null},f.setInputValue=function(e){var t=f.getInputDOMNode();t&&(f.value=e,t.value=e)},f.setCursorToEnd=function(){var e=getFilledLength(f.maskOptions,f.value),t=getRightEditablePosition(f.maskOptions,e);null!==t&&f.setCursorPosition(t)},f.setSelection=function(e,t,n){void 0===n&&(n={});var a=f.getInputDOMNode(),i=f.isFocused();a&&i&&(n.deferred||setInputSelection(a,e,t),null!==f.selectionDeferId&&cancelDefer(f.selectionDeferId),f.selectionDeferId=defer(function(){f.selectionDeferId=null,setInputSelection(a,e,t)}),f.previousSelection={start:e,end:t,length:Math.abs(t-e)})},f.getSelection=function(){return getInputSelection(f.getInputDOMNode())},f.getCursorPosition=function(){return f.getSelection().start},f.setCursorPosition=function(e){f.setSelection(e,e)},f.isFocused=function(){return f.focused},f.getBeforeMaskedValueChangeConfig=function(){var e=f.maskOptions,t=e.mask,n=e.maskChar,a=e.permanents,i=e.formatChars;return{mask:t,maskChar:n,permanents:a,alwaysShowMask:!!f.props.alwaysShowMask,formatChars:i}},f.isInputAutofilled=function(e,t,n,a){var i=f.getInputDOMNode();try{if(i.matches(":-webkit-autofill"))return!0}catch(r){}return!f.focused||a.end<n.length&&t.end===e.length},f.onChange=function(e){var t=_assertThisInitialized(_assertThisInitialized(f)).beforePasteState,n=_assertThisInitialized(_assertThisInitialized(f)).previousSelection,a=f.props.beforeMaskedValueChange,i=f.getInputValue(),r=f.value,o=f.getSelection();f.isInputAutofilled(i,o,r,n)&&(r=formatValue(f.maskOptions,""),n={start:0,end:0,length:0}),t&&(n=t.selection,r=t.value,o={start:n.start+i.length,end:n.start+i.length,length:0},i=r.slice(0,n.start)+i+r.slice(n.end),f.beforePasteState=null);var s=processChange(f.maskOptions,i,o,r,n),l=s.enteredString,u=s.selection,c=s.value;if(isFunction(a)){var h=a({value:c,selection:u},{value:r,selection:n},l,f.getBeforeMaskedValueChangeConfig());c=h.value,u=h.selection}f.setInputValue(c),isFunction(f.props.onChange)&&f.props.onChange(e),f.isWindowsPhoneBrowser?f.setSelection(u.start,u.end,{deferred:!0}):f.setSelection(u.start,u.end)},f.onFocus=function(e){var t=f.props.beforeMaskedValueChange,n=f.maskOptions,a=n.mask,i=n.prefix;if(f.focused=!0,f.mounted=!0,a){if(f.value)getFilledLength(f.maskOptions,f.value)<f.maskOptions.mask.length&&f.setCursorToEnd();else{var r=formatValue(f.maskOptions,i),o=formatValue(f.maskOptions,r),s=getFilledLength(f.maskOptions,o),l=getRightEditablePosition(f.maskOptions,s),u={start:l,end:l};if(isFunction(t)){var c=t({value:o,selection:u},{value:f.value,selection:null},null,f.getBeforeMaskedValueChangeConfig());o=c.value,u=c.selection}var h=o!==f.getInputValue();h&&f.setInputValue(o),h&&isFunction(f.props.onChange)&&f.props.onChange(e),f.setSelection(u.start,u.end)}f.runSaveSelectionLoop()}isFunction(f.props.onFocus)&&f.props.onFocus(e)},f.onBlur=function(e){var t=f.props.beforeMaskedValueChange,n=f.maskOptions.mask;if(f.stopSaveSelectionLoop(),f.focused=!1,n&&!f.props.alwaysShowMask&&isEmpty(f.maskOptions,f.value)){var a="";if(isFunction(t))a=t({value:a,selection:null},{value:f.value,selection:f.previousSelection},null,f.getBeforeMaskedValueChangeConfig()).value;var i=a!==f.getInputValue();i&&f.setInputValue(a),i&&isFunction(f.props.onChange)&&f.props.onChange(e)}isFunction(f.props.onBlur)&&f.props.onBlur(e)},f.onMouseDown=function(e){if(!f.focused&&document.addEventListener){f.mouseDownX=e.clientX,f.mouseDownY=e.clientY,f.mouseDownTime=(new Date).getTime();var r=function r(e){if(document.removeEventListener("mouseup",r),f.focused){var t=Math.abs(e.clientX-f.mouseDownX),n=Math.abs(e.clientY-f.mouseDownY),a=Math.max(t,n),i=(new Date).getTime()-f.mouseDownTime;(a<=10&&i<=200||a<=5&&i<=300)&&f.setCursorToEnd()}};document.addEventListener("mouseup",r)}isFunction(f.props.onMouseDown)&&f.props.onMouseDown(e)},f.onPaste=function(e){isFunction(f.props.onPaste)&&f.props.onPaste(e),e.defaultPrevented||(f.beforePasteState={value:f.getInputValue(),selection:f.getSelection()},f.setInputValue(""))},f.handleRef=function(e){null==f.props.children&&isFunction(f.props.inputRef)&&f.props.inputRef(e)};var t=e.mask,n=e.maskChar,a=e.formatChars,i=e.alwaysShowMask,r=e.beforeMaskedValueChange,o=e.defaultValue,s=e.value;f.maskOptions=parseMask(t,n,a),null==o&&(o=""),null==s&&(s=o);var l=getStringValue(s);if(f.maskOptions.mask&&(i||l)&&(l=formatValue(f.maskOptions,l),isFunction(r))){var u=e.value;null==e.value&&(u=o),l=r({value:l,selection:null},{value:u=getStringValue(u),selection:null},null,f.getBeforeMaskedValueChangeConfig()).value}return f.value=l,f}_inheritsLoose(e,c);var t=e.prototype;return t.componentDidMount=function(){this.mounted=!0,this.getInputDOMNode()&&(this.isWindowsPhoneBrowser=isWindowsPhoneBrowser(),this.maskOptions.mask&&this.getInputValue()!==this.value&&this.setInputValue(this.value))},t.componentDidUpdate=function(){var e=this.previousSelection,t=this.props,n=t.beforeMaskedValueChange,a=t.alwaysShowMask,i=t.mask,r=t.maskChar,o=t.formatChars,s=this.maskOptions,l=a||this.isFocused(),u=null!=this.props.value,c=u?getStringValue(this.props.value):this.value,h=e?e.start:null;if(this.maskOptions=parseMask(i,r,o),this.maskOptions.mask){!s.mask&&this.isFocused()&&this.runSaveSelectionLoop();var f=this.maskOptions.mask&&this.maskOptions.mask!==s.mask;if(s.mask||u||(c=this.getInputValue()),(f||this.maskOptions.mask&&(c||l))&&(c=formatValue(this.maskOptions,c)),f){var p=getFilledLength(this.maskOptions,c);(null===h||p<h)&&(h=isFilled(this.maskOptions,c)?p:getRightEditablePosition(this.maskOptions,p))}!this.maskOptions.mask||!isEmpty(this.maskOptions,c)||l||u&&this.props.value||(c="");var d={start:h,end:h};if(isFunction(n)){var m=n({value:c,selection:d},{value:this.value,selection:this.previousSelection},null,this.getBeforeMaskedValueChangeConfig());c=m.value,d=m.selection}this.value=c;var g=this.getInputValue()!==this.value;g?(this.setInputValue(this.value),this.forceUpdate()):f&&this.forceUpdate();var v=!1;null!=d.start&&null!=d.end&&(v=!e||e.start!==d.start||e.end!==d.end),(v||g)&&this.setSelection(d.start,d.end)}else s.mask&&(this.stopSaveSelectionLoop(),this.forceUpdate())},t.componentWillUnmount=function(){this.mounted=!1,null!==this.selectionDeferId&&cancelDefer(this.selectionDeferId),this.stopSaveSelectionLoop()},t.render=function(){var t,e=this.props,n=(e.mask,e.alwaysShowMask,e.maskChar,e.formatChars,e.inputRef,e.beforeMaskedValueChange,e.children),a=_objectWithoutPropertiesLoose(e,["mask","alwaysShowMask","maskChar","formatChars","inputRef","beforeMaskedValueChange","children"]);if(n){isFunction(n)||invariant_1(!1);var i=["onChange","onPaste","onMouseDown","onFocus","onBlur","value","disabled","readOnly"],r=_extends({},a);i.forEach(function(e){return delete r[e]}),t=n(r),i.filter(function(e){return null!=t.props[e]&&t.props[e]!==a[e]}).length&&invariant_1(!1)}else t=React.createElement("input",_extends({ref:this.handleRef},a));var o={onFocus:this.onFocus,onBlur:this.onBlur};return this.maskOptions.mask&&(a.disabled||a.readOnly||(o.onChange=this.onChange,o.onPaste=this.onPaste,o.onMouseDown=this.onMouseDown),null!=a.value&&(o.value=this.value)),t=React.cloneElement(t,o)},e}(React.Component);module.exports=InputElement;
   
-  },{"react":19,"react-dom":13}],17:[function(require,module,exports){
+  },{"react":20,"react-dom":13}],18:[function(require,module,exports){
   (function (process){
   /** @license React v16.13.0
    * react.development.js
@@ -50870,7 +51268,7 @@
   }
   
   }).call(this,require('_process'))
-  },{"_process":8,"object-assign":7,"prop-types/checkPropTypes":9}],18:[function(require,module,exports){
+  },{"_process":8,"object-assign":7,"prop-types/checkPropTypes":9}],19:[function(require,module,exports){
   /** @license React v16.13.0
    * react.production.min.js
    *
@@ -50897,7 +51295,7 @@
   exports.lazy=function(a){return{$$typeof:A,_ctor:a,_status:-1,_result:null}};exports.memo=function(a,b){return{$$typeof:z,type:a,compare:void 0===b?null:b}};exports.useCallback=function(a,b){return Z().useCallback(a,b)};exports.useContext=function(a,b){return Z().useContext(a,b)};exports.useDebugValue=function(){};exports.useEffect=function(a,b){return Z().useEffect(a,b)};exports.useImperativeHandle=function(a,b,c){return Z().useImperativeHandle(a,b,c)};
   exports.useLayoutEffect=function(a,b){return Z().useLayoutEffect(a,b)};exports.useMemo=function(a,b){return Z().useMemo(a,b)};exports.useReducer=function(a,b,c){return Z().useReducer(a,b,c)};exports.useRef=function(a){return Z().useRef(a)};exports.useState=function(a){return Z().useState(a)};exports.version="16.13.0";
   
-  },{"object-assign":7}],19:[function(require,module,exports){
+  },{"object-assign":7}],20:[function(require,module,exports){
   (function (process){
   'use strict';
   
@@ -50908,7 +51306,7 @@
   }
   
   }).call(this,require('_process'))
-  },{"./cjs/react.development.js":17,"./cjs/react.production.min.js":18,"_process":8}],20:[function(require,module,exports){
+  },{"./cjs/react.development.js":18,"./cjs/react.production.min.js":19,"_process":8}],21:[function(require,module,exports){
   (function (process){
   /** @license React v0.19.0
    * scheduler-tracing.development.js
@@ -51261,7 +51659,7 @@
   }
   
   }).call(this,require('_process'))
-  },{"_process":8}],21:[function(require,module,exports){
+  },{"_process":8}],22:[function(require,module,exports){
   /** @license React v0.19.0
    * scheduler-tracing.production.min.js
    *
@@ -51273,7 +51671,7 @@
   
   'use strict';var b=0;exports.__interactionsRef=null;exports.__subscriberRef=null;exports.unstable_clear=function(a){return a()};exports.unstable_getCurrent=function(){return null};exports.unstable_getThreadID=function(){return++b};exports.unstable_subscribe=function(){};exports.unstable_trace=function(a,d,c){return c()};exports.unstable_unsubscribe=function(){};exports.unstable_wrap=function(a){return a};
   
-  },{}],22:[function(require,module,exports){
+  },{}],23:[function(require,module,exports){
   (function (process){
   /** @license React v0.19.0
    * scheduler.development.js
@@ -52135,7 +52533,7 @@
   }
   
   }).call(this,require('_process'))
-  },{"_process":8}],23:[function(require,module,exports){
+  },{"_process":8}],24:[function(require,module,exports){
   /** @license React v0.19.0
    * scheduler.production.min.js
    *
@@ -52158,7 +52556,7 @@
   exports.unstable_scheduleCallback=function(a,b,c){var d=exports.unstable_now();if("object"===typeof c&&null!==c){var e=c.delay;e="number"===typeof e&&0<e?d+e:d;c="number"===typeof c.timeout?c.timeout:Y(a)}else c=Y(a),e=d;c=e+c;a={id:P++,callback:b,priorityLevel:a,startTime:e,expirationTime:c,sortIndex:-1};e>d?(a.sortIndex=e,J(O,a),null===L(N)&&a===L(O)&&(U?h():U=!0,g(W,e-d))):(a.sortIndex=c,J(N,a),T||S||(T=!0,f(X)));return a};
   exports.unstable_shouldYield=function(){var a=exports.unstable_now();V(a);var b=L(N);return b!==Q&&null!==Q&&null!==b&&null!==b.callback&&b.startTime<=a&&b.expirationTime<Q.expirationTime||k()};exports.unstable_wrapCallback=function(a){var b=R;return function(){var c=R;R=b;try{return a.apply(this,arguments)}finally{R=c}}};
   
-  },{}],24:[function(require,module,exports){
+  },{}],25:[function(require,module,exports){
   (function (process){
   'use strict';
   
@@ -52169,7 +52567,7 @@
   }
   
   }).call(this,require('_process'))
-  },{"./cjs/scheduler.development.js":22,"./cjs/scheduler.production.min.js":23,"_process":8}],25:[function(require,module,exports){
+  },{"./cjs/scheduler.development.js":23,"./cjs/scheduler.production.min.js":24,"_process":8}],26:[function(require,module,exports){
   (function (process){
   'use strict';
   
@@ -52180,7 +52578,7 @@
   }
   
   }).call(this,require('_process'))
-  },{"./cjs/scheduler-tracing.development.js":20,"./cjs/scheduler-tracing.production.min.js":21,"_process":8}],26:[function(require,module,exports){
+  },{"./cjs/scheduler-tracing.development.js":21,"./cjs/scheduler-tracing.production.min.js":22,"_process":8}],27:[function(require,module,exports){
   
   ;(function (name, root, factory) {
     if (typeof exports === 'object') {
@@ -52246,7 +52644,7 @@
     return replace
   }))
   
-  },{}],27:[function(require,module,exports){
+  },{}],28:[function(require,module,exports){
   (function (process){
   /**
    * Copyright (c) 2014-present, Facebook, Inc.
@@ -52312,7 +52710,7 @@
   module.exports = warning;
   
   }).call(this,require('_process'))
-  },{"_process":8}],28:[function(require,module,exports){
+  },{"_process":8}],29:[function(require,module,exports){
   "use strict";
   
   /* front-messages-ui - v2.1.0 */
@@ -52417,7 +52815,7 @@
   }).call(undefined);
   
   
-  },{}],29:[function(require,module,exports){
+  },{}],30:[function(require,module,exports){
   (function (global){
   'use strict';
   
@@ -54134,7 +54532,7 @@
   })();
   
   }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-  },{}],30:[function(require,module,exports){
+  },{}],31:[function(require,module,exports){
   "use strict";
   
   Object.defineProperty(exports, "__esModule", {
@@ -54212,7 +54610,7 @@
   
   exports.default = FaleConosco;
   
-  },{}],31:[function(require,module,exports){
+  },{}],32:[function(require,module,exports){
   "use strict";
   
   Object.defineProperty(exports, "__esModule", {
@@ -54446,7 +54844,7 @@
   
   exports.default = Header;
   
-  },{}],32:[function(require,module,exports){
+  },{}],33:[function(require,module,exports){
   'use strict';
   
   Object.defineProperty(exports, "__esModule", {
@@ -54618,7 +55016,7 @@
   
   exports.default = Nav;
   
-  },{"lodash":5}],33:[function(require,module,exports){
+  },{"lodash":5}],34:[function(require,module,exports){
   'use strict';
   
   Object.defineProperty(exports, "__esModule", {
@@ -54655,7 +55053,7 @@
   
   exports.default = PriceTable;
   
-  },{}],34:[function(require,module,exports){
+  },{}],35:[function(require,module,exports){
   'use strict';
   
   Object.defineProperty(exports, "__esModule", {
@@ -54896,7 +55294,7 @@
       return QuickView;
   }();
   
-  },{}],35:[function(require,module,exports){
+  },{}],36:[function(require,module,exports){
   'use strict';
   
   Object.defineProperty(exports, "__esModule", {
@@ -55028,7 +55426,7 @@
   
   exports.default = SearchBox;
   
-  },{"../components/quickview":34,"../react/utils/currency":78,"lodash":5}],36:[function(require,module,exports){
+  },{"../components/quickview":35,"../react/utils/currency":79,"lodash":5}],37:[function(require,module,exports){
   'use strict';
   
   Object.defineProperty(exports, "__esModule", {
@@ -55074,7 +55472,7 @@
   
   exports.default = SelectedSeller;
   
-  },{"./sellerPicker":37}],37:[function(require,module,exports){
+  },{"./sellerPicker":38}],38:[function(require,module,exports){
   'use strict';
   
   Object.defineProperty(exports, "__esModule", {
@@ -55730,6 +56128,9 @@
             if (store) {
               _this4.addUserInfo(store);
   
+              $(".cart-retirada-label").remove();
+              $(".cart-entrega .cart-total-label").append("<span class='cart-retirada-label'>retirada em loja</span>");
+  
               var orderForm = vtexjs.checkout.orderForm;
   
               if (orderForm) {
@@ -55849,7 +56250,7 @@
   
   exports.default = StorePicker;
   
-  },{"../pages/utils/utils":53,"moment":6}],38:[function(require,module,exports){
+  },{"../pages/utils/utils":54,"moment":6}],39:[function(require,module,exports){
   'use strict';
   
   Object.defineProperty(exports, "__esModule", {
@@ -55927,7 +56328,7 @@
     }, {
       key: 'qtyLayout',
       value: function qtyLayout(qty, el, id, sku) {
-        var html = '\n        <div class="product-qty" data-product-id="' + id + '" data-product-sku="' + sku + '">\n        <div class="shelf-less-qty">\n            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">\n                <circle cx="16" cy="16" r="15.5" fill="#F2F2F2" stroke="#F2F2F2"/>\n                <rect x="8.7998" y="15.2002" width="14.4" height="1.6" rx="0.8" fill="#841F27"/>\n            </svg>                                        \n        </div>\n        <div class="shelf-input-qty">\n            <input type="text" class="shelf-input-qty-control" value="' + (qty == 0 ? '-' : qty) + '" />\n        </div>\n        <div class="shelf-more-qty">\n            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">\n                <circle cx="16" cy="16" r="15.5" fill="#F2F2F2" stroke="#F2F2F2"/>\n                <path d="M23.1538 16.2341C23.1519 15.7928 22.794 15.438 22.3527 15.4399L16.826 15.4578L16.8024 9.92542C16.8005 9.48419 16.4426 9.12933 16.0014 9.13122C15.5602 9.1331 15.2053 9.491 15.2072 9.93223L15.2308 15.4646L9.69845 15.4882C9.25722 15.4901 8.90236 15.848 8.90425 16.2892C8.90613 16.7304 9.26403 17.0853 9.70526 17.0834L15.2376 17.0598L15.2612 22.5922C15.2631 23.0334 15.621 23.3882 16.0622 23.3864C16.5035 23.3845 16.8583 23.0266 16.8564 22.5853L16.8328 17.053L22.3652 17.0294C22.7951 17.0276 23.1556 16.664 23.1538 16.2341Z" fill="#841F27"/>\n            </svg>                \n        </div>\n      </div>\n        ';
+        var html = '\n        <div class="product-qty" data-product-id="' + id + '" data-product-sku="' + sku + '">\n        <div class="shelf-less-qty">\n            <button type="button">-</button>                                  \n        </div>\n        <div class="shelf-input-qty">\n            <input type="text" class="shelf-input-qty-control" value="' + (qty == 0 ? '-' : qty) + '" />\n        </div>\n        <div class="shelf-more-qty">\n            <button type="button">+</button>                 \n        </div>\n      </div>\n        ';
         $(html).prependTo($(el).parents('.buy-button-shelf'));
       }
     }, {
@@ -56269,7 +56670,7 @@
   
   exports.default = Shelf;
   
-  },{"../react/minicart/check-product-inventory-availability":61,"./quickview":34,"lodash":5}],39:[function(require,module,exports){
+  },{"../react/minicart/check-product-inventory-availability":62,"./quickview":35,"lodash":5}],40:[function(require,module,exports){
   'use strict';
   
   Object.defineProperty(exports, "__esModule", {
@@ -56402,7 +56803,7 @@
   
   exports.default = Cashback;
   
-  },{}],40:[function(require,module,exports){
+  },{}],41:[function(require,module,exports){
   'use strict';
   
   Object.defineProperty(exports, "__esModule", {
@@ -56698,7 +57099,7 @@
   
   exports.default = Category;
   
-  },{}],41:[function(require,module,exports){
+  },{}],42:[function(require,module,exports){
   'use strict';
   
   Object.defineProperty(exports, "__esModule", {
@@ -56815,7 +57216,7 @@
   
   exports.default = emptySearch;
   
-  },{}],42:[function(require,module,exports){
+  },{}],43:[function(require,module,exports){
   "use strict";
   
   Object.defineProperty(exports, "__esModule", {
@@ -56848,7 +57249,7 @@
   
   exports.default = WineFair;
   
-  },{}],43:[function(require,module,exports){
+  },{}],44:[function(require,module,exports){
   "use strict";
   
   Object.defineProperty(exports, "__esModule", {
@@ -56955,7 +57356,7 @@
   
   exports.default = Folheto;
   
-  },{"../../react/folheto/index.js":57,"../utils/utils":53,"react":19,"react-dom":13}],44:[function(require,module,exports){
+  },{"../../react/folheto/index.js":58,"../utils/utils":54,"react":20,"react-dom":13}],45:[function(require,module,exports){
   'use strict';
   
   Object.defineProperty(exports, "__esModule", {
@@ -57257,7 +57658,7 @@
   
   exports.default = Home;
   
-  },{}],45:[function(require,module,exports){
+  },{}],46:[function(require,module,exports){
   'use strict';
   
   Object.defineProperty(exports, "__esModule", {
@@ -57446,7 +57847,7 @@
   
   exports.default = Faq;
   
-  },{"lodash":5,"slugify":26}],46:[function(require,module,exports){
+  },{"lodash":5,"slugify":27}],47:[function(require,module,exports){
   "use strict";
   
   Object.defineProperty(exports, "__esModule", {
@@ -57583,7 +57984,7 @@
   
   exports.default = Login;
   
-  },{"../utils/utils":53,"cpf-cnpj-validator":2}],47:[function(require,module,exports){
+  },{"../utils/utils":54,"cpf-cnpj-validator":2}],48:[function(require,module,exports){
   'use strict';
   
   Object.defineProperty(exports, "__esModule", {
@@ -58157,7 +58558,7 @@
   
   exports.default = Product;
   
-  },{"../../react/minicart/check-product-inventory-availability":61}],48:[function(require,module,exports){
+  },{"../../react/minicart/check-product-inventory-availability":62}],49:[function(require,module,exports){
   "use strict";
   
   Object.defineProperty(exports, "__esModule", {
@@ -58536,7 +58937,7 @@
   
   exports.default = Recipe;
   
-  },{"../../react/recipes/index":77,"lodash":5,"react":19,"react-dom":13,"slugify":26}],49:[function(require,module,exports){
+  },{"../../react/recipes/index":78,"lodash":5,"react":20,"react-dom":13,"slugify":27}],50:[function(require,module,exports){
   'use strict';
   
   Object.defineProperty(exports, "__esModule", {
@@ -58634,7 +59035,7 @@
   
   exports.default = Search;
   
-  },{}],50:[function(require,module,exports){
+  },{}],51:[function(require,module,exports){
   'use strict';
   
   Object.defineProperty(exports, "__esModule", {
@@ -58839,7 +59240,7 @@
       return Store.initMap();
   };
   
-  },{"lodash":5,"slugify":26}],51:[function(require,module,exports){
+  },{"lodash":5,"slugify":27}],52:[function(require,module,exports){
   'use strict';
   
   Object.defineProperty(exports, "__esModule", {
@@ -59079,7 +59480,7 @@
   
   exports.default = Favorite;
   
-  },{}],52:[function(require,module,exports){
+  },{}],53:[function(require,module,exports){
   'use strict';
   
   Object.defineProperty(exports, "__esModule", {
@@ -59126,7 +59527,7 @@
   
   exports.default = textSEO;
   
-  },{}],53:[function(require,module,exports){
+  },{}],54:[function(require,module,exports){
   "use strict";
   
   Object.defineProperty(exports, "__esModule", {
@@ -59228,7 +59629,7 @@
       }
   };
   
-  },{"cep-promise":1,"email-validator":3}],54:[function(require,module,exports){
+  },{"cep-promise":1,"email-validator":3}],55:[function(require,module,exports){
   'use strict';
   
   Object.defineProperty(exports, "__esModule", {
@@ -59323,7 +59724,7 @@
   
   exports.default = Wishlist;
   
-  },{"slugify":26}],55:[function(require,module,exports){
+  },{"slugify":27}],56:[function(require,module,exports){
   "use strict";
   
   Object.defineProperty(exports, "__esModule", {
@@ -59498,7 +59899,7 @@
     _reactDom2.default.render(_react2.default.createElement(AssinaturaOrders, null), element);
   }
   
-  },{"lodash":5,"moment":6,"react":19,"react-dom":13}],56:[function(require,module,exports){
+  },{"lodash":5,"moment":6,"react":20,"react-dom":13}],57:[function(require,module,exports){
   "use strict";
   
   Object.defineProperty(exports, "__esModule", {
@@ -59683,7 +60084,7 @@
     _reactDom2.default.render(_react2.default.createElement(AssinaturaPlans, null), element);
   }
   
-  },{"lodash":5,"react":19,"react-dom":13}],57:[function(require,module,exports){
+  },{"lodash":5,"react":20,"react-dom":13}],58:[function(require,module,exports){
   "use strict";
   
   Object.defineProperty(exports, "__esModule", {
@@ -59749,7 +60150,7 @@
     );
   };
   
-  },{"./store-card.js":58,"./stores-data.js":59,"react":19}],58:[function(require,module,exports){
+  },{"./store-card.js":59,"./stores-data.js":60,"react":20}],59:[function(require,module,exports){
   "use strict";
   
   Object.defineProperty(exports, "__esModule", {
@@ -59823,7 +60224,7 @@
     );
   };
   
-  },{"react":19}],59:[function(require,module,exports){
+  },{"react":20}],60:[function(require,module,exports){
   "use strict";
   
   Object.defineProperty(exports, "__esModule", {
@@ -59841,7 +60242,7 @@
     });
   };
   
-  },{}],60:[function(require,module,exports){
+  },{}],61:[function(require,module,exports){
   'use strict';
   
   Object.defineProperty(exports, "__esModule", {
@@ -60219,7 +60620,7 @@
   
   exports.default = new CartHandler();
   
-  },{"./check-product-inventory-availability":61,"lodash":5}],61:[function(require,module,exports){
+  },{"./check-product-inventory-availability":62,"lodash":5}],62:[function(require,module,exports){
   "use strict";
   
   Object.defineProperty(exports, "__esModule", {
@@ -60265,7 +60666,7 @@
     }
   };
   
-  },{}],62:[function(require,module,exports){
+  },{}],63:[function(require,module,exports){
   'use strict';
   
   Object.defineProperty(exports, "__esModule", {
@@ -60395,7 +60796,7 @@
   
   exports.default = ConfigurableShipping;
   
-  },{}],63:[function(require,module,exports){
+  },{}],64:[function(require,module,exports){
   'use strict';
   
   Object.defineProperty(exports, "__esModule", {
@@ -60627,7 +61028,7 @@
     return CupomDesconto;
   }(_react2.default.Component);
   
-  },{"react":19}],64:[function(require,module,exports){
+  },{"react":20}],65:[function(require,module,exports){
   'use strict';
   
   Object.defineProperty(exports, "__esModule", {
@@ -60767,16 +61168,6 @@
           }
         }
   
-        console.log("cart");
-  
-        if (localStorage.getItem("activeDeliveryChannel")) {
-          if (localStorage.getItem("activeDeliveryChannel") == 'pickup-in-point') {
-            $(".cart-retirada-label").remove();
-            $(".cart-entrega .cart-total-label").append("<span class='cart-retirada-label'>retirada em loja</span>");
-            document.querySelector(".cart-entrega .cart-total-value").textContent = "grátis";
-          }
-        }
-  
         if (hasTotalizer) {
           return frete;
         }
@@ -60912,7 +61303,7 @@
     return Fretometro;
   }(_react2.default.Component);
   
-  },{"../utils/currency":78,"./configurable-shipping":62,"react":19}],65:[function(require,module,exports){
+  },{"../utils/currency":79,"./configurable-shipping":63,"react":20}],66:[function(require,module,exports){
   'use strict';
   
   Object.defineProperty(exports, "__esModule", {
@@ -61615,7 +62006,7 @@
           });
           if (orderForm.items) {
             $('header .cart .minicart-toggle').find('span.badge').text(orderForm.items.length);
-            $('.header-mobile .mobile-nav-cart').find('span.badge').text(orderForm.items.length);
+            $('.header-mobile .mobile-nav-cart, .mobile-nav-cart').find('span.badge').text(orderForm.items.length);
           }
   
           // Update shelf
@@ -61826,7 +62217,7 @@
         var discountTotalizer = this.getTotalizer('Discounts');
         var subtotal = _currency.Currency.convert(subTotalizer);
         var totalDiscount = _currency.Currency.convert(discountTotalizer);
-        var totalShipping = _currency.Currency.convert(this.getFrete());
+        var totalShipping = localStorage.getItem("activeDeliveryChannel") == 'pickup-in-point' ? 'grátis' : _currency.Currency.convert(this.getFrete());
         //let totalShipping = Currency.convert(shippingTotalizer)
         //let total = Currency.convert(this.state.orderForm.value)
         var total = _currency.Currency.convert(subTotalizer + discountTotalizer + this.getFrete());
@@ -62041,7 +62432,7 @@
     _reactDom2.default.render(_react2.default.createElement(_mobcart.MobCart, null), mobcart);
   }
   
-  },{"../utils/currency":78,"./cart-handler":60,"./configurable-shipping":62,"./cupom":63,"./fretometro":64,"./limit":66,"./loader":67,"./mobcart":68,"./product-list":69,"lodash":5,"react":19,"react-dom":13}],66:[function(require,module,exports){
+  },{"../utils/currency":79,"./cart-handler":61,"./configurable-shipping":63,"./cupom":64,"./fretometro":65,"./limit":67,"./loader":68,"./mobcart":69,"./product-list":70,"lodash":5,"react":20,"react-dom":13}],67:[function(require,module,exports){
   'use strict';
   
   Object.defineProperty(exports, "__esModule", {
@@ -62187,7 +62578,7 @@
     return ProductLimit;
   }();
   
-  },{}],67:[function(require,module,exports){
+  },{}],68:[function(require,module,exports){
   "use strict";
   
   Object.defineProperty(exports, "__esModule", {
@@ -62216,7 +62607,7 @@
     );
   }
   
-  },{"react":19}],68:[function(require,module,exports){
+  },{"react":20}],69:[function(require,module,exports){
   'use strict';
   
   Object.defineProperty(exports, "__esModule", {
@@ -62512,7 +62903,7 @@
     return MobCart;
   }(_react2.default.Component);
   
-  },{"../utils/currency":78,"./fretometro":64,"lodash":5,"react":19}],69:[function(require,module,exports){
+  },{"../utils/currency":79,"./fretometro":65,"lodash":5,"react":20}],70:[function(require,module,exports){
   "use strict";
   
   Object.defineProperty(exports, "__esModule", {
@@ -62741,7 +63132,7 @@
     return ProductList;
   }(_react2.default.Component);
   
-  },{"../../components/quickview":34,"../utils/currency":78,"lodash":5,"react":19}],70:[function(require,module,exports){
+  },{"../../components/quickview":35,"../utils/currency":79,"lodash":5,"react":20}],71:[function(require,module,exports){
   'use strict';
   
   Object.defineProperty(exports, "__esModule", {
@@ -62838,7 +63229,7 @@
     return DocumentModal;
   }(_react2.default.Component);
   
-  },{"react":19,"react-input-mask":14}],71:[function(require,module,exports){
+  },{"react":20,"react-input-mask":15}],72:[function(require,module,exports){
   'use strict';
   
   Object.defineProperty(exports, "__esModule", {
@@ -62929,7 +63320,7 @@
     return EmptyModal;
   }(_react2.default.Component);
   
-  },{"react":19,"react-input-mask":14}],72:[function(require,module,exports){
+  },{"react":20,"react-input-mask":15}],73:[function(require,module,exports){
   "use strict";
   
   Object.defineProperty(exports, "__esModule", {
@@ -63086,7 +63477,7 @@
     _reactDom2.default.render(_react2.default.createElement(OffersPage, null), element);
   }
   
-  },{"../react-shelf":75,"./document-modal":70,"./empty-modal":71,"react":19,"react-dom":13}],73:[function(require,module,exports){
+  },{"../react-shelf":76,"./document-modal":71,"./empty-modal":72,"react":20,"react-dom":13}],74:[function(require,module,exports){
   "use strict";
   
   Object.defineProperty(exports, "__esModule", {
@@ -63285,7 +63676,7 @@
     _reactDom2.default.render(_react2.default.createElement(PrimeOrders, null), element);
   }
   
-  },{"lodash":5,"moment":6,"react":19,"react-dom":13}],74:[function(require,module,exports){
+  },{"lodash":5,"moment":6,"react":20,"react-dom":13}],75:[function(require,module,exports){
   "use strict";
   
   Object.defineProperty(exports, "__esModule", {
@@ -63538,7 +63929,7 @@
     _reactDom2.default.render(_react2.default.createElement(PrimePlans, null), element);
   }
   
-  },{"lodash":5,"react":19,"react-dom":13}],75:[function(require,module,exports){
+  },{"lodash":5,"react":20,"react-dom":13}],76:[function(require,module,exports){
   "use strict";
   
   Object.defineProperty(exports, "__esModule", {
@@ -63553,6 +63944,10 @@
   var _react2 = _interopRequireDefault(_react);
   
   var _product = require("./product");
+  
+  var _reactInfiniteScrollComponent = require("react-infinite-scroll-component");
+  
+  var _reactInfiniteScrollComponent2 = _interopRequireDefault(_reactInfiniteScrollComponent);
   
   function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
   
@@ -63572,7 +63967,7 @@
   
       _this.state = {
         orderBy: "",
-        limit: 24,
+        limit: 48,
         loaded: [],
         total: _this.props.products.length
       };
@@ -63589,9 +63984,13 @@
     }, {
       key: "loadMore",
       value: function loadMore() {
-        this.setState({
-          limit: this.state.limit + 24
-        });
+        var _this2 = this;
+  
+        setTimeout(function () {
+          _this2.setState({
+            limit: _this2.state.limit + 48
+          });
+        }, 1500);
       }
     }, {
       key: "render",
@@ -63618,17 +64017,25 @@
                     _react2.default.createElement(
                       "ul",
                       null,
-                      this.props.products.slice(0, this.state.limit).map(function (product) {
-                        return product.SEQPRODUTO && _react2.default.createElement(_product.ReactProduct, { product: product, productSku: product.SEQPRODUTO, key: product.seqProduto });
-                      })
+                      _react2.default.createElement(
+                        _reactInfiniteScrollComponent2.default,
+                        {
+                          dataLength: this.state.limit,
+                          next: this.loadMore.bind(this),
+                          hasMore: true,
+                          loader: _react2.default.createElement(
+                            "div",
+                            { style: { textAlign: 'center', color: '#841F27', width: '100%' } },
+                            _react2.default.createElement("i", { className: "fa fa-spin fa-circle-o-notch" })
+                          )
+                        },
+                        this.props.products.slice(0, this.state.limit).map(function (product) {
+                          return parseInt(product.IDVTEX) && _react2.default.createElement(_product.ReactProduct, { product: product, productSku: parseInt(product.IDVTEX), key: product.IDVTEX });
+                        })
+                      )
                     )
                   )
                 )
-              ),
-              this.state.total < this.state.limit && _react2.default.createElement(
-                "a",
-                { href: "javascript:;", className: "load-more", onClick: this.loadMore.bind(this) },
-                "Carregar mais"
               )
             )
           )
@@ -63639,7 +64046,7 @@
     return ReactShelf;
   }(_react2.default.Component);
   
-  },{"./product":76,"react":19}],76:[function(require,module,exports){
+  },{"./product":77,"react":20,"react-infinite-scroll-component":14}],77:[function(require,module,exports){
   "use strict";
   
   Object.defineProperty(exports, "__esModule", {
@@ -63814,7 +64221,7 @@
       return ReactProduct;
   }(_react2.default.Component);
   
-  },{"../utils/currency":78,"react":19,"slugify":26}],77:[function(require,module,exports){
+  },{"../utils/currency":79,"react":20,"slugify":27}],78:[function(require,module,exports){
   "use strict";
   
   Object.defineProperty(exports, "__esModule", {
@@ -63957,7 +64364,7 @@
     );
   };
   
-  },{"lodash":5,"react":19}],78:[function(require,module,exports){
+  },{"lodash":5,"react":20}],79:[function(require,module,exports){
   'use strict';
   
   Object.defineProperty(exports, "__esModule", {
@@ -63984,7 +64391,7 @@
     return Currency;
   }();
   
-  },{}],79:[function(require,module,exports){
+  },{}],80:[function(require,module,exports){
   'use strict';
   
   var _underscore = require('../plugins/underscore.js');
@@ -64166,5 +64573,5 @@
   selectedSeller.init();
   folheto.init();
   
-  },{"../plugins/front-message":28,"../plugins/underscore.js":29,"../script/components/faleconosco":30,"../script/components/header":31,"../script/components/nav":32,"../script/components/pricetable":33,"../script/components/search":35,"../script/components/selectedSeller":36,"../script/components/sellerPicker":37,"../script/components/shelf":38,"../script/pages/cashback":39,"../script/pages/category":40,"../script/pages/emptysearch":41,"../script/pages/feira-vinhos":42,"../script/pages/folheto":43,"../script/pages/home":44,"../script/pages/institutional/faq":45,"../script/pages/login":46,"../script/pages/product":47,"../script/pages/recipes/index.js":48,"../script/pages/search":49,"../script/pages/store":50,"../script/pages/utils/favorite":51,"../script/pages/utils/textseo":52,"../script/pages/wishlist":54,"../script/react/assinatura/orders":55,"../script/react/assinatura/plans":56,"../script/react/minicart":65,"../script/react/offers":72,"../script/react/prime/orders":73,"../script/react/prime/plans":74}]},{},[79]);
+  },{"../plugins/front-message":29,"../plugins/underscore.js":30,"../script/components/faleconosco":31,"../script/components/header":32,"../script/components/nav":33,"../script/components/pricetable":34,"../script/components/search":36,"../script/components/selectedSeller":37,"../script/components/sellerPicker":38,"../script/components/shelf":39,"../script/pages/cashback":40,"../script/pages/category":41,"../script/pages/emptysearch":42,"../script/pages/feira-vinhos":43,"../script/pages/folheto":44,"../script/pages/home":45,"../script/pages/institutional/faq":46,"../script/pages/login":47,"../script/pages/product":48,"../script/pages/recipes/index.js":49,"../script/pages/search":50,"../script/pages/store":51,"../script/pages/utils/favorite":52,"../script/pages/utils/textseo":53,"../script/pages/wishlist":55,"../script/react/assinatura/orders":56,"../script/react/assinatura/plans":57,"../script/react/minicart":66,"../script/react/offers":73,"../script/react/prime/orders":74,"../script/react/prime/plans":75}]},{},[80]);
   
