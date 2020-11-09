@@ -10029,6 +10029,15 @@ header .user-data-toggle strong {
   margin-left: 0.8em !important;
   font-family: Museo, sans-serif !important;
 }
+#minicart-wrapper .minicart-inner .minicart-body .cart-content .cart-top-content .cart-total-inner .cart-retirada-label {
+  background-color: #ebf8ff !important;
+  border-radius: 5px !important;
+  color: #3172b7 !important;
+  padding: 0.2em 0.5em !important;
+  font-size: 12px !important;
+  margin-left: 0.8em !important;
+  font-family: Museo, sans-serif !important;
+}
 #minicart-wrapper .minicart-inner .minicart-body .cart-content .cart-top-content .cart-total-inner .cart-total-info {
   display: flex;
   justify-content: space-between;
@@ -13555,12 +13564,24 @@ p.text-seo span.full {
   overflow: visible !important;
 }
 #category-page #content #collections .main .vitrine .prateleira.supernossoshelf ul {
+  flex-wrap: wrap;
   margin-bottom: 24px;
+}
+#category-page #content #collections .main .vitrine .prateleira.supernossoshelf ul .infinite-scroll-component__outerdiv {
+  width: 100%;
+}
+#category-page #content #collections .main .vitrine .prateleira.supernossoshelf ul .infinite-scroll-component__outerdiv .infinite-scroll-component {
+  display: flex;
   flex-wrap: wrap;
 }
 #category-page #content #collections .main .vitrine .prateleira.supernossoshelf ul li {
   width: 22%;
   margin-bottom: 24px;
+}
+@media (max-width: 768px) {
+  #category-page #content #collections .main .vitrine .prateleira.supernossoshelf ul li {
+    width: 45%;
+  }
 }
 #category-page #content #collections .load-more {
   color: #841F27;
@@ -18183,9 +18204,6 @@ body#wishlist-page.create #collections .action-area .form-action .save input[typ
   background-color: #9D4C52;
 }
 @media screen and (max-width: 992px) {
-  .prateleira.supernossoshelf ul {
-    padding: 12px 15px !important;
-  }
   .prateleira.supernossoshelf ul li .item-shelf {
     padding: 0 6px 12px;
   }
@@ -22327,12 +22345,34 @@ body#recipes-page .top-chefs .chef-list .list .list-item .recipes {
   }
 }
 @media screen and (max-width: 992px) {
-  #category-page > .top-bar,
-  #category-page #box-bread-brumb {
+  #category-page > .top-bar {
     display: none;
   }
   #category-page .cat-title {
-    padding-top: 0;
+    background-color: #fcfcfc;
+    width: 100%;
+    padding: 0 0;
+  }
+  #category-page .cat-title #box-bread-brumb .bread-crumb ul li:first-child {
+    display: none;
+  }
+  #category-page .cat-title .title-category {
+    display: flex;
+    align-items: center;
+    margin-top: 1em;
+    margin-bottom: 0;
+  }
+  #category-page .cat-title .title-category .bread-crumb {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  #category-page .cat-title .title-category .bread-crumb .last a {
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
+  #category-page .cat-title .title-category .bread-crumb a {
+    color: black;
   }
   #category-page .cat-title .title-category .titulo-sessao {
     font-size: 20px;
@@ -22367,6 +22407,7 @@ body#recipes-page .top-chefs .chef-list .list .list-item .recipes {
     padding-left: 15px;
     padding-right: 15px;
     padding-top: 24px;
+    background: #fcfcfc;
   }
   #category-page #content #collections .main .resultado-busca-filtro {
     display: none;
@@ -22393,16 +22434,6 @@ body#recipes-page .top-chefs .chef-list .list .list-item .recipes {
   }
   #category-page #content #collections .main .mobile-category-inner .right-item a img {
     margin-left: 8px;
-  }
-  #category-page #content #collections .main .vitrine .prateleira.supernossoshelf ul {
-    flex-wrap: wrap;
-  }
-  #category-page #content #collections .main .vitrine .prateleira.supernossoshelf ul li {
-    width: 46%;
-    margin: 0 6px 12px;
-  }
-  #category-page #content #collections .main .vitrine .prateleira.supernossoshelf ul li .item-shelf {
-    padding: 0 16px 16px;
   }
   #category-page #content #collections .load-more {
     width: 100%;
