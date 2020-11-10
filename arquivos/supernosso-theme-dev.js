@@ -58351,7 +58351,7 @@
       }, {
           key: 'flagPesavel',
           value: function flagPesavel() {
-              if (document.querySelector(".value-field.Produto-Pesavel") && document.querySelector(".value-field.Produto-Pesavel").textContent == "Yes") {
+              if (document.querySelector(".value-field.ProdutoPesavel") && document.querySelector(".value-field.ProdutoPesavel").textContent == "Yes") {
                   if (document.querySelector("#pesavelTag")) {
                       var iconePesavel = $('<svg width="16" height="20" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 0C1 0.513 1.5 2 3 2H13C14.5 2 15 0.51 15 0H16C16 0.795649 15.6839 1.55871 15.1213 2.12132C14.5587 2.68393 13.7956 3 13 3H9L9.001 5.062C10.934 5.30622 12.7115 6.24732 14.0001 7.70877C15.2887 9.17022 15.9998 11.0516 16 13V19C16 19.2652 15.8946 19.5196 15.7071 19.7071C15.5196 19.8946 15.2652 20 15 20H1C0.734784 20 0.48043 19.8946 0.292893 19.7071C0.105357 19.5196 0 19.2652 0 19V13C3.30739e-05 11.0514 0.711187 9.16977 2 7.70825C3.28882 6.24673 5.0667 5.30579 7 5.062V3H3C1.34 3 0 1.66 0 0H1ZM8 6C4.762 6 1 8.5 1 13V19H15V13C15 8.5 11.238 6 8 6Z" fill="#333333"/><path d="M11.4754 14.9851C11.1253 15.5977 10.6194 16.1068 10.0091 16.4606C9.39868 16.8145 8.70554 17.0006 8 17C5.79 17 4 15.21 4 13C4 10.79 5.79 9 8 9C8.66667 9.00077 9.66647 9.20159 10.5 9.80139L8 12.5V13.5C9 12.5 9 12.5 11.0899 10.3334C11.6281 10.9429 12.0023 11.8046 12.0023 13.0023C12.0021 13.6977 11.8206 14.3811 11.4754 14.9851Z" fill="#333333"/></svg>');
                       var textoPesavel = $('<span class="pesavelText">o peso do produto pode variar, o preço final será calculado após pesagem.</span>');
@@ -62217,7 +62217,7 @@
         var discountTotalizer = this.getTotalizer('Discounts');
         var subtotal = _currency.Currency.convert(subTotalizer);
         var totalDiscount = _currency.Currency.convert(discountTotalizer);
-        var totalShipping = localStorage.getItem("selectedSeller") != 'delivery' ? 'grátis' : _currency.Currency.convert(this.getFrete());
+        var totalShipping = localStorage.getItem("activeDeliveryChannel") == 'delivery' ? 'grátis' : _currency.Currency.convert(this.getFrete());
         //let totalShipping = Currency.convert(shippingTotalizer)
         //let total = Currency.convert(this.state.orderForm.value)
         var total = _currency.Currency.convert(subTotalizer + discountTotalizer + this.getFrete());
