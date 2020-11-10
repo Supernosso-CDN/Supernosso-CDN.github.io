@@ -62217,7 +62217,7 @@
         var discountTotalizer = this.getTotalizer('Discounts');
         var subtotal = _currency.Currency.convert(subTotalizer);
         var totalDiscount = _currency.Currency.convert(discountTotalizer);
-        var totalShipping = localStorage.getItem("activeDeliveryChannel") == 'delivery' ? 'grátis' : _currency.Currency.convert(this.getFrete());
+        var totalShipping = _currency.Currency.convert(this.getFrete());
         //let totalShipping = Currency.convert(shippingTotalizer)
         //let total = Currency.convert(this.state.orderForm.value)
         var total = _currency.Currency.convert(subTotalizer + discountTotalizer + this.getFrete());
@@ -62528,40 +62528,42 @@
               if (product && product['Limite Oferta']) {
                 var limit = product['Limite Oferta'][0];
   
-                if (items[product['productId']].quantity > limit) {
-                  if (items[product['productId']].indexes.length == 1) {
-                    // doens't have cloned sku
-                    var updateItem = {
-                      index: items[product['productId']].indexes[0],
-                      quantity: limit
-                    };
-  
-                    vtexjs.checkout.updateItems([updateItem], null, false).done(function (orderForm) {
-                      $("#minicart-wrapper").trigger('get-cart');
-                    });
-  
-                    // show message "estoque maximo"
-                    that.showToastyMessage('', 'Você só pode ter no máximo ' + limit + ' itens do produto ' + res[0].productName + ' no carrinho', 'info');
-                  } else {
-                    var removeItems = items[product['productId']].indexes.map(function (index) {
-                      return {
-                        index: index,
-                        quantity: 0
-                      };
-                    });
-  
-                    vtexjs.checkout.removeItems(removeItems).then(function (res) {
-  
-                      var item = {
-                        id: items[product['productId']].sku,
-                        quantity: limit,
-                        seller: '1'
+                if (items[product['productId']]) {
+                  if (items[product['productId']].quantity > limit) {
+                    if (items[product['productId']].indexes.length == 1) {
+                      // doens't have cloned sku
+                      var updateItem = {
+                        index: items[product['productId']].indexes[0],
+                        quantity: limit
                       };
   
-                      vtexjs.checkout.addToCart([item], null).then(function (orderForm) {
+                      vtexjs.checkout.updateItems([updateItem], null, false).done(function (orderForm) {
                         $("#minicart-wrapper").trigger('get-cart');
                       });
-                    });
+  
+                      // show message "estoque maximo"
+                      that.showToastyMessage('', 'Você só pode ter no máximo ' + limit + ' itens do produto ' + res[0].productName + ' no carrinho', 'info');
+                    } else {
+                      var removeItems = items[product['productId']].indexes.map(function (index) {
+                        return {
+                          index: index,
+                          quantity: 0
+                        };
+                      });
+  
+                      vtexjs.checkout.removeItems(removeItems).then(function (res) {
+  
+                        var item = {
+                          id: items[product['productId']].sku,
+                          quantity: limit,
+                          seller: '1'
+                        };
+  
+                        vtexjs.checkout.addToCart([item], null).then(function (orderForm) {
+                          $("#minicart-wrapper").trigger('get-cart');
+                        });
+                      });
+                    }
                   }
                 }
               }
