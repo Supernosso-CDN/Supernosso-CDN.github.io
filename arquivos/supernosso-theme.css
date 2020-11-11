@@ -13581,6 +13581,7 @@ p.text-seo span.full {
 @media (max-width: 768px) {
   #category-page #content #collections .main .vitrine .prateleira.supernossoshelf ul li {
     width: 45%;
+    margin: 0.6em auto;
   }
 }
 #category-page #content #collections .load-more {
