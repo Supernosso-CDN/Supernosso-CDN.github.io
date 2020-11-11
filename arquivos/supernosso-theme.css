@@ -14013,7 +14013,7 @@ p.text-seo span.full {
   text-transform: lowercase;
   color: #333;
   font-weight: bold;
-  min-height: 102px;
+  height: auto;
 }
 #product-page #product-content .product-info .codigo-produto {
   width: 100% !important;
