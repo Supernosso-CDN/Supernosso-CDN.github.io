@@ -58363,6 +58363,20 @@
               }
           }
       }, {
+          key: 'flagCampanha',
+          value: function flagCampanha() {
+              if (document.querySelector(".value-field.Flag-Campanha-Cestas") && document.querySelector(".value-field.Flag-Campanha-Cestas").textContent == "Yes") {
+                  if (document.querySelector("#tagCampanha")) {
+                      var imagemCampanha = $('<img src="https://supernossoemcasa.vteximg.com.br/arquivos/placeHolderCampanhaCestas.png">');
+                      var linkCampanha = "https://www.google.com/";
+  
+                      $("#tagCampanha").append(imagemCampanha);
+                      document.querySelector('#tagCampanha').href = linkCampanha;
+                      document.querySelector('#tagCampanha').style.display = "block";
+                  }
+              }
+          }
+      }, {
           key: 'flagDiscount',
           value: function flagDiscount() {
               // Confere se existe um preço de e por
@@ -58434,6 +58448,7 @@
                   this.flagLink();
                   this.flagLimiteDeOferta();
                   this.flagPesavel();
+                  this.flagCampanha();
   
                   document.title = document.title.split('supernossoemcasa')[0] + 'Super Nosso em Casa';
                   if (window.location.search.includes('quickview')) {
@@ -62528,42 +62543,40 @@
               if (product && product['Limite Oferta']) {
                 var limit = product['Limite Oferta'][0];
   
-                if (items[product['productId']]) {
-                  if (items[product['productId']].quantity > limit) {
-                    if (items[product['productId']].indexes.length == 1) {
-                      // doens't have cloned sku
-                      var updateItem = {
-                        index: items[product['productId']].indexes[0],
-                        quantity: limit
+                if (items[product['productId']].quantity > limit) {
+                  if (items[product['productId']].indexes.length == 1) {
+                    // doens't have cloned sku
+                    var updateItem = {
+                      index: items[product['productId']].indexes[0],
+                      quantity: limit
+                    };
+  
+                    vtexjs.checkout.updateItems([updateItem], null, false).done(function (orderForm) {
+                      $("#minicart-wrapper").trigger('get-cart');
+                    });
+  
+                    // show message "estoque maximo"
+                    that.showToastyMessage('', 'Você só pode ter no máximo ' + limit + ' itens do produto ' + res[0].productName + ' no carrinho', 'info');
+                  } else {
+                    var removeItems = items[product['productId']].indexes.map(function (index) {
+                      return {
+                        index: index,
+                        quantity: 0
+                      };
+                    });
+  
+                    vtexjs.checkout.removeItems(removeItems).then(function (res) {
+  
+                      var item = {
+                        id: items[product['productId']].sku,
+                        quantity: limit,
+                        seller: '1'
                       };
   
-                      vtexjs.checkout.updateItems([updateItem], null, false).done(function (orderForm) {
+                      vtexjs.checkout.addToCart([item], null).then(function (orderForm) {
                         $("#minicart-wrapper").trigger('get-cart');
                       });
-  
-                      // show message "estoque maximo"
-                      that.showToastyMessage('', 'Você só pode ter no máximo ' + limit + ' itens do produto ' + res[0].productName + ' no carrinho', 'info');
-                    } else {
-                      var removeItems = items[product['productId']].indexes.map(function (index) {
-                        return {
-                          index: index,
-                          quantity: 0
-                        };
-                      });
-  
-                      vtexjs.checkout.removeItems(removeItems).then(function (res) {
-  
-                        var item = {
-                          id: items[product['productId']].sku,
-                          quantity: limit,
-                          seller: '1'
-                        };
-  
-                        vtexjs.checkout.addToCart([item], null).then(function (orderForm) {
-                          $("#minicart-wrapper").trigger('get-cart');
-                        });
-                      });
-                    }
+                    });
                   }
                 }
               }
