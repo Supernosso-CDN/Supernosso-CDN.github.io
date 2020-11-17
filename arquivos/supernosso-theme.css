@@ -9370,28 +9370,28 @@ html {
   font-style: normal;
   font-weight: 300;
   font-display: swap;
-  src: local('Roboto Light'), local('Roboto-Light'), url(https://fonts.gstatic.com/s/roboto/v20/KFOlCnqEu92Fr1MmSU5fBBc9.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/roboto/v20/KFOlCnqEu92Fr1MmSU5fBBc9.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: local('Roboto'), local('Roboto-Regular'), url(https://fonts.gstatic.com/s/roboto/v20/KFOmCnqEu92Fr1Mu4mxP.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/roboto/v20/KFOmCnqEu92Fr1Mu4mxP.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 500;
   font-display: swap;
-  src: local('Roboto Medium'), local('Roboto-Medium'), url(https://fonts.gstatic.com/s/roboto/v20/KFOlCnqEu92Fr1MmEU9fBBc9.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/roboto/v20/KFOlCnqEu92Fr1MmEU9fBBc9.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: local('Roboto Bold'), local('Roboto-Bold'), url(https://fonts.gstatic.com/s/roboto/v20/KFOlCnqEu92Fr1MmWUlfBBc9.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/roboto/v20/KFOlCnqEu92Fr1MmWUlfBBc9.ttf) format('truetype');
 }
 @font-face {
   font-family: Museo;
@@ -16322,11 +16322,11 @@ main .vtex-dropdown label,
   padding-top: 0 !important;
 }
 .account .vtex-account .vtex-account__create-card iframe {
-  margin-top: -100px;
+  margin-top: 1em;
 }
 @media (max-width: 768px) {
   .account .vtex-account .vtex-account__create-card iframe {
-    margin: 0;
+    margin-top: 2em;
   }
 }
 .account .vtex-account header {
@@ -16839,6 +16839,7 @@ main .vtex-dropdown label,
 @media (max-width: 768px) {
   .account .vtex-account .vtex-account__page {
     width: 100% !important;
+    margin-top: 7em;
   }
 }
 @media (max-width: 768px) {
@@ -22354,13 +22355,27 @@ body#recipes-page .top-chefs .chef-list .list .list-item .recipes {
     width: 100%;
     padding: 0 0;
   }
+  #category-page .cat-title .container {
+    padding-right: 0;
+    padding-left: 0;
+    margin-right: 0;
+    margin-left: 0;
+  }
   #category-page .cat-title #box-bread-brumb .bread-crumb ul li:first-child {
     display: none;
+  }
+  #category-page .cat-title #box-bread-brumb .bread-crumb ul li:not(.last):after {
+    content: '|';
+    margin-left: 5px;
+    color: #000;
   }
   #category-page .cat-title .title-category {
     display: flex;
     align-items: center;
-    margin-top: 1em;
+    width: 95%;
+    margin: 0 auto;
+    justify-content: space-around;
+    margin-top: 0;
     margin-bottom: 0;
   }
   #category-page .cat-title .title-category .bread-crumb {
@@ -22368,19 +22383,20 @@ body#recipes-page .top-chefs .chef-list .list .list-item .recipes {
     white-space: nowrap;
     overflow: hidden;
   }
+  #category-page .cat-title .title-category .bread-crumb a {
+    color: black;
+    font-size: 0.8rem;
+  }
   #category-page .cat-title .title-category .bread-crumb .last a {
     font-weight: bold;
     font-size: 1.2rem;
   }
-  #category-page .cat-title .title-category .bread-crumb a {
-    color: black;
+  #category-page .cat-title .title-category i {
+    font-size: 1.5em;
   }
   #category-page .cat-title .title-category .titulo-sessao {
     font-size: 20px;
     margin-left: 16px;
-  }
-  #category-page .cat-title .title-category .back-button-category {
-    display: block;
   }
   #category-page .cat-title .main-categories .main-cat-title strong {
     font-size: 20px;
@@ -22415,7 +22431,7 @@ body#recipes-page .top-chefs .chef-list .list .list-item .recipes {
   }
   #category-page #content #collections .main .mobile-category-inner {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
   }
   #category-page #content #collections .main .mobile-category-inner .left-item {
