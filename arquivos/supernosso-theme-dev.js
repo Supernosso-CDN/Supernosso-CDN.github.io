@@ -56328,7 +56328,7 @@
     }, {
       key: 'qtyLayout',
       value: function qtyLayout(qty, el, id, sku) {
-        var html = '\n        <div class="product-qty" data-product-id="' + id + '" data-product-sku="' + sku + '">\n        <div class="shelf-less-qty">\n            <button type="button">-</button>                                  \n        </div>\n        <div class="shelf-input-qty">\n            <input type="text" class="shelf-input-qty-control" value="' + (qty == 0 ? '-' : qty) + '" />\n        </div>\n        <div class="shelf-more-qty">\n            <button type="button">+</button>                 \n        </div>\n      </div>\n        ';
+        var html = '\n        <div class="product-qty" data-product-id="' + id + '" data-product-sku="' + sku + '">\n        <div class="shelf-less-qty">\n          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">\n            <circle cx="16" cy="16" r="15.5" fill="#F2F2F2" stroke="#F2F2F2"/>\n            <rect x="8.7998" y="15.2002" width="14.4" height="1.6" rx="0.8" fill="#841F27"/>\n          </svg>                                   \n        </div>\n        <div class="shelf-input-qty">\n            <input type="text" class="shelf-input-qty-control" value="' + (qty == 0 ? '-' : qty) + '" />\n        </div>\n        <div class="shelf-more-qty">\n          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">\n            <circle cx="16" cy="16" r="15.5" fill="#F2F2F2" stroke="#F2F2F2"/>\n            <path d="M23.1538 16.2341C23.1519 15.7928 22.794 15.438 22.3527 15.4399L16.826 15.4578L16.8024 9.92542C16.8005 9.48419 16.4426 9.12933 16.0014 9.13122C15.5602 9.1331 15.2053 9.491 15.2072 9.93223L15.2308 15.4646L9.69845 15.4882C9.25722 15.4901 8.90236 15.848 8.90425 16.2892C8.90613 16.7304 9.26403 17.0853 9.70526 17.0834L15.2376 17.0598L15.2612 22.5922C15.2631 23.0334 15.621 23.3882 16.0622 23.3864C16.5035 23.3845 16.8583 23.0266 16.8564 22.5853L16.8328 17.053L22.3652 17.0294C22.7951 17.0276 23.1556 16.664 23.1538 16.2341Z" fill="#841F27"/>\n          </svg>               \n        </div>\n      </div>\n        ';
         $(html).prependTo($(el).parents('.buy-button-shelf'));
       }
     }, {
@@ -62528,64 +62528,69 @@
           // Varre todos os skus e aplica o limite, caso o item tenha um sku clonado, remove todos os items
           // e adiciona um novo sku com a quantidade limite
   
-          var url = '/api/catalog_system/pub/products/search?';
+          if (Object.keys(items).length > 0) {
+            var url = '/api/catalog_system/pub/products/search?';
   
-          Object.keys(items).forEach(function (key) {
-            url += 'fq=productId:' + key + '&';
-          });
+            Object.keys(items).forEach(function (key) {
+              url += 'fq=productId:' + key + '&';
+            });
   
-          fetch(url).then(function (res) {
-            return res.json();
-          }).then(function (res) {
-            var _loop = function _loop(i) {
-              var product = res[i];
+            fetch(url).then(function (res) {
+              return res.json();
+            }).then(function (res) {
+              var _loop = function _loop(i) {
+                var product = res[i];
   
-              if (product && product['Limite Oferta']) {
-                var limit = product['Limite Oferta'][0];
-  
-                if (items[product['productId']].quantity > limit) {
-                  if (items[product['productId']].indexes.length == 1) {
-                    // doens't have cloned sku
-                    var updateItem = {
-                      index: items[product['productId']].indexes[0],
-                      quantity: limit
-                    };
-  
-                    vtexjs.checkout.updateItems([updateItem], null, false).done(function (orderForm) {
-                      $("#minicart-wrapper").trigger('get-cart');
-                    });
-  
-                    // show message "estoque maximo"
-                    that.showToastyMessage('', 'Você só pode ter no máximo ' + limit + ' itens do produto ' + res[0].productName + ' no carrinho', 'info');
-                  } else {
-                    var removeItems = items[product['productId']].indexes.map(function (index) {
-                      return {
-                        index: index,
-                        quantity: 0
-                      };
-                    });
-  
-                    vtexjs.checkout.removeItems(removeItems).then(function (res) {
-  
-                      var item = {
-                        id: items[product['productId']].sku,
-                        quantity: limit,
-                        seller: '1'
+                if (product && product['Limite Oferta']) {
+                  var limit = product['Limite Oferta'][0];
+                  // console.log("limite de oferta: ", product['Limite Oferta'][0])
+                  // console.log("quantidade: ", items[product['productId']].quantity )
+                  // console.log("item: ", items[product['productId']])
+                  if (items[product['productId']].quantity > limit) {
+                    if (items[product['productId']].indexes.length == 1) {
+                      // doens't have cloned sku
+                      var updateItem = {
+                        index: items[product['productId']].indexes[0],
+                        quantity: limit
                       };
   
-                      vtexjs.checkout.addToCart([item], null).then(function (orderForm) {
+                      vtexjs.checkout.updateItems([updateItem], null, false).done(function (orderForm) {
                         $("#minicart-wrapper").trigger('get-cart');
                       });
-                    });
+  
+                      // show message "estoque maximo"
+                      that.showToastyMessage('', 'Você só pode ter no máximo ' + limit + ' itens do produto ' + res[0].productName + ' no carrinho', 'info');
+                    } else {
+                      var removeItems = items[product['productId']].indexes.map(function (index) {
+                        return {
+                          index: index,
+                          quantity: 0
+                        };
+                      });
+  
+                      vtexjs.checkout.removeItems(removeItems).then(function (res) {
+  
+                        var item = {
+                          id: items[product['productId']].sku,
+                          quantity: limit,
+                          seller: '1'
+                        };
+  
+                        vtexjs.checkout.addToCart([item], null).then(function (orderForm) {
+                          $("#minicart-wrapper").trigger('get-cart');
+                        });
+                      });
+                    }
                   }
                 }
-              }
-            };
+              };
   
-            for (var i = 0; i < res.length; i++) {
-              _loop(i);
-            }
-          });
+              //console.log("limit - res: ", res)
+              for (var i = 0; i < res.length; i++) {
+                _loop(i);
+              }
+            });
+          }
         });
       }
     }]);
