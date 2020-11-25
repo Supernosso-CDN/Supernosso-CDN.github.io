@@ -18740,6 +18740,29 @@ body#wishlist-page.create #collections .action-area .form-action .save input[typ
 .ofertas-exclusivas .cat-title .main-categories .cat-slider .slick-arrow.slick-next {
   right: -53px;
 }
+.ofertas-exclusivas .returnToTop {
+  border: none;
+  display: block !important;
+  position: fixed;
+  bottom: 100px;
+  height: 32px;
+  width: 32px;
+  line-height: 32px;
+  right: 5vw;
+  background: #ad2023;
+  border-radius: 100%;
+  text-align: center;
+  z-index: 9999;
+  outline: none;
+}
+@media (max-width: 768px) {
+  .ofertas-exclusivas .returnToTop {
+    bottom: 140px;
+  }
+}
+.ofertas-exclusivas .returnToTop span {
+  color: #fff;
+}
 #login-page .vtexIdUI {
   background: #FFFFFF;
   border-radius: 6px;
