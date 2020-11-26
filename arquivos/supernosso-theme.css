@@ -12255,6 +12255,10 @@ p.text-seo span.full {
   max-width: 288px;
   list-style: none;
 }
+#sellerModal .seller-modal-inner .seller-modal-body .delivery-choose .delivery-item-adress-not-found {
+  pointer-events: none !important;
+  background: #fddede !important;
+}
 #sellerModal .seller-modal-inner .seller-modal-body .delivery-choose .delivery-item {
   width: 100%;
   display: block;
@@ -12262,6 +12266,9 @@ p.text-seo span.full {
   border-radius: 5px;
   border: 1px solid #666666;
   margin-bottom: 15px;
+}
+#sellerModal .seller-modal-inner .seller-modal-body .delivery-choose .delivery-item .adressNotFound {
+  color: #841F27 !important;
 }
 #sellerModal .seller-modal-inner .seller-modal-body .delivery-choose .delivery-item .delivery-link {
   width: 100%;
@@ -22381,13 +22388,27 @@ body#recipes-page .top-chefs .chef-list .list .list-item .recipes {
     width: 100%;
     padding: 0 0;
   }
+  #category-page .cat-title .container {
+    padding-right: 0;
+    padding-left: 0;
+    margin-right: 0;
+    margin-left: 0;
+  }
   #category-page .cat-title #box-bread-brumb .bread-crumb ul li:first-child {
     display: none;
+  }
+  #category-page .cat-title #box-bread-brumb .bread-crumb ul li:not(.last):after {
+    content: '|';
+    margin-left: 5px;
+    color: #000;
   }
   #category-page .cat-title .title-category {
     display: flex;
     align-items: center;
-    margin-top: 1em;
+    width: 95%;
+    margin: 0 auto;
+    justify-content: space-around;
+    margin-top: 0;
     margin-bottom: 0;
   }
   #category-page .cat-title .title-category .bread-crumb {
@@ -22395,19 +22416,20 @@ body#recipes-page .top-chefs .chef-list .list .list-item .recipes {
     white-space: nowrap;
     overflow: hidden;
   }
+  #category-page .cat-title .title-category .bread-crumb a {
+    color: black;
+    font-size: 0.8rem;
+  }
   #category-page .cat-title .title-category .bread-crumb .last a {
     font-weight: bold;
     font-size: 1.2rem;
   }
-  #category-page .cat-title .title-category .bread-crumb a {
-    color: black;
+  #category-page .cat-title .title-category i {
+    font-size: 1.5em;
   }
   #category-page .cat-title .title-category .titulo-sessao {
     font-size: 20px;
     margin-left: 16px;
-  }
-  #category-page .cat-title .title-category .back-button-category {
-    display: block;
   }
   #category-page .cat-title .main-categories .main-cat-title strong {
     font-size: 20px;
@@ -22442,7 +22464,7 @@ body#recipes-page .top-chefs .chef-list .list .list-item .recipes {
   }
   #category-page #content #collections .main .mobile-category-inner {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
   }
   #category-page #content #collections .main .mobile-category-inner .left-item {
