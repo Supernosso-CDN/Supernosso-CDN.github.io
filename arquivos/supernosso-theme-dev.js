@@ -55871,7 +55871,9 @@
   
           $('.enter-postal-code').on('click', async function () {
             var postalCodeInput = $('.seller-postal-code').val();
-  
+            if (document.querySelector("#mensagemdecepinvalido")) {
+              $("#mensagemdecepinvalido").remove();
+            }
             var postalCodeInputFormatted = postalCodeInput.replace('-', '');
             if (postalCodeInputFormatted.length <= 8) {
               _this2.setDeliveryShippingData(postalCodeInputFormatted).done(function () {
@@ -55879,6 +55881,8 @@
               });
             } else {
               toastr.error("CEP inválido, por favor digite um CEP válido");
+              var cepinvalido = $('<p id="mensagemdecepinvalido" style="margin-top:1em;color:red;font-size: 0.8em;">CEP inválido, por favor digite um CEP válido.</p>');
+              cepinvalido.insertAfter($(".enter-postal-code"));
               return;
             }
           });
