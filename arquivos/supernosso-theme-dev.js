@@ -55574,9 +55574,9 @@
           var actualBestShippingCompanyBestDate = bestShippingCompany.availableDeliveryWindows[0].startDateUtc;
           var shippingCompanyBestDate = sc.availableDeliveryWindows[0].startDateUtc;
   
-          if ((0, _moment2.default)(actualBestShippingCompanyBestDate).isAfter(shippingCompanyBestDate, "day")) {
+          if ((0, _moment2.default)(actualBestShippingCompanyBestDate).isAfter(shippingCompanyBestDate)) {
             bestShippingCompany = sc;
-          } else if ((0, _moment2.default)(actualBestShippingCompanyBestDate).isSame(shippingCompanyBestDate, "day")) {
+          } else if ((0, _moment2.default)(actualBestShippingCompanyBestDate).isSame(shippingCompanyBestDate)) {
             // Se as datas forem iguais enviar para qualquer menos o CD
             if (bestShippingCompany.deliveryIds[0].courierName == "Agendada") {
               bestShippingCompany = sc;
@@ -63368,27 +63368,73 @@
   
   function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
   
-  var OffersPage = exports.OffersPage = function (_React$Component) {
-    _inherits(OffersPage, _React$Component);
+  var ScrollButton = function (_React$Component) {
+    _inherits(ScrollButton, _React$Component);
+  
+    function ScrollButton() {
+      _classCallCheck(this, ScrollButton);
+  
+      var _this = _possibleConstructorReturn(this, (ScrollButton.__proto__ || Object.getPrototypeOf(ScrollButton)).call(this));
+  
+      _this.state = {
+        intervalId: 0
+      };
+      return _this;
+    }
+  
+    _createClass(ScrollButton, [{
+      key: "scrollStep",
+      value: function scrollStep() {
+        if (window.pageYOffset === 0) {
+          clearInterval(this.state.intervalId);
+        }
+        window.scroll(0, window.pageYOffset - this.props.scrollStepInPx);
+      }
+    }, {
+      key: "scrollToTop",
+      value: function scrollToTop() {
+        var intervalId = setInterval(this.scrollStep.bind(this), this.props.delayInMs);
+        this.setState({ intervalId: intervalId });
+      }
+    }, {
+      key: "render",
+      value: function render() {
+        var _this2 = this;
+  
+        return _react2.default.createElement(
+          "button",
+          { className: "returnToTop scroll", onClick: function onClick() {
+              _this2.scrollToTop();
+            } },
+          _react2.default.createElement("span", { className: "fa fa-arrow-up" })
+        );
+      }
+    }]);
+  
+    return ScrollButton;
+  }(_react2.default.Component);
+  
+  var OffersPage = exports.OffersPage = function (_React$Component2) {
+    _inherits(OffersPage, _React$Component2);
   
     function OffersPage(props) {
       _classCallCheck(this, OffersPage);
   
-      var _this = _possibleConstructorReturn(this, (OffersPage.__proto__ || Object.getPrototypeOf(OffersPage)).call(this, props));
+      var _this3 = _possibleConstructorReturn(this, (OffersPage.__proto__ || Object.getPrototypeOf(OffersPage)).call(this, props));
   
-      _this.state = {
+      _this3.state = {
         document: '',
         open: '',
         empty: '',
         products: []
       };
-      return _this;
+      return _this3;
     }
   
     _createClass(OffersPage, [{
       key: "setDocument",
       value: function setDocument(document) {
-        var _this2 = this;
+        var _this4 = this;
   
         this.setState({
           open: '',
@@ -63399,12 +63445,12 @@
         $.ajax({
           url: "https://mauricio.supernosso.com.br/IntegraSnc_Core/rest/IntegraSnc/GetOfrExclusivas?Cpf_Cnpj=" + document
         }).done(function (data) {
-          _this2.setState({
+          _this4.setState({
             products: data
           });
   
           if (!data.length) {
-            _this2.setState({
+            _this4.setState({
               empty: 'open'
             });
           }
@@ -63431,7 +63477,7 @@
     }, {
       key: "componentDidMount",
       value: function componentDidMount() {
-        var _this3 = this;
+        var _this5 = this;
   
         fetch('/no-cache/profileSystem/getProfile').then(function (res) {
           return res.json();
@@ -63444,24 +63490,24 @@
               return res.json();
             }).then(function (res) {
               if (!res.length) {
-                _this3.setDocument({
+                _this5.setDocument({
                   empty: true
                 });
                 return;
               } else {
                 fetch("https://mauricio.supernosso.com.br/IntegraSnc_Core/rest/IntegraSnc/AllocatePriceTable?Email=" + user.Email).then(async function (price) {
   
-                  var allocated = await _this3.checkPriceTable(user.Email);
+                  var allocated = await _this5.checkPriceTable(user.Email);
   
                   while (allocated != true) {
-                    _this3.sleep(2000);
-                    allocated = await _this3.checkPriceTable(user.Email);
+                    _this5.sleep(2000);
+                    allocated = await _this5.checkPriceTable(user.Email);
                   }
   
                   fetch("https://mauricio.supernosso.com.br/IntegraSnc_Core/rest/IntegraSnc/GetOfrExclusivas?Email=" + user.Email).then(function (res) {
                     return res.json();
                   }).then(function (offers) {
-                    _this3.setState({
+                    _this5.setState({
                       products: offers
                     });
                   });
@@ -63479,7 +63525,8 @@
           null,
           _react2.default.createElement(_documentModal.DocumentModal, { setDocument: this.setDocument.bind(this), open: this.state.open }),
           _react2.default.createElement(_emptyModal.EmptyModal, { setDocument: this.setDocument.bind(this), open: this.state.empty }),
-          _react2.default.createElement(_reactShelf.ReactShelf, { products: this.state.products })
+          _react2.default.createElement(_reactShelf.ReactShelf, { products: this.state.products }),
+          _react2.default.createElement(ScrollButton, { scrollStepInPx: "50", delayInMs: "6" })
         );
       }
     }]);
@@ -64007,6 +64054,7 @@
             limit: _this2.state.limit + 48
           });
         }, 1500);
+        console.log(this.state.limit, this.state.total);
       }
     }, {
       key: "render",
@@ -64039,7 +64087,7 @@
                           dataLength: this.state.limit,
                           next: this.loadMore.bind(this),
                           hasMore: true,
-                          loader: _react2.default.createElement(
+                          loader: this.state.limit < 600 && _react2.default.createElement(
                             "div",
                             { style: { textAlign: 'center', color: '#841F27', width: '100%' } },
                             _react2.default.createElement("i", { className: "fa fa-spin fa-circle-o-notch" })
