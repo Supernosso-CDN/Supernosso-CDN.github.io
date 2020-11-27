@@ -10591,7 +10591,7 @@ footer .institutional-section .dev-nav span img {
 .prateleira.supernossoshelf ul li .item-shelf .promo-flags p:empty {
   display: none;
 }
-.prateleira.supernossoshelf ul li .item-shelf p.flag[class*="-10"] {
+.prateleira.supernossoshelf ul li .item-shelf p.flag[class~="-10"] {
   font-family: 'Roboto', sans-serif;
   font-style: normal;
   font-weight: bold;
@@ -13993,8 +13993,8 @@ p.text-seo span.full {
 #product-page #product-content .product-info .highlight p.flag[class*="cashback"] {
   background-color: #8F000F;
 }
-#product-page #product-content .product-info .discount-highlight p.flag[class*="-10"],
-#product-page #product-content .product-info .highlight p.flag[class*="-10"] {
+#product-page #product-content .product-info .discount-highlight p.flag[class~="-10"],
+#product-page #product-content .product-info .highlight p.flag[class~="-10"] {
   background-color: #999;
 }
 #product-page #product-content .product-info .discount-highlight p:empty,
@@ -14763,7 +14763,7 @@ p.text-seo span.full {
 #product-page .product-buytogether .prateleira ul li .item-shelf .promo-flags p.flag[class*="cashback"] {
   background-color: #8F000F;
 }
-#product-page .product-buytogether .prateleira ul li .item-shelf .promo-flags p.flag[class*="-10"] {
+#product-page .product-buytogether .prateleira ul li .item-shelf .promo-flags p.flag[class~="-10"] {
   background-color: #999;
   position: absolute;
   top: 15px;
@@ -21790,7 +21790,7 @@ body#recipes-page .top-chefs .chef-list .list .list-item .recipes {
   .prateleira.supernossoshelf ul li .item-shelf .promo-flags p {
     margin-bottom: 0;
   }
-  .prateleira.supernossoshelf ul li .item-shelf .promo-flags p.flag[class*="-10"] {
+  .prateleira.supernossoshelf ul li .item-shelf .promo-flags p.flag[class~="-10"] {
     font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: bold;
@@ -21824,7 +21824,7 @@ body#recipes-page .top-chefs .chef-list .list .list-item .recipes {
   .prateleira.supernossoshelf .slick-slider li .item-shelf .promo-flags p.flag {
     text-align: center;
   }
-  .prateleira.supernossoshelf .slick-slider li .item-shelf .promo-flags p.flag[class*="-10"] {
+  .prateleira.supernossoshelf .slick-slider li .item-shelf .promo-flags p.flag[class~="-10"] {
     width: auto;
     top: 6px;
     left: 6px;
