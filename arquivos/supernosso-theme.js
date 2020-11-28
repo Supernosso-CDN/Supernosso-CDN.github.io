@@ -55717,7 +55717,7 @@
   
         if (deliveryAddress) {
           var address = deliveryAddress;
-          if (!address.street && !address.neighborhood) {
+          if (!address.street && !address.neighborhood && address.city != "Lagoa Santa") {
             return false;
           }
           formattedAd = address.street + ', ' + address.neighborhood + ' - ' + address.city + ' - ' + address.state;
