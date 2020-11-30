@@ -55546,6 +55546,9 @@
         var pickUpPoints = await (0, _utils.getPickUpPoints)();
   
         if (purchaseData && pickUpPoints) {
+          if (purchaseData.postalCode == "33400000") {
+            return "10";
+          }
           var slas = purchaseData.logisticsInfo[0].slas;
           var bestShippingCompany = this.selectBetterShippingCompany(slas);
           var bestShippingCompanySalesChannel = this.getBestShippingCompanySalesChannel(pickUpPoints, bestShippingCompany);
@@ -55821,6 +55824,8 @@
   
               if (aux) {
                 _this2.checkIfHasDelivery(true);
+              } else if (!aux && response.postalCode == "33400000") {
+                _this2.checkIfHasDelivery(true);
               } else {
                 _this2.checkIfHasDelivery(false);
               }
@@ -55980,9 +55985,9 @@
               }
   
               if (!response.logisticsInfo.length || !response.logisticsInfo[0].slas.length) {
-                //nao tem
                 _this3.checkIfHasDelivery(false);
               }
+  
               var slas = response.logisticsInfo[0].slas;
               var aux = false;
               for (var i = 0; i < slas.length; i++) {
@@ -55993,6 +55998,8 @@
               }
   
               if (aux) {
+                _this3.checkIfHasDelivery(true);
+              } else if (!aux && response.postalCode == "33400000") {
                 _this3.checkIfHasDelivery(true);
               } else {
                 _this3.checkIfHasDelivery(false);

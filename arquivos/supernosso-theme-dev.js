@@ -55824,6 +55824,8 @@
   
               if (aux) {
                 _this2.checkIfHasDelivery(true);
+              } else if (!aux && response.postalCode == "33400000") {
+                _this2.checkIfHasDelivery(true);
               } else {
                 _this2.checkIfHasDelivery(false);
               }
