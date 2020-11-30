@@ -55717,7 +55717,7 @@
   
         if (deliveryAddress) {
           var address = deliveryAddress;
-          if (!address.street && !address.neighborhood) {
+          if (!address.street && !address.neighborhood && address.city != "Lagoa Santa") {
             return false;
           }
           formattedAd = address.street + ', ' + address.neighborhood + ' - ' + address.city + ' - ' + address.state;
@@ -55980,9 +55980,9 @@
               }
   
               if (!response.logisticsInfo.length || !response.logisticsInfo[0].slas.length) {
-                //nao tem
                 _this3.checkIfHasDelivery(false);
               }
+  
               var slas = response.logisticsInfo[0].slas;
               var aux = false;
               for (var i = 0; i < slas.length; i++) {
@@ -55993,6 +55993,8 @@
               }
   
               if (aux) {
+                _this3.checkIfHasDelivery(true);
+              } else if (!aux && response.postalCode == "33400000") {
                 _this3.checkIfHasDelivery(true);
               } else {
                 _this3.checkIfHasDelivery(false);
