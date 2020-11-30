@@ -55546,6 +55546,9 @@
         var pickUpPoints = await (0, _utils.getPickUpPoints)();
   
         if (purchaseData && pickUpPoints) {
+          if (purchaseData.postalCode == "33400000") {
+            return "10";
+          }
           var slas = purchaseData.logisticsInfo[0].slas;
           var bestShippingCompany = this.selectBetterShippingCompany(slas);
           var bestShippingCompanySalesChannel = this.getBestShippingCompanySalesChannel(pickUpPoints, bestShippingCompany);
