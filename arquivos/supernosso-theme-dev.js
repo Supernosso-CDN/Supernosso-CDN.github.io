@@ -56001,6 +56001,7 @@
                 _this3.checkIfHasDelivery(true);
               } else if (!aux && response.postalCode == "33400000") {
                 _this3.checkIfHasDelivery(true);
+                //lagoa santa
               } else {
                 _this3.checkIfHasDelivery(false);
               }
@@ -57106,7 +57107,7 @@
                       //     if(document.querySelector('#collections .main .sub').style.display == "none"){
                       //         $('#collections .main .sub').show();
                       //     }else{
-                      //         $('#collections .main .sub').hide();
+                      //         $('#collections .main .sub').hide(); 
                       //     }
                       // });
                   }
@@ -58393,8 +58394,8 @@
           value: function flagCampanha() {
               if (document.querySelector(".value-field.Flag-Campanha-Cestas") && document.querySelector(".value-field.Flag-Campanha-Cestas").textContent == "Yes") {
                   if (document.querySelector("#tagCampanha")) {
-                      var imagemCampanha = $('<img src="https://supernossoemcasa.vteximg.com.br/arquivos/placeHolderCampanhaCestas.png">');
-                      var linkCampanha = "https://www.google.com/";
+                      var imagemCampanha = $('<img src="https://supernossoemcasa.vteximg.com.br/arquivos/tag_cestas.png">');
+                      var linkCampanha = "https://conteudo.blogsupernosso.com.br/cestas-e-presentes";
   
                       $("#tagCampanha").append(imagemCampanha);
                       document.querySelector('#tagCampanha').href = linkCampanha;
