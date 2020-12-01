@@ -58394,7 +58394,7 @@
           value: function flagCampanha() {
               if (document.querySelector(".value-field.Flag-Campanha-Cestas") && document.querySelector(".value-field.Flag-Campanha-Cestas").textContent == "Yes") {
                   if (document.querySelector("#tagCampanha")) {
-                      var imagemCampanha = $('<img src="https://supernossoemcasa.vteximg.com.br/arquivos/tag_cestas.png">');
+                      var imagemCampanha = $('<img src="https://supernossoemcasa.vteximg.com.br/arquivos/tag_cestas.png" style="width:140px;height:auto;">');
                       var linkCampanha = "https://conteudo.blogsupernosso.com.br/cestas-e-presentes";
   
                       $("#tagCampanha").append(imagemCampanha);
