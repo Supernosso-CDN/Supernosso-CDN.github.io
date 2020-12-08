@@ -54987,6 +54987,7 @@
               $(subNavWrapper).appendTo('.categories-list .category-' + catId);
               subcategories.map(function (x, k) {
                   var temp = '\n                <li class="category-item category-' + x.id + ' ' + (x.children.length > 0 ? 'has-children' : 'no-children') + '">\n                    <a href=' + x.url + ' class="category-link">\n                        <span class="nav-text">' + x.name + '</span>\n                    </a>\n                </li>\n            ';
+  
                   if (categorie.id == 2051) {
                       if (k <= 10) {
                           $(temp).appendTo('.categories-list .category-' + catId + ' .subcategories-list');
@@ -54995,6 +54996,10 @@
                       if (k <= 11) {
                           $(temp).appendTo('.categories-list .category-' + catId + ' .subcategories-list');
                       }
+                  }
+                  if (categorie.id == 1002 && x.id == 3253) {
+                      var subcategoriaDrinksProntos = '\n                    <li class="category-item category-drinksprontos no-children}">\n                        <a href="https://www.supernossoemcasa.com.br/busca?fq=H:731" class="category-link">\n                            <span class="nav-text">Drinks Prontos</span>\n                        </a>\n                    </li>\n                ';
+                      $(subcategoriaDrinksProntos).appendTo('.categories-list .category-' + catId + ' .subcategories-list');
                   }
               });
               if (subcategories.length > 11) {
