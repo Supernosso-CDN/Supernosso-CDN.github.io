@@ -58283,16 +58283,6 @@
                   $("#caracteristicas").hide();
               }
           }
-      }, {
-          key: 'clearProductDescriptionError',
-          value: function clearProductDescriptionError() {
-              if ($('.productDescription').text()) {
-                  var descClass = $('.productDescription');
-                  var prodDesc = descClass.text().replace(/_x005f_x000d_/g, "<br>");
-  
-                  descClass.html(prodDesc);
-              }
-          }
   
           // modalShelf(){
           //   $("#product .item-shelf a").on('click',function(e){
@@ -58469,8 +58459,6 @@
           key: 'init',
           value: function init() {
               var that = this;
-  
-              this.clearProductDescriptionError();
   
               if ($('body').hasClass('produto')) {
   
