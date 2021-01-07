@@ -10612,6 +10612,7 @@ footer .institutional-section .dev-nav span img {
   display: block;
   padding-top: 10px;
   padding-bottom: 10px;
+  position: relative;
 }
 .prateleira.supernossoshelf ul li .item-shelf .product-image img {
   width: 100%;
@@ -10640,7 +10641,7 @@ footer .institutional-section .dev-nav span img {
 }
 .prateleira.supernossoshelf ul li .item-shelf .price {
   text-align: center;
-  min-height: 42px;
+  min-height: 60px;
   display: flex;
   align-items: flex-end;
   justify-content: center;
