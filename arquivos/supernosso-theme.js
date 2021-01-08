@@ -58310,6 +58310,7 @@
               //console.log("skuid: ", skuId)        
               var seller = localStorage.getItem('selectedSeller') ? localStorage.getItem('selectedSeller') == 'delivery' ? 1 : parseInt(localStorage.getItem('selectedSeller')) : 1;
               var warehouseId = seller == "1" ? "1_1" : localStorage.getItem("selectedPickup");
+              console.log("warehouseId: ", warehouseId);
               try {
                   var hasInventory = await (0, _checkProductInventoryAvailability.checkProductInventory)(skuId, warehouseId);
                   var stockState = hasInventory ? 'InStock' : 'OutOfStock';
@@ -61262,9 +61263,7 @@
               { className: 'frete-tip' },
               'entrega gr\xE1tis comprando acima de R$500 ',
               _react2.default.createElement('br', null),
-              'R$24,90 comprando at\xE9 R$199 ',
-              _react2.default.createElement('br', null),
-              'R$19,90 comprando entre R$200 e R$299 ',
+              'R$19,90 comprando at\xE9 R$299 ',
               _react2.default.createElement('br', null),
               'R$14,90 comprando entre R$300 e R$399 ',
               _react2.default.createElement('br', null),
