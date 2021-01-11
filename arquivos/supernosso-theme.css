@@ -18760,7 +18760,7 @@ body#wishlist-page.create #collections .action-area .form-action .save input[typ
   background: #ad2023;
   border-radius: 100%;
   text-align: center;
-  z-index: 9999;
+  z-index: 100;
   outline: none;
 }
 @media (max-width: 768px) {
