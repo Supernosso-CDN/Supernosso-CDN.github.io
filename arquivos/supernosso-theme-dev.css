@@ -10591,7 +10591,7 @@ footer .institutional-section .dev-nav span img {
 .prateleira.supernossoshelf ul li .item-shelf .promo-flags p:empty {
   display: none;
 }
-.prateleira.supernossoshelf ul li .item-shelf p.flag[class*="-10"] {
+.prateleira.supernossoshelf ul li .item-shelf p.flag[class~="-10"] {
   font-family: 'Roboto', sans-serif;
   font-style: normal;
   font-weight: bold;
@@ -10612,6 +10612,7 @@ footer .institutional-section .dev-nav span img {
   display: block;
   padding-top: 10px;
   padding-bottom: 10px;
+  position: relative;
 }
 .prateleira.supernossoshelf ul li .item-shelf .product-image img {
   width: 100%;
@@ -10640,7 +10641,7 @@ footer .institutional-section .dev-nav span img {
 }
 .prateleira.supernossoshelf ul li .item-shelf .price {
   text-align: center;
-  min-height: 42px;
+  min-height: 60px;
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -10839,16 +10840,26 @@ footer .institutional-section .dev-nav span img {
   font-size: 16px;
   width: 100% !important;
 }
+.user-info {
+  margin-left: 22px !important;
+  margin-right: 2em !important;
+  position: relative;
+}
+.user-info a {
+  font-size: 16px;
+  line-height: 19px;
+  display: flex;
+  align-items: center;
+}
 #user-data {
-  position: fixed;
-  top: -100%;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
+  position: absolute;
+  top: 2.5em;
+  right: -3.5em;
+  width: max-content;
+  height: auto;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background-color: #F2F2F2;
   opacity: 1;
   visibility: hidden;
   transition: all 0.2s ease-in-out;
@@ -10857,7 +10868,26 @@ footer .institutional-section .dev-nav span img {
 #user-data.user-data-opened {
   opacity: 1;
   visibility: visible;
-  top: 0;
+  top: 150%;
+}
+#user-data .user-data-menu {
+  background: #FFFFFF;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.29);
+  border-radius: 4px;
+  list-style: none;
+  padding: 1.5em 2em 1.5em 1.5em;
+}
+#user-data .user-data-menu li a {
+  color: #676767;
+  cursor: pointer;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 14px;
+}
+#user-data .user-data-menu li + li {
+  margin-top: 1.5em;
 }
 #user-data .user-data-header {
   width: 100%;
@@ -13993,8 +14023,8 @@ p.text-seo span.full {
 #product-page #product-content .product-info .highlight p.flag[class*="cashback"] {
   background-color: #8F000F;
 }
-#product-page #product-content .product-info .discount-highlight p.flag[class*="-10"],
-#product-page #product-content .product-info .highlight p.flag[class*="-10"] {
+#product-page #product-content .product-info .discount-highlight p.flag[class~="-10"],
+#product-page #product-content .product-info .highlight p.flag[class~="-10"] {
   background-color: #999;
 }
 #product-page #product-content .product-info .discount-highlight p:empty,
@@ -14763,7 +14793,7 @@ p.text-seo span.full {
 #product-page .product-buytogether .prateleira ul li .item-shelf .promo-flags p.flag[class*="cashback"] {
   background-color: #8F000F;
 }
-#product-page .product-buytogether .prateleira ul li .item-shelf .promo-flags p.flag[class*="-10"] {
+#product-page .product-buytogether .prateleira ul li .item-shelf .promo-flags p.flag[class~="-10"] {
   background-color: #999;
   position: absolute;
   top: 15px;
@@ -15836,7 +15866,7 @@ body#institutional-page #faq-result .faq-result-inner .content-list-inner .conte
   position: absolute;
   height: 248px;
   left: 0px;
-  top: 550px;
+  top: 700px;
   padding: 25px 0 5px;
 }
 #institucional-page #institucional-content .box-sac .cda {
@@ -18747,6 +18777,29 @@ body#wishlist-page.create #collections .action-area .form-action .save input[typ
 .ofertas-exclusivas .cat-title .main-categories .cat-slider .slick-arrow.slick-next {
   right: -53px;
 }
+.ofertas-exclusivas .returnToTop {
+  border: none;
+  display: block !important;
+  position: fixed;
+  bottom: 100px;
+  height: 32px;
+  width: 32px;
+  line-height: 32px;
+  right: 5vw;
+  background: #ad2023;
+  border-radius: 100%;
+  text-align: center;
+  z-index: 100;
+  outline: none;
+}
+@media (max-width: 768px) {
+  .ofertas-exclusivas .returnToTop {
+    bottom: 140px;
+  }
+}
+.ofertas-exclusivas .returnToTop span {
+  color: #fff;
+}
 #login-page .vtexIdUI {
   background: #FFFFFF;
   border-radius: 6px;
@@ -21383,6 +21436,16 @@ body#recipes-page .top-chefs .chef-list .list .list-item .recipes {
     overflow-y: auto;
     padding-bottom: 50px;
     background: #FFF;
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100vw;
+    height: 100vh;
+  }
+  #user-data .user-data-menu {
+    box-shadow: none;
+    border-radius: 0;
+    padding: 2em;
   }
   #user-data .user-data-header {
     height: auto;
@@ -21767,7 +21830,7 @@ body#recipes-page .top-chefs .chef-list .list .list-item .recipes {
   .prateleira.supernossoshelf ul li .item-shelf .promo-flags p {
     margin-bottom: 0;
   }
-  .prateleira.supernossoshelf ul li .item-shelf .promo-flags p.flag[class*="-10"] {
+  .prateleira.supernossoshelf ul li .item-shelf .promo-flags p.flag[class~="-10"] {
     font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: bold;
@@ -21801,7 +21864,7 @@ body#recipes-page .top-chefs .chef-list .list .list-item .recipes {
   .prateleira.supernossoshelf .slick-slider li .item-shelf .promo-flags p.flag {
     text-align: center;
   }
-  .prateleira.supernossoshelf .slick-slider li .item-shelf .promo-flags p.flag[class*="-10"] {
+  .prateleira.supernossoshelf .slick-slider li .item-shelf .promo-flags p.flag[class~="-10"] {
     width: auto;
     top: 6px;
     left: 6px;

@@ -54643,7 +54643,6 @@
       _createClass(Header, [{
           key: "userToggle",
           value: function userToggle() {
-              $('body').toggleClass('overflow-hidden');
               $('#user-data').toggleClass('user-data-opened');
           }
       }, {
@@ -54651,7 +54650,7 @@
           value: function searchToggle() {
               var _this2 = this;
   
-              $('body').toggleClass('overflow-hidden');
+              //$('body').toggleClass('overflow-hidden');
               $('#search-box').toggleClass('search-box-opened');
               if ($("#search-box").hasClass('search-box-opened')) {
                   window.history.pushState({}, '', '#');
@@ -54730,6 +54729,32 @@
               $('#sellerModal').removeClass('opened');
           }
       }, {
+          key: "getLoggedUserOrders",
+          value: function getLoggedUserOrders() {
+              return $.ajax({
+                  type: "GET",
+                  method: "GET",
+                  url: "/api/oms/user/orders/?page=1",
+                  headers: {
+                      "Accept": "application/vnd.vtex.ds.v10+json",
+                      "Content-Type": "application/json; charset=utf-8"
+                  }
+              });
+          }
+      }, {
+          key: "getLoggedUserLastOrder",
+          value: function getLoggedUserLastOrder(lastOrderId) {
+              return $.ajax({
+                  type: "GET",
+                  method: "GET",
+                  url: "/api/oms/user/orders/" + lastOrderId,
+                  headers: {
+                      "Accept": "application/vnd.vtex.ds.v10+json",
+                      "Content-Type": "application/json; charset=utf-8"
+                  }
+              });
+          }
+      }, {
           key: "init",
           value: function init() {
   
@@ -54800,6 +54825,12 @@
                   $(window).trigger('close-inactive-nav');
                   that.userToggle();
               });
+              $('.header-mobile-nav__item--login a').click(function (e) {
+                  e.preventDefault();
+                  that.closeMiniCartModal();
+                  $(window).trigger('close-inactive-nav');
+                  that.userToggle();
+              });
               $('.mobile-nav-home').addClass('active');
               $('.mobile-nav-home').click(function (e) {
                   that.closeMiniCartModal();
@@ -54835,6 +54866,39 @@
                           $(e.el).toggleClass(e.class);
                       }
                   });
+              });
+              $.when(that.getLoggedUserOrders()).done(function (orders) {
+                  try {
+                      if (orders.list.length > 0) {
+                          //console.log("usuário tem pedidos", orders)
+                          //if(orders.list[0].status == "invoiced"){}
+                          $('#repetirPedido').click(function () {
+                              var lastOrderId = orders.list[0].orderId; //ultimo pedido
+                              $.when(that.getLoggedUserLastOrder(lastOrderId)).done(function (response) {
+  
+                                  var salesChannel = response.salesChannel;
+                                  var baseUrl = "https://www.supernossoemcasa.com.br/checkout/cart/add?";
+  
+                                  var parametros = [];
+                                  //montar url de checkout
+                                  response.items.map(function (product) {
+                                      parametros.push("sku=" + product.id + "&qty=" + product.quantity + "&seller=" + product.seller + "&sc=" + salesChannel);
+                                  });
+  
+                                  var stringdeParametros = parametros.join('&');
+                                  var url = baseUrl + stringdeParametros;
+  
+                                  window.location.href = url;
+                              });
+                          });
+                      } else {
+                          document.querySelector("#repetirPedido").style.color = "#d8d8d8";
+                          document.querySelector("#repetirPedido").style.pointerEvents = "none";
+                          console.log("usuário não tem pedidos");
+                      }
+                  } catch (error) {
+                      console.log("usuário não tem pedidos");
+                  }
               });
           }
       }]);
@@ -58310,6 +58374,7 @@
               //console.log("skuid: ", skuId)        
               var seller = localStorage.getItem('selectedSeller') ? localStorage.getItem('selectedSeller') == 'delivery' ? 1 : parseInt(localStorage.getItem('selectedSeller')) : 1;
               var warehouseId = seller == "1" ? "1_1" : localStorage.getItem("selectedPickup");
+              console.log("warehouseId: ", warehouseId);
               try {
                   var hasInventory = await (0, _checkProductInventoryAvailability.checkProductInventory)(skuId, warehouseId);
                   var stockState = hasInventory ? 'InStock' : 'OutOfStock';
@@ -61262,9 +61327,7 @@
               { className: 'frete-tip' },
               'entrega gr\xE1tis comprando acima de R$500 ',
               _react2.default.createElement('br', null),
-              'R$24,90 comprando at\xE9 R$199 ',
-              _react2.default.createElement('br', null),
-              'R$19,90 comprando entre R$200 e R$299 ',
+              'R$19,90 comprando at\xE9 R$299 ',
               _react2.default.createElement('br', null),
               'R$14,90 comprando entre R$300 e R$399 ',
               _react2.default.createElement('br', null),
