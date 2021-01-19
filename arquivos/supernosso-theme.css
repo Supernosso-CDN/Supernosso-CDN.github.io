@@ -21138,14 +21138,14 @@ body#recipes-page .top-chefs .chef-list .list .list-item .recipes {
   padding-left: 2rem;
   padding-top: 1rem;
 }
-#folheto-page .clube-link .links-wrapper .links-content .badges-wrapper .playstore-img > img {
+#folheto-page .clube-link .links-wrapper .links-content .badges-wrapper .playstore-img img {
   height: 80px;
   width: 190px;
 }
 #folheto-page .clube-link .links-wrapper .links-content .badges-wrapper .appstore-img {
   padding-left: 0.8rem;
 }
-#folheto-page .clube-link .links-wrapper .links-content .badges-wrapper .appstore-img > svg {
+#folheto-page .clube-link .links-wrapper .links-content .badges-wrapper .appstore-img svg {
   height: 55px;
 }
 #folheto-page .record-capture {
@@ -24315,14 +24315,14 @@ body#recipes-page .top-chefs .chef-list .list .list-item .recipes {
   .clube-link .links-wrapper .links-content .badges-wrapper {
     padding-left: 8px !important;
   }
-  .clube-link .links-wrapper .links-content .badges-wrapper .playstore-img > img {
+  .clube-link .links-wrapper .links-content .badges-wrapper .playstore-img img {
     height: 80px !important;
     width: 172px !important;
   }
   .clube-link .links-wrapper .links-content .badges-wrapper .appstore-img {
     padding-left: 0.6rem !important;
   }
-  .clube-link .links-wrapper .links-content .badges-wrapper .appstore-img > svg {
+  .clube-link .links-wrapper .links-content .badges-wrapper .appstore-img svg {
     height: 51px !important;
   }
   .record-capture .rc-wrapper {
