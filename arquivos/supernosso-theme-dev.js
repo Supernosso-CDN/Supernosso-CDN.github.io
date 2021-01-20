@@ -54877,7 +54877,7 @@
                               $.when(that.getLoggedUserLastOrder(lastOrderId)).done(function (response) {
   
                                   var salesChannel = response.salesChannel;
-                                  var baseUrl = "https://www.supernossoemcasa.com.br/checkout/cart/add?";
+                                  var baseUrl = "https://devsupernossoemcasa.myvtex.com/checkout/cart/add?";
   
                                   var parametros = [];
                                   //montar url de checkout
