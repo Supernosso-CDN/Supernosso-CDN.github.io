@@ -54867,28 +54867,39 @@
                       }
                   });
               });
+              //repetir último pedido
               $.when(that.getLoggedUserOrders()).done(function (orders) {
                   try {
                       if (orders.list.length > 0) {
                           //console.log("usuário tem pedidos", orders)
-                          //if(orders.list[0].status == "invoiced"){}
+                          //if(orders.list[0].status == "invoiced"){} caso precise selecionar/filtrar pedidos pelo status
                           $('#repetirPedido').click(function () {
-                              var lastOrderId = orders.list[0].orderId; //ultimo pedido
-                              $.when(that.getLoggedUserLastOrder(lastOrderId)).done(function (response) {
   
-                                  var salesChannel = response.salesChannel;
-                                  var baseUrl = "https://devsupernossoemcasa.myvtex.com/checkout/cart/add?";
+                              vtexjs.checkout.getOrderForm(["shippingData"]).then(function (orderForm) {
+                                  var shippingData = orderForm.shippingData;
+                                  return shippingData && shippingData.address ? shippingData.address.postalCode : null;
+                              }).done(function (cep) {
+                                  if (!cep) {
+                                      $('.seller-modal').addClass('opened');
+                                  } else {
+                                      var lastOrderId = orders.list[0].orderId; //ultimo pedido
+                                      $.when(that.getLoggedUserLastOrder(lastOrderId)).done(function (response) {
   
-                                  var parametros = [];
-                                  //montar url de checkout
-                                  response.items.map(function (product) {
-                                      parametros.push("sku=" + product.id + "&qty=" + product.quantity + "&seller=" + product.seller + "&sc=" + salesChannel);
-                                  });
+                                          var salesChannel = response.salesChannel;
+                                          var baseUrl = "https://devsupernossoemcasa.myvtex.com/checkout/cart/add?";
   
-                                  var stringdeParametros = parametros.join('&');
-                                  var url = baseUrl + stringdeParametros;
+                                          var parametros = [];
+                                          //montar url de checkout
+                                          response.items.map(function (product) {
+                                              parametros.push("sku=" + product.id + "&qty=" + product.quantity + "&seller=" + product.seller + "&sc=" + salesChannel);
+                                          });
   
-                                  window.location.href = url;
+                                          var stringdeParametros = parametros.join('&');
+                                          var url = baseUrl + stringdeParametros;
+  
+                                          window.location.href = url;
+                                      });
+                                  }
                               });
                           });
                       } else {
@@ -62300,7 +62311,7 @@
         var discountTotalizer = this.getTotalizer('Discounts');
         var subtotal = _currency.Currency.convert(subTotalizer);
         var totalDiscount = _currency.Currency.convert(discountTotalizer);
-        var totalShipping = _currency.Currency.convert(this.getFrete());
+        var totalShipping = this.getFrete() != 0 ? _currency.Currency.convert(this.getFrete()) : "grátis";
         //let totalShipping = Currency.convert(shippingTotalizer)
         //let total = Currency.convert(this.state.orderForm.value)
         var total = _currency.Currency.convert(subTotalizer + discountTotalizer + this.getFrete());
