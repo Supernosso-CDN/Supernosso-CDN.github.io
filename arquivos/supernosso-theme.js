@@ -54643,7 +54643,7 @@
       _createClass(Header, [{
           key: "userToggle",
           value: function userToggle() {
-              $('#user-data').toggleClass('user-data-opened');
+              $("[id=user-data]").toggleClass('user-data-opened');
           }
       }, {
           key: "searchToggle",
@@ -54742,6 +54742,16 @@
               });
           }
       }, {
+          key: "userCheck",
+          value: function userCheck() {
+              return $.ajax({
+                  type: 'GET',
+                  url: "/no-cache/profileSystem/getProfile",
+                  dataType: "json",
+                  clearQueueDelay: null
+              });
+          }
+      }, {
           key: "getLoggedUserLastOrder",
           value: function getLoggedUserLastOrder(lastOrderId) {
               return $.ajax({
@@ -54823,7 +54833,13 @@
                   e.preventDefault();
                   that.closeMiniCartModal();
                   $(window).trigger('close-inactive-nav');
-                  that.userToggle();
+                  $.when(that.userCheck()).done(function (data) {
+                      if (data.IsUserDefined) {
+                          that.userToggle();
+                      } else {
+                          window.location.href = "https://www.supernossoemcasa.com.br/login/";
+                      }
+                  });
               });
               // $('.header-mobile-nav__item--login a').click(function(e){
               //     e.preventDefault();
