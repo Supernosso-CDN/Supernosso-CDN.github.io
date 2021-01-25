@@ -54825,12 +54825,12 @@
                   $(window).trigger('close-inactive-nav');
                   that.userToggle();
               });
-              $('.header-mobile-nav__item--login a').click(function (e) {
-                  e.preventDefault();
-                  that.closeMiniCartModal();
-                  $(window).trigger('close-inactive-nav');
-                  that.userToggle();
-              });
+              // $('.header-mobile-nav__item--login a').click(function(e){
+              //     e.preventDefault();
+              //     that.closeMiniCartModal();
+              //     $(window).trigger('close-inactive-nav');
+              //     that.userToggle();
+              // })
               $('.mobile-nav-home').addClass('active');
               $('.mobile-nav-home').click(function (e) {
                   that.closeMiniCartModal();

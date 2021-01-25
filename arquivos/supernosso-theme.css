@@ -21462,6 +21462,11 @@ body#recipes-page .top-chefs .chef-list .list .list-item .recipes {
     width: 100vw;
     height: 100vh;
   }
+  #user-data.user-data-opened {
+    opacity: 1;
+    visibility: visible;
+    top: 0;
+  }
   #user-data .user-data-menu {
     box-shadow: none;
     border-radius: 0;
