@@ -54643,7 +54643,6 @@
       _createClass(Header, [{
           key: "userToggle",
           value: function userToggle() {
-              $('body').toggleClass('overflow-hidden');
               $('#user-data').toggleClass('user-data-opened');
           }
       }, {
@@ -54651,7 +54650,7 @@
           value: function searchToggle() {
               var _this2 = this;
   
-              $('body').toggleClass('overflow-hidden');
+              //$('body').toggleClass('overflow-hidden');
               $('#search-box').toggleClass('search-box-opened');
               if ($("#search-box").hasClass('search-box-opened')) {
                   window.history.pushState({}, '', '#');
@@ -54730,6 +54729,32 @@
               $('#sellerModal').removeClass('opened');
           }
       }, {
+          key: "getLoggedUserOrders",
+          value: function getLoggedUserOrders() {
+              return $.ajax({
+                  type: "GET",
+                  method: "GET",
+                  url: "/api/oms/user/orders/?page=1",
+                  headers: {
+                      "Accept": "application/vnd.vtex.ds.v10+json",
+                      "Content-Type": "application/json; charset=utf-8"
+                  }
+              });
+          }
+      }, {
+          key: "getLoggedUserLastOrder",
+          value: function getLoggedUserLastOrder(lastOrderId) {
+              return $.ajax({
+                  type: "GET",
+                  method: "GET",
+                  url: "/api/oms/user/orders/" + lastOrderId,
+                  headers: {
+                      "Accept": "application/vnd.vtex.ds.v10+json",
+                      "Content-Type": "application/json; charset=utf-8"
+                  }
+              });
+          }
+      }, {
           key: "init",
           value: function init() {
   
@@ -54800,6 +54825,12 @@
                   $(window).trigger('close-inactive-nav');
                   that.userToggle();
               });
+              $('.header-mobile-nav__item--login a').click(function (e) {
+                  e.preventDefault();
+                  that.closeMiniCartModal();
+                  $(window).trigger('close-inactive-nav');
+                  that.userToggle();
+              });
               $('.mobile-nav-home').addClass('active');
               $('.mobile-nav-home').click(function (e) {
                   that.closeMiniCartModal();
@@ -54835,6 +54866,50 @@
                           $(e.el).toggleClass(e.class);
                       }
                   });
+              });
+              //repetir último pedido
+              $.when(that.getLoggedUserOrders()).done(function (orders) {
+                  try {
+                      if (orders.list.length > 0) {
+                          //console.log("usuário tem pedidos", orders)
+                          //if(orders.list[0].status == "invoiced"){} caso precise selecionar/filtrar pedidos pelo status
+                          $('#repetirPedido').click(function () {
+  
+                              vtexjs.checkout.getOrderForm(["shippingData"]).then(function (orderForm) {
+                                  var shippingData = orderForm.shippingData;
+                                  return shippingData && shippingData.address ? shippingData.address.postalCode : null;
+                              }).done(function (cep) {
+                                  if (!cep) {
+                                      $('.seller-modal').addClass('opened');
+                                  } else {
+                                      var lastOrderId = orders.list[0].orderId; //ultimo pedido
+                                      $.when(that.getLoggedUserLastOrder(lastOrderId)).done(function (response) {
+  
+                                          var salesChannel = response.salesChannel;
+                                          var baseUrl = "https://www.supernossoemcasa.com.br/checkout/cart/add?";
+  
+                                          var parametros = [];
+                                          //montar url de checkout
+                                          response.items.map(function (product) {
+                                              parametros.push("sku=" + product.id + "&qty=" + product.quantity + "&seller=" + product.seller + "&sc=" + salesChannel);
+                                          });
+  
+                                          var stringdeParametros = parametros.join('&');
+                                          var url = baseUrl + stringdeParametros;
+  
+                                          window.location.href = url;
+                                      });
+                                  }
+                              });
+                          });
+                      } else {
+                          document.querySelector("#repetirPedido").style.color = "#d8d8d8";
+                          document.querySelector("#repetirPedido").style.pointerEvents = "none";
+                          console.log("usuário não tem pedidos");
+                      }
+                  } catch (error) {
+                      console.log("usuário não tem pedidos");
+                  }
               });
           }
       }]);
@@ -57112,7 +57187,7 @@
                       //     if(document.querySelector('#collections .main .sub').style.display == "none"){
                       //         $('#collections .main .sub').show();
                       //     }else{
-                      //         $('#collections .main .sub').hide(); 
+                      //         $('#collections .main .sub').hide();
                       //     }
                       // });
                   }
@@ -62236,7 +62311,7 @@
         var discountTotalizer = this.getTotalizer('Discounts');
         var subtotal = _currency.Currency.convert(subTotalizer);
         var totalDiscount = _currency.Currency.convert(discountTotalizer);
-        var totalShipping = _currency.Currency.convert(this.getFrete());
+        var totalShipping = this.getFrete() != 0 ? _currency.Currency.convert(this.getFrete()) : "grátis";
         //let totalShipping = Currency.convert(shippingTotalizer)
         //let total = Currency.convert(this.state.orderForm.value)
         var total = _currency.Currency.convert(subTotalizer + discountTotalizer + this.getFrete());
