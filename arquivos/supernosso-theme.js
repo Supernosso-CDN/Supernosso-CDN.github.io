@@ -54841,12 +54841,18 @@
                       }
                   });
               });
-              // $('.header-mobile-nav__item--login a').click(function(e){
-              //     e.preventDefault();
-              //     that.closeMiniCartModal();
-              //     $(window).trigger('close-inactive-nav');
-              //     that.userToggle();
-              // })
+              $('.header-mobile-nav__item--login a').click(function (e) {
+                  e.preventDefault();
+                  that.closeMiniCartModal();
+                  $(window).trigger('close-inactive-nav');
+                  $.when(that.userCheck()).done(function (data) {
+                      if (data.IsUserDefined) {
+                          that.userToggle();
+                      } else {
+                          window.location.href = "https://www.supernossoemcasa.com.br/login/";
+                      }
+                  });
+              });
               $('.mobile-nav-home').addClass('active');
               $('.mobile-nav-home').click(function (e) {
                   that.closeMiniCartModal();
