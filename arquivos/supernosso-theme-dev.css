@@ -13350,6 +13350,26 @@ p.text-seo span.full {
 #category-page .cat-title .main-categories .cat-slider .slick-arrow.slick-next {
   right: -53px;
 }
+#category-page .ofertasPrimeTitle {
+  background-color: #D99A06;
+  opacity: 0.6;
+  color: #fff;
+}
+#category-page .ofertasPrimeTitle .ofertasPrimeSubtitle {
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1.6em;
+  font-size: 14px;
+  width: 75%;
+  margin-top: 12px;
+}
+#category-page .ofertasPrimeTitle #ofertasPrimeSejaPrime {
+  font-weight: bold;
+  color: #fff;
+  text-decoration: underline;
+  font-size: 14px;
+}
 #category-page aside.sidebar {
   position: relative;
 }
@@ -21167,14 +21187,14 @@ body#recipes-page .top-chefs .chef-list .list .list-item .recipes {
   padding-left: 2rem;
   padding-top: 1rem;
 }
-#folheto-page .clube-link .links-wrapper .links-content .badges-wrapper .playstore-img > img {
+#folheto-page .clube-link .links-wrapper .links-content .badges-wrapper .playstore-img img {
   height: 80px;
   width: 190px;
 }
 #folheto-page .clube-link .links-wrapper .links-content .badges-wrapper .appstore-img {
   padding-left: 0.8rem;
 }
-#folheto-page .clube-link .links-wrapper .links-content .badges-wrapper .appstore-img > svg {
+#folheto-page .clube-link .links-wrapper .links-content .badges-wrapper .appstore-img svg {
   height: 55px;
 }
 #folheto-page .record-capture {
@@ -21441,6 +21461,11 @@ body#recipes-page .top-chefs .chef-list .list .list-item .recipes {
     right: 0;
     width: 100vw;
     height: 100vh;
+  }
+  #user-data.user-data-opened {
+    opacity: 1;
+    visibility: visible;
+    top: 0;
   }
   #user-data .user-data-menu {
     box-shadow: none;
@@ -22492,6 +22517,37 @@ body#recipes-page .top-chefs .chef-list .list .list-item .recipes {
     width: 100%;
     display: block;
     margin-top: 10px;
+  }
+  #category-page .ofertasPrimeTitle {
+    background-color: #D99A06;
+    opacity: 0.6;
+    color: #fff;
+  }
+  #category-page .ofertasPrimeTitle .ofertasPrimeSubtitle {
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1.6em;
+    font-size: 14px;
+    width: 100%;
+    margin-top: 1em;
+  }
+  #category-page .ofertasPrimeTitle .ofertasPrimeTextContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-top: 1.5em;
+  }
+  #category-page .ofertasPrimeTitle .ofertasPrimeTextContainer h2 {
+    font-size: 27px;
+  }
+  #category-page .ofertasPrimeTitle #ofertasPrimeSejaPrime {
+    font-weight: bold;
+    color: #fff;
+    text-decoration: underline;
+    font-size: 14px;
   }
   #category-page #content {
     padding-left: 15px;
@@ -24354,14 +24410,14 @@ body#recipes-page .top-chefs .chef-list .list .list-item .recipes {
   .clube-link .links-wrapper .links-content .badges-wrapper {
     padding-left: 8px !important;
   }
-  .clube-link .links-wrapper .links-content .badges-wrapper .playstore-img > img {
+  .clube-link .links-wrapper .links-content .badges-wrapper .playstore-img img {
     height: 80px !important;
     width: 172px !important;
   }
   .clube-link .links-wrapper .links-content .badges-wrapper .appstore-img {
     padding-left: 0.6rem !important;
   }
-  .clube-link .links-wrapper .links-content .badges-wrapper .appstore-img > svg {
+  .clube-link .links-wrapper .links-content .badges-wrapper .appstore-img svg {
     height: 51px !important;
   }
   .record-capture .rc-wrapper {
