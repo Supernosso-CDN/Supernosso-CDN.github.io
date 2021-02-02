@@ -55811,11 +55811,11 @@
     }, {
       key: 'undefinedCEP',
       value: function undefinedCEP() {
-        //se tiver logado e com CEP definido
-        if (vtexjs.checkout.orderForm && vtexjs.checkout.orderForm.shippingData && vtexjs.checkout.orderForm.shippingData.address && vtexjs.checkout.orderForm.shippingData.address.postalCode && vtexjs.checkout.orderForm.loggedIn) {
-          return '';
+        // se ta logado e nao tem cep
+        if (vtexjs.checkout.orderForm && !vtexjs.checkout.orderForm.shippingData && !vtexjs.checkout.orderForm.shippingData.address && !vtexjs.checkout.orderForm.shippingData.address.postalCode && vtexjs.checkout.orderForm.loggedIn) {
+          return '\n      <div class="undefinedCepBox">\n        <p>N\xE3o existe nenhum CEP cadastrado em seu perfil, por favor digite seu CEP</p>\n      </div>';
         } else {
-          return ' \n        <div class="undefinedCepBox">\n          <p>N\xE3o existe nenhum CEP cadastrado em seu perfil, por favor digite seu CEP</p>\n        </div>\n      ';
+          return ' \n        \n      ';
         }
       }
     }, {
