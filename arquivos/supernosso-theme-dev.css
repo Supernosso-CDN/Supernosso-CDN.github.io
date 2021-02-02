@@ -12330,6 +12330,21 @@ p.text-seo span.full {
 #sellerModal .seller-modal-inner .seller-modal-body .postal-code-login button:hover {
   background: #ad222d;
 }
+#sellerModal .seller-modal-inner .seller-modal-body .undefinedCepBox {
+  width: 85%;
+  margin: 2em auto 2em;
+  background: #fddede;
+  color: #c53030;
+  padding: 1em;
+  border: solid 1px #c53030;
+  border-radius: 5px;
+  height: auto;
+}
+#sellerModal .seller-modal-inner .seller-modal-body .undefinedCepBox p {
+  font-family: 'Roboto';
+  font-size: 14px;
+  margin: 0;
+}
 #sellerModal .seller-modal-inner .seller-modal-body .delivery-choose {
   margin: 0 auto;
   padding: 0;
