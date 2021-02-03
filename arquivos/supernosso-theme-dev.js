@@ -55812,7 +55812,7 @@
       key: 'undefinedCEP',
       value: function undefinedCEP() {
         // se ta logado e nao tem cep
-        if (vtexjs.checkout.orderForm && !vtexjs.checkout.orderForm.shippingData.address && !vtexjs.checkout.orderForm.shippingData.address.postalCode && vtexjs.checkout.orderForm.loggedIn) {
+        if (vtexjs.checkout.orderForm && !vtexjs.checkout.orderForm.shippingData.address && vtexjs.checkout.orderForm.loggedIn) {
           return '\n      <div class="undefinedCepBox">\n        <p>N\xE3o existe nenhum CEP cadastrado em seu perfil, por favor digite seu CEP</p>\n      </div>\n      ';
         } else {
           return ' ';
