@@ -55967,23 +55967,25 @@
   
           events(that);
   
-          if (!vtexjs.checkout.orderForm.canEditData) {
-            $('.change-postal-code button').hide();
+          // if (!vtexjs.checkout.orderForm.canEditData) {
+          //   $('.change-postal-code button').hide()
   
-            var changeCEPNode = $('<a href=/login><h4>Para mudar seu CEP ou modalidade de entrega, clique aqui e faça seu login</h4></a>');
-            changeCEPNode.insertAfter('.modal-delivery-modality h4');
-            $('.postal-code-info p').replaceWith(changeCEPNode);
-            $('.modal-delivery-modality .delivery-choose, .postalcode-input').css({ opacity: 0.3, 'pointer-events': 'none' });
+          //   const changeCEPNode = $('<a href=/login><h4>Para mudar seu CEP ou modalidade de entrega, clique aqui e faça seu login</h4></a>')
+          //   changeCEPNode.insertAfter('.modal-delivery-modality h4')
+          //   $('.postal-code-info p').replaceWith(changeCEPNode)
+          //   $('.modal-delivery-modality .delivery-choose, .postalcode-input').css({opacity: 0.3, 'pointer-events': 'none'});
   
-            changeCEPNode.insertAfter('.delivery-availability').find("h4").css({
-              'font-family': 'Roboto',
-              'font-weight': 'bold',
-              'font-size': '16px',
-              color: "#841F27",
-              'padding-left': '10px',
-              'margin': '25px 0 18px 0px'
-            });
-          }
+          //   changeCEPNode.insertAfter('.delivery-availability').find("h4")
+          //     .css(
+          //       {
+          //         'font-family': 'Roboto',
+          //         'font-weight': 'bold',
+          //         'font-size': '16px',
+          //         color: "#841F27",
+          //         'padding-left': '10px',
+          //         'margin': '25px 0 18px 0px',
+          //       });
+          // }
   
           $('.change-postal-code button').on('click', function () {
             $('.modal-delivery-modality').hide();
