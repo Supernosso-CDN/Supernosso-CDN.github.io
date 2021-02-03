@@ -56267,7 +56267,7 @@
   
           if ($('#postalcodeloginbutton')) {
             $('#postalcodeloginbutton').click(function () {
-              window.location.href = "https://devsupernossoemcasa.myvtex.com/login";
+              window.location.href = "https://www.supernossoemcasa.com.br/login";
             });
           }
   
