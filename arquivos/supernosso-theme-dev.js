@@ -57070,11 +57070,11 @@
                       return '<li class="category-order-item ' + (x.selected == true ? 'category-order-item-selected' : "") + '"><a href="javascript:;" data-order="' + x.value + '" class="category-order-link">' + x.text.toLowerCase() + '</a></li>';
                   }
               }).join(' ') + '\n                    </ul>\n                </div>\n                </div>\n            </div>\n        ';
+              $(orderView).appendTo('body');
               $(navCat).appendTo('#collections .main .sub');
-              $(orderView).appendTo('.mobile-category-inner .right-item .mobile-category-order');
               $('.search-multiple-navigator').first().attr('style', '');
               var filterView = '\n            <div class="mobile-category-filter-view">\n                    <div class="category-filter-inner">\n                        <div class="category-filter-header">\n                            <strong>filtrar</strong>\n                            <img class="close-filter-view" src="https://supernossoemcasa.vteximg.com.br/arquivos/icon-close.png" />\n                        </div>\n                        <div class="category-filter-body">\n                            ' + $('.menu-departamento > div').html() + '\n                        </div>\n                        <div class="category-filter-actions">\n                            <a href="javascript:;" class="btn btn-bordered-grey">limpar</a>\n                            <a href="javascript:;" class="btn btn-wine">aplicar filtros</a>\n                        </div>\n                    </div>\n            </div>\n        ';
-              $(filterView).appendTo('.mobile-category-inner .right-item .mobile-category-filter');
+              $(filterView).appendTo('body');
               $(document).on('click', '.mobile-category-order', function (e) {
                   e.preventDefault();
                   $('.mobile-category-order-view').fadeIn();
@@ -57250,17 +57250,17 @@
                           e.preventDefault();
                           window.history.back();
                       });
-                      $('#back-button-category').click(function (e) {
-                          e.preventDefault();
-                          window.history.back();
-                      });
-                      $('#category-filters').click(function (e) {
-                          if (document.querySelector('#collections .main .sub').style.display == "none") {
-                              $('#collections .main .sub').show();
-                          } else {
-                              $('#collections .main .sub').hide();
-                          }
-                      });
+                      // $('#back-button-category').click(function(e){
+                      //     e.preventDefault();
+                      //     window.history.back();
+                      // });
+                      // $('#category-filters').click(function(e){
+                      //     if(document.querySelector('#collections .main .sub').style.display == "none"){
+                      //         $('#collections .main .sub').show();
+                      //     }else{
+                      //         $('#collections .main .sub').hide();
+                      //     }
+                      // });
                   }
   
                   // -- desativar load more
