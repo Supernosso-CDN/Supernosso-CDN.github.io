@@ -22531,7 +22531,8 @@ body#recipes-page .top-chefs .chef-list .list .list-item .recipes {
   #category-page .cat-title .title-category .bread-crumb {
     text-overflow: ellipsis;
     white-space: nowrap;
-    overflow: hidden;
+    overflow: auto;
+    margin: 0em 1em;
   }
   #category-page .cat-title .title-category .bread-crumb a {
     color: black;
@@ -22616,6 +22617,7 @@ body#recipes-page .top-chefs .chef-list .list .list-item .recipes {
     align-items: center;
   }
   #category-page #content #collections .main .mobile-category-inner .left-item {
+    display: none;
     font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: normal;
@@ -22626,9 +22628,9 @@ body#recipes-page .top-chefs .chef-list .list .list-item .recipes {
     font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: normal;
-    font-size: 16px;
+    font-size: 14px;
     color: #333;
-    margin-left: 24px;
+    position: relative;
   }
   #category-page #content #collections .main .mobile-category-inner .right-item a img {
     margin-left: 8px;
@@ -22808,14 +22810,18 @@ body#recipes-page .top-chefs .chef-list .list .list-item .recipes {
     padding: 12px 30px;
   }
   #category-page .mobile-category-order-view {
-    width: 100vw;
-    height: 100vh;
-    background: #FFF;
+    width: auto;
+    height: auto;
     display: none;
     overflow: hidden;
-    position: fixed;
-    top: 0;
+    position: absolute;
+    top: 2em;
     left: 0;
+    background: #FFFFFF;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.29);
+    border-radius: 4px;
+    list-style: none;
+    padding: 0em 1em;
     z-index: 99999999;
   }
   #category-page .mobile-category-order-view .category-order-inner .category-order-header {
@@ -22825,6 +22831,7 @@ body#recipes-page .top-chefs .chef-list .list .list-item .recipes {
     align-items: center;
     padding: 16px;
     background: #F2F2F2;
+    display: none !important;
   }
   #category-page .mobile-category-order-view .category-order-inner .category-order-header strong {
     font-family: Museo, sans-serif;
@@ -22833,7 +22840,7 @@ body#recipes-page .top-chefs .chef-list .list .list-item .recipes {
   }
   #category-page .mobile-category-order-view .category-order-inner .category-order-body {
     width: 100%;
-    height: calc(100vh - 72px);
+    height: auto;
     overflow-y: auto;
   }
   #category-page .mobile-category-order-view .category-order-inner .category-order-body .category-order-list {
@@ -22850,21 +22857,12 @@ body#recipes-page .top-chefs .chef-list .list .list-item .recipes {
     font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: normal;
-    font-size: 16px;
-    padding: 16px;
+    font-size: 14px;
+    padding: 0.5em 0em;
     display: block;
     overflow: hidden;
     display: flex;
     align-items: center;
-  }
-  #category-page .mobile-category-order-view .category-order-inner .category-order-body .category-order-list .category-order-item .category-order-link:before {
-    content: ' ';
-    display: block;
-    width: 16px;
-    height: 16px;
-    border-radius: 100%;
-    background: #F2F2F2;
-    margin-right: 22px;
   }
   #category-page .mobile-category-order-view .category-order-inner .category-order-body .category-order-list .category-order-item.category-order-item-selected .category-order-link:before {
     background: #333;
@@ -24603,27 +24601,25 @@ body#recipes-page .top-chefs .chef-list .list .list-item .recipes {
 }
 #feira-de-vinhos .banner-principal-feira-mobile .slick-dots {
   margin: 0 auto;
-  margin-top: 0px;
+  margin-top: 15px;
   width: 168px;
-  background: #ffffff;
-  margin-top: -24px;
-  z-index: 9999;
+  background: transparent;
+  z-index: 9;
   position: relative;
-  border-radius: 13px 13px 0 0;
   list-style-type: none;
   display: flex !important;
   align-items: center;
   justify-content: center;
-  height: 26px;
+  height: auto;
   padding: 0;
   cursor: pointer;
 }
 #feira-de-vinhos .banner-principal-feira-mobile .slick-dots li {
-  width: 12px;
-  height: 12px;
-  border-radius: 6px;
+  width: 8px;
+  height: 8px;
+  border-radius: 100%;
   margin: 0 5.5px;
-  border: solid 1px #000;
+  background: #DDDDDD;
 }
 #feira-de-vinhos .banner-principal-feira-mobile .slick-dots li button {
   display: none;

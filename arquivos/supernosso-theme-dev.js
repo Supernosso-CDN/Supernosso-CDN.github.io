@@ -55967,23 +55967,25 @@
   
           events(that);
   
-          if (!vtexjs.checkout.orderForm.canEditData) {
-            $('.change-postal-code button').hide();
+          // if (!vtexjs.checkout.orderForm.canEditData) {
+          //   $('.change-postal-code button').hide()
   
-            var changeCEPNode = $('<a href=/login><h4>Para mudar seu CEP ou modalidade de entrega, clique aqui e faça seu login</h4></a>');
-            changeCEPNode.insertAfter('.modal-delivery-modality h4');
-            $('.postal-code-info p').replaceWith(changeCEPNode);
-            $('.modal-delivery-modality .delivery-choose, .postalcode-input').css({ opacity: 0.3, 'pointer-events': 'none' });
+          //   const changeCEPNode = $('<a href=/login><h4>Para mudar seu CEP ou modalidade de entrega, clique aqui e faça seu login</h4></a>')
+          //   changeCEPNode.insertAfter('.modal-delivery-modality h4')
+          //   $('.postal-code-info p').replaceWith(changeCEPNode)
+          //   $('.modal-delivery-modality .delivery-choose, .postalcode-input').css({opacity: 0.3, 'pointer-events': 'none'});
   
-            changeCEPNode.insertAfter('.delivery-availability').find("h4").css({
-              'font-family': 'Roboto',
-              'font-weight': 'bold',
-              'font-size': '16px',
-              color: "#841F27",
-              'padding-left': '10px',
-              'margin': '25px 0 18px 0px'
-            });
-          }
+          //   changeCEPNode.insertAfter('.delivery-availability').find("h4")
+          //     .css(
+          //       {
+          //         'font-family': 'Roboto',
+          //         'font-weight': 'bold',
+          //         'font-size': '16px',
+          //         color: "#841F27",
+          //         'padding-left': '10px',
+          //         'margin': '25px 0 18px 0px',
+          //       });
+          // }
   
           $('.change-postal-code button').on('click', function () {
             $('.modal-delivery-modality').hide();
@@ -56267,7 +56269,7 @@
   
           if ($('#postalcodeloginbutton')) {
             $('#postalcodeloginbutton').click(function () {
-              window.location.href = "https://devsupernossoemcasa.myvtex.com/login";
+              window.location.href = "https://www.supernossoemcasa.com.br/login";
             });
           }
   
@@ -57070,11 +57072,11 @@
                       return '<li class="category-order-item ' + (x.selected == true ? 'category-order-item-selected' : "") + '"><a href="javascript:;" data-order="' + x.value + '" class="category-order-link">' + x.text.toLowerCase() + '</a></li>';
                   }
               }).join(' ') + '\n                    </ul>\n                </div>\n                </div>\n            </div>\n        ';
-              $(orderView).appendTo('body');
               $(navCat).appendTo('#collections .main .sub');
+              $(orderView).appendTo('.mobile-category-inner .right-item .mobile-category-order');
               $('.search-multiple-navigator').first().attr('style', '');
               var filterView = '\n            <div class="mobile-category-filter-view">\n                    <div class="category-filter-inner">\n                        <div class="category-filter-header">\n                            <strong>filtrar</strong>\n                            <img class="close-filter-view" src="https://supernossoemcasa.vteximg.com.br/arquivos/icon-close.png" />\n                        </div>\n                        <div class="category-filter-body">\n                            ' + $('.menu-departamento > div').html() + '\n                        </div>\n                        <div class="category-filter-actions">\n                            <a href="javascript:;" class="btn btn-bordered-grey">limpar</a>\n                            <a href="javascript:;" class="btn btn-wine">aplicar filtros</a>\n                        </div>\n                    </div>\n            </div>\n        ';
-              $(filterView).appendTo('body');
+              $(filterView).appendTo('.mobile-category-inner .right-item .mobile-category-filter');
               $(document).on('click', '.mobile-category-order', function (e) {
                   e.preventDefault();
                   $('.mobile-category-order-view').fadeIn();
@@ -57250,17 +57252,17 @@
                           e.preventDefault();
                           window.history.back();
                       });
-                      // $('#back-button-category').click(function(e){
-                      //     e.preventDefault();
-                      //     window.history.back();
-                      // });
-                      // $('#category-filters').click(function(e){
-                      //     if(document.querySelector('#collections .main .sub').style.display == "none"){
-                      //         $('#collections .main .sub').show();
-                      //     }else{
-                      //         $('#collections .main .sub').hide();
-                      //     }
-                      // });
+                      $('#back-button-category').click(function (e) {
+                          e.preventDefault();
+                          window.history.back();
+                      });
+                      $('#category-filters').click(function (e) {
+                          if (document.querySelector('#collections .main .sub').style.display == "none") {
+                              $('#collections .main .sub').show();
+                          } else {
+                              $('#collections .main .sub').hide();
+                          }
+                      });
                   }
   
                   // -- desativar load more
