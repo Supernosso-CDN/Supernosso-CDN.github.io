@@ -24603,27 +24603,25 @@ body#recipes-page .top-chefs .chef-list .list .list-item .recipes {
 }
 #feira-de-vinhos .banner-principal-feira-mobile .slick-dots {
   margin: 0 auto;
-  margin-top: 0px;
+  margin-top: 15px;
   width: 168px;
-  background: #ffffff;
-  margin-top: -24px;
-  z-index: 9999;
+  background: transparent;
+  z-index: 9;
   position: relative;
-  border-radius: 13px 13px 0 0;
   list-style-type: none;
   display: flex !important;
   align-items: center;
   justify-content: center;
-  height: 26px;
+  height: auto;
   padding: 0;
   cursor: pointer;
 }
 #feira-de-vinhos .banner-principal-feira-mobile .slick-dots li {
-  width: 12px;
-  height: 12px;
-  border-radius: 6px;
+  width: 8px;
+  height: 8px;
+  border-radius: 100%;
   margin: 0 5.5px;
-  border: solid 1px #000;
+  background: #DDDDDD;
 }
 #feira-de-vinhos .banner-principal-feira-mobile .slick-dots li button {
   display: none;
