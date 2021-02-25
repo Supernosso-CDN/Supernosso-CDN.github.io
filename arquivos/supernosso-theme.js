@@ -56648,6 +56648,22 @@
         });
       }
     }, {
+      key: 'addQuantityLoading',
+      value: function addQuantityLoading(el) {
+        $(el).css('display', 'none');
+        $('<div id="loadingComprar" style="display:flex;justify-content:center;"><img src="https://supernossoemcasa.vteximg.com.br/arquivos/loading-supernosso.gif"/ width="20" height="20"></div>').insertAfter(el);
+  
+        $('.product-qty .shelf-less-qty, .shelf-input-qty, .product-qty .shelf-more-qty').css('pointer-events', 'none');
+        $('.product-qty .shelf-less-qty, .shelf-input-qty, .product-qty .shelf-more-qty').css('opacity', '0.5');
+  
+        setTimeout(function () {
+          $("#loadingComprar").css('display', 'none');
+          $(el).css('display', 'block');
+          $('.product-qty .shelf-less-qty, .shelf-input-qty, .product-qty .shelf-more-qty').css('pointer-events', 'auto');
+          $('.product-qty .shelf-less-qty, .shelf-input-qty, .product-qty .shelf-more-qty').css('opacity', '1');
+        }, 800);
+      }
+    }, {
       key: 'init',
       value: function init() {
         var that = this;
@@ -56810,8 +56826,10 @@
   
           if (value - 1 >= 0) value--;
   
-          $(el).val(value);
           update(id, el, value, sku);
+  
+          that.addQuantityLoading(el);
+          $(el).val(value);
         });
         $(document).on('click', '.shelf-more-qty', function (e) {
   
@@ -56827,9 +56845,11 @@
           var sku = $(this).parent().data('product-sku');
   
           value++;
-          $(el).val(value);
   
           update(id, el, value, sku);
+  
+          that.addQuantityLoading(el);
+          $(el).val(value);
         });
   
         $(document).on('keyup', '.shelf-input-qty-control', _.debounce(function (e) {
