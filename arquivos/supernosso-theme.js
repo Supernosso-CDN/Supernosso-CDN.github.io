@@ -55687,9 +55687,9 @@
               bestShippingCompany = sc;
             }
           }
-          // if(bestShippingCompany.deliveryIds[0].courierName == "Prime"){
-          //   bestShippingCompany = sc;
-          // }
+          if (bestShippingCompany.deliveryIds[0].courierName == "Prime") {
+            bestShippingCompany = sc;
+          }
         });
   
         return bestShippingCompany;
