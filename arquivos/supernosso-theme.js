@@ -61652,8 +61652,6 @@
   
       _this.state = {
         items: [],
-        mobile: false,
-        desktop: false,
         prime: false,
         orderForm: {
           value: 0,
@@ -61662,23 +61660,6 @@
         steps: [],
         loading: false
       };
-  
-      fetch('/api/dataentities/CB/search?_fields=desktop,mobile').then(function (res) {
-        return res.json();
-      }).then(function (res) {
-        var mobile = false;
-        var desktop = false;
-  
-        if (res.length) {
-          desktop = res[0].desktop;
-          mobile = res[0].mobile;
-        }
-  
-        _this.setState({
-          mobile: mobile,
-          desktop: desktop
-        });
-      });
   
       vtexjs.checkout.getOrderForm().done(function (orderForm) {
         if (orderForm.clientProfileData && orderForm.clientProfileData.email) fetch('/api/dataentities/CL/search?email=' + orderForm.clientProfileData.email + '&_fields=cluster').then(function (res) {
@@ -62340,19 +62321,8 @@
     }, {
       key: 'redirectToCheckoutCart',
       value: function redirectToCheckoutCart() {
-        var key = 'desktop';
         // Sempre para o carrinho
         window.location.href = '/checkout#/cart';
-  
-        if (window.matchMedia('(max-width:768px)').matches == true) {
-          key = 'mobile';
-        }
-  
-        if (this.state[key]) {
-          window.location.href = '/checkout#/email';
-        } else {
-          window.location.href = '/checkout#/cart';
-        }
       }
     }, {
       key: 'renderTotal',
@@ -64766,11 +64736,6 @@
   var _index2 = _interopRequireDefault(_index);
   
   function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-  
-  // import CrossCart from '../script/components/cross-cart'
-  
-  // let crosscart = new CrossCart()
-  
   
   var home = new _home2.default();
   //import Newsletter from '../script/components/newsletter'
