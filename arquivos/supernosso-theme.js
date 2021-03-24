@@ -59767,6 +59767,8 @@
           }).then(function (r) {
               if (r.IsUserDefined) {
                   resolve(r);
+              } else {
+                  reject(r);
               }
           });
       });
@@ -61242,8 +61244,6 @@
   
   var _currency = require('../utils/currency');
   
-  var _utils = require('../../pages/utils/utils');
-  
   var _configurableShipping = require('./configurable-shipping');
   
   var _configurableShipping2 = _interopRequireDefault(_configurableShipping);
@@ -61265,14 +61265,26 @@
       var _this = _possibleConstructorReturn(this, (Fretometro.__proto__ || Object.getPrototypeOf(Fretometro)).call(this, props));
   
       _this.state = {
-        steps: props.freteSteps,
-        points: props.freteSteps
+        steps: [],
+        points: []
       };
       _this.configurableShipping = new _configurableShipping2.default();
       return _this;
     }
   
     _createClass(Fretometro, [{
+      key: 'componentWillMount',
+      value: function componentWillMount() {
+        var _this2 = this;
+  
+        this.configurableShipping.getSteps().then(function (steps) {
+          _this2.setState({
+            steps: steps,
+            points: _this2.configurableShipping.calculatePoints(steps)
+          });
+        });
+      }
+    }, {
       key: 'calculate',
       value: function calculate() {
   
@@ -61310,7 +61322,7 @@
       }
     }, {
       key: 'getFrete',
-      value: async function getFrete() {
+      value: function getFrete() {
         var value = this.props.value;
         var frete = this.props.frete01Value;
   
@@ -61335,34 +61347,20 @@
             }
           });
   
-          var usuarioPrime = void 0;
-          var userInfo = await (0, _utils.checkUser)();
-          if (userInfo.IsUserDefined) {
-            usuarioPrime = await fetch('/api/dataentities/CL/search?_where=(Prime=true AND email=' + userInfo.Email + ')&_fields=Prime,email').then(function (r) {
-              return r.json();
-            }).then(function (r) {
-              if (r.length > 0) {
-                return true;
-              } else {
-                return false;
-              }
-            });
-          } else {
-            usuarioPrime = false;
-          }
-  
           if (this.props.orderForm.totalizers.length > 0) {
             this.props.orderForm.totalizers.forEach(function (totalizer) {
               if (totalizer.id == 'Items') {
-                if (totalizer.value > 4990 && usuarioPrime) {
+                if (totalizer.value > 4990 && document.querySelector(".prime-container-cart") != null) {
                   userHasElegiblePrime = true;
-                  frete = 0;
                 }
               }
             });
           }
   
-          if (hasPrimeOnCart || userHasElegiblePrime) {
+          if (hasPrimeOnCart && userHasElegiblePrime) {
+            $(".cart-prime-label").remove();
+            $(".cart-entrega .cart-total-label").append("<span class='cart-prime-label'>prime</span>");
+          } else if (hasPrimeOnCart || userHasElegiblePrime) {
             $(".cart-prime-label").remove();
             $(".cart-entrega .cart-total-label").append("<span class='cart-prime-label'>prime</span>");
           } else {
@@ -61401,17 +61399,17 @@
     }, {
       key: 'renderPoints',
       value: function renderPoints() {
-        var _this2 = this;
+        var _this3 = this;
   
         if (!this.state.points.length) {
           return null;
         }
   
         return this.state.points.map(function (point, index) {
-          if (index - 1 > _this2.state.points.length) {
-            return _this2.getPoints(index, point.percentage + '%', point.step.from * 100);
+          if (index - 1 > _this3.state.points.length) {
+            return _this3.getPoints(index, point.percentage + '%', point.step.from * 100);
           } else {
-            return _this2.getPoints(index, point.percentage + '%', point.step.from * 100, true);
+            return _this3.getPoints(index, point.percentage + '%', point.step.from * 100, true);
           }
         });
       }
@@ -61427,9 +61425,6 @@
     }, {
       key: 'render',
       value: function render() {
-        this.setState({
-          points: this.configurableShipping.calculatePoints(this.props.freteSteps)
-        });
         return _react2.default.createElement(
           'div',
           { className: 'fretometro' },
@@ -61506,7 +61501,7 @@
     return Fretometro;
   }(_react2.default.Component);
   
-  },{"../../pages/utils/utils":54,"../utils/currency":79,"./configurable-shipping":63,"react":20}],66:[function(require,module,exports){
+  },{"../utils/currency":79,"./configurable-shipping":63,"react":20}],66:[function(require,module,exports){
   'use strict';
   
   Object.defineProperty(exports, "__esModule", {
@@ -61657,6 +61652,8 @@
   
       _this.state = {
         items: [],
+        mobile: false,
+        desktop: false,
         prime: false,
         orderForm: {
           value: 0,
@@ -61665,6 +61662,23 @@
         steps: [],
         loading: false
       };
+  
+      fetch('/api/dataentities/CB/search?_fields=desktop,mobile').then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        var mobile = false;
+        var desktop = false;
+  
+        if (res.length) {
+          desktop = res[0].desktop;
+          mobile = res[0].mobile;
+        }
+  
+        _this.setState({
+          mobile: mobile,
+          desktop: desktop
+        });
+      });
   
       vtexjs.checkout.getOrderForm().done(function (orderForm) {
         if (orderForm.clientProfileData && orderForm.clientProfileData.email) fetch('/api/dataentities/CL/search?email=' + orderForm.clientProfileData.email + '&_fields=cluster').then(function (res) {
@@ -62326,8 +62340,19 @@
     }, {
       key: 'redirectToCheckoutCart',
       value: function redirectToCheckoutCart() {
+        var key = 'desktop';
         // Sempre para o carrinho
         window.location.href = '/checkout#/cart';
+  
+        if (window.matchMedia('(max-width:768px)').matches == true) {
+          key = 'mobile';
+        }
+  
+        if (this.state[key]) {
+          window.location.href = '/checkout#/email';
+        } else {
+          window.location.href = '/checkout#/cart';
+        }
       }
     }, {
       key: 'renderTotal',
@@ -64741,6 +64766,11 @@
   var _index2 = _interopRequireDefault(_index);
   
   function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+  
+  // import CrossCart from '../script/components/cross-cart'
+  
+  // let crosscart = new CrossCart()
+  
   
   var home = new _home2.default();
   //import Newsletter from '../script/components/newsletter'
