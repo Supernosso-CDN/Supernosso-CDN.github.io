@@ -55811,7 +55811,7 @@
       key: 'loginButton',
       value: function loginButton() {
         if (vtexjs.checkout.orderForm && !vtexjs.checkout.orderForm.loggedIn) {
-          return '\n      <div class=\'postal-code-login\'>\n          <h2>Ou fa\xE7a login</h2>\n          <p>Garanta que seu carrinho fique sempre salvo e em qualquer dispositivo.</p>\n          <button id="postalcodeloginbutton">login</button>\n      </div>\n      ';
+          return '\n      <div class=\'postal-code-login\'>\n          <h2>Ou fa\xE7a login</h2>\n          <p>Garanta que seu carrinho fique sempre salvo e em qualquer dispositivo.</p>\n          <button id="postalcodeloginbutton">entrar</button>\n      </div>\n      ';
         } else {
           return ' ';
         }
