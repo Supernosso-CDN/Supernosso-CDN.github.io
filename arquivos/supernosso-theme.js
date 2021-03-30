@@ -54963,13 +54963,13 @@
       function Nav() {
           _classCallCheck(this, Nav);
   
-          this.categories = new Promise(function (resolve, reject) {
+          window.matchMedia("(max-width: 700px)").matches ? this.categories = new Promise(function (resolve, reject) {
               fetch('/api/dataentities/CT/search?_fields=id,name,url,image,order').then(function (r) {
                   return r.status == 200 ? r.json() : reject(r.statusText);
               }).then(function (r) {
                   resolve(r);
               });
-          });
+          }) : this.categories = null;
   
           this.currentUrl = window.location.href;
       }
@@ -55035,30 +55035,35 @@
           key: 'renderOptions',
           value: function renderOptions() {
               $('#nav-categories').find('.nav-cat-body').children('.row').children().detach();
-              this.categories.then(function (r) {
+              if (this.categories != null) {
+                  this.categories.then(function (r) {
   
-                  var sorted = _.sortBy(r, function (o) {
-                      return o.order;
-                  });
+                      var sorted = _.sortBy(r, function (o) {
+                          return o.order;
+                      });
   
-                  sorted.map(function (result) {
-                      var template = '\n                <div class="col-6 col-md-4 col-lg-2 col-xl-3">\n                    <div class="nav-cat-card">\n                        <a href=' + result.url + ' class="nav-cat-link">\n                            <img src="//supernossoemcasa.vtexcrm.com.br/DynamicForm/GetFile?dataEntityInstanceId=CT-' + result.id + '&fileName=' + result.image + '" alt="">\n                        <strong>' + result.name.toLowerCase() + '</strong>\n                        </a>\n                    </div>\n                </div>';
-                      $('#nav-categories').find('.nav-cat-body').children('.row').append(template);
+                      sorted.map(function (result) {
+                          var template = '\n                    <div class="col-6 col-md-4 col-lg-2 col-xl-3">\n                        <div class="nav-cat-card">\n                            <a href=' + result.url + ' class="nav-cat-link">\n                                <img src="//supernossoemcasa.vtexcrm.com.br/DynamicForm/GetFile?dataEntityInstanceId=CT-' + result.id + '&fileName=' + result.image + '" alt="">\n                            <strong>' + result.name.toLowerCase() + '</strong>\n                            </a>\n                        </div>\n                    </div>';
+                          $('#nav-categories').find('.nav-cat-body').children('.row').append(template);
+                      });
+                  }).catch(function (e) {
+                      console.log(e);
                   });
-              }).catch(function (e) {
-                  console.log(e);
-              });
+              }
           }
       }, {
           key: 'getCategories',
           value: function getCategories() {
               var _this3 = this;
   
-              fetch('/api/catalog_system/pub/category/tree/4/').then(function (r) {
-                  return r.json();
-              }).then(function (r) {
-                  _this3.subCategories(r);
-              });
+              if (!window.matchMedia("(max-width: 700px)").matches) {
+                  //se for desktop
+                  fetch('/api/catalog_system/pub/category/tree/4/').then(function (r) {
+                      return r.json();
+                  }).then(function (r) {
+                      _this3.subCategories(r);
+                  });
+              }
           }
       }, {
           key: 'subCategories',
@@ -57894,7 +57899,7 @@
       function Faq() {
           _classCallCheck(this, Faq);
   
-          this.questions = new Promise(function (resolve, reject) {
+          window.location.pathname == "/faq" ? this.questions = new Promise(function (resolve, reject) {
               fetch('/api/dataentities/QA/search?_fields=id,category,answer,question,question_mobile', {
                   method: 'GET',
                   dataType: 'json',
@@ -57908,7 +57913,7 @@
               }).then(function (r) {
                   resolve(r);
               });
-          });
+          }) : this.questions = null;
       }
   
       _createClass(Faq, [{
@@ -59251,7 +59256,7 @@
   exports.default = Search;
   
   },{}],51:[function(require,module,exports){
-  'use strict';
+  "use strict";
   
   Object.defineProperty(exports, "__esModule", {
       value: true
@@ -59259,11 +59264,11 @@
   
   var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
   
-  var _slugify = require('slugify');
+  var _slugify = require("slugify");
   
   var _slugify2 = _interopRequireDefault(_slugify);
   
-  var _lodash = require('lodash');
+  var _lodash = require("lodash");
   
   var _lodash2 = _interopRequireDefault(_lodash);
   
@@ -59275,7 +59280,7 @@
       function Store() {
           _classCallCheck(this, Store);
   
-          this.stores = new Promise(function (resolve, reject) {
+          window.location.pathname == "/lojas" ? this.stores = new Promise(function (resolve, reject) {
               fetch('/api/dataentities/SO/search?_fields=id,storeImage,address,city,complement,country,latitude,longitude,name,moreInfo,neighborhood,number,openingHour,phone,postalCode,state,name&_limit=1000', {
                   method: 'GET',
                   dataType: 'json',
@@ -59289,11 +59294,11 @@
               }).then(function (r) {
                   resolve(r);
               });
-          });
+          }) : this.stores = null;
       }
   
       _createClass(Store, [{
-          key: 'getCities',
+          key: "getCities",
           value: function getCities() {
               var _this = this;
   
@@ -59326,7 +59331,7 @@
                       return a;
                   });
                   cities.map(function (m) {
-                      citySelect.append('\n                <option value=' + (0, _slugify2.default)(m.toLowerCase()) + '>' + m.toLowerCase() + '</option>');
+                      citySelect.append("\n                <option value=" + (0, _slugify2.default)(m.toLowerCase()) + ">" + m.toLowerCase() + "</option>");
                   });
               });
               citySelect.on('change', function (e) {
@@ -59335,7 +59340,7 @@
               });
           }
       }, {
-          key: 'getCityStore',
+          key: "getCityStore",
           value: function getCityStore(city) {
               var _this2 = this;
   
@@ -59343,18 +59348,18 @@
                   var stores = r.filter(function (x) {
                       return (0, _slugify2.default)(x.city).toLowerCase() == city;
                   });
-                  $('#stores-content .form-result .result-title strong').text(stores.length + ' loja(s) em "' + stores[0].city.toLowerCase() + '".');
+                  $('#stores-content .form-result .result-title strong').text(stores.length + " loja(s) em \"" + stores[0].city.toLowerCase() + "\".");
                   _this2.renderStores(stores);
                   var maps = new google.maps.Map(document.getElementById('map'));
-                  fetch('https://api.opencagedata.com/geocode/v1/json?key=e55114e5509a45b58e13b1fefd16fd8b&q=' + stores[0].city + '&pretty=1&no_annotations=1').then(function (s) {
+                  fetch("https://api.opencagedata.com/geocode/v1/json?key=e55114e5509a45b58e13b1fefd16fd8b&q=" + stores[0].city + "&pretty=1&no_annotations=1").then(function (s) {
                       return s.status == 200 && s.json();
                   }).then(function (s) {
                       maps.setZoom(11);
                       maps.setCenter(new google.maps.LatLng(parseFloat(s.results[0].geometry.lat), parseFloat(s.results[0].geometry.lng)));
                       r.map(function (x) {
-                          var marker = new google.maps.Marker({ position: { lat: parseFloat(x.latitude), lng: parseFloat(x.longitude) }, map: maps, icon: window.location.origin + '/arquivos/map-marker.png' });
+                          var marker = new google.maps.Marker({ position: { lat: parseFloat(x.latitude), lng: parseFloat(x.longitude) }, map: maps, icon: window.location.origin + "/arquivos/map-marker.png" });
                           var infowindow = new google.maps.InfoWindow({
-                              content: '<strong>' + x.name + '</strong>\n                    <p style="margin-bottom:0;"><small>' + x.address + ', ' + x.number + ', ' + x.neighborhood + ' - ' + x.state + '</small></p>\n                    <p style="margin-bottom:0;"><small>' + x.phone + '</small></p>\n                    '
+                              content: "<strong>" + x.name + "</strong>\n                    <p style=\"margin-bottom:0;\"><small>" + x.address + ", " + x.number + ", " + x.neighborhood + " - " + x.state + "</small></p>\n                    <p style=\"margin-bottom:0;\"><small>" + x.phone + "</small></p>\n                    "
                           });
                           google.maps.event.addListener(marker, 'mouseover', function () {
   
@@ -59368,13 +59373,13 @@
               });
           }
       }, {
-          key: 'renderStores',
+          key: "renderStores",
           value: function renderStores(stores) {
               var that = this;
               var resultList = $('#stores-content .form-result .result-list').find('.result-inner');
               resultList.children().detach();
               stores.map(function (x) {
-                  resultList.append('\n            <div class="result-card">\n                <div class="result-card-header">\n                    <span class="city">' + x.name.toLowerCase() + '</span>\n                    <span class="phone">' + x.phone + '</span>\n                </div>\n                <div class="result-card-body">\n                <p class="city">' + x.city.toLowerCase() + '</p>\n                <p class="address">' + x.address + ', ' + x.number + ', ' + x.neighborhood + ' - ' + x.state + '</p>\n                <button class="btn btn-white-wine btn-block store-more-info" data-id=' + x.id + '>mais informa\xE7\xF5es</button>\n                </div>\n            </div>            \n            ');
+                  resultList.append("\n            <div class=\"result-card\">\n                <div class=\"result-card-header\">\n                    <span class=\"city\">" + x.name.toLowerCase() + "</span>\n                    <span class=\"phone\">" + x.phone + "</span>\n                </div>\n                <div class=\"result-card-body\">\n                <p class=\"city\">" + x.city.toLowerCase() + "</p>\n                <p class=\"address\">" + x.address + ", " + x.number + ", " + x.neighborhood + " - " + x.state + "</p>\n                <button class=\"btn btn-white-wine btn-block store-more-info\" data-id=" + x.id + ">mais informa\xE7\xF5es</button>\n                </div>\n            </div>            \n            ");
               });
               $(document).on('click', '.store-more-info', function (e) {
                   e.preventDefault();
@@ -59382,7 +59387,7 @@
               });
           }
       }, {
-          key: 'getStoreInfo',
+          key: "getStoreInfo",
           value: function getStoreInfo(storeId) {
               $('.store-info-wrapper').detach();
               var that = this;
@@ -59390,7 +59395,7 @@
                   var result = r.filter(function (x) {
                       return x.id == storeId;
                   });
-                  var modal = '\n                <div class="store-info-wrapper">\n                    <div class="store-info-content">\n                        <div class="store-info-inner">\n                            <div class="store-info-header">\n                                <img src="https://supernossoemcasa.vteximg.com.br/arquivos/icon-back.png" class="store-info-close"/>\n                                <strong>' + result[0].name + '</strong>\n                            </div>\n                            <div class="store-info-body">\n                                <img src="//supernossoemcasa.vtexcrm.com.br/DynamicForm/GetFile?dataEntityInstanceId=SO-' + result[0].id + '&fileName=' + result[0].storeImage + '" class="store-img" />\n                                <strong class="s-i-body-title">como chegar</strong>\n                                <button class="btn btn-white-wine btn-block show-on-map" data-id="' + result[0].id + '">ver no mapa</button>\n                                <strong class="s-i-body-title">hor\xE1rios</strong>\n                                <p class="opening-hours">' + result[0].openingHour.split(',').join('<br />') + '</p>\n                                ' + (result[0].moreInfo ? '\n                                    <strong class="s-i-body-title">outras informa\xE7\xF5es</strong>\n                                    <p class="more-info">' + result[0].moreInfo + '</p>\n                                ' : '') + '\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            ';
+                  var modal = "\n                <div class=\"store-info-wrapper\">\n                    <div class=\"store-info-content\">\n                        <div class=\"store-info-inner\">\n                            <div class=\"store-info-header\">\n                                <img src=\"https://supernossoemcasa.vteximg.com.br/arquivos/icon-back.png\" class=\"store-info-close\"/>\n                                <strong>" + result[0].name + "</strong>\n                            </div>\n                            <div class=\"store-info-body\">\n                                <img src=\"//supernossoemcasa.vtexcrm.com.br/DynamicForm/GetFile?dataEntityInstanceId=SO-" + result[0].id + "&fileName=" + result[0].storeImage + "\" class=\"store-img\" />\n                                <strong class=\"s-i-body-title\">como chegar</strong>\n                                <button class=\"btn btn-white-wine btn-block show-on-map\" data-id=\"" + result[0].id + "\">ver no mapa</button>\n                                <strong class=\"s-i-body-title\">hor\xE1rios</strong>\n                                <p class=\"opening-hours\">" + result[0].openingHour.split(',').join('<br />') + "</p>\n                                " + (result[0].moreInfo ? "\n                                    <strong class=\"s-i-body-title\">outras informa\xE7\xF5es</strong>\n                                    <p class=\"more-info\">" + result[0].moreInfo + "</p>\n                                " : '') + "\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            ";
                   $(modal).appendTo('#stores-content');
                   $(document).on('click', '.store-info-close', function (e) {
                       e.preventDefault();
@@ -59404,7 +59409,7 @@
               });
           }
       }, {
-          key: 'setMap',
+          key: "setMap",
           value: function setMap(storeId) {
               this.stores.then(function (r) {
                   var store = r.filter(function (x) {
@@ -59413,9 +59418,9 @@
                   var maps = new google.maps.Map(document.getElementById('map'));
                   maps.setZoom(11);
                   maps.setCenter(new google.maps.LatLng(parseFloat(store[0].latitude), parseFloat(store[0].longitude)));
-                  var marker = new google.maps.Marker({ position: { lat: parseFloat(store[0].latitude), lng: parseFloat(store[0].longitude) }, map: maps, icon: window.location.origin + '/arquivos/map-marker.png' });
+                  var marker = new google.maps.Marker({ position: { lat: parseFloat(store[0].latitude), lng: parseFloat(store[0].longitude) }, map: maps, icon: window.location.origin + "/arquivos/map-marker.png" });
                   var infowindow = new google.maps.InfoWindow({
-                      content: '<strong>' + store[0].name + '</strong>\n            <p style="margin-bottom:0;"><small>' + store[0].address + ', ' + store[0].number + ', ' + store[0].neighborhood + ' - ' + store[0].state + '</small></p>\n            <p style="margin-bottom:0;"><small>' + store[0].phone + '</small></p>\n            '
+                      content: "<strong>" + store[0].name + "</strong>\n            <p style=\"margin-bottom:0;\"><small>" + store[0].address + ", " + store[0].number + ", " + store[0].neighborhood + " - " + store[0].state + "</small></p>\n            <p style=\"margin-bottom:0;\"><small>" + store[0].phone + "</small></p>\n            "
                   });
                   google.maps.event.addListener(marker, 'mouseover', function () {
   
@@ -59427,14 +59432,14 @@
               });
           }
       }, {
-          key: 'init',
+          key: "init",
           value: function init() {
               if ($('body').hasClass('store')) {
                   this.getCities();
               }
           }
       }], [{
-          key: 'initMap',
+          key: "initMap",
           value: function initMap() {
               //   // The location of Uluru
               //   var uluru = {lat: -25.344, lng: 131.036};
