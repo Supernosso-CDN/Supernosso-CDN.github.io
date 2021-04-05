@@ -55924,11 +55924,26 @@
         }
       }
     }, {
+      key: 'getLoggedUserPostalCode',
+      value: function getLoggedUserPostalCode(email) {
+        try {
+          return $.ajax({
+            type: "GET",
+            method: "GET",
+            url: '/api/dataentities/AD/search?_where=emailCliente=' + email + '&_fields=postalCode',
+            headers: {
+              "Accept": "application/vnd.vtex.ds.v10+json",
+              "Content-Type": "application/json; charset=utf-8"
+            }
+          });
+        } catch (error) {
+          console.error("Erro ao buscar dados", error);
+        }
+      }
+    }, {
       key: 'templateModal',
-      value: function templateModal() {
+      value: function templateModal(hasStore, userResponse) {
         var _this2 = this;
-  
-        var hasStore = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
   
         var that = this;
         var unifiedTemplate = '\n                <div id="sellerModal" class="seller-modal">\n                <div class="seller-modal-inner">\n                    <div class="seller-modal-header">\n                        <div class="black-bar">\n                            <h3>Meu Carrinho</h3>\n                            <span class="close-modal">&times;</span>\n                        </div>\n                    </div>\n                    <div class=\'delivery-modality\'>Modalidade de entrega</div>\n                    <div class=\'delivery-availability\'>\n                        <div class=\'has-delivery\'>\n                            <div>\n                                <h4>Atendemos sua regi\xE3o</h4>\n                                <h4 class="availability-cep-invalido" style=\'display:none;color:#841F27;\'>CEP inv\xE1lido</h4>\n                                <p>CEP informado: <b></b>\n                                </p>\n                            </div>\n                        </div>\n                        <div class=\'no-delivery\'>\n                            <div>\n                                <h4>Ainda n\xE3o atendemos sua regi\xE3o</h4>\n                                <h4 class="availability-cep-invalido" style=\'display:none;color:#841F27;\'>CEP inv\xE1lido</h4>\n                                <p>CEP informado: <b></b>\n                                </p>\n                            </div>\n                        </div>\n                        <div class=\'change-postal-code\'>\n                            <button>Trocar</button>\n                        </div>\n                    </div>\n                    <div class="seller-modal-body modal-postal-code">\n                        <div class="postal-code-info">\n                            ' + this.undefinedCEP() + '\n                            <p>Para adicionar os produtos no carrinho, informe seu CEP. Indicaremos a loja mais pr\xF3xima ou\n                            verificaremos se a entrega est\xE1 dispon\xEDvel para\n                            sua regi\xE3o. </p>\n                        </div>\n                        <div class=\'postalcode-input\'>\n                            <h4>Digite seu CEP</h4>\n                            <div class="postalcode-input-box">\n                              <input id="enterPostalCodeInput" maxlength="9" type="tel" class=\'seller-postal-code\'>\n                              <button class=\'enter-postal-code\'>buscar</button>\n                            </div>\n                            <a target="_blank" href="https://buscacepinter.correios.com.br/app/endereco/index.php?t">N\xE3o sei meu CEP</a>\n                        </div>\n                        ' + this.loginButton() + '\n                    </div>\n                    <div class="seller-modal-body modal-delivery-modality">\n                        <h4>Sobre seus produtos:</h4>\n                        ' + this.deliveryChoose(hasStore, that) + '\n\n                        <div class="link-modal">\n                          <a\n                            href=""\n                            id="btn-show-modal"\n                            data-toggle="modal"\n                            data-target="#videoClickModal"\n                          >\n                            <u>saiba mais sobre este servi\xE7o</u>\n                          </a>\n                        </div>\n                    </div>\n\n                    <div class="modal fade" id="videoClickModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">\n                      <div class="modal-dialog modal-dialog-centered" role="document">\n\n                        <div class="col">\n                          <div class="close-icon">\n                            <a href="">\n                              <img src="https://supernossoemcasa.vteximg.com.br/arquivos/icon-close.png"/>\n                            </a>\n                          </div>\n\n                          <div class="modal-content">\n                            <iframe id="video-click" src="https://www.youtube.com/embed/QZ8H8O8H_tU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>\n                            <p>Escolha os produtos que deseja no site, e busque tudo separado e embalado na unidade mais pr\xF3xima de voc\xEA.\n                            Saiba mais <a href="https://conteudo.blogsupernosso.com.br/clique-e-retire-2" target="_blank"><u>aqui</u>.</a></p>\n                          </div>\n                        </div>\n\n                      </div>\n                    </div>\n\n                    <div class="seller-modal-body seller-modal-stores">\n                     ' + this.storeList() + '\n                    </div>\n                </div>\n            </div>\n        ';
@@ -56028,13 +56043,15 @@
             }
           });
   
-          if (vtexjs.checkout.orderForm && vtexjs.checkout.orderForm.shippingData) {
-            if (vtexjs.checkout.orderForm.shippingData.address) {
-              if (vtexjs.checkout.orderForm.shippingData.address.postalCode) {
-                $("#enterPostalCodeInput").val(vtexjs.checkout.orderForm.shippingData.address.postalCode);
-                //document.querySelector(".enter-postal-code").click();
+          if (userResponse.IsUserDefined) {
+            $.when(that.getLoggedUserPostalCode(userResponse.Email)).done(function (res) {
+              if (res.length > 0) {
+                var postalCodeInputFormatted = res[0].postalCode.replace('-', '');
+                that.setDeliveryShippingData(postalCodeInputFormatted).done(function () {
+                  that.removeStorage('selectedPickup');
+                });
               }
-            }
+            });
           }
   
           $('.enter-postal-code').on('click', async function () {
@@ -56268,132 +56285,138 @@
   
         var that = this;
         var count = 0;
-        fetch('/api/dataentities/SP/search?_fields=id,city,complement,name,neighborhood,number,pickUpId,postalCode,sc,state,street,status,lat,long&an=supernossoemcasa').then(function (r) {
-          return r.status == 200 ? r.json() : console.log(r);
-        }).then(function (r) {
-          // this.stores = r.filter(x => x.status = true);
-          _this4.stores = r.filter(function (x) {
-            return x.status;
-          });
   
-          if (_this4.stores.length > 0) {
-            _this4.templateModal();
-            // this.renderStores();
-          } else {
-            _this4.templateModal(false);
-          }
-  
-          if ($('#postalcodeloginbutton')) {
-            $('#postalcodeloginbutton').click(function () {
-              window.location.href = "https://www.supernossoemcasa.com.br/login";
+        fetch('/no-cache/profileSystem/getProfile').then(function (res) {
+          return res.json();
+        }).then(function (res) {
+          var userResponse = res;
+          fetch('/api/dataentities/SP/search?_fields=id,city,complement,name,neighborhood,number,pickUpId,postalCode,sc,state,street,status,lat,long&an=supernossoemcasa').then(function (r) {
+            return r.status == 200 ? r.json() : console.log(r);
+          }).then(function (r) {
+            // this.stores = r.filter(x => x.status = true);
+            _this4.stores = r.filter(function (x) {
+              return x.status;
             });
-          }
   
-          _this4.addUserInfo('delivery');
-  
-          $(document).on('click', '.change-delivery', function (e) {
-            e.preventDefault();
-            $('#user-data').toggleClass('user-data-opened');
-  
-            $('#minicart-wrapper').toggleClass('open-minicart');
-            if ($('#minicart-wrapper').hasClass('open-minicart')) {
-              $('body').addClass('overflow-hidden');
+            if (_this4.stores.length > 0) {
+              _this4.templateModal(true, userResponse);
+              // this.renderStores();
             } else {
-              $('body').removeClass('overflow-hidden');
+              _this4.templateModal(false, userResponse);
             }
-            $('#sellerModal').toggleClass('opened');
-          });
   
-          var seller = _this4.getStorage('selectedSeller');
-          var pickUpId = _this4.getStorage('selectedPickup');
+            if ($('#postalcodeloginbutton')) {
+              $('#postalcodeloginbutton').click(function () {
+                window.location.href = "https://www.supernossoemcasa.com.br/login";
+              });
+            }
   
-          if (seller && seller != 'delivery' && pickUpId) {
-            var store = _this4.getStore(pickUpId);
+            _this4.addUserInfo('delivery');
   
-            if (store) {
-              _this4.addUserInfo(store);
+            $(document).on('click', '.change-delivery', function (e) {
+              e.preventDefault();
+              $('#user-data').toggleClass('user-data-opened');
   
-              $(".cart-retirada-label").remove();
-              $(".cart-entrega .cart-total-label").append("<span class='cart-retirada-label'>retirada em loja</span>");
+              $('#minicart-wrapper').toggleClass('open-minicart');
+              if ($('#minicart-wrapper').hasClass('open-minicart')) {
+                $('body').addClass('overflow-hidden');
+              } else {
+                $('body').removeClass('overflow-hidden');
+              }
+              $('#sellerModal').toggleClass('opened');
+            });
   
-              var orderForm = vtexjs.checkout.orderForm;
+            var seller = _this4.getStorage('selectedSeller');
+            var pickUpId = _this4.getStorage('selectedPickup');
   
-              if (orderForm) {
-                var shippingData = orderForm.shippingData;
+            if (seller && seller != 'delivery' && pickUpId) {
+              var store = _this4.getStore(pickUpId);
   
-                var pickupPoint = shippingData.pickupPoints.find(function (_ref) {
-                  var id = _ref.id;
-                  return id.includes('_' + pickUpId);
-                });
+              if (store) {
+                _this4.addUserInfo(store);
   
-                if (pickupPoint) {
-                  var newAddress = Object.assign(pickupPoint.address, {
-                    addressId: (new Date().getTime() * -1).toString(),
-                    addressType: 'search',
-                    addressQuery: ''
+                $(".cart-retirada-label").remove();
+                $(".cart-entrega .cart-total-label").append("<span class='cart-retirada-label'>retirada em loja</span>");
+  
+                var orderForm = vtexjs.checkout.orderForm;
+  
+                if (orderForm) {
+                  var shippingData = orderForm.shippingData;
+  
+                  var pickupPoint = shippingData.pickupPoints.find(function (_ref) {
+                    var id = _ref.id;
+                    return id.includes('_' + pickUpId);
                   });
   
-                  var logisticsInfo = shippingData.logisticsInfo.map(function (_ref2) {
-                    var itemIndex = _ref2.itemIndex,
-                        slas = _ref2.slas;
-  
-                    var sla = slas.find(function (sla) {
-                      return sla.pickupPointId == pickupPoint.id;
+                  if (pickupPoint) {
+                    var newAddress = Object.assign(pickupPoint.address, {
+                      addressId: (new Date().getTime() * -1).toString(),
+                      addressType: 'search',
+                      addressQuery: ''
                     });
   
-                    return {
-                      itemIndex: itemIndex,
-                      addressId: newAddress.addressId,
-                      selectedSla: sla.id,
-                      selectedDeliveryChannel: 'pickup-in-point'
-                    };
-                  });
+                    var logisticsInfo = shippingData.logisticsInfo.map(function (_ref2) {
+                      var itemIndex = _ref2.itemIndex,
+                          slas = _ref2.slas;
   
-                  window.addTeste = JSON.stringify({
-                    clearAddressIfPostalCodeNotFound: false,
-                    selectedAddresses: [newAddress],
-                    logisticsInfo: logisticsInfo
-                  });
+                      var sla = slas.find(function (sla) {
+                        return sla.pickupPointId == pickupPoint.id;
+                      });
   
-                  vtexjs.checkout.sendAttachment('shippingData', {
-                    clearAddressIfPostalCodeNotFound: false,
-                    selectedAddresses: [newAddress],
-                    logisticsInfo: logisticsInfo
-                  }, null).done(function () {
-                    that.setStorage('activeDeliveryChannel', 'pickup-in-point');
-                    that.setStorage('aditionalShippingData', JSON.stringify({
-                      activeTab: "pickup-in-point",
-                      isScheduledDeliveryActive: true,
-                      originComponent: "omnishipping",
-                      selectedLeanShippingOption: "CHEAPEST"
-                    }));
-                  });
+                      return {
+                        itemIndex: itemIndex,
+                        addressId: newAddress.addressId,
+                        selectedSla: sla.id,
+                        selectedDeliveryChannel: 'pickup-in-point'
+                      };
+                    });
   
-                  $(window).load(function (e) {
-                    if (vtexjs.session) {
-                      if (jssalesChannel != store.sc) {
-                        that.changeSeller(seller);
+                    window.addTeste = JSON.stringify({
+                      clearAddressIfPostalCodeNotFound: false,
+                      selectedAddresses: [newAddress],
+                      logisticsInfo: logisticsInfo
+                    });
+  
+                    vtexjs.checkout.sendAttachment('shippingData', {
+                      clearAddressIfPostalCodeNotFound: false,
+                      selectedAddresses: [newAddress],
+                      logisticsInfo: logisticsInfo
+                    }, null).done(function () {
+                      that.setStorage('activeDeliveryChannel', 'pickup-in-point');
+                      that.setStorage('aditionalShippingData', JSON.stringify({
+                        activeTab: "pickup-in-point",
+                        isScheduledDeliveryActive: true,
+                        originComponent: "omnishipping",
+                        selectedLeanShippingOption: "CHEAPEST"
+                      }));
+                    });
+  
+                    $(window).load(function (e) {
+                      if (vtexjs.session) {
+                        if (jssalesChannel != store.sc) {
+                          that.changeSeller(seller);
+                        }
                       }
-                    }
-                  });
+                    });
+                  }
                 }
+              } else {
+                that.changeSeller('1');
               }
             } else {
-              that.changeSeller('1');
-            }
-          } else {
-            $(window).load(function () {
-              if (!$('#sellerModal').hasClass('opened')) {
-                if (seller && seller == 'delivery') {
-                  seller = 1;
-                }
+              $(window).load(function () {
+                if (!$('#sellerModal').hasClass('opened')) {
+                  if (seller && seller == 'delivery') {
+                    seller = 1;
+                  }
   
-                if (seller && jssalesChannel != seller) {
-                  that.changeSeller('1');
+                  if (seller && jssalesChannel != seller) {
+                    that.changeSeller('1');
+                  }
                 }
-              }
-            });
-          }
+              });
+            }
+          });
         });
   
         $(window).load(function () {
