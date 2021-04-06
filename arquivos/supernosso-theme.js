@@ -56048,7 +56048,7 @@
               if (res.length > 0) {
                 var postalCodeInputFormatted = res[0].postalCode.replace('-', '');
                 that.setDeliveryShippingData(postalCodeInputFormatted).done(function () {
-                  that.removeStorage('selectedPickup');
+                  //that.removeStorage('selectedPickup');
                 });
               }
             });
