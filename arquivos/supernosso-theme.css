@@ -9370,28 +9370,28 @@ html {
   font-style: normal;
   font-weight: 300;
   font-display: swap;
-  src: url(https://fonts.gstatic.com/s/roboto/v20/KFOlCnqEu92Fr1MmSU5fBBc9.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/roboto/v27/KFOlCnqEu92Fr1MmSU5fBBc9.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url(https://fonts.gstatic.com/s/roboto/v20/KFOmCnqEu92Fr1Mu4mxP.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/roboto/v27/KFOmCnqEu92Fr1Mu4mxP.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 500;
   font-display: swap;
-  src: url(https://fonts.gstatic.com/s/roboto/v20/KFOlCnqEu92Fr1MmEU9fBBc9.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/roboto/v27/KFOlCnqEu92Fr1MmEU9fBBc9.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url(https://fonts.gstatic.com/s/roboto/v20/KFOlCnqEu92Fr1MmWUlfBBc9.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/roboto/v27/KFOlCnqEu92Fr1MmWUlfBBc9.ttf) format('truetype');
 }
 @font-face {
   font-family: Museo;
@@ -13957,8 +13957,11 @@ p.text-seo span.full {
   display: none !important;
   z-index: 0 !important;
 }
+#product-page .quickviewProduct {
+  margin-top: 40px !important;
+}
 #product-page #product-content {
-  padding-top: 40px;
+  margin-top: calc(144px + 2em);
   background: url("https://supernossoemcasa.vteximg.com.br/arquivos/product-info-bg.png") no-repeat top -50px right -30%;
 }
 #product-page #product-content #box-bread-brumb {
@@ -22909,7 +22912,7 @@ body#recipes-page .top-chefs .chef-list .list .list-item .recipes {
     display: none;
   }
   #product-page #product-content {
-    padding-top: 24px;
+    margin-top: 24px !important;
     background: transparent;
   }
   #product-page #product-content .product-info {

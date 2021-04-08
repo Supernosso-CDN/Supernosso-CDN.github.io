@@ -58689,6 +58689,11 @@
                       $('.newsletter').remove();
                       $('.central-app').remove();
                       $('#mobile-nav').remove();
+                      //$("#product-content").addClass("quickviewProduct")
+                      var productContent = document.querySelectorAll("#product-content");
+                      for (var i = 0; i < productContent.length; ++i) {
+                          productContent[i].classList.add('quickviewProduct');
+                      }
                       $(document).on('click', '.item-shelf a.product-image', function (e) {
                           e.preventDefault();
                           var url = $(this).attr('href') + '?quickview=true';
@@ -58696,6 +58701,7 @@
                       });
                   } else {
                       $('.product-details').css('margin-top', '80px');
+                      document.querySelectorAll("#product-content")[1].classList.add('quickviewProduct');
                   }
                   this.syncCart();
                   this.defineProductStockSchema();
@@ -58706,19 +58712,17 @@
                   this.addToMinicartModal();
                   this.mainImage();
                   this.productBuyTogether();
+  
+                  if (document.querySelector("#product-content #box-bread-brumb .bread-crumb ul")) {
+                      document.querySelector("#product-content #box-bread-brumb .bread-crumb ul li:first-child").style.display = "none";
+                  }
+  
                   if (window.matchMedia("(max-width:768px)").matches == true) {
                       this.mobileNav();
                       this.buyButton();
                       $("#product-page").css('opacity', 1);
-  
-                      if (window.location.search.includes('quickview')) {
-                          // hide buy box
-                          $('.buy-button-box').remove();
-                          $('.buy-button-box a').remove();
-                      } else {
-                          $('.buy-button-box').show();
-                          $('.buy-button-box a').css('display', 'block');
-                      }
+                      $('.buy-button-box').show();
+                      $('.buy-button-box a').css('display', 'block');
   
                       setTimeout(function (e) {
                           parent.postMessage("productLoaded", "*");
