@@ -56044,16 +56044,16 @@
           });
   
           if (userResponse.IsUserDefined) {
-            if (!of.shippingData.address.postalCode) {
-              $.when(that.getLoggedUserPostalCode(userResponse.Email)).done(function (res) {
-                if (res.length > 0) {
-                  var postalCodeInputFormatted = res[0].postalCode.replace('-', '');
-                  that.setDeliveryShippingData(postalCodeInputFormatted).done(function () {
-                    //that.removeStorage('selectedPickup');
-                  });
-                }
-              });
-            }
+            //if (!of.shippingData.address.postalCode){
+            $.when(that.getLoggedUserPostalCode(userResponse.Email)).done(function (res) {
+              if (res.length > 0) {
+                var postalCodeInputFormatted = res[0].postalCode.replace('-', '');
+                that.setDeliveryShippingData(postalCodeInputFormatted).done(function () {
+                  //that.removeStorage('selectedPickup');
+                });
+              }
+            });
+            //}
           }
   
           $('.enter-postal-code').on('click', async function () {
