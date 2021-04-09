@@ -55923,23 +55923,23 @@
           $('body').removeClass('overflow-hidden');
         }
       }
-    }, {
-      key: 'getLoggedUserPostalCode',
-      value: function getLoggedUserPostalCode(email) {
-        try {
-          return $.ajax({
-            type: "GET",
-            method: "GET",
-            url: '/api/dataentities/AD/search?_where=emailCliente=' + email + '&_fields=postalCode',
-            headers: {
-              "Accept": "application/vnd.vtex.ds.v10+json",
-              "Content-Type": "application/json; charset=utf-8"
-            }
-          });
-        } catch (error) {
-          console.error("Erro ao buscar dados", error);
-        }
-      }
+  
+      // getLoggedUserPostalCode(email) {
+      // 		try {
+      // 			return $.ajax({
+      // 				type: "GET",
+      // 				method: "GET",
+      // 				url: '/api/dataentities/AD/search?_where=emailCliente='+email+'&_fields=postalCode',
+      // 				headers: {
+      // 					"Accept": "application/vnd.vtex.ds.v10+json",
+      // 					"Content-Type": "application/json; charset=utf-8"
+      // 				}
+      // 			});
+      // 		} catch (error) {
+      // 			console.error("Erro ao buscar dados", error)
+      // 		}
+      // }
+  
     }, {
       key: 'templateModal',
       value: function templateModal(hasStore, userResponse) {
@@ -56043,18 +56043,18 @@
             }
           });
   
-          if (userResponse.IsUserDefined) {
-            //if (!of.shippingData.address.postalCode){
-            $.when(that.getLoggedUserPostalCode(userResponse.Email)).done(function (res) {
-              if (res.length > 0) {
-                var postalCodeInputFormatted = res[0].postalCode.replace('-', '');
-                that.setDeliveryShippingData(postalCodeInputFormatted).done(function () {
-                  //that.removeStorage('selectedPickup');
-                });
-              }
-            });
-            //}
-          }
+          // if(userResponse.IsUserDefined){
+          //   //if (!of.shippingData.address.postalCode){
+          //     $.when(that.getLoggedUserPostalCode(userResponse.Email)).done(function (res) {
+          //       if(res.length > 0){
+          //         let postalCodeInputFormatted = res[0].postalCode.replace('-', '');
+          //         that.setDeliveryShippingData(postalCodeInputFormatted).done(function() {
+          //           //that.removeStorage('selectedPickup');
+          //         });
+          //       }
+          //     })
+          //   //}
+          // }
   
           $('.enter-postal-code').on('click', async function () {
             var postalCodeInput = $('.seller-postal-code').val();
