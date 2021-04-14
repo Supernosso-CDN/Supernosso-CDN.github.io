@@ -22191,6 +22191,7 @@ body#recipes-page .top-chefs .chef-list .list .list-item .recipes {
     margin: 0;
     margin-top: 50px;
     margin-bottom: -50px;
+    flex-wrap: wrap;
   }
   .home-supernosso-theme .header-info .header-slider-mob .slick-dots li button {
     padding: 0;
