@@ -56295,9 +56295,9 @@
           fetch('/api/dataentities/SP/search?_fields=id,city,complement,name,neighborhood,number,pickUpId,postalCode,sc,state,street,status,lat,long&an=supernossoemcasa').then(function (r) {
             return r.status == 200 ? r.json() : console.log(r);
           }).then(function (r) {
-            // this.stores = r.filter(x => x.status = true);
             _this4.stores = r.filter(function (x) {
-              return x.status;
+              return x.status && !x.name.includes("Expressa");
+              //retira as lojas expressas e as não ativas
             });
   
             if (_this4.stores.length > 0) {
