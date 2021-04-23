@@ -59853,9 +59853,16 @@
   
   var getPickUpPoints = exports.getPickUpPoints = async function getPickUpPoints() {
       try {
-          var response = await fetch("https://supernossoemcasa.vtexcommercestable.com.br/api/dataentities/SP/search?_fields=id,name,sc,pickUpId,transportadoraship");
+          var response = await fetch("/api/dataentities/SP/search?_where=(status=true)&_fields=id,name,sc,pickUpId,transportadoraship&_sort=name%20ASC", {
+              method: 'GET',
+              dataType: 'json',
+              headers: {
+                  'Accept': 'application/vnd.vtex.ds.v10+json',
+                  'Content-Type': 'application/json',
+                  'REST-Range': 'resources=0-1000'
+              }
+          });
           var pickUpPoints = await response.json();
-  
           return pickUpPoints;
       } catch (error) {
           console.log("getPickUpPoints error", error);
