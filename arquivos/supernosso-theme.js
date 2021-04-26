@@ -59823,8 +59823,8 @@
   var simulatePurchase = exports.simulatePurchase = async function simulatePurchase(postalCode) {
       var mockedData = {
           items: [{
-              id: 989,
-              quantity: 1,
+              id: 11420,
+              quantity: 30,
               seller: 1
           }],
           country: 'BRA',
