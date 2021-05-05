@@ -10851,6 +10851,13 @@ footer .institutional-section .dev-nav span img {
   display: flex;
   align-items: center;
 }
+.user-info a span {
+  font-weight: 600;
+  text-decoration: none;
+  text-transform: lowercase;
+  font-family: 'Roboto', sans-serif !important;
+  font-size: 16px;
+}
 #user-data {
   position: absolute;
   top: 2.5em;
