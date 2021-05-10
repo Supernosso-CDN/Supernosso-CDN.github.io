@@ -15647,6 +15647,7 @@ body#institutional-page #faq-result .faq-result-inner {
   margin-left: auto;
   height: 100vh;
   padding: 64px 104px;
+  overflow-y: auto;
 }
 @media (max-width: 768px) {
   body#institucional-page #faq-result .faq-result-inner,
@@ -15816,6 +15817,7 @@ body#institutional-page #faq-result .faq-result-inner .content-list-inner .conte
   body#institucional-page #faq-result.faq-result-category .faq-result-inner,
   body#institutional-page #faq-result.faq-result-category .faq-result-inner {
     width: 100%;
+    overflow-y: auto;
   }
   body#institucional-page #faq-result.faq-result-category .faq-result-content,
   body#institutional-page #faq-result.faq-result-category .faq-result-content {
