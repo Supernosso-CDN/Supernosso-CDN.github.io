@@ -56292,7 +56292,15 @@
           return res.json();
         }).then(function (res) {
           var userResponse = res;
-          fetch('/api/dataentities/SP/search?_fields=id,city,complement,name,neighborhood,number,pickUpId,postalCode,sc,state,street,status,lat,long&an=supernossoemcasa').then(function (r) {
+          fetch('/api/dataentities/SP/search?_fields=id,city,complement,name,neighborhood,number,pickUpId,postalCode,sc,state,street,status,lat,long&an=supernossoemcasa', {
+            method: 'GET',
+            dataType: 'json',
+            headers: {
+              'Accept': 'application/vnd.vtex.ds.v10+json',
+              'Content-Type': 'application/json',
+              'REST-Range': 'resources=0-1000'
+            }
+          }).then(function (r) {
             return r.status == 200 ? r.json() : console.log(r);
           }).then(function (r) {
             _this4.stores = r.filter(function (x) {
