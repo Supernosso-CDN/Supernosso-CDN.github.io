@@ -55746,7 +55746,8 @@
   
         var kvp = document.location.search.substr(1).split('&');
         if (kvp == '') {
-          document.location.search = '?' + key + '=' + value;
+          //document.location.search = '?' + key + '=' + value;
+          window.location.href = "https://www.supernossoemcasa.com.br/?" + key + '=' + value;
         } else {
           var i = kvp.length;
           var x;
@@ -55765,7 +55766,9 @@
           }
   
           //this will reload the page, it's likely better to store this until finished
-          document.location.search = kvp.join('&');
+          //document.location.search = kvp.join('&')
+          //document.location.search = '?' + key + '=' + value;
+          window.location.href = "https://www.supernossoemcasa.com.br/?" + key + '=' + value;
         }
       }
     }, {
@@ -55804,11 +55807,11 @@
         var orderedStoresByDistance = this.getDistanceToUserPostalCode();
         if (orderedStoresByDistance) {
           return '\n      ' + orderedStoresByDistance.map(function (store) {
-            return '\n              <div class="seller-modal-store-item">\n                  <a href="javascript:;" class="store-link" data-seller=' + store.sc + ' data-pickup=' + store.pickUpId + '>\n                      <p class="store-info">\n                          <span class="store-title">\n                              ' + store.name + '\n                          </span>\n                          <p class="store-address">\n                             ' + store.number + ' - ' + store.neighborhood + ', ' + store.city + ' / ' + store.state + ' ' + store.postalCode + '\n                          </p>\n                          <p class="store-distance" >' + store.distanceToUserPostalCode + ' km</p>\n                      </p>\n                  </a>\n              </div>\n          ';
+            return '\n              <div class="seller-modal-store-item">\n                  <a href="javascript:;" class="store-link" data-seller=' + store.sc + ' data-pickup=' + store.pickUpId + ' data-postalcode=' + store.postalCode + ' data-lat=' + store.lat + ' data-long=' + store.long + ' >\n                      <p class="store-info">\n                          <span class="store-title">\n                              ' + store.name + '\n                          </span>\n                          <p class="store-address">\n                             ' + store.number + ' - ' + store.neighborhood + ', ' + store.city + ' / ' + store.state + ' ' + store.postalCode + '\n                          </p>\n                          <p class="store-distance" >' + store.distanceToUserPostalCode + ' km</p>\n                      </p>\n                  </a>\n              </div>\n          ';
           }).join(' ') + '\n      ';
         } else {
           return '\n            ' + this.stores.map(function (store) {
-            return '\n                    <div class="seller-modal-store-item">\n                        <a href="javascript:;" class="store-link" data-seller=' + store.sc + ' data-pickup=' + store.pickUpId + '>\n                            <p class="store-info">\n                                <span class="store-title">\n                                    ' + store.name + '\n                                </span>\n                                <p class="store-address">\n                                   ' + store.number + ' - ' + store.neighborhood + ', ' + store.city + ' / ' + store.state + ' ' + store.postalCode + '\n                                </p>\n                                <p class="store-distance" >' + store.distanceToUserPostalCode + ' km</p>\n                            </p>\n                        </a>\n                    </div>\n                ';
+            return '\n                    <div class="seller-modal-store-item">\n                        <a href="javascript:;" class="store-link" data-seller=' + store.sc + ' data-pickup=' + store.pickUpId + ' data-postalcode=' + store.postalCode + ' data-lat=' + store.lat + ' data-long=' + store.long + '>\n                            <p class="store-info">\n                                <span class="store-title">\n                                    ' + store.name + '\n                                </span>\n                                <p class="store-address">\n                                   ' + store.number + ' - ' + store.neighborhood + ', ' + store.city + ' / ' + store.state + ' ' + store.postalCode + '\n                                </p>\n                                <p class="store-distance" >' + store.distanceToUserPostalCode + ' km</p>\n                            </p>\n                        </a>\n                    </div>\n                ';
           }).join(' ') + '\n        ';
         }
       }
@@ -55940,6 +55943,31 @@
       // 		}
       // }
   
+    }, {
+      key: 'extractItems',
+      value: function extractItems(id, quantity, seller) {
+        var cart = {};
+  
+        cart.id = id;
+        cart.quantity = quantity;
+        cart.seller = seller;
+  
+        return cart;
+      }
+    }, {
+      key: 'extractCart',
+      value: function extractCart(cart) {
+        var zippedCart = [];
+  
+        for (var i = 0; i < cart.length; i++) {
+          var item = cart[i];
+          var zippedItem = this.extractItems(item.id, item.quantity, item.seller);
+  
+          zippedCart.push(zippedItem);
+        }
+  
+        return zippedCart;
+      }
     }, {
       key: 'templateModal',
       value: function templateModal(hasStore, userResponse) {
@@ -56077,7 +56105,7 @@
   
         // handle when the video modal is closed
         $('#videoClickModal').click(function () {
-          var url = $('#video-click').attr('src');
+          var url = $('#video-click').attrs('src');
           $('#video-click').attr('src', '');
           $('#video-click').attr('src', url);
         });
@@ -56085,11 +56113,129 @@
         function events(that) {
           $(document).on('click', '.store-link', function (e) {
             e.preventDefault();
+  
             $('.store-link').removeClass('active');
             $(this).addClass('active');
+  
             var pickup = $(this).attr('data-pickup');
-            that.changePickup(pickup ? pickup : '0');
-            that.changeSeller($(this).attr('data-seller'));
+            var sc = $(this).attr('data-seller');
+            var scPostalcode = $(this).attr('data-postalcode');
+            var lat = $(this).attr('data-lat');
+            var long = $(this).attr('data-long');
+  
+            if (!pickup.length) return;
+  
+            that.changePickup(pickup ? pickup : '0'); //seta no localstorage selectedPickup
+  
+            var orderForm = vtexjs.checkout.orderForm;
+            var items = orderForm.items.length ? orderForm.items : null;
+  
+            if (!items) {
+              var currentAddress = {
+                postalCode: scPostalcode,
+                country: 'BRA'
+              };
+              var newAddress = Object.assign(currentAddress, {
+                addressId: (new Date().getTime() * -1).toString(),
+                addressType: 'search',
+                addressQuery: ''
+              });
+              vtexjs.checkout.sendAttachment('shippingData', {
+                clearAddressIfPostalCodeNotFound: false,
+                selectedAddresses: [newAddress]
+              });
+  
+              that.setStorage('selectedSeller', sc == '1' ? 'delivery' : sc);
+              that.insertParam('sc', sc);
+              return;
+            }
+  
+            var itemToSimulate = {
+              id: 11420,
+              quantity: 1,
+              seller: 1
+            };
+  
+            var itemExtracted = that.extractCart(items);
+  
+            vtexjs.checkout.addToCart(itemExtracted, null, sc).done(function (newOrderForm) {
+              var currentAddress = {
+                postalCode: scPostalcode,
+                country: 'BRA'
+              };
+              var newAddress = Object.assign(currentAddress, {
+                addressId: (new Date().getTime() * -1).toString(),
+                addressType: 'search',
+                addressQuery: '',
+                geoCoordinates: [parseFloat(long), parseFloat(lat)]
+              });
+  
+              var cart = newOrderForm.items;
+              for (var i = 0; i < cart.length; i++) {
+                if (cart[i].availability == 'withoutStock') {
+                  var itemsToRemove = [{
+                    index: i,
+                    quantity: 0
+                  }];
+  
+                  vtexjs.checkout.removeItems(itemsToRemove);
+                }
+              }
+  
+              vtexjs.checkout.sendAttachment('shippingData', {
+                clearAddressIfPostalCodeNotFound: false,
+                selectedAddresses: [newAddress]
+              }).done(function (result) {
+  
+                var newShippingData = result.shippingData;
+  
+                var pickupPoint = newShippingData.pickupPoints.find(function (_ref) {
+                  var id = _ref.id;
+                  return id.includes('_' + pickup);
+                });
+  
+                if (pickupPoint) {
+                  var logisticsInfo = newShippingData.logisticsInfo.map(function (_ref2) {
+                    var itemIndex = _ref2.itemIndex,
+                        slas = _ref2.slas;
+  
+                    var sla = slas.find(function (sla) {
+                      return sla.pickupPointId == pickupPoint.id;
+                    });
+                    return {
+                      itemIndex: itemIndex,
+                      addressId: newAddress.addressId,
+                      selectedSla: sla.id,
+                      selectedDeliveryChannel: 'pickup-in-point'
+                    };
+                  });
+                  vtexjs.checkout.sendAttachment('shippingData', {
+                    clearAddressIfPostalCodeNotFound: false,
+                    selectedAddresses: [newAddress],
+                    logisticsInfo: logisticsInfo
+                  }, null).done(function (orderForm) {
+                    //localStorage.setItem('unlockMinicart', true);
+  
+                    var saleschannel = sc;
+                    if (sc != null || sc != '--') {
+                      saleschannel = parseInt(sc);
+                    } else {
+                      saleschannel = 1;
+                    }
+                    that.setStorage('selectedSeller', sc == '1' ? 'delivery' : sc);
+                    that.insertParam('sc', sc);
+                  });
+                } else {
+                  // Selecionando a forma de retirada pela primeira vez
+                  vtexjs.checkout.sendAttachment('shippingData', {
+                    clearAddressIfPostalCodeNotFound: false,
+                    selectedAddresses: [newAddress]
+                  });
+                  that.setStorage('selectedSeller', sc == '1' ? 'delivery' : sc);
+                  that.insertParam('sc', sc);
+                }
+              });
+            });
           });
         }
       }
@@ -56125,17 +56271,46 @@
         return lastDeliveryAddress.pop();
       }
     }, {
+      key: 'getLogisticsInfo',
+      value: function getLogisticsInfo(orderForm, pickupPointId) {
+        try {
+          var logisticsInfo = orderForm.shippingData.logisticsInfo.map(function (_ref3) {
+            var itemIndex = _ref3.itemIndex,
+                slas = _ref3.slas;
+  
+            var sla = slas.find(function (sla) {
+              return sla.pickupPointId == (pickupPointId ? pickupPointId : null);
+            });
+            var deliveryChannel = pickupPointId ? 'pickup-in-point' : 'delivery';
+  
+            return {
+              itemIndex: itemIndex,
+              selectedSla: sla.id,
+              selectedDeliveryChannel: deliveryChannel
+            };
+          });
+  
+          return logisticsInfo;
+        } catch (error) {
+          return null;
+        }
+      }
+    }, {
       key: 'setDeliveryShippingData',
       value: function setDeliveryShippingData(postalCodeInput) {
         var _this3 = this;
   
         return vtexjs.checkout.getOrderForm().then(function (a) {
+  
+          var logisticsInfo = _this3.getLogisticsInfo(a);
+  
           return vtexjs.checkout.sendAttachment('shippingData', {
             address: {
               country: 'BRA',
               postalCode: postalCodeInput,
               addressType: 'residential'
-            }
+            },
+            logisticsInfo: logisticsInfo
           }).done(function (orf) {
             _this3.setStorage('activeDeliveryChannel', 'delivery');
             _this3.setStorage('aditionalShippingData', JSON.stringify({
@@ -56178,7 +56353,6 @@
                   break;
                 }
               }
-  
               if (aux) {
                 _this3.checkIfHasDelivery(true);
               } else if (!aux && formatedAddress == "Lagoa Santa") {
@@ -56353,8 +56527,8 @@
                 if (orderForm) {
                   var shippingData = orderForm.shippingData;
   
-                  var pickupPoint = shippingData.pickupPoints.find(function (_ref) {
-                    var id = _ref.id;
+                  var pickupPoint = shippingData.pickupPoints.find(function (_ref4) {
+                    var id = _ref4.id;
                     return id.includes('_' + pickUpId);
                   });
   
@@ -56365,9 +56539,9 @@
                       addressQuery: ''
                     });
   
-                    var logisticsInfo = shippingData.logisticsInfo.map(function (_ref2) {
-                      var itemIndex = _ref2.itemIndex,
-                          slas = _ref2.slas;
+                    var logisticsInfo = shippingData.logisticsInfo.map(function (_ref5) {
+                      var itemIndex = _ref5.itemIndex,
+                          slas = _ref5.slas;
   
                       var sla = slas.find(function (sla) {
                         return sla.pickupPointId == pickupPoint.id;
