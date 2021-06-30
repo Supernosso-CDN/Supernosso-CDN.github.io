@@ -55956,14 +55956,15 @@
       }
     }, {
       key: 'extractCart',
-      value: function extractCart(cart) {
+      value: function extractCart(items) {
         var zippedCart = [];
   
-        for (var i = 0; i < cart.length; i++) {
-          var item = cart[i];
-          var zippedItem = this.extractItems(item.id, item.quantity, item.seller);
-  
-          zippedCart.push(zippedItem);
+        for (var i = 0; i < items.length; i++) {
+          var item = items[i];
+          if (!item.isGift) {
+            var zippedItem = this.extractItems(item.id, item.quantity, item.seller);
+            zippedCart.push(zippedItem);
+          }
         }
   
         return zippedCart;
@@ -56289,6 +56290,29 @@
               selectedDeliveryChannel: deliveryChannel
             };
           });
+  
+          // const logisticsInfo = orderForm.shippingData.logisticsInfo.map(({ itemIndex, slas, itemId }) => {
+  
+          //   const item = orderForm.items.map( ite =>{
+          //     if(ite.id == itemId){
+          //       return ite.id;
+          //     }
+          //     else{
+          //       return null;
+          //     }
+          //   })
+          //   if(!item.isGift){
+          //     const sla = slas.find(sla => sla.pickupPointId == (pickupPointId ? pickupPointId : null));
+          //     const deliveryChannel = pickupPointId ? 'pickup-in-point' : 'delivery';
+  
+          //     return {
+          //       itemIndex,
+          //       selectedSla: sla.id,
+          //       selectedDeliveryChannel: deliveryChannel,
+          //     }
+          //   }
+  
+          // });
   
           return logisticsInfo;
         } catch (error) {
