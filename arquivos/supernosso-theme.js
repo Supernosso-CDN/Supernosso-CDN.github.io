@@ -55282,7 +55282,7 @@
                   return;
               }
   
-              var urlLid = url.includes('quickview') == false ? url + '?quickview=true&lid=1664205b-86a0-407e-81ad-e1a746b567d9' : url;
+              var urlLid = url.includes('quickview') == false ? url + '?quickview=true&lid=0aaff089-7323-4aa1-96fb-1c447671d2f0' : url;
               var currentUrl = window.location.href;
               //ambiente de dev: lid=14c3fdad-aed6-404b-a950-830c9bcff8b9";        
   
