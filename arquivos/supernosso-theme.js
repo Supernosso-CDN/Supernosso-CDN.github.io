@@ -58782,11 +58782,11 @@
           value: function flagCampanha() {
               if (document.querySelector(".value-field.Flag-Campanha-Cestas") && document.querySelector(".value-field.Flag-Campanha-Cestas").textContent == "Yes") {
                   if (document.querySelector("#tagCampanha")) {
-                      var imagemCampanha = $('<img src="https://supernossoemcasa.vteximg.com.br/arquivos/tag_campanhas.png" style="width:140px;height:auto;">');
-                      var linkCampanha = "https://conteudo.blogsupernosso.com.br/cestas-e-presentes";
+                      var imagemCampanha = $('<img src="https://supernossoemcasa.vteximg.com.br/arquivos/tag_campanhas.png" style="width:80px;height:auto;">');
+                      var linkCampanha = "";
   
                       $("#tagCampanha").append(imagemCampanha);
-                      document.querySelector('#tagCampanha').href = linkCampanha;
+                      //document.querySelector('#tagCampanha').href = linkCampanha;
                       document.querySelector('#tagCampanha').style.display = "block";
                   }
               }
