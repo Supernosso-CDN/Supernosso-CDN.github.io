@@ -58780,7 +58780,7 @@
       }, {
           key: 'flagCampanha',
           value: function flagCampanha() {
-              if (document.querySelector(".value-field.Flag-Campanha-Cestas") && document.querySelector(".value-field.Flag-Campanha-Cestas").textContent == "Yes") {
+              if (document.querySelector(".value-field.Flag-Campanha") && document.querySelector(".value-field.Flag-Campanha").textContent == "Yes") {
                   if (document.querySelector("#tagCampanha")) {
                       var imagemCampanha = $('<img src="https://supernossoemcasa.vteximg.com.br/arquivos/tag_campanhas.png" style="width:80px;height:auto;">');
                       var linkCampanha = "";
