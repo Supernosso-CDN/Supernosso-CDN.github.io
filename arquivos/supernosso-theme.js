@@ -55282,7 +55282,7 @@
                   return;
               }
   
-              var urlLid = url.includes('quickview') == false ? url + '?quickview=true&lid=0aaff089-7323-4aa1-96fb-1c447671d2f0' : url;
+              var urlLid = url.includes('quickview') == false ? url + '?quickview=true&lid=1664205b-86a0-407e-81ad-e1a746b567d9' : url;
               var currentUrl = window.location.href;
               //ambiente de dev: lid=14c3fdad-aed6-404b-a950-830c9bcff8b9";        
   
@@ -56290,29 +56290,6 @@
               selectedDeliveryChannel: deliveryChannel
             };
           });
-  
-          // const logisticsInfo = orderForm.shippingData.logisticsInfo.map(({ itemIndex, slas, itemId }) => {
-  
-          //   const item = orderForm.items.map( ite =>{
-          //     if(ite.id == itemId){
-          //       return ite.id;
-          //     }
-          //     else{
-          //       return null;
-          //     }
-          //   })
-          //   if(!item.isGift){
-          //     const sla = slas.find(sla => sla.pickupPointId == (pickupPointId ? pickupPointId : null));
-          //     const deliveryChannel = pickupPointId ? 'pickup-in-point' : 'delivery';
-  
-          //     return {
-          //       itemIndex,
-          //       selectedSla: sla.id,
-          //       selectedDeliveryChannel: deliveryChannel,
-          //     }
-          //   }
-  
-          // });
   
           return logisticsInfo;
         } catch (error) {
@@ -58729,7 +58706,7 @@
               try {
                   var hasInventory = await (0, _checkProductInventoryAvailability.checkProductInventory)(skuId, warehouseId);
                   var stockState = hasInventory ? 'InStock' : 'OutOfStock';
-                  document.querySelector("#product-page").setAttribute("data-availability", 'http://schema.org/' + stockState);
+                  $("#product-page").attr("data-availability", 'http://schema.org/' + stockState);
               } catch (error) {
                   console.error("error defineProductStockSchema", error);
               }
@@ -58805,7 +58782,7 @@
           value: function flagCampanha() {
               if (document.querySelector(".value-field.Flag-Campanha-Cestas") && document.querySelector(".value-field.Flag-Campanha-Cestas").textContent == "Yes") {
                   if (document.querySelector("#tagCampanha")) {
-                      var imagemCampanha = $('<img src="https://supernossoemcasa.vteximg.com.br/arquivos/tag_cestas.png" style="width:140px;height:auto;">');
+                      var imagemCampanha = $('<img src="https://supernossoemcasa.vteximg.com.br/arquivos/tag_campanhas.png" style="width:140px;height:auto;">');
                       var linkCampanha = "https://conteudo.blogsupernosso.com.br/cestas-e-presentes";
   
                       $("#tagCampanha").append(imagemCampanha);
@@ -58906,8 +58883,9 @@
                           window.location = url;
                       });
                   } else {
-                      $('.product-details').css('margin-top', '80px');
-                      document.querySelectorAll("#product-content")[1].classList.add('quickviewProduct');
+                      if (typeof document.querySelectorAll("#product-content")[1] !== 'undefined') {
+                          document.querySelectorAll("#product-content")[1].classList.add('quickviewProduct');
+                      }
                   }
                   this.syncCart();
                   this.defineProductStockSchema();
@@ -61814,6 +61792,7 @@
       value: function minicartVisibility() {
         if (!localStorage.getItem('selectedSeller') || vtexjs.checkout.orderForm && (vtexjs.checkout.orderForm.shippingData == null || vtexjs.checkout.orderForm.shippingData.address == null)) {
           //Chama evento que exibe o modal de seleção de SLA
+  
           $('#minicart-wrapper').trigger('update-qty-item');
         } else {
           $('#minicart-wrapper').toggleClass('open-minicart');
