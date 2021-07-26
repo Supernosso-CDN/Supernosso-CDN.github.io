@@ -10543,7 +10543,7 @@ footer .institutional-section .dev-nav span img {
 }
 .prateleira.supernossoshelf ul li .item-shelf {
   width: 100%;
-  background: #FFF;
+  background: #fff;
   box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.08);
   border-radius: 6px;
   padding: 0 25px 25px;
@@ -10558,6 +10558,8 @@ footer .institutional-section .dev-nav span img {
   height: 2.5rem;
   overflow: hidden;
   pointer-events: none;
+  width: 190px;
+  margin-left: 5px;
 }
 .prateleira.supernossoshelf ul li .item-shelf .promo-flags p.flag {
   font-family: 'Roboto', sans-serif;
@@ -10566,27 +10568,29 @@ footer .institutional-section .dev-nav span img {
   font-size: 12px;
   border-radius: 6px;
   background-color: #999;
-  color: #FFF;
+  color: #fff;
   display: inline-block;
   padding: 0 5px 3px;
   text-transform: lowercase;
-  margin: 8px;
+  margin: 0;
   margin-top: 0;
   background-color: #D99A06;
   text-align: center;
-  width: auto;
+  width: 190;
   min-height: 2.4rem;
   display: flex;
   justify-content: center;
   align-items: center;
+  min-width: 190px;
+  border: 2px solid #fff;
 }
-.prateleira.supernossoshelf ul li .item-shelf .promo-flags p.flag[class*=leve-3-pague-2] {
+.prateleira.supernossoshelf ul li .item-shelf .promo-flags p.flag[class*="leve-3-pague-2"] {
   background-color: #D99A06;
-  color: #FFF;
+  color: #fff;
 }
-.prateleira.supernossoshelf ul li .item-shelf .promo-flags p.flag[class*=cashback] {
+.prateleira.supernossoshelf ul li .item-shelf .promo-flags p.flag[class*="cashback"] {
   background-color: #8F000F;
-  color: #FFF;
+  color: #fff;
 }
 .prateleira.supernossoshelf ul li .item-shelf .promo-flags p:empty {
   display: none;
@@ -10602,7 +10606,7 @@ footer .institutional-section .dev-nav span img {
   margin-right: 8px;
   margin-bottom: 8px;
   background-color: #999;
-  color: #FFF;
+  color: #fff;
   position: absolute;
   top: 15px;
   left: 15px;
@@ -10635,7 +10639,7 @@ footer .institutional-section .dev-nav span img {
 }
 .prateleira.supernossoshelf ul li .item-shelf p.out-of-stock {
   text-align: center;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   text-transform: lowercase;
   padding: 34.8px 0;
 }
@@ -10668,8 +10672,8 @@ footer .institutional-section .dev-nav span img {
   font-style: normal;
   font-weight: bold;
   font-size: 14px;
-  background: #FFF;
-  border: 1px solid #CFCFCF;
+  background: #fff;
+  border: 1px solid #cfcfcf;
   border-radius: 6px;
   padding: 12px 20px;
   display: block;
@@ -10699,7 +10703,7 @@ footer .institutional-section .dev-nav span img {
   cursor: pointer;
 }
 .prateleira.supernossoshelf ul li .item-shelf .buy-button-shelf .product-qty .shelf-input-qty {
-  border: 1px solid #F2F2F2;
+  border: 1px solid #f2f2f2;
   border-radius: 80px;
   padding: 5px;
   width: 100%;
@@ -10734,14 +10738,14 @@ footer .institutional-section .dev-nav span img {
   right: -55px;
 }
 .prateleira.supernossoshelf ul.slick-slider .slick-arrow.slick-next.slick-disabled {
-  background: url('https://supernossoemcasa.vteximg.com.br/arquivos/slick-next-disabled.png') no-repeat top 0 center;
+  background: url("https://supernossoemcasa.vteximg.com.br/arquivos/slick-next-disabled.png") no-repeat top 0 center;
 }
 .prateleira.supernossoshelf ul.slick-slider .slick-arrow.slick-next.slick-disabled img {
   display: none;
 }
 .prateleira.supernossoshelf ul.slick-slider .slick-arrow.slick-next:hover:not(.slick-disabled) {
   cursor: pointer;
-  background: url('https://supernossoemcasa.vteximg.com.br/arquivos/slick-next-hover.png') no-repeat top 0 center;
+  background: url("https://supernossoemcasa.vteximg.com.br/arquivos/slick-next-hover.png") no-repeat top 0 center;
 }
 .prateleira.supernossoshelf ul.slick-slider .slick-arrow.slick-next:hover:not(.slick-disabled) img {
   display: none;
@@ -10752,14 +10756,14 @@ footer .institutional-section .dev-nav span img {
   left: -55px;
 }
 .prateleira.supernossoshelf ul.slick-slider .slick-arrow.slick-prev.slick-disabled {
-  background: url('https://supernossoemcasa.vteximg.com.br/arquivos/slick-prev-disabled.png') no-repeat top 2px center;
+  background: url("https://supernossoemcasa.vteximg.com.br/arquivos/slick-prev-disabled.png") no-repeat top 2px center;
 }
 .prateleira.supernossoshelf ul.slick-slider .slick-arrow.slick-prev.slick-disabled img {
   display: none;
 }
 .prateleira.supernossoshelf ul.slick-slider .slick-arrow.slick-prev:hover:not(.slick-disabled) {
   cursor: pointer;
-  background: url('https://supernossoemcasa.vteximg.com.br/arquivos/slick-prev-hover.png') no-repeat top 2px center;
+  background: url("https://supernossoemcasa.vteximg.com.br/arquivos/slick-prev-hover.png") no-repeat top 2px center;
 }
 .prateleira.supernossoshelf ul.slick-slider .slick-arrow.slick-prev:hover:not(.slick-disabled) img {
   display: none;
@@ -10792,7 +10796,7 @@ footer .institutional-section .dev-nav span img {
 .prateleira.supernossoshelf.rec ul li .item-shelf .recipe-img .recipe-flag span {
   padding: 5px;
   background: #000;
-  color: #FFF;
+  color: #fff;
   margin-right: 10px;
   font-family: 'Roboto', sans-serif;
   font-style: normal;
@@ -10839,6 +10843,11 @@ footer .institutional-section .dev-nav span img {
   font-weight: normal;
   font-size: 16px;
   width: 100% !important;
+}
+.wine-modal-2021 .prateleira.supernossoshelf ul li .item-shelf .product-image,
+.wine-modal-2021 .prateleira.supernossoshelf ul li .item-shelf .product-name,
+.wine-modal-2021 .prateleira.supernossoshelf ul li .item-shelf .price {
+  pointer-events: none;
 }
 .user-info {
   margin-left: 22px !important;
@@ -24609,7 +24618,7 @@ body#recipes-page .top-chefs .chef-list .list .list-item .recipes {
   list-style-type: none;
   display: flex !important;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
   height: auto;
   padding: 0;
   cursor: pointer;
@@ -24618,8 +24627,7 @@ body#recipes-page .top-chefs .chef-list .list .list-item .recipes {
   width: 8px;
   height: 8px;
   border-radius: 100%;
-  margin: 0 5.5px;
-  background: #DDDDDD;
+  background: #dddddd;
 }
 #feira-de-vinhos .banner-principal-feira-mobile .slick-dots li button {
   display: none;
