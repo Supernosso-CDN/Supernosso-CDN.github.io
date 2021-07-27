@@ -56060,6 +56060,24 @@ var StorePicker = function () {
         $(document).on('click', '#sellerModal .close-modal', function (e) {
           e.preventDefault();
           that.modalClose();
+          if (!vtexjs.checkout.orderForm || !vtexjs.checkout.orderForm.clientProfileData || !vtexjs.checkout.orderForm.postalCode || vtexjs.checkout.orderForm.sellers.length == 0) {
+
+            vtexjs.checkout.getOrderForm().then(function (orderForm) {
+              var itemsToRemove = [];
+              orderForm.items.forEach(function (item, index) {
+                console.log(item.id, item.quantity, item.seller);
+                itemsToRemove.push({
+                  index: index,
+                  quantity: 0
+                });
+              });
+              return vtexjs.checkout.removeItems(itemsToRemove);
+            }).done(function (orderForm) {
+              $('.badge.badge-secondary').text(orderForm.items.length);
+              $('.buy-button-normal').show();
+              $('.product-qty').remove();
+            });
+          }
         });
 
         document.querySelector("#enterPostalCodeInput").addEventListener("keyup", function (event) {
@@ -56790,33 +56808,6 @@ var Shelf = function () {
       });
     }
   }, {
-    key: "promoFlagSlider",
-    value: function promoFlagSlider() {
-      // let promoflags = $(".promo-flags");
-      // if (promoflags) {
-      //   let emptyItems = promoflags.find("p:empty()");
-      //   emptyItems
-      //     .remove()
-      //     .delay(10)
-      //     .queue(function () {
-      //       $(this).dequeue();
-      //       $(".promo-flags").slick({
-      //         arrows: false,
-      //         dots: false,
-      //         draggable: false,
-      //         centerMode: true,
-      //         infinite: true,
-      //         autoplay: true,
-      //         speed: 1000,
-      //         slidesToShow: 1,
-      //         slidesToScroll: 1,
-      //         // mobileFirst: true,
-      //         variableWidth: true,
-      //       });
-      //     });
-      // }
-    }
-  }, {
     key: "syncFlags",
     value: function syncFlags() {
       $(".item-shelf").each(function () {
@@ -57064,8 +57055,6 @@ var Shelf = function () {
 
         $("#minicart-wrapper").trigger("update-qty-item", [id, el, val]);
       }, 1500));
-
-      this.promoFlagSlider();
     }
   }]);
 
