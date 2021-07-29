@@ -56075,6 +56075,7 @@ var StorePicker = function () {
             }).done(function (orderForm) {
               $('.badge.badge-secondary,.badge.badge-cart').text(orderForm.items.length);
               $('.buy-button-normal').show();
+              $('.flag-adicionado').remove();
               $('.product-qty').remove();
             });
           }
