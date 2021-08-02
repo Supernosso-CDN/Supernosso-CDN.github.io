@@ -10558,7 +10558,6 @@ footer .institutional-section .dev-nav span img {
   height: 2.5rem;
   overflow: hidden;
   pointer-events: none;
-  width: 190px;
   margin-left: 5px;
 }
 .prateleira.supernossoshelf ul li .item-shelf .promo-flags p.flag {
@@ -10576,12 +10575,10 @@ footer .institutional-section .dev-nav span img {
   margin-top: 0;
   background-color: #D99A06;
   text-align: center;
-  width: 190;
   min-height: 2.4rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-width: 190px;
   border: 2px solid #fff;
 }
 .prateleira.supernossoshelf ul li .item-shelf .promo-flags p.flag[class*="leve-3-pague-2"] {
@@ -10848,6 +10845,12 @@ footer .institutional-section .dev-nav span img {
 .wine-modal-2021 .prateleira.supernossoshelf ul li .item-shelf .product-name,
 .wine-modal-2021 .prateleira.supernossoshelf ul li .item-shelf .price {
   pointer-events: none;
+}
+.feira-de-vinhos .prateleira.supernossoshelf ul li .promo-flags {
+  width: calc(100% - 10px);
+}
+.feira-de-vinhos .prateleira.supernossoshelf ul li .promo-flags p.flag {
+  margin: 0 20px;
 }
 .user-info {
   margin-left: 22px !important;

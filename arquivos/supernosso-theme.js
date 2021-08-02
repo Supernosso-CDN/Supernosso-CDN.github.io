@@ -64249,11 +64249,22 @@ var PrimePlans = function (_React$Component) {
   return PrimePlans;
 }(_react2.default.Component);
 
-exports.default = PrimePlans;
+//remove thes part when prime-day 2021 goes down
 
+
+exports.default = PrimePlans;
+if (document.querySelector(".mz-category-page-prime-day")) {
+  var primeShelf = document.querySelector(".mz-category-page-prime-day .prateleira.supernossoshelf.n4colunas >ul:first-child");
+  var newNode = document.createElement('div');
+  newNode.className = "prime-planos";
+  var innerNode = document.createElement('div');
+  innerNode.setAttribute('id', "prime-planos");
+  newNode.appendChild(innerNode);
+  primeShelf.after(newNode);
+}
+//remove thes part when prime-day 2021 goes down
 
 var element = document.getElementById('prime-planos');
-
 if (element) {
   _reactDom2.default.render(_react2.default.createElement(PrimePlans, null), element);
 }
