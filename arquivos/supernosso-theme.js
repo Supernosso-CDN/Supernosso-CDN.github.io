@@ -59891,7 +59891,7 @@ var simulatePurchase = exports.simulatePurchase = async function simulatePurchas
     var mockedData = {
         items: [{
             id: 11420,
-            quantity: 30,
+            quantity: 40,
             seller: 1
         }],
         country: 'BRA',
