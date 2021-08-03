@@ -13426,6 +13426,52 @@ p.text-seo span.full {
   text-decoration: underline;
   font-size: 14px;
 }
+#category-page.mz-category-page-prime-day .ofertasPrimeTitle {
+  background-color: #fff;
+  background: url(https://supernossoemcasa.vteximg.com.br/arquivos/prime-day-banner.png);
+  background-repeat: no-repeat;
+  background-size: 100%,auto;
+  opacity: 1;
+  color: #fff;
+}
+#category-page.mz-category-page-prime-day .cat-title {
+  width: 100%;
+  padding: 48px 0;
+}
+#category-page.mz-category-page-prime-day .cat-title .title-category {
+  margin-top: 0;
+}
+#category-page.mz-category-page-prime-day .cat-title .title-category h2 {
+  max-width: 760px;
+}
+#category-page.mz-category-page-prime-day .cat-title .title-category h2 span {
+  font-size: 50px;
+  color: #D99A06;
+}
+#category-page.mz-category-page-prime-day .cat-title .title-category h4 {
+  font-size: 18px;
+  max-width: 520px;
+}
+#category-page.mz-category-page-prime-day .cat-title .title-category h4 span {
+  font-size: 24px;
+  font-weight: bold;
+}
+#category-page.mz-category-page-prime-day .cat-title .title-category .ofertasPrimeTextContainer {
+  margin-right: 50px;
+}
+#category-page.mz-category-page-prime-day .cat-title .title-category img {
+  width: 226px;
+}
+#category-page.mz-category-page-prime-day .cat-title #ofertasPrimeSejaPrime {
+  width: 226px;
+  background: url(https://supernossoemcasa.vteximg.com.br/arquivos/quero-ser-prime.png);
+  display: block;
+  height: 60px;
+  font-size: 0;
+}
+#category-page.mz-category-page-prime-day.prime-day-counter .prateleira ul {
+  pointer-events: none;
+}
 #category-page aside.sidebar {
   position: relative;
 }

@@ -56649,7 +56649,7 @@ var StorePicker = function () {
               document.querySelector("#product-page #sellerModal").style.zIndex = 9999999;
               $('#product-page #sellerModal').addClass('opened');
             } else if (window.location.href.indexOf("adegasupernosso") > -1) {
-              $('#feira-de-vinhos #sellerModal').addClass('opened');
+              $('#sellerModal').addClass('opened');
             } else {
               $('#category-page #sellerModal').addClass('opened');
             }
