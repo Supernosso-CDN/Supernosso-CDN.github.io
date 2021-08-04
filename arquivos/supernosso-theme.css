@@ -13426,20 +13426,35 @@ p.text-seo span.full {
   text-decoration: underline;
   font-size: 14px;
 }
+#category-page.mz-category-page-prime-day #content {
+  padding-top: 0;
+}
 #category-page.mz-category-page-prime-day .ofertasPrimeTitle {
   background-color: #fff;
   background: url(https://supernossoemcasa.vteximg.com.br/arquivos/prime-day-banner.png);
   background-repeat: no-repeat;
-  background-size: 100%,auto;
+  background-size: cover;
+  background-position: center;
   opacity: 1;
   color: #fff;
+  min-height: 470px;
+  height: fit-content;
+}
+#category-page.mz-category-page-prime-day #banner-items {
+  display: flex;
+  justify-items: center;
+  justify-content: center;
+  transform: translateY(-50%);
+}
+#category-page.mz-category-page-prime-day #banner-items .box-banner {
+  margin: 0 20px;
 }
 #category-page.mz-category-page-prime-day .cat-title {
   width: 100%;
   padding: 48px 0;
 }
 #category-page.mz-category-page-prime-day .cat-title .title-category {
-  margin-top: 0;
+  margin-top: 45px;
 }
 #category-page.mz-category-page-prime-day .cat-title .title-category h2 {
   max-width: 760px;
@@ -13462,15 +13477,135 @@ p.text-seo span.full {
 #category-page.mz-category-page-prime-day .cat-title .title-category img {
   width: 226px;
 }
+@media (max-width: 1024px) {
+  #category-page.mz-category-page-prime-day .cat-title .container {
+    max-width: unset!important;
+  }
+  #category-page.mz-category-page-prime-day .cat-title .title-category {
+    flex-direction: column-reverse;
+    flex-wrap: wrap;
+    margin: 0 auto;
+  }
+  #category-page.mz-category-page-prime-day .cat-title .title-category h2 {
+    margin-top: 20px;
+    font-size: 27px;
+  }
+  #category-page.mz-category-page-prime-day .cat-title .title-category h2 span {
+    font-size: 27px;
+  }
+  #category-page.mz-category-page-prime-day .cat-title .title-category h4 {
+    margin: 20px 0 40px 0;
+  }
+  #category-page.mz-category-page-prime-day .cat-title .title-category #ofertasPrimeSejaPrime {
+    margin: 0 auto;
+  }
+  #category-page.mz-category-page-prime-day .cat-title .title-category .ofertasPrimeTextContainer {
+    margin-right: 0px;
+  }
+}
 #category-page.mz-category-page-prime-day .cat-title #ofertasPrimeSejaPrime {
   width: 226px;
   background: url(https://supernossoemcasa.vteximg.com.br/arquivos/quero-ser-prime.png);
   display: block;
   height: 60px;
   font-size: 0;
+  margin-top: 20px;
 }
 #category-page.mz-category-page-prime-day.prime-day-counter .prateleira ul {
   pointer-events: none;
+}
+#category-page.mz-category-page-prime-day.prime-day-counter .price {
+  display: none;
+}
+#category-page.mz-category-page-prime-day .popup-terms {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 9999999;
+  background: rgba(0, 0, 0, 0.8);
+}
+#category-page.mz-category-page-prime-day .popup-terms.active {
+  display: flex;
+}
+#category-page.mz-category-page-prime-day .popup-terms .button {
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 24px;
+  color: #841F27;
+  border: 1px solid #E5E5E5;
+  box-sizing: border-box;
+  border-radius: 6px;
+  background: transparent;
+  padding: 11px 30px;
+  display: inline-block;
+}
+#category-page.mz-category-page-prime-day .popup-terms .button-secundary,
+#category-page.mz-category-page-prime-day .popup-terms .button:hover {
+  background: #841F27;
+  color: white;
+  border-color: #841F27;
+}
+#category-page.mz-category-page-prime-day .popup-terms-inner {
+  width: 100%;
+  background: white;
+  max-width: 560px;
+  padding: 56px 85px;
+}
+#category-page.mz-category-page-prime-day .popup-terms-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+#category-page.mz-category-page-prime-day .popup-terms-button .button {
+  width: calc(50% - 12px);
+}
+#category-page.mz-category-page-prime-day .popup-terms h2 {
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 150%;
+  color: #333333;
+  margin: 0 0 14px 0;
+  padding: 0;
+}
+#category-page.mz-category-page-prime-day .popup-terms p {
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 150%;
+  color: #999999;
+  margin: 0 0 18px 0;
+  padding: 0;
+}
+#category-page.mz-category-page-prime-day .popup-terms p a {
+  color: #841F27;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+}
+#category-page.mz-category-page-prime-day .prime-howworks {
+  max-height: 200px;
+  background: #f2f2f2;
+  overflow: scroll;
+  margin-bottom: 20px;
+  padding: 20px 5px 0;
+  display: none;
+}
+#category-page.mz-category-page-prime-day .prime-howworks h3,
+#category-page.mz-category-page-prime-day .prime-howworks p,
+#category-page.mz-category-page-prime-day .prime-howworks b,
+#category-page.mz-category-page-prime-day .prime-howworks strong,
+#category-page.mz-category-page-prime-day .prime-howworks li {
+  font-size: 11px;
+  color: #000;
 }
 #category-page aside.sidebar {
   position: relative;
