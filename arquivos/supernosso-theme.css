@@ -13564,6 +13564,9 @@ p.text-seo span.full {
   font-size: 0;
   margin-top: 20px;
 }
+#category-page.mz-category-page-prime-day.prime-day-counter .prateleira ul {
+  pointer-events: none;
+}
 #category-page.mz-category-page-prime-day.prime-day-counter .price {
   display: none;
 }
