@@ -13426,6 +13426,19 @@ p.text-seo span.full {
   text-decoration: underline;
   font-size: 14px;
 }
+#category-page.mz-category-page-prime-day .cardBranco.direita .precoCard,
+#category-page.mz-category-page-prime-day .cardVermelho .precoCard {
+  position: relative;
+}
+#category-page.mz-category-page-prime-day .cardBranco.direita .precoCard::after,
+#category-page.mz-category-page-prime-day .cardVermelho .precoCard::after {
+  content: 'e ganhe +1 mês!';
+  font-size: 18px;
+  position: absolute;
+  bottom: 12px;
+  width: 100%;
+  left: 0;
+}
 #category-page.mz-category-page-prime-day .cardBranco.direita .botaoComprarCard,
 #category-page.mz-category-page-prime-day .cardVermelho .botaoComprarCard {
   position: relative;
