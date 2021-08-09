@@ -13426,8 +13426,53 @@ p.text-seo span.full {
   text-decoration: underline;
   font-size: 14px;
 }
+#category-page.mz-category-page-prime-day .cardBranco.direita .botaoComprarCard,
+#category-page.mz-category-page-prime-day .cardVermelho .botaoComprarCard {
+  position: relative;
+}
+#category-page.mz-category-page-prime-day .cardBranco.direita .botaoComprarCard::after,
+#category-page.mz-category-page-prime-day .cardVermelho .botaoComprarCard::after {
+  content: '';
+  background: url(https://supernossoemcasa.vteximg.com.br/arquivos/ids/250312/prime-1.png);
+  width: 56px;
+  height: 56px;
+  position: absolute;
+  display: block;
+  top: -35px;
+  right: -20px;
+}
 #category-page.mz-category-page-prime-day #content {
   padding-top: 0;
+}
+#category-page.mz-category-page-prime-day .product-prime-day {
+  min-height: 60px;
+  display: none;
+}
+#category-page.mz-category-page-prime-day .product-prime-day .product_field_280 {
+  font-size: 0;
+}
+#category-page.mz-category-page-prime-day .product-prime-day .product_field_280 ul {
+  width: 100%;
+  margin: 0!important;
+}
+#category-page.mz-category-page-prime-day .product-prime-day .product_field_280 ul li {
+  margin: 0;
+  width: 100%!important;
+  text-align: center;
+  line-height: 1;
+  font-size: 18px;
+  color: #635454;
+}
+#category-page.mz-category-page-prime-day.prime-day-counter .product-prime-day {
+  display: block;
+}
+#category-page.mz-category-page-prime-day.prime-day-counter .prateleira ul {
+  pointer-events: none;
+}
+#category-page.mz-category-page-prime-day.prime-day-counter .price,
+#category-page.mz-category-page-prime-day.prime-day-counter .product-qty,
+#category-page.mz-category-page-prime-day.prime-day-counter .flag-adicionado {
+  display: none;
 }
 #category-page.mz-category-page-prime-day .ofertasPrimeTitle {
   background-color: #fff;
@@ -13449,6 +13494,11 @@ p.text-seo span.full {
 #category-page.mz-category-page-prime-day #banner-items .box-banner {
   margin: 0 20px;
 }
+@media (max-width: 768px) {
+  #category-page.mz-category-page-prime-day #banner-items .box-banner {
+    margin: 0 5px;
+  }
+}
 #category-page.mz-category-page-prime-day .cat-title {
   width: 100%;
   padding: 48px 0;
@@ -13462,6 +13512,9 @@ p.text-seo span.full {
 #category-page.mz-category-page-prime-day .cat-title .title-category h2 span {
   font-size: 50px;
   color: #D99A06;
+  background: -webkit-linear-gradient(#F2E7B6, #F2E7B6, #BCA167, #F2E7B6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 #category-page.mz-category-page-prime-day .cat-title .title-category h4 {
   font-size: 18px;
@@ -13505,14 +13558,11 @@ p.text-seo span.full {
 }
 #category-page.mz-category-page-prime-day .cat-title #ofertasPrimeSejaPrime {
   width: 226px;
-  background: url(https://supernossoemcasa.vteximg.com.br/arquivos/quero-ser-prime.png);
+  background: url(https://supernossoemcasa.vteximg.com.br/arquivos/ids/250305/quero-ser-prime.png);
   display: block;
   height: 60px;
   font-size: 0;
   margin-top: 20px;
-}
-#category-page.mz-category-page-prime-day.prime-day-counter .prateleira ul {
-  pointer-events: none;
 }
 #category-page.mz-category-page-prime-day.prime-day-counter .price {
   display: none;
