@@ -13426,6 +13426,22 @@ p.text-seo span.full {
   text-decoration: underline;
   font-size: 14px;
 }
+#category-page.mz-category-page-prime-day .cardBranco {
+  background: #000;
+}
+#category-page.mz-category-page-prime-day .cardBranco .tituloCard {
+  color: #fff;
+  border-bottom: solid 2px #fff;
+}
+#category-page.mz-category-page-prime-day .cardBranco .vantagemCard {
+  color: #fff;
+}
+#category-page.mz-category-page-prime-day .cardBranco .botaoComprarCard {
+  background: #fff;
+  color: #000;
+  border-color: #000;
+  font-weight: bold;
+}
 #category-page.mz-category-page-prime-day .cardBranco.direita .precoCard,
 #category-page.mz-category-page-prime-day .cardVermelho .precoCard {
   position: relative;
@@ -13447,8 +13463,8 @@ p.text-seo span.full {
 #category-page.mz-category-page-prime-day .cardVermelho .botaoComprarCard::after {
   content: '';
   background: url(https://supernossoemcasa.vteximg.com.br/arquivos/ids/250312/prime-1.png);
-  width: 56px;
-  height: 56px;
+  width: 51px;
+  height: 51px;
   position: absolute;
   display: block;
   top: -35px;
@@ -13507,9 +13523,10 @@ p.text-seo span.full {
 #category-page.mz-category-page-prime-day #banner-items .box-banner {
   margin: 0 20px;
 }
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   #category-page.mz-category-page-prime-day #banner-items .box-banner {
     margin: 0 5px;
+    max-width: 90px;
   }
 }
 #category-page.mz-category-page-prime-day .cat-title {
@@ -13521,9 +13538,10 @@ p.text-seo span.full {
 }
 #category-page.mz-category-page-prime-day .cat-title .title-category h2 {
   max-width: 760px;
+  font-size: 40px;
 }
 #category-page.mz-category-page-prime-day .cat-title .title-category h2 span {
-  font-size: 50px;
+  font-size: 40px;
   color: #D99A06;
   background: -webkit-linear-gradient(#F2E7B6, #F2E7B6, #BCA167, #F2E7B6);
   -webkit-background-clip: text;
@@ -13541,7 +13559,7 @@ p.text-seo span.full {
   margin-right: 50px;
 }
 #category-page.mz-category-page-prime-day .cat-title .title-category img {
-  width: 226px;
+  width: 380px;
 }
 @media (max-width: 1024px) {
   #category-page.mz-category-page-prime-day .cat-title .container {
@@ -13560,7 +13578,7 @@ p.text-seo span.full {
     font-size: 27px;
   }
   #category-page.mz-category-page-prime-day .cat-title .title-category h4 {
-    margin: 20px 0 40px 0;
+    margin: 10px 0;
   }
   #category-page.mz-category-page-prime-day .cat-title .title-category #ofertasPrimeSejaPrime {
     margin: 0 auto;
@@ -14460,7 +14478,7 @@ p.text-seo span.full {
   align-items: center;
   justify-content: space-between;
   padding: 4px;
-  margin: 19px 0 2px;
+  margin: 3px 0 2px;
 }
 #product-page #product-content .product-info .buy-button-box .product-qty .shelf-less-qty,
 #product-page #product-content .product-info .buy-button-box .product-qty .shelf-more-qty {
@@ -21949,11 +21967,11 @@ body#recipes-page .top-chefs .chef-list .list .list-item .recipes {
 }
 #mobile-nav .mobile-nav-inner .mobile-nav-list .mobile-nav-item .mobile-nav-link:hover,
 #mobile-nav .mobile-nav-inner .mobile-nav-list .mobile-nav-item .mobile-nav-link.active {
-  color: #D99A06;
+  color: #dc0b1c;
 }
 #mobile-nav .mobile-nav-inner .mobile-nav-list .mobile-nav-item .mobile-nav-link:hover svg path,
 #mobile-nav .mobile-nav-inner .mobile-nav-list .mobile-nav-item .mobile-nav-link.active svg path {
-  fill: #D99A06;
+  fill: #dc0b1c;
 }
 #mobile-nav .mobile-nav-inner .mobile-nav-list .mobile-nav-item .mobile-nav-link.mobile-nav-cart {
   position: relative;
@@ -21973,7 +21991,7 @@ body#recipes-page .top-chefs .chef-list .list .list-item .recipes {
   font-style: normal;
   font-weight: normal;
   font-size: 12px;
-  color: #D99A06;
+  color: #dc0b1c;
   background: #F2F2F2;
 }
 @media (max-width: 768px) {
@@ -22847,7 +22865,7 @@ body#recipes-page .top-chefs .chef-list .list .list-item .recipes {
     justify-content: center;
     align-items: center;
     text-align: center;
-    margin-top: 1.5em;
+    margin-top: 10px;
   }
   #category-page .ofertasPrimeTitle .ofertasPrimeTextContainer h2 {
     font-size: 27px;

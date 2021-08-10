@@ -58430,6 +58430,7 @@ var Product = function () {
       var html = "\n            <div class=\"product-qty\" data-product-id=\"" + id + "\" data-product-sku=\"" + sku + "\">\n                <div class=\"shelf-less-qty\">\n                    <svg width=\"32\" height=\"32\" viewBox=\"0 0 32 32\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n                        <circle cx=\"16\" cy=\"16\" r=\"15.5\" fill=\"#F2F2F2\" stroke=\"#F2F2F2\"/>\n                        <rect x=\"8.7998\" y=\"15.2002\" width=\"14.4\" height=\"1.6\" rx=\"0.8\" fill=\"#841F27\"/>\n                    </svg>                                        \n                </div>\n                <div class=\"shelf-input-qty\">\n                    <input type=\"text\" class=\"shelf-input-qty-control\" value=\"" + (qty == 0 ? "-" : qty) + "\" />\n                </div>\n                <div class=\"shelf-more-qty\">\n                    <svg width=\"32\" height=\"32\" viewBox=\"0 0 32 32\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n                        <circle cx=\"16\" cy=\"16\" r=\"15.5\" fill=\"#F2F2F2\" stroke=\"#F2F2F2\"/>\n                        <path d=\"M23.1538 16.2341C23.1519 15.7928 22.794 15.438 22.3527 15.4399L16.826 15.4578L16.8024 9.92542C16.8005 9.48419 16.4426 9.12933 16.0014 9.13122C15.5602 9.1331 15.2053 9.491 15.2072 9.93223L15.2308 15.4646L9.69845 15.4882C9.25722 15.4901 8.90236 15.848 8.90425 16.2892C8.90613 16.7304 9.26403 17.0853 9.70526 17.0834L15.2376 17.0598L15.2612 22.5922C15.2631 23.0334 15.621 23.3882 16.0622 23.3864C16.5035 23.3845 16.8583 23.0266 16.8564 22.5853L16.8328 17.053L22.3652 17.0294C22.7951 17.0276 23.1556 16.664 23.1538 16.2341Z\" fill=\"#841F27\"/>\n                    </svg>                \n                </div>\n            </div>\n        ";
       if (vtexjs.checkout.orderForm.shippingData && vtexjs.checkout.orderForm.shippingData.address && vtexjs.checkout.orderForm.shippingData.address.postalCode) {
         $(html).prependTo($(el).parents(".buy-button-box"));
+        $('.buy-button-ref').addClass('d-none');
       }
     }
   }, {
@@ -58830,7 +58831,7 @@ var Product = function () {
           $(".favorite-this").hide();
         }
         $(document).ajaxStop(function () {
-          that.createList();
+          // that.createList();
           if ($(document).find(".notifyme.sku-notifyme").find("fieldset.success:visible").length > 0) {
             $(".notifymetitle.notifyme-title").hide();
           }
@@ -58852,18 +58853,28 @@ var Product = function () {
         });
 
         // Sync button
+
+
         $(window).on("orderFormUpdated.vtex", function (evt, orderForm) {
           if (that.ignore) {
             return;
           }
+
           var item = orderForm.items.filter(function (x) {
             return x.productId == skuJson_0.productId;
           });
-          console.log("item", item);
-          if (!Object.keys(item).length) {
-            $(".buy-button-ref").removeClass("d-none");
+
+          var quantity = item[0] ? item[0].quantity : 0;
+
+          if (quantity == 0) {
             $(".buy-button-box .product-qty").remove();
+            $(".buy-button-ref").show();
+            $(".buy-button-ref").removeClass("d-none");
+          } else {
+            $(".buy-button-ref").addClass("d-none");
           }
+
+          $('.badge-secondary').text(quantity);
         });
       }
     }
@@ -64118,6 +64129,7 @@ var PrimePlans = function (_React$Component) {
       //document.getElementById("queroserprime").addEventListener("click", $('html,body').animate({scrollTop: $("#prime-planos").offset().top}, 'slow'));
       var plans = this.state.plans.slice(0, this.state.quantity);
 
+      console.log('plans', plans);
       return plans.map(function (plan) {
         var price = Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(plan.preco);
         //let price = `R$ ${parseFloat(plan.preco).toFixed(2).toString().replace('.',',')}`;
