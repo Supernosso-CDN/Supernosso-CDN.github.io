@@ -13505,10 +13505,10 @@ p.text-seo span.full {
 }
 #category-page.mz-category-page-prime-day .ofertasPrimeTitle {
   background-color: #fff;
-  background: url(https://supernossoemcasa.vteximg.com.br/arquivos/prime-day-banner.png);
+  background: url(https://supernossoemcasa.vteximg.com.br/arquivos/prime-day-banner.png), #000;
   background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
+  background-size: 100%;
+  background-position: bottom;
   opacity: 1;
   color: #fff;
   min-height: 470px;
@@ -19190,7 +19190,7 @@ body#wishlist-page.create #collections .action-area .form-action .save input[typ
   margin-top: -5px;
 }
 #login-page .vtexIdUI .vtexIdUI-page#vtexIdUI-auth-selector .modal-header h4 {
-  width: 71px;
+  width: 141px;
   height: 32px;
   text-indent: -9000px;
   background: url('https://supernossoemcasa.vteximg.com.br/arquivos/logo.png');
