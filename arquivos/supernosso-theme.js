@@ -64136,8 +64136,8 @@ var PrimePlans = function (_React$Component) {
         //let img = `//supernossoemcasa.vtexcrm.com.br/DynamicForm/GetFile?dataEntityInstanceId=PP-${plan.id}&fileName=${plan.imagem}`            
         return _react2.default.createElement(
           _react.Fragment,
-          null,
-          plan.periodo === 1 && _react2.default.createElement(
+          { key: plan.periodo },
+          plan.periodo === 3 && _react2.default.createElement(
             "div",
             { className: "cardBranco esquerda" },
             _react2.default.createElement(
@@ -64153,7 +64153,7 @@ var PrimePlans = function (_React$Component) {
             _react2.default.createElement(
               "p",
               { className: "vantagemCard" },
-              "1 m\xEAs de entregas gr\xE1tis"
+              "3 meses de entregas gr\xE1tis"
             ),
             _react2.default.createElement(
               "p",
@@ -64168,7 +64168,7 @@ var PrimePlans = function (_React$Component) {
               "comprar"
             )
           ),
-          plan.periodo === 3 && _react2.default.createElement(
+          plan.periodo === 12 && _react2.default.createElement(
             "div",
             { className: "cardBranco direita" },
             _react2.default.createElement(
@@ -64184,7 +64184,7 @@ var PrimePlans = function (_React$Component) {
             _react2.default.createElement(
               "p",
               { className: "vantagemCard" },
-              "3 meses de entregas gr\xE1tis"
+              "12 meses de entraga gr\xE1tis"
             ),
             _react2.default.createElement(
               "p",
