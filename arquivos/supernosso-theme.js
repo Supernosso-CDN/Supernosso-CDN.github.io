@@ -64136,7 +64136,7 @@ var PrimePlans = function (_React$Component) {
         //let img = `//supernossoemcasa.vtexcrm.com.br/DynamicForm/GetFile?dataEntityInstanceId=PP-${plan.id}&fileName=${plan.imagem}`            
         return _react2.default.createElement(
           _react.Fragment,
-          { key: plan.periodo },
+          null,
           plan.periodo === 3 && _react2.default.createElement(
             "div",
             { className: "cardBranco esquerda" },
@@ -64184,7 +64184,7 @@ var PrimePlans = function (_React$Component) {
             _react2.default.createElement(
               "p",
               { className: "vantagemCard" },
-              "12 meses de entraga gr\xE1tis"
+              "12 meses de entregas gr\xE1tis"
             ),
             _react2.default.createElement(
               "p",
@@ -64266,13 +64266,25 @@ var PrimePlans = function (_React$Component) {
 
 exports.default = PrimePlans;
 if (document.querySelector(".mz-category-page-prime-day")) {
-  var primeShelf = document.querySelector(".mz-category-page-prime-day .prateleira.supernossoshelf.n4colunas >ul:first-child");
-  var newNode = document.createElement('div');
-  newNode.className = "prime-planos";
-  var innerNode = document.createElement('div');
-  innerNode.setAttribute('id', "prime-planos");
-  newNode.appendChild(innerNode);
-  primeShelf.after(newNode);
+  var checkExist = setInterval(function () {
+    if (document.querySelector(".mz-category-page-prime-day .prateleira.supernossoshelf.n4colunas >ul:first-child")) {
+      console.log("Exists!");
+      renderCards();
+      clearInterval(checkExist);
+    }
+  }, 100); // check every 100ms
+  var renderCards = function renderCards() {
+    var primeShelf = document.querySelector(".mz-category-page-prime-day .prateleira.supernossoshelf.n4colunas >ul:first-child");
+    var newNode = document.createElement('div');
+    newNode.className = "prime-planos";
+    var innerNode = document.createElement('div');
+    innerNode.setAttribute('id', "prime-planos");
+    newNode.appendChild(innerNode);
+    primeShelf.after(newNode);var element = document.getElementById('prime-planos');
+    if (element) {
+      _reactDom2.default.render(_react2.default.createElement(PrimePlans, null), element);
+    }
+  };
 }
 //remove thes part when prime-day 2021 goes down
 

@@ -10663,6 +10663,14 @@ footer .institutional-section .dev-nav span img {
   text-decoration-line: line-through;
   color: #999;
 }
+.prateleira.supernossoshelf ul li .item-shelf .buy-button-shelf #counter a {
+  font-size: 12px!important;
+  padding: 5px 20px!important;
+}
+.prateleira.supernossoshelf ul li .item-shelf .buy-button-shelf #counter a span {
+  font-weight: lighter;
+  font-size: 12px;
+}
 .prateleira.supernossoshelf ul li .item-shelf .buy-button-shelf a {
   color: #841F27;
   font-family: 'Roboto', sans-serif;
@@ -20083,6 +20091,7 @@ body#wishlist-page.create #collections .action-area .form-action .save input[typ
   order: 1;
   transform: scale(1.08);
   transition: transform 0.5s;
+  z-index: 1;
 }
 .planosContainer .planosCards .cardVermelho:hover {
   transform: scale(1.11);
