@@ -13467,17 +13467,6 @@ p.text-seo span.full {
 #category-page.mz-category-page-prime-day .cardVermelho .botaoComprarCard {
   position: relative;
 }
-#category-page.mz-category-page-prime-day .cardBranco.direita .botaoComprarCard::after,
-#category-page.mz-category-page-prime-day .cardVermelho .botaoComprarCard::after {
-  content: '';
-  background: url(https://supernossoemcasa.vteximg.com.br/arquivos/ids/250312/prime-1.png);
-  width: 51px;
-  height: 51px;
-  position: absolute;
-  display: block;
-  top: -35px;
-  right: -20px;
-}
 #category-page.mz-category-page-prime-day #content {
   padding-top: 0;
 }
