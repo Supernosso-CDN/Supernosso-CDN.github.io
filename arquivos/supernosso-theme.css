@@ -2376,7 +2376,7 @@ input[type=submit].btn-block {
   width: 100%;
 }
 .modal-open {
-  overflow: hidden;
+  overflow: scroll;
 }
 .modal-open .modal {
   overflow-x: hidden;
@@ -11300,7 +11300,7 @@ footer .institutional-section .dev-nav span img {
   font-size: 14px;
 }
 #box-bread-brumb .bread-crumb ul li.last a {
-  color: #000;
+  color: #000000;
 }
 section.main-categories .main-cat-title strong {
   font-family: Museo, sans-serif;
