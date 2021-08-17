@@ -65169,42 +65169,43 @@ var PrimePlans = function (_React$Component) {
     value: function addToCart(e, sku) {
       e.preventDefault();
 
-      try {
-        vtexjs.checkout.getOrderForm(["shippingData"]).then(function (orderForm) {
+      $('.popup-terms').addClass('active');
 
-          if (orderForm.shippingData && orderForm.shippingData.address && orderForm.shippingData.address.postalCode) {
+      $('.popup-terms-button .button-secundary').unbind('click');
+      $('.popup-terms-button .button-primary').unbind('click');
 
-            this.setState({
-              selected: sku
-            });
+      $('.popup-terms-button .button-primary').on('click', function (e) {
+        $('.popup-terms').removeClass('active');
+      });
 
-            $('.popup-terms').addClass('active');
+      $('.popup-terms-button .button-secundary.button').on('click', function (e) {
+        e.preventDefault();
 
-            $('.popup-terms-button .button-secundary').unbind('click');
-            $('.popup-terms-button .button-primary').unbind('click');
+        $('.popup-terms').removeClass('active');
 
-            $('.popup-terms-button .button-primary').on('click', function (e) {
-              $('.popup-terms').removeClass('active');
-            });
+        this.setState({
+          selected: sku
+        });
 
-            $('.popup-terms-button .button-secundary').on('click', function (e) {
-              e.preventDefault();
-              $('.popup-terms').removeClass('active');
+        $("#minicart-wrapper").trigger('add-sku-to-cart', [sku, 1, 1]);
 
-              $("#minicart-wrapper").trigger('add-sku-to-cart', [sku, 1, 1]);
+        // verifica se tem cep e abre o minicart
+        try {
+          vtexjs.checkout.getOrderForm(["shippingData"]).then(function (orderForm) {
+            if (orderForm.shippingData && orderForm.shippingData.address && orderForm.shippingData.address.postalCode) {
 
               // Força abrir o mini cart quando não for mobile
               if (window.matchMedia("(max-width:768px)").matches == false) {
                 $('#minicart-wrapper').addClass('open-minicart');
               }
-            });
-          } else {
-            $("#sellerModal").addClass('opened');
-          }
-        }.bind(this));
-      } catch (error) {
-        console.error(error);
-      }
+            } else {
+              $("#sellerModal").addClass('opened');
+            }
+          });
+        } catch (error) {
+          console.error(error);
+        }
+      }.bind(this));
     }
   }, {
     key: "more",
