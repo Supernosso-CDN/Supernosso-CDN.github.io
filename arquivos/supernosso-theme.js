@@ -65168,15 +65168,11 @@ var PrimePlans = function (_React$Component) {
     key: "addToCart",
     value: function addToCart(e, sku) {
       e.preventDefault();
-      console.log('clicou para comprar e nao tem cep, entao ABRE o minicart ----->');
 
       try {
         vtexjs.checkout.getOrderForm(["shippingData"]).then(function (orderForm) {
-          console.log('ORDERFORM', orderForm);
+
           if (orderForm.shippingData && orderForm.shippingData.address && orderForm.shippingData.address.postalCode) {
-            console.log('tem postalcode');
-            console.log('POSTAL CODE ', orderForm.shippingData.address.postalCode);
-            console.log('SKU', sku);
 
             this.setState({
               selected: sku
@@ -65203,7 +65199,6 @@ var PrimePlans = function (_React$Component) {
               }
             });
           } else {
-            console.log('nao tem postal code');
             $("#sellerModal").addClass('opened');
           }
         }.bind(this));
