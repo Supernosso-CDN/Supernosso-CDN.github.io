@@ -57051,9 +57051,26 @@ var Shelf = function () {
           };
           return vtexjs.checkout.updateItems([updateItem], null, false);
         }).done(function (orderForm) {
-          console.log(orderForm);
+          updateMinicart(orderForm);
+          // updateShelfQty(orderForm)
         });
       }, 2000);
+
+      var updateMinicart = function updateMinicart(orderForm) {
+        orderForm.items.forEach(function (item) {
+          var id = item.id;
+          $('#minicart-wrapper #cartItemId-' + id + ' .qty-input input').val(item.quantity);
+          $('[data-product-id="' + item.productId + '"] .shelf-input-qty-control').val(item.quantity);
+        });
+      };
+      // let updateShelfQty = (orderForm) => {
+      //   console.log('updateShelfQty', orderForm);
+      //   orderForm.items.forEach((item) => {
+      //     $('[data-product-id="'+item.productId+'"] .shelf-input-qty-control').val(item.quantity)
+      //     let id = item.id
+      //     $('#minicart-wrapper #cartItemId-' + id + ' .qty-input input').val(item.quantity)
+      //   })
+      // }
 
       $(document).on("click", ".shelf-more-qty", function (e) {
 
@@ -57064,7 +57081,6 @@ var Shelf = function () {
         e.preventDefault();
         var id = $(this).parents(".item-shelf").attr("data-product-id") || $(this).parent().parent().attr("data-product-id") || $(this).parent().attr("data-product-id");
         var el = $(this).parent().find("input.shelf-input-qty-control");
-        //$('#minicart-wrapper').trigger('more-qty-item', [id, el])
         var value = $(el).val();
         var sku = $(this).parent().data("product-sku");
 
@@ -63347,7 +63363,7 @@ var ProductList = exports.ProductList = function (_React$Component) {
               items[key].map(function (item, index) {
                 return _react2.default.createElement(
                   "li",
-                  { className: "product-item", key: index },
+                  { className: "product-item", id: 'cartItemId-' + item.id, key: index },
                   _react2.default.createElement(
                     "span",
                     { className: "product-remove", id: "" + item.id, onClick: function onClick() {
