@@ -57005,6 +57005,9 @@ var Shelf = function () {
 
         $(el).val(value);
 
+        if (value == 0) {
+          $(this).parents(".item-shelf").find('.flag-adicionado').remove();
+        }
         findItemInCart(id, value);
       });
       var findItemInCart = function findItemInCart(id, value) {
@@ -57042,7 +57045,6 @@ var Shelf = function () {
       };
 
       var itemsChanged = debounce(function (itemsQuantity, itemIndex) {
-        console.log('debounce works', itemIndex);
         vtexjs.checkout.getOrderForm().then(function (orderForm) {
           var item = orderForm.items[itemIndex];
           var updateItem = {
@@ -57051,26 +57053,17 @@ var Shelf = function () {
           };
           return vtexjs.checkout.updateItems([updateItem], null, false);
         }).done(function (orderForm) {
-          updateMinicart(orderForm);
-          // updateShelfQty(orderForm)
+          updateMinicartShelf(orderForm);
         });
       }, 2000);
 
-      var updateMinicart = function updateMinicart(orderForm) {
+      var updateMinicartShelf = function updateMinicartShelf(orderForm) {
         orderForm.items.forEach(function (item) {
           var id = item.id;
           $('#minicart-wrapper #cartItemId-' + id + ' .qty-input input').val(item.quantity);
           $('[data-product-id="' + item.productId + '"] .shelf-input-qty-control').val(item.quantity);
         });
       };
-      // let updateShelfQty = (orderForm) => {
-      //   console.log('updateShelfQty', orderForm);
-      //   orderForm.items.forEach((item) => {
-      //     $('[data-product-id="'+item.productId+'"] .shelf-input-qty-control').val(item.quantity)
-      //     let id = item.id
-      //     $('#minicart-wrapper #cartItemId-' + id + ' .qty-input input').val(item.quantity)
-      //   })
-      // }
 
       $(document).on("click", ".shelf-more-qty", function (e) {
 
@@ -57097,8 +57090,26 @@ var Shelf = function () {
         var val = $(el).val();
         var sku = $(this).parents(".item-shelf").data("product-sku");
 
-        $("#minicart-wrapper").trigger("update-qty-item", [id, el, val]);
+        // $("#minicart-wrapper").trigger("update-qty-item", [id, el, val]);
+
+        findItemInCart(id, val);
       }, 1500));
+
+      //keupu nao funcinava no celular parsa
+      window.onload = function () {
+        var inputQttList = document.querySelectorAll("input.shelf-input-qty-control");
+        inputQttList.forEach(function (input) {
+          input.addEventListener("blur", myFunction);
+          function myFunction(e) {
+            var value = e.target.value;
+            var id = $(e.target).parents(".item-shelf").attr("data-product-id") || $(e.target).parent().parent().attr("data-product-id") || $(e.target).parent().attr("data-product-id");
+            if (value == 0) {
+              $(this).parents(".item-shelf").find('.flag-adicionado').remove();
+            }
+            findItemInCart(id, value);
+          }
+        });
+      };
     }
   }]);
 
