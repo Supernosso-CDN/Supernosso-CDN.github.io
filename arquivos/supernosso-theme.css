@@ -10663,6 +10663,9 @@ footer .institutional-section .dev-nav span img {
   text-decoration-line: line-through;
   color: #999;
 }
+.prateleira.supernossoshelf ul li .item-shelf .buy-button-shelf {
+  height: 47px;
+}
 .prateleira.supernossoshelf ul li .item-shelf .buy-button-shelf #counter a {
   font-size: 12px!important;
   padding: 5px 20px!important;
@@ -10701,7 +10704,16 @@ footer .institutional-section .dev-nav span img {
   align-items: center;
   justify-content: center;
   padding: 4px;
-  margin: 19px 0 2px;
+  margin: 15px 0 0px;
+}
+.prateleira.supernossoshelf ul li .item-shelf .buy-button-shelf .product-qty.loading-qty::before {
+  content: '';
+  display: block;
+  position: absolute;
+  background: url('https://supernossoemcasa.vteximg.com.br/arquivos/loading-supernosso.gif');
+  background-size: 20px,20px;
+  width: 20px;
+  height: 20px;
 }
 .prateleira.supernossoshelf ul li .item-shelf .buy-button-shelf .product-qty .shelf-less-qty,
 .prateleira.supernossoshelf ul li .item-shelf .buy-button-shelf .product-qty .shelf-more-qty {
@@ -10727,6 +10739,16 @@ footer .institutional-section .dev-nav span img {
   font-size: 14px;
   color: #8F000F;
   width: 100%;
+  /* Chrome, Safari, Edge, Opera */
+  /* Firefox */
+}
+.prateleira.supernossoshelf ul li .item-shelf .buy-button-shelf .product-qty .shelf-input-qty input::-webkit-outer-spin-button,
+.prateleira.supernossoshelf ul li .item-shelf .buy-button-shelf .product-qty .shelf-input-qty input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.prateleira.supernossoshelf ul li .item-shelf .buy-button-shelf .product-qty .shelf-input-qty input[type=number] {
+  -moz-appearance: textfield;
 }
 .prateleira.supernossoshelf ul.slick-slider {
   display: block;
@@ -10859,6 +10881,13 @@ footer .institutional-section .dev-nav span img {
 }
 .feira-de-vinhos .prateleira.supernossoshelf ul li .promo-flags p.flag {
   margin: 0 20px;
+}
+.disabled-qty {
+  pointer-events: none;
+  opacity: 0.7;
+}
+.disabled-qty * {
+  pointer-events: none!important;
 }
 .user-info {
   margin-left: 22px !important;
