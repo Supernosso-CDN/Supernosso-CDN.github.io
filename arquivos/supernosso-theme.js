@@ -57035,6 +57035,9 @@ var Shelf = function () {
         };
         lastClicked = $(e.target).parents(".item-shelf").attr("data-product-id") || $(e.target).parent().parent().attr("data-product-id") || $(e.target).parent().attr("data-product-id");
 
+        // adds flag
+        $(e.target).parents(".item-shelf").append('<span class="flag-adicionado">Adicionado</span>');
+
         itemsChanged(true, item);
         itemAdded = item;
         $(this).hide();
