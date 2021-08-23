@@ -56073,9 +56073,10 @@ var StorePicker = function () {
               });
               return vtexjs.checkout.removeItems(itemsToRemove);
             }).done(function (orderForm) {
-              $('.buy-button-normal').show();
+              $('.buy-button-normal a').show();
               $('.flag-adicionado').remove();
               $('.product-qty').remove();
+              $('.badge-secondary').text(orderForm.items.length);
             });
           }
         });
@@ -56741,7 +56742,7 @@ var Shelf = function () {
   }, {
     key: "qtyLayout",
     value: function qtyLayout(qty, el, id, sku) {
-      var html = "\n        <div class=\"product-qty\" data-product-id=\"" + id + "\" data-product-sku=\"" + sku + "\">\n        <div class=\"shelf-less-qty\">\n          <svg width=\"32\" height=\"32\" viewBox=\"0 0 32 32\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n            <circle cx=\"16\" cy=\"16\" r=\"15.5\" fill=\"#F2F2F2\" stroke=\"#F2F2F2\"/>\n            <rect x=\"8.7998\" y=\"15.2002\" width=\"14.4\" height=\"1.6\" rx=\"0.8\" fill=\"#841F27\"/>\n          </svg>                                   \n        </div>\n        <div class=\"shelf-input-qty\">\n            <input type=\"text\" class=\"shelf-input-qty-control\" value=\"" + (qty == 0 ? "-" : qty) + "\" />\n        </div>\n        <div class=\"shelf-more-qty\">\n          <svg width=\"32\" height=\"32\" viewBox=\"0 0 32 32\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n            <circle cx=\"16\" cy=\"16\" r=\"15.5\" fill=\"#F2F2F2\" stroke=\"#F2F2F2\"/>\n            <path d=\"M23.1538 16.2341C23.1519 15.7928 22.794 15.438 22.3527 15.4399L16.826 15.4578L16.8024 9.92542C16.8005 9.48419 16.4426 9.12933 16.0014 9.13122C15.5602 9.1331 15.2053 9.491 15.2072 9.93223L15.2308 15.4646L9.69845 15.4882C9.25722 15.4901 8.90236 15.848 8.90425 16.2892C8.90613 16.7304 9.26403 17.0853 9.70526 17.0834L15.2376 17.0598L15.2612 22.5922C15.2631 23.0334 15.621 23.3882 16.0622 23.3864C16.5035 23.3845 16.8583 23.0266 16.8564 22.5853L16.8328 17.053L22.3652 17.0294C22.7951 17.0276 23.1556 16.664 23.1538 16.2341Z\" fill=\"#841F27\"/>\n          </svg>               \n        </div>\n      </div>\n        ";
+      var html = "\n        <div class=\"product-qty\" data-product-id=\"" + id + "\" data-product-sku=\"" + sku + "\">\n        <div class=\"shelf-less-qty\">\n          <svg width=\"32\" height=\"32\" viewBox=\"0 0 32 32\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n            <circle cx=\"16\" cy=\"16\" r=\"15.5\" fill=\"#F2F2F2\" stroke=\"#F2F2F2\"/>\n            <rect x=\"8.7998\" y=\"15.2002\" width=\"14.4\" height=\"1.6\" rx=\"0.8\" fill=\"#841F27\"/>\n          </svg>                                   \n        </div>\n        <div class=\"shelf-input-qty\">\n            <input type=\"number\" class=\"shelf-input-qty-control\" value=\"" + (qty == 0 ? "-" : qty) + "\" />\n        </div>\n        <div class=\"shelf-more-qty\">\n          <svg width=\"32\" height=\"32\" viewBox=\"0 0 32 32\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n            <circle cx=\"16\" cy=\"16\" r=\"15.5\" fill=\"#F2F2F2\" stroke=\"#F2F2F2\"/>\n            <path d=\"M23.1538 16.2341C23.1519 15.7928 22.794 15.438 22.3527 15.4399L16.826 15.4578L16.8024 9.92542C16.8005 9.48419 16.4426 9.12933 16.0014 9.13122C15.5602 9.1331 15.2053 9.491 15.2072 9.93223L15.2308 15.4646L9.69845 15.4882C9.25722 15.4901 8.90236 15.848 8.90425 16.2892C8.90613 16.7304 9.26403 17.0853 9.70526 17.0834L15.2376 17.0598L15.2612 22.5922C15.2631 23.0334 15.621 23.3882 16.0622 23.3864C16.5035 23.3845 16.8583 23.0266 16.8564 22.5853L16.8328 17.053L22.3652 17.0294C22.7951 17.0276 23.1556 16.664 23.1538 16.2341Z\" fill=\"#841F27\"/>\n          </svg>               \n        </div>\n      </div>\n        ";
       $(html).prependTo($(el).parents(".buy-button-shelf"));
     }
   }, {
@@ -56850,16 +56851,6 @@ var Shelf = function () {
     value: function addQuantityLoading(el) {
       $(el).css("display", "none");
       $('<div id="loadingComprar" style="display:flex;justify-content:center;"><img src="https://supernossoemcasa.vteximg.com.br/arquivos/loading-supernosso.gif"/ width="20" height="20"></div>').insertAfter(el);
-
-      $(".product-qty .shelf-less-qty, .shelf-input-qty, .product-qty .shelf-more-qty").css("pointer-events", "none");
-      $(".product-qty .shelf-less-qty, .shelf-input-qty, .product-qty .shelf-more-qty").css("opacity", "0.5");
-
-      setTimeout(function () {
-        $("#loadingComprar").css("display", "none");
-        $(el).css("display", "block");
-        $(".product-qty .shelf-less-qty, .shelf-input-qty, .product-qty .shelf-more-qty").css("pointer-events", "auto");
-        $(".product-qty .shelf-less-qty, .shelf-input-qty, .product-qty .shelf-more-qty").css("opacity", "1");
-      }, 800);
     }
   }, {
     key: "init",
@@ -56903,59 +56894,11 @@ var Shelf = function () {
         that.syncShelfNoProduct();
       });
 
-      $(document).on("click", ".buy-button-shelf a", async function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-
-        var id = $(this).parents(".item-shelf").attr("data-product-id") || $(this).attr("data-product-id");
-        var sku = $(this).parent().attr("id");
-
-        // Checa se o item está disponível no inventário do pickup point escolhido
-        // const seller = localStorage.getItem('selectedSeller') ? localStorage.getItem('selectedSeller') == 'delivery' ? 1 : parseInt(localStorage.getItem('selectedSeller')) : 1;
-        // const warehouseId = seller == "1" ? "1_1" : localStorage.getItem("selectedPickup");
-
-        // if(warehouseId){
-        //   const hasInventory = await checkProductInventory(sku, warehouseId);
-
-        //   if(!hasInventory){
-        //     if(seller == "1"){
-        //       toastr.error("O item não foi adicionado ao carrinho pois não está disponível no estoque.");
-        //     }else {
-        //       toastr.error("O item não foi adicionado ao carrinho pois não está disponível no estoque do ponto de retirada escolhido.");
-        //     }
-
-        //     return;
-        //   }
-        // }
-
-        if (that.timeout) {
-          clearTimeout(that.timeout);
-        }
-
-        that.ignore = true;
-
-        that.timeout = setTimeout(function (e) {
-          that.ignore = false;
-        }, 5000);
-
-        $(this).parent(".buy-button-normal").hide();
-
-        that.qtyLayout(1, $(this), id, sku);
-
-        var el = $(this);
-        var value = $(el).val();
-
-        value = value ? value : 1;
-
-        update(id, el, value, sku);
-      });
-
       var isUpdating = false;
 
       var updateTimeout = false;
 
       var update = _.debounce(function (id, el, val, sku) {
-        //window.isLoading = true;
 
         $("#minicart-wrapper").trigger("update-qty-item", [id, el, val, sku]);
       }, 0);
@@ -56989,29 +56932,10 @@ var Shelf = function () {
             window.isLoading = false;
           }, 3000);
         }
-
         update(id, el, val, sku);
       });
 
-      $(document).on("click", ".shelf-less-qty", function (e) {
-
-        e.preventDefault();
-        var id = $(this).parents(".item-shelf").attr("data-product-id") || $(this).parent().parent().attr("data-product-id") || $(this).parent().attr("data-product-id");
-        var el = $(this).parent().find("input.shelf-input-qty-control");
-        var value = $(el).val();
-        var sku = $(this).parent().data("product-sku");
-
-        if (value - 1 >= 0) value--;
-
-        $(el).val(value);
-
-        if (value == 0) {
-          $(this).parents(".item-shelf").find('.flag-adicionado').remove();
-        }
-        findItemInCart(id, value);
-      });
       var findItemInCart = function findItemInCart(id, value) {
-
         var itemObj = void 0,
             indexIncart = void 0;
         vtexjs.checkout.orderForm.items.forEach(function (item, index) {
@@ -57024,9 +56948,9 @@ var Shelf = function () {
             };
           }
         });
-
-        itemsChanged(value, indexIncart);
+        itemsChanged(false, {}, value, indexIncart);
       };
+
       // debounce function
       function debounce(func, wait, immediate) {
         var timeout;
@@ -57044,71 +56968,137 @@ var Shelf = function () {
         };
       };
 
-      var itemsChanged = debounce(function (itemsQuantity, itemIndex) {
-        vtexjs.checkout.getOrderForm().then(function (orderForm) {
-          var item = orderForm.items[itemIndex];
-          var updateItem = {
-            index: itemIndex,
-            quantity: itemsQuantity
-          };
-          return vtexjs.checkout.updateItems([updateItem], null, false);
-        }).done(function (orderForm) {
-          updateMinicartShelf(orderForm);
-        });
-      }, 2000);
+      // main function when items change
+      var itemsChanged = debounce(function (add, item, itemsQuantity, itemIndex) {
+        $('.product-qty , .buy-button-normal').addClass('disabled-qty');
+        $('[data-product-id="' + lastClicked + '"] .product-qty').addClass('loading-qty');
 
-      var updateMinicartShelf = function updateMinicartShelf(orderForm) {
-        orderForm.items.forEach(function (item) {
-          var id = item.id;
-          $('#minicart-wrapper #cartItemId-' + id + ' .qty-input input').val(item.quantity);
-          $('[data-product-id="' + item.productId + '"] .shelf-input-qty-control').val(item.quantity);
-        });
+        if (add || itemIndex == undefined) {
+          item = itemAdded;
+          item.quantity = add ? 1 : itemsQuantity;
+          // add
+          vtexjs.checkout.addToCart([item], null, 3).done(function (orderForm) {
+            updateEvent();
+            setTimeout(function () {
+              $('.product-qty , .buy-button-normal').removeClass('disabled-qty');
+              $('[data-product-id="' + lastClicked + '"] .product-qty').removeClass('loading-qty');
+            }, 500);
+            if (orderForm.shippingData.address == null) {
+              $('.seller-modal').addClass('opened');
+            }
+          });
+        } else {
+          //update
+          vtexjs.checkout.getOrderForm().then(function (orderForm) {
+            var item = orderForm.items[itemIndex];
+            var updateItem = {
+              index: itemIndex,
+              quantity: itemsQuantity
+            };
+            return vtexjs.checkout.updateItems([updateItem], null, false);
+          }).done(function (orderForm) {
+            updateEvent();
+            $('.product-qty , .buy-button-normal').removeClass('disabled-qty');
+            $('[data-product-id="' + lastClicked + '"] .product-qty').removeClass('loading-qty');
+          });
+        }
+      }, 500);
+
+      //get values
+      var getValues = function getValues(target) {
+        var obj = {
+          id: null,
+          el: null,
+          value: null
+        };
+        var id = $(target).parents(".item-shelf").attr("data-product-id") || $(target).parent().parent().attr("data-product-id") || $(target).parent().attr("data-product-id");
+        var el = $(target).parent().find("input.shelf-input-qty-control");
+        var value = $(el).val();
+
+        lastClicked = id;
+        obj.id = id;
+        obj.el = el;
+        obj.value = value;
+        return obj;
       };
 
-      $(document).on("click", ".shelf-more-qty", function (e) {
-
-        if (window.cartLoading) {
-          return;
-        }
-
+      //buy button
+      var itemAdded = void 0,
+          lastClicked = void 0;
+      $(document).on("click", ".buy-button-shelf a", async function (e) {
         e.preventDefault();
-        var id = $(this).parents(".item-shelf").attr("data-product-id") || $(this).parent().parent().attr("data-product-id") || $(this).parent().attr("data-product-id");
-        var el = $(this).parent().find("input.shelf-input-qty-control");
-        var value = $(el).val();
-        var sku = $(this).parent().data("product-sku");
+        var href = $(this).attr('href');
+        var item = {
+          id: parseInt(href.split('sku=')[1].split('&qty')[0]),
+          quantity: 1,
+          seller: href.split('&seller=')[1].split('&sc=')[0]
+        };
+        lastClicked = $(e.target).parents(".item-shelf").attr("data-product-id") || $(e.target).parent().parent().attr("data-product-id") || $(e.target).parent().attr("data-product-id");
 
-        value++;
-
-        $(el).val(value);
-
-        findItemInCart(id, value);
+        itemsChanged(true, item);
+        itemAdded = item;
+        $(this).hide();
+        that.qtyLayout(1, $(this), item.id, item.id);
       });
 
-      $(document).on("keyup", ".shelf-input-qty-control", _.debounce(function (e) {
-        var id = $(this).parents(".item-shelf").attr("data-product-id") || $(this).parent().parent().attr("data-product-id") || $(this).parent().attr("data-product-id");
-        var el = $(this).parent().find("input.shelf-input-qty-control");
-        var val = $(el).val();
-        var sku = $(this).parents(".item-shelf").data("product-sku");
+      //less qty
+      $(document).on("click", ".shelf-less-qty", function (e) {
+        e.preventDefault();
+        var obj = getValues(this);
+        if (obj.value - 1 >= 0) obj.value--;
+        $(obj.el).val(obj.value);
+        if (obj.value == 0) {
+          shelfZero(this, obj.id);
+        }
+        findItemInCart(obj.id, obj.value);
+      });
 
-        // $("#minicart-wrapper").trigger("update-qty-item", [id, el, val]);
+      //more qty
+      $(document).on("click", ".shelf-more-qty", function (e) {
+        var obj = getValues(this);
+        obj.value++;
+        $(obj.el).val(obj.value);
+        findItemInCart(obj.id, obj.value);
+      });
 
-        findItemInCart(id, val);
-      }, 1500));
+      //keup
+      $(document).on("keyup", ".shelf-input-qty-control", function (e) {
+        if (parseInt(e.key) == NaN || e.keyCode == 8) {
+          return;
+        }
+        var obj = getValues(this);
+        if (obj.value == 0) {
+          shelfZero(this, obj.id);
+        }
+        findItemInCart(obj.id, obj.value);
+      });
 
-      //keupu nao funcinava no celular parsa
+      //blur
       window.onload = function () {
-        var inputQttList = document.querySelectorAll("input.shelf-input-qty-control");
+        var inputQttList = document.querySelectorAll("input.shelf-input-qty-control ");
         inputQttList.forEach(function (input) {
           input.addEventListener("blur", myFunction);
           function myFunction(e) {
-            var value = e.target.value;
-            var id = $(e.target).parents(".item-shelf").attr("data-product-id") || $(e.target).parent().parent().attr("data-product-id") || $(e.target).parent().attr("data-product-id");
-            if (value == 0) {
-              $(this).parents(".item-shelf").find('.flag-adicionado').remove();
+            var obj = getValues(e.target);
+            if (obj.value == 0) {
+              shelfZero(this, obj.id);
             }
-            findItemInCart(id, value);
+            findItemInCart(obj.id, obj.value);
           }
         });
+      };
+
+      // when goes zero
+      var shelfZero = function shelfZero(el, id) {
+        $(el).parents(".item-shelf").find('.flag-adicionado').remove();
+        $(el).parents(".item-shelf").find(".buy-button-shelf a").show();
+        $(el).parents(".item-shelf").find('.product-qty').remove();
+      };
+
+      //update cart
+      var updateEvent = function updateEvent() {
+        var updateCartEvt = new Event('updateCartEvt');
+        window.dispatchEvent(updateCartEvt);
       };
     }
   }]);
@@ -61910,6 +61900,10 @@ var Minicart = exports.Minicart = function (_React$Component) {
       buyBtn.show();
     };
 
+    window.addEventListener('updateCartEvt', function () {
+      _this.getCart();
+    });
+
     $('#minicart-wrapper').on('update-qty-item', async function (e, productId, el, qty, sku) {
       var modal = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : false;
 
@@ -62817,6 +62811,20 @@ var ProductLimit = exports.ProductLimit = function () {
     value: function init() {
 
       var that = this;
+
+      // ****************************************************************************************************
+      // ****************************************************************************************************
+      // ****************************************************************************************************
+      // ****************************************************************************************************
+
+      // ajax dentro de ajaxStop não da
+
+      // ****************************************************************************************************
+      // ****************************************************************************************************
+      // ****************************************************************************************************
+      // ****************************************************************************************************
+
+
       $(document).ajaxStop(function (e) {
 
         var items = {};
