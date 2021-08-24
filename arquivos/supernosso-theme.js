@@ -57074,8 +57074,8 @@ var Shelf = function () {
       //keup
       $(document).on("keyup", ".shelf-input-qty-control", function (e) {
         // console.log(e.key)
-        // console.log(e.target.value)
-        if (parseInt(e.key) == NaN || e.keyCode == 8) {
+        // console.log(e.target.value == "")
+        if (parseInt(e.key) == NaN || e.target.value == "") {
           return;
         }
         var obj = getValues(this);
