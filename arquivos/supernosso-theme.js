@@ -63964,7 +63964,8 @@ var ProductList = exports.ProductList = function (_React$Component) {
       var items = {};
 
       this.props.items.forEach(function (o, index) {
-        var categoryName = o.productCategories[Object.keys(o.productCategories)[0]];
+        // let categoryName = o.productCategories[Object.keys(o.productCategories)[0]]
+        var categoryName = 'ignoreCategories'; // to order by category comment thisline and uncomment the line above
         if (!items[categoryName]) {
           items[categoryName] = [];
         }
