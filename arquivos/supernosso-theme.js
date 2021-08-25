@@ -63352,11 +63352,21 @@ var ProductList = exports.ProductList = function (_React$Component) {
   }, {
     key: "removeFromCart",
     value: function removeFromCart(item) {
+      var counter = 0;
+      vtexjs.checkout.orderForm.items.forEach(function (itm) {
+        if (itm.productId = item.productId) {
+          counter++;
+        }
+      });
+
+      if (counter == 1) {
+        $('[data-product-id="' + item.productId + '"]').find('.flag-adicionado').remove();
+        $('[data-product-id="' + item.productId + '"]').find(".buy-button-shelf a").show();
+        $('[data-product-id="' + item.productId + '"]').find(".buy-button-normal").show();
+        $('[data-product-id="' + item.productId + '"]').find('.product-qty').remove();
+      }
+
       this.props.removeFromCart(item);
-      $('[data-product-id="' + item.productId + '"]').find('.flag-adicionado').remove();
-      $('[data-product-id="' + item.productId + '"]').find(".buy-button-shelf a").show();
-      $('[data-product-id="' + item.productId + '"]').find(".buy-button-normal").show();
-      $('[data-product-id="' + item.productId + '"]').find('.product-qty').remove();
     }
   }, {
     key: "itemDetail",
