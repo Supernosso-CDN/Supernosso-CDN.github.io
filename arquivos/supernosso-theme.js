@@ -56459,7 +56459,7 @@ var StorePicker = function () {
   }, {
     key: 'updateCartWithSC',
     value: function updateCartWithSC() {
-      if (vtexjs.checkout.orderForm.items.length > 0) {
+      if (vtexjs.checkout.orderForm && vtexjs.checkout.orderForm.items.length > 0) {
         var selectedSeller = this.getStorage('selectedSeller');
         var sc = selectedSeller == 'delivery' ? '1' : selectedSeller;
         if (vtexjs.checkout.orderForm.salesChannel != sc) {
@@ -57071,19 +57071,24 @@ var Shelf = function () {
         findItemInCart(obj.id, obj.value);
       });
 
-      //keup
+      //keup 
       $(document).on("keyup", ".shelf-input-qty-control", function (e) {
-        // console.log(e.key)
-        // console.log(e.target.value == "")
-        if (parseInt(e.key) == NaN || e.target.value == "") {
+        e.target.focus();
+        if (parseInt(e.key) == NaN) {
           return;
         }
-        var obj = getValues(this);
+        keyup(this);
+      });
+      var keyup = debounce(function (element) {
+        var obj = getValues(element);
+        if (element.value == '') {
+          obj.value = 0;
+        }
         if (obj.value == 0) {
-          shelfZero(this, obj.id);
+          shelfZero(element, obj.id);
         }
         findItemInCart(obj.id, obj.value);
-      });
+      }, 1500);
 
       //blur
       window.onload = function () {
@@ -57092,6 +57097,11 @@ var Shelf = function () {
           input.addEventListener("blur", myFunction);
           function myFunction(e) {
             var obj = getValues(e.target);
+            console.log(obj.value == '');
+            if (e.target.value == '') {
+              e.target.value = 0;
+              obj.value = 0;
+            }
             if (obj.value == 0) {
               shelfZero(this, obj.id);
             }
