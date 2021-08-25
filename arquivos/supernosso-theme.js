@@ -57097,7 +57097,6 @@ var Shelf = function () {
           input.addEventListener("blur", myFunction);
           function myFunction(e) {
             var obj = getValues(e.target);
-            console.log(obj.value == '');
             if (e.target.value == '') {
               e.target.value = 0;
               obj.value = 0;
@@ -63351,7 +63350,7 @@ var ProductList = exports.ProductList = function (_React$Component) {
     }
   }, {
     key: "removeFromCart",
-    value: function removeFromCart(item) {
+    value: function removeFromCart(item, index) {
       var counter = 0;
       vtexjs.checkout.orderForm.items.forEach(function (itm) {
         if (itm.productId = item.productId) {
@@ -63366,7 +63365,7 @@ var ProductList = exports.ProductList = function (_React$Component) {
         $('[data-product-id="' + item.productId + '"]').find('.product-qty').remove();
       }
 
-      this.props.removeFromCart(item);
+      this.props.removeFromCart(item, index);
     }
   }, {
     key: "itemDetail",
@@ -63422,7 +63421,7 @@ var ProductList = exports.ProductList = function (_React$Component) {
                   _react2.default.createElement(
                     "span",
                     { className: "product-remove", name: item.productId, id: "" + item.id, onClick: function onClick() {
-                        return _this3.removeFromCart(item);
+                        return _this3.removeFromCart(item, index);
                       } },
                     _react2.default.createElement("i", { className: "fa fa-times" })
                   ),
