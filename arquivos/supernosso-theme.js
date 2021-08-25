@@ -63353,6 +63353,10 @@ var ProductList = exports.ProductList = function (_React$Component) {
     key: "removeFromCart",
     value: function removeFromCart(item) {
       this.props.removeFromCart(item);
+      $('[data-product-id="' + item.productId + '"]').find('.flag-adicionado').remove();
+      $('[data-product-id="' + item.productId + '"]').find(".buy-button-shelf a").show();
+      $('[data-product-id="' + item.productId + '"]').find(".buy-button-normal").show();
+      $('[data-product-id="' + item.productId + '"]').find('.product-qty').remove();
     }
   }, {
     key: "itemDetail",
@@ -63407,7 +63411,7 @@ var ProductList = exports.ProductList = function (_React$Component) {
                   { className: "product-item", id: 'cartItemId-' + item.id, key: index },
                   _react2.default.createElement(
                     "span",
-                    { className: "product-remove", id: "" + item.id, onClick: function onClick() {
+                    { className: "product-remove", name: item.productId, id: "" + item.id, onClick: function onClick() {
                         return _this3.removeFromCart(item);
                       } },
                     _react2.default.createElement("i", { className: "fa fa-times" })
