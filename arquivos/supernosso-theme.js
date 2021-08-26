@@ -56061,24 +56061,28 @@ var StorePicker = function () {
           e.preventDefault();
           that.modalClose();
           //removing from cart when closing modal
-          if (!vtexjs.checkout.orderForm || !vtexjs.checkout.orderForm.clientProfileData || !vtexjs.checkout.orderForm.postalCode || vtexjs.checkout.orderForm.sellers.length == 0) {
-            vtexjs.checkout.getOrderForm().then(function (orderForm) {
-              var itemsToRemove = [];
-              orderForm.items.forEach(function (item, index) {
-                console.log(item.id, item.quantity, item.seller);
-                itemsToRemove.push({
-                  index: index,
-                  quantity: 0
-                });
+          // if (!vtexjs.checkout.orderForm || !vtexjs.checkout.orderForm.clientProfileData || !vtexjs.checkout.orderForm.postalCode || vtexjs.checkout.orderForm.sellers.length == 0) {
+          // }
+          if ((vtexjs.checkout.orderForm.shippingData == null || vtexjs.checkout.orderForm.shippingData.address != null) && localStorage.selectedSeller) return;
+          vtexjs.checkout.getOrderForm().then(function (orderForm) {
+            var itemsToRemove = [];
+            orderForm.items.forEach(function (item, index) {
+              itemsToRemove.push({
+                index: index,
+                quantity: 0
               });
-              return vtexjs.checkout.removeItems(itemsToRemove);
-            }).done(function (orderForm) {
-              $('.buy-button-normal a').show();
-              $('.flag-adicionado').remove();
-              $('.product-qty').remove();
-              $('.badge-secondary').text(orderForm.items.length);
             });
-          }
+            return vtexjs.checkout.removeItems(itemsToRemove);
+          }).done(function (orderForm) {
+            $('.buy-button-normal a').show();
+            $('.flag-adicionado').remove();
+            $('.product-qty').remove();
+            $('.badge-secondary').text(orderForm.items.length);
+            $('.speech-balloon').addClass('active');
+            setTimeout(function () {
+              $('.speech-balloon').removeClass('active');
+            }, 5000);
+          });
         });
 
         document.querySelector("#enterPostalCodeInput").addEventListener("keyup", function (event) {
@@ -56519,7 +56523,7 @@ var StorePicker = function () {
 
           $(document).on('click', '.change-delivery', function (e) {
             e.preventDefault();
-            $('#user-data').toggleClass('user-data-opened');
+            $('#user-data').removeClass('user-data-opened');
 
             $('#minicart-wrapper').toggleClass('open-minicart');
             if ($('#minicart-wrapper').hasClass('open-minicart')) {
@@ -56832,8 +56836,6 @@ var Shelf = function () {
                 var flag = $(thisFlag).text().toLowerCase();
 
                 $(thisFlag).attr("data-link", "/178?PS=24&map=productClusterIds&O=OrderByBestDiscountDESC");
-
-                console.log("Product: ", product, " - ", product.clusterHighlights);
 
                 Object.keys(product.clusterHighlights).forEach(function (key) {
                   if (product.clusterHighlights[key].toLowerCase() == flag) {
