@@ -14698,7 +14698,7 @@ p.text-seo span.full {
   font-size: 0.0000001px;
   border-radius: 6px;
   padding: 12px 20px;
-  display: inline-block;
+  display: inline-block !important;
   transition: all 0.2s ease-in-out;
   width: 174px;
   border: 1px solid #f2f2f2;

@@ -56077,10 +56077,10 @@ var StorePicker = function () {
             $('.buy-button-normal a').show();
             $('.flag-adicionado').remove();
             $('.product-qty').remove();
-            $('.badge-secondary').text(orderForm.items.length);
-            $('.speech-balloon').addClass('active');
+            $('.badge-secondary , .badge-cart').text(orderForm.items.length);
+            $('.speech-balloon , .speech-balloon-mobile').addClass('active');
             setTimeout(function () {
-              $('.speech-balloon').removeClass('active');
+              $('.speech-balloon , .speech-balloon-mobile').removeClass('active');
             }, 5000);
           });
         });
