@@ -14563,6 +14563,9 @@ p.text-seo span.full {
 #product-page #product-content .product-info .buy-button-box .buy-button:active {
   background-color: #9D4C52;
 }
+#product-page #product-content .product-info .buy-button-box .portal-notify-me-ref {
+  margin-top: -50px;
+}
 #product-page #product-content .product-info .buy-button-box .portal-notify-me-ref .notifyme {
   position: absolute;
   left: 0;
