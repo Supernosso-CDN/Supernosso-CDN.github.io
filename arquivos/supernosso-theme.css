@@ -14563,8 +14563,20 @@ p.text-seo span.full {
 #product-page #product-content .product-info .buy-button-box .buy-button:active {
   background-color: #9D4C52;
 }
-#product-page #product-content .product-info .buy-button-box .portal-notify-me-ref {
-  margin-top: -50px;
+@media screen and (max-width: 992px) {
+  #product-page #product-content .product-info .buy-button-box .buy-button {
+    margin-left: 5px;
+  }
+}
+@media screen and (min-width: 992px) {
+  #product-page #product-content .product-info .buy-button-box .portal-notify-me-ref {
+    margin-top: -50px;
+  }
+}
+@media screen and (max-width: 991px) {
+  #product-page #product-content .product-info .buy-button-box .portal-notify-me-ref {
+    margin-left: -105px;
+  }
 }
 #product-page #product-content .product-info .buy-button-box .portal-notify-me-ref .notifyme {
   position: absolute;
@@ -14573,6 +14585,11 @@ p.text-seo span.full {
   background: #f2f2f2;
   padding: 60px 0 60px 104px;
   z-index: 2;
+}
+@media screen and (max-width: 991px) {
+  #product-page #product-content .product-info .buy-button-box .portal-notify-me-ref .notifyme {
+    width: 25rem;
+  }
 }
 #product-page #product-content .product-info .buy-button-box .portal-notify-me-ref .notifyme:after {
   width: 100vw;
@@ -23257,7 +23274,7 @@ body#recipes-page .top-chefs .chef-list .list .list-item .recipes {
   }
   #product-page #product-content .product-info .buy-button-box .portal-notify-me-ref .notifyme {
     position: relative;
-    padding: 24px 15px;
+    padding: 25px;
   }
   #product-page #product-content .product-info .buy-button-box .portal-notify-me-ref .notifyme .sku-notifyme-form input[type=text] {
     width: 100%;
