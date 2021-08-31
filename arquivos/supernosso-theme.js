@@ -63332,13 +63332,16 @@ var ProductList = exports.ProductList = function (_React$Component) {
 
   _createClass(ProductList, [{
     key: "minus",
-    value: function minus(item) {
+    value: function minus(item, index) {
       var qty = parseInt($("#input-" + item.id + "-" + item.index).val()) - 1;
 
       if (qty > 0) {
         $("#input-" + item.id + "-" + item.index).val(qty);
         $("#input-" + item.id + "-" + item.index).trigger('keyup');
         $("#input-" + item.id + "-" + item.index).trigger('keyup');
+      }
+      if (qty == 0) {
+        this.removeFromCart(item, index);
       }
     }
   }, {
@@ -63355,11 +63358,12 @@ var ProductList = exports.ProductList = function (_React$Component) {
     value: function removeFromCart(item, index) {
       var counter = 0;
       vtexjs.checkout.orderForm.items.forEach(function (itm) {
-        if (itm.productId = item.productId) {
+        if (itm.productId == item.productId) {
           counter++;
         }
       });
 
+      console.log('counter', counter);
       if (counter == 1) {
         $('[data-product-id="' + item.productId + '"]').find('.flag-adicionado').remove();
         $('[data-product-id="' + item.productId + '"]').find(".buy-button-shelf a").show();
@@ -63471,7 +63475,7 @@ var ProductList = exports.ProductList = function (_React$Component) {
                             "div",
                             { className: "qty-minus" },
                             _react2.default.createElement("img", { src: "https://supernossoemcasa.vteximg.com.br/arquivos/icon-minus.png", alt: "", onClick: function onClick() {
-                                return _this3.minus(item);
+                                return _this3.minus(item, index);
                               } })
                           ),
                           _react2.default.createElement(
