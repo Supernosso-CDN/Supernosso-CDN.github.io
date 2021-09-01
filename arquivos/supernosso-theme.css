@@ -10889,6 +10889,21 @@ footer .institutional-section .dev-nav span img {
 .disabled-qty * {
   pointer-events: none!important;
 }
+#product-page .shelf-input-qty {
+  position: relative;
+}
+#product-page .shelf-input-qty.loading-qty::before {
+  content: '';
+  display: block;
+  position: absolute;
+  background: url('https://supernossoemcasa.vteximg.com.br/arquivos/loading-supernosso.gif');
+  background-color: #fff;
+  background-size: 20px,20px;
+  width: 20px;
+  height: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+}
 .user-info {
   margin-left: 22px !important;
   margin-right: 2em !important;

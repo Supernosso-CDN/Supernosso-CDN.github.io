@@ -56938,22 +56938,36 @@ var Shelf = function () {
       });
 
       var findItemInCart = function findItemInCart(id, value) {
+        var orderForm = vtexjs.checkout.orderForm;
         var itemArr = [];
         var indexIncart = void 0;
         var counter = 0;
-        vtexjs.checkout.orderForm.items.forEach(function (item, index) {
-          if (id === item.productId) {
-            indexIncart = index;
-            itemArr.push({
-              id: item.id,
-              index: index,
-              quantity: counter == 0 ? value : 0,
-              seller: item.seller
-            });
-            counter++;
-          }
-        });
-        itemsChanged(false, {}, value, indexIncart, itemArr);
+
+        var find = function find(orderForm) {
+          orderForm.items.forEach(function (item, index) {
+            if (id === item.productId) {
+              indexIncart = index;
+              itemArr.push({
+                id: item.id,
+                index: index,
+                quantity: counter == 0 ? value : 0,
+                seller: item.seller
+              });
+              counter++;
+            }
+          });
+        };
+
+        find(orderForm);
+
+        if (vtexjs.checkout.orderForm.items.length == 0 || indexIncart == undefined) {
+          vtexjs.checkout.getOrderForm().done(function (ordForm) {
+            orderForm = ordForm;
+            find(orderForm);
+          });
+        } else {
+          itemsChanged(false, {}, value, indexIncart, itemArr);
+        }
       };
 
       // debounce function
@@ -56977,7 +56991,7 @@ var Shelf = function () {
       var itemsChanged = debounce(function (add, item, itemsQuantity, itemIndex, itemArr) {
         $('.product-qty , .buy-button-normal').addClass('disabled-qty');
         $('[data-product-id="' + lastClicked + '"] .product-qty').addClass('loading-qty');
-
+        $('#product-page .product-qty .shelf-input-qty').addClass('loading-qty');
         if (add || itemIndex == undefined) {
           item = itemAdded;
           item.quantity = add ? 1 : itemsQuantity;
@@ -57006,6 +57020,7 @@ var Shelf = function () {
           }).done(function (orderForm) {
             updateEvent();
             $('.product-qty , .buy-button-normal').removeClass('disabled-qty');
+            $('#product-page .product-qty .shelf-input-qty').removeClass('loading-qty');
             $('[data-product-id="' + lastClicked + '"] .product-qty').removeClass('loading-qty');
           });
         }
@@ -57026,6 +57041,11 @@ var Shelf = function () {
         obj.id = id;
         obj.el = el;
         obj.value = value;
+
+        // if ($('body.product-modal').length > 0) {
+        //   vtexjs.checkout.getOrderForm();
+        // }
+        // $('.productName').text(id + el + value)
         return obj;
       };
 
@@ -57033,6 +57053,7 @@ var Shelf = function () {
       var itemAdded = void 0,
           lastClicked = void 0;
       $(document).on("click", ".buy-button-shelf a", async function (e) {
+        //not this one
         e.preventDefault();
         var href = $(this).attr('href');
         var item = {
@@ -57114,6 +57135,7 @@ var Shelf = function () {
       // when goes zero
       var shelfZero = function shelfZero(el, id) {
         $(el).parents(".item-shelf").find('.flag-adicionado').remove();
+        $(el).parents(".item-shelf").find(".buy-button-ref").show();
         $(el).parents(".item-shelf").find(".buy-button-shelf a").show();
         $(el).parents(".item-shelf").find('.product-qty').remove();
       };
@@ -58906,17 +58928,46 @@ var Product = function () {
 
         $(document).on("click", ".buy-button-ref", async function (e) {
           e.preventDefault();
-          var skuId = skuJson_0.skus[0].sku;
+          // const skuId = skuJson_0.skus[0].sku;
 
-          that.ignore = true;
+          // that.ignore = true;
 
-          setTimeout(function (e) {
-            that.ignore = false;
-          }, 8000);
+          // setTimeout(function (e) {
+          //   that.ignore = false;
+          //   $('.product-qty , .buy-button-normal').removeClass('disabled-qty')
+          //   $('#product-page .product-qty .shelf-input-qty').removeClass('loading-qty')
+          // }, 8000);
 
           var id = skuJson_0.productId;
           that.qtyLayout(1, $(this), id, skuJson_0.skus[0].sku);
-          $("#minicart-wrapper").trigger("product-update", [skuJson_0.productId, $(this), 1, skuJson_0.skus[0].sku]);
+
+          var href = $(this).attr('href');
+          var item = {
+            id: parseInt(href.split('sku=')[1].split('&')[0]),
+            quantity: 1,
+            seller: href.split('&seller=')[1].split('&')[0]
+          };
+          $('.product-qty , .buy-button-normal').addClass('disabled-qty');
+          $('#product-page .product-qty .shelf-input-qty').addClass('loading-qty');
+
+          // add
+          vtexjs.checkout.addToCart([item], null, jssalesChannel).done(function (orderForm) {
+            $('.product-qty , .buy-button-normal').removeClass('disabled-qty');
+            $('#product-page .product-qty .shelf-input-qty').removeClass('loading-qty');
+            var updateCartEvt = new Event('updateCartEvt');
+            window.dispatchEvent(updateCartEvt);
+            if (orderForm.shippingData.address == null) {
+              $('.seller-modal').addClass('opened');
+            }
+          });
+
+          // $("#minicart-wrapper").trigger("product-update", [
+          //   skuJson_0.productId,
+          //   $(this),
+          //   1,
+          //   skuJson_0.skus[0].sku,
+          // ]);
+
         });
 
         // Sync button
@@ -63163,11 +63214,11 @@ var MobCart = exports.MobCart = function (_React$Component) {
       return _react2.default.createElement(
         'ul',
         { className: 'product-list' },
-        this.state.items.map(function (item) {
+        this.state.items.map(function (item, index) {
 
           return _react2.default.createElement(
             'li',
-            { className: 'product-item' },
+            { className: 'product-item', key: index },
             _react2.default.createElement(
               'span',
               { className: 'badge badge-gold' },
