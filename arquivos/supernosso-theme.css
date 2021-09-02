@@ -14568,8 +14568,12 @@ p.text-seo span.full {
 }
 #product-page #product-content .product-info .buy-button-box {
   display: flex !important;
-  flex-wrap: wrap;
   align-items: center;
+}
+@media (max-width: 992px) {
+  #product-page #product-content .product-info .buy-button-box {
+    flex-wrap: wrap;
+  }
 }
 #product-page #product-content .product-info .buy-button-box .product-qty {
   width: 100%;
