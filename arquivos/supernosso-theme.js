@@ -56959,14 +56959,29 @@ var Shelf = function () {
         };
 
         find(orderForm);
-
         if (vtexjs.checkout.orderForm.items.length == 0 || indexIncart == undefined) {
           vtexjs.checkout.getOrderForm().done(function (ordForm) {
             orderForm = ordForm;
             find(orderForm);
           });
         } else {
-          itemsChanged(false, {}, value, indexIncart, itemArr);
+          // checking max limit of items in order
+          var _url = '/api/catalog_system/pub/products/search?fq=productId:' + id;
+          fetch(_url).then(function (res) {
+            return res.json();
+          }).then(function (res) {
+            if (res[0]['Limite Oferta']) {
+              var limit = parseInt(res[0]['Limite Oferta'][0]);
+              $('body').prepend('<div class="mz-front-messages-placeholder" >Você só pode ter no máximo ' + limit + ' itens do produto ' + res[0].productName + ' no carrinho</div>');
+              setTimeout(function () {
+                $('.mz-front-messages-placeholder').remove();
+              }, 2000);
+              itemArr[0].quantity = itemArr[0].quantity > limit ? limit : itemArr[0].quantity;
+              itemsChanged(false, {}, value, indexIncart, itemArr);
+            } else {
+              itemsChanged(false, {}, value, indexIncart, itemArr);
+            }
+          });
         }
       };
 
@@ -57016,12 +57031,14 @@ var Shelf = function () {
                 quantity: item.quantity
               });
             });
+
             return vtexjs.checkout.updateItems(updateItem, null, false);
           }).done(function (orderForm) {
             updateEvent();
             $('.product-qty , .buy-button-normal').removeClass('disabled-qty');
             $('#product-page .product-qty .shelf-input-qty').removeClass('loading-qty');
             $('[data-product-id="' + lastClicked + '"] .product-qty').removeClass('loading-qty');
+            $('[data-product-id="' + lastClicked + '"] .shelf-input-qty-control').val(itemArr[0].quantity);
           });
         }
       }, 500);
@@ -58756,6 +58773,7 @@ var Product = function () {
   }, {
     key: "flagLimiteDeOferta",
     value: function flagLimiteDeOferta() {
+      console.log('limite ofertas');
       if (document.querySelector(".value-field.Visualizacao-Limite-de-Oferta") && document.querySelector(".value-field.Visualizacao-Limite-de-Oferta").textContent == "Yes") {
         if (document.querySelector(".value-field.Limite-Oferta")) {
           var limiteDeOferta = $('<p class="limiteDeOfertaText">produto limitado a <span id="quantidadeLimiteOferta"></span> unidades por cliente.</p>');
@@ -58928,15 +58946,6 @@ var Product = function () {
 
         $(document).on("click", ".buy-button-ref", async function (e) {
           e.preventDefault();
-          // const skuId = skuJson_0.skus[0].sku;
-
-          // that.ignore = true;
-
-          // setTimeout(function (e) {
-          //   that.ignore = false;
-          //   $('.product-qty , .buy-button-normal').removeClass('disabled-qty')
-          //   $('#product-page .product-qty .shelf-input-qty').removeClass('loading-qty')
-          // }, 8000);
 
           var id = skuJson_0.productId;
           that.qtyLayout(1, $(this), id, skuJson_0.skus[0].sku);
@@ -58960,19 +58969,9 @@ var Product = function () {
               $('.seller-modal').addClass('opened');
             }
           });
-
-          // $("#minicart-wrapper").trigger("product-update", [
-          //   skuJson_0.productId,
-          //   $(this),
-          //   1,
-          //   skuJson_0.skus[0].sku,
-          // ]);
-
         });
 
         // Sync button
-
-
         $(window).on("orderFormUpdated.vtex", function (evt, orderForm) {
           if (that.ignore) {
             return;
@@ -62957,6 +62956,7 @@ var ProductLimit = exports.ProductLimit = function () {
                 // console.log("item: ", items[product['productId']])
                 if (items[product['productId']].quantity > limit) {
                   if (items[product['productId']].indexes.length == 1) {
+
                     // doens't have cloned sku
                     var updateItem = {
                       index: items[product['productId']].indexes[0],

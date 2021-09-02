@@ -10904,6 +10904,64 @@ footer .institutional-section .dev-nav span img {
   left: 50%;
   transform: translateX(-50%);
 }
+.mz-front-messages-placeholder {
+  font-size: 14px;
+  position: fixed;
+  border: 1px solid #ccc;
+  background: #fff;
+  width: 350px;
+  top: 0px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999;
+  padding: 10px 10px 10px 15px;
+  -webkit-animation: myanim 1s  linear;
+  -moz-animation: myanim 1s linear;
+  -o-animation: myanim 1s linear;
+  animation: myanim 1s linear;
+}
+.mz-front-messages-placeholder::before {
+  content: '';
+  width: 3px;
+  height: 100%;
+  display: block;
+  background-color: #D99A06;
+  position: absolute;
+  left: 0px;
+  top: 0;
+}
+@-webkit-keyframes myanim {
+  0% {
+    top: -200px;
+  }
+  100% {
+    top: 0px;
+  }
+}
+@-moz-keyframes myanim {
+  0% {
+    top: -200px;
+  }
+  100% {
+    top: 0px;
+  }
+}
+@-o-keyframes myanim {
+  0% {
+    top: -200px;
+  }
+  100% {
+    top: 0px;
+  }
+}
+@keyframes myanim {
+  0% {
+    top: -200px;
+  }
+  100% {
+    top: 0px;
+  }
+}
 .user-info {
   margin-left: 22px !important;
   margin-right: 2em !important;
