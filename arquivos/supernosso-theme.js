@@ -56972,11 +56972,13 @@ var Shelf = function () {
           }).then(function (res) {
             if (res[0]['Limite Oferta']) {
               var limit = parseInt(res[0]['Limite Oferta'][0]);
-              $('body').prepend('<div class="mz-front-messages-placeholder" >Você só pode ter no máximo ' + limit + ' itens do produto ' + res[0].productName + ' no carrinho</div>');
-              setTimeout(function () {
-                $('.mz-front-messages-placeholder').remove();
-              }, 2500);
-              itemArr[0].quantity = itemArr[0].quantity > limit ? limit : itemArr[0].quantity;
+              if (limit < itemArr[0].quantity) {
+                $('body').prepend('<div class="mz-front-messages-placeholder" >Você só pode ter no máximo ' + limit + ' itens do produto ' + res[0].productName + ' no carrinho</div>');
+                setTimeout(function () {
+                  $('.mz-front-messages-placeholder').remove();
+                }, 2500);
+                itemArr[0].quantity = itemArr[0].quantity > limit ? limit : itemArr[0].quantity;
+              }
               itemsChanged(false, {}, value, indexIncart, itemArr);
             } else {
               itemsChanged(false, {}, value, indexIncart, itemArr);
