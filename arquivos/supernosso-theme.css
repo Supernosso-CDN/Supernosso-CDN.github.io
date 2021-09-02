@@ -10905,30 +10905,22 @@ footer .institutional-section .dev-nav span img {
   transform: translateX(-50%);
 }
 .mz-front-messages-placeholder {
-  font-size: 14px;
+  font-size: 12px;
   position: fixed;
-  border: 1px solid #ccc;
-  background: #fff;
-  width: 350px;
+  width: 380px;
   top: 0px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 999;
-  padding: 10px 10px 10px 15px;
+  padding: 10px 10px 10px 35px;
+  border: 0;
+  background: url('data:image/svg+xml;utf8,<svg width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5.6 10.6L2.1 7.1C1.7134 6.7134 1.0866 6.7134 0.7 7.1C0.313401 7.4866 0.313401 8.1134 0.7 8.5L5.6 13.4L16.9 2.1C17.2866 1.7134 17.2866 1.0866 16.9 0.7C16.5134 0.313401 15.8866 0.313401 15.5 0.7L5.6 10.6Z" fill="white"/></svg>') no-repeat center left 10px;
+  background-color: #46b8da;
+  color: #FFF;
   -webkit-animation: myanim 1s  linear;
   -moz-animation: myanim 1s linear;
   -o-animation: myanim 1s linear;
   animation: myanim 1s linear;
-}
-.mz-front-messages-placeholder::before {
-  content: '';
-  width: 3px;
-  height: 100%;
-  display: block;
-  background-color: #D99A06;
-  position: absolute;
-  left: 0px;
-  top: 0;
 }
 @-webkit-keyframes myanim {
   0% {

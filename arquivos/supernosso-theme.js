@@ -56975,7 +56975,7 @@ var Shelf = function () {
               $('body').prepend('<div class="mz-front-messages-placeholder" >Você só pode ter no máximo ' + limit + ' itens do produto ' + res[0].productName + ' no carrinho</div>');
               setTimeout(function () {
                 $('.mz-front-messages-placeholder').remove();
-              }, 2000);
+              }, 2500);
               itemArr[0].quantity = itemArr[0].quantity > limit ? limit : itemArr[0].quantity;
               itemsChanged(false, {}, value, indexIncart, itemArr);
             } else {
@@ -58773,7 +58773,6 @@ var Product = function () {
   }, {
     key: "flagLimiteDeOferta",
     value: function flagLimiteDeOferta() {
-      console.log('limite ofertas');
       if (document.querySelector(".value-field.Visualizacao-Limite-de-Oferta") && document.querySelector(".value-field.Visualizacao-Limite-de-Oferta").textContent == "Yes") {
         if (document.querySelector(".value-field.Limite-Oferta")) {
           var limiteDeOferta = $('<p class="limiteDeOfertaText">produto limitado a <span id="quantidadeLimiteOferta"></span> unidades por cliente.</p>');
@@ -62956,7 +62955,6 @@ var ProductLimit = exports.ProductLimit = function () {
                 // console.log("item: ", items[product['productId']])
                 if (items[product['productId']].quantity > limit) {
                   if (items[product['productId']].indexes.length == 1) {
-
                     // doens't have cloned sku
                     var updateItem = {
                       index: items[product['productId']].indexes[0],
