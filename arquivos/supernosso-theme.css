@@ -10417,6 +10417,10 @@ footer .footer-nav .footer-nav-title {
 footer .footer-nav .footer-nav-title:not(:first-child) {
   margin-top: 20px;
 }
+footer .footer-nav .footer-nav-title span {
+  font-size: 14px;
+  font-weight: 400;
+}
 footer .footer-nav .nav-footer-items {
   margin: 0;
   padding: 0;
@@ -10445,8 +10449,25 @@ footer .footer-nav .phone {
   font-family: Museo, sans-serif;
   font-size: 18px;
   color: #666;
-  display: block;
+  display: flex;
   margin-bottom: 16px;
+  align-items: center;
+}
+footer .footer-nav .phone::before {
+  content: '';
+  background-image: url('https://supernossoemcasa.vteximg.com.br/arquivos/phone.png');
+  display: block;
+  width: 22px;
+  height: 22px;
+  margin-right: 5px;
+}
+footer .footer-nav .phone#whatsApp::before {
+  background-image: url('https://supernossoemcasa.vteximg.com.br/arquivos/whatsapp.png');
+}
+footer .footer-nav .phone#whatsShop::before {
+  background-image: url('https://supernossoemcasa.vteximg.com.br/arquivos/whatsShop.png');
+  width: 28px;
+  height: 36px;
 }
 footer .footer-nav .sac-nav {
   margin-bottom: 20px;
@@ -13165,6 +13186,7 @@ p.text-seo span.full {
 .home-supernosso-theme .main-categories {
   background: #F5F8F7 url('https://supernossoemcasa.vteximg.com.br/arquivos/main-categories.png') no-repeat top left;
   padding-bottom: 70px;
+  overflow-x: scroll;
 }
 .home-supernosso-theme .main-categories .main-cat-title {
   display: block;
