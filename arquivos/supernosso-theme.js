@@ -55745,10 +55745,51 @@ var StorePicker = function () {
       key = escape(key);
       value = escape(value);
 
+      // var item = {
+      //   id: 989,
+      //   quantity: 1,
+      //   seller: 1
+      // };
+
+
+      // vtexjs.checkout.addToCart([item], null, value)
+      //   .then(function (orderForm) {
+      //     alert('Item adicionado!');
+
+      //     var itemIndex = orderForm.items.filter((itm, index) => {
+      //       if (itm.id == 989) {
+      //         return index
+      //       }
+      //     });
+      //     var item = orderForm.items[itemIndex];
+
+      //     console.log('orderForm', orderForm)
+      //     console.log('orderForm item to remove', item)
+      //     var updateItem = {
+      //       index: itemIndex,
+      //       quantity: 0
+      //     };
+      //     return vtexjs.checkout.updateItems([updateItem], null, false);
+      //   })
+      //   .done(function (orderForm) {
+      //     alert('Items atualizados!');
+      //     console.log(orderForm);
+      //   });;
+
+      // vtexjs.checkout.simulateShipping(shippingData, orderFormId, "BRA", '9')
+      //   .done(function (result) {
+      //     console.log(result)
+      //   });
+
+
       var kvp = document.location.search.substr(1).split('&');
       if (kvp == '') {
         //document.location.search = '?' + key + '=' + value;
+        // alert('first')
+
         window.location.href = "https://www.supernossoemcasa.com.br/?" + key + '=' + value;
+        // window.location.href = window.location.href.indexOf('?') > -1 ? window.location.href + "&" + key + '=' + value : window.location.href + "?" + key + '=' + value;
+        // window.location.reload();
       } else {
         var i = kvp.length;
         var x;
@@ -55769,7 +55810,12 @@ var StorePicker = function () {
         //this will reload the page, it's likely better to store this until finished
         //document.location.search = kvp.join('&')
         //document.location.search = '?' + key + '=' + value;
+        // alert('seccond')
+
         window.location.href = "https://www.supernossoemcasa.com.br/?" + key + '=' + value;
+
+        // window.location.href = window.location.href.indexOf('?') > -1 ? window.location.href + "&" + key + '=' + value : window.location.href + "?" + key + '=' + value;
+
       }
     }
   }, {
@@ -56354,21 +56400,24 @@ var StorePicker = function () {
 
             // console.log('simulate response:', response.logisticsInfo[0].slas[1].availableDeliveryWindows[0])
 
+            //choose fastest window
+            var shortest = [];
+            response.logisticsInfo[0].slas.forEach(function (sla) {
+              shortest.push(Date.parse(sla.availableDeliveryWindows[0].startDateUtc));
+            });
+            var IndexShortestNumber = shortest.indexOf(Math.min.apply(Math, shortest));
 
-            var deliveryStart = response.logisticsInfo[0].slas[1].availableDeliveryWindows[0].startDateUtc.split("T")[1].split(':00+00:00')[0];
-            var deliveryEnd = response.logisticsInfo[0].slas[1].availableDeliveryWindows[0].endDateUtc.split("T")[1].split(':00+00:00')[0];
-
+            //get fastest start and end
+            var deliveryStart = response.logisticsInfo[0].slas[IndexShortestNumber].availableDeliveryWindows[0].startDateUtc.split("T")[1].split(':00')[0] + ":00";
+            var deliveryEnd = response.logisticsInfo[0].slas[IndexShortestNumber].availableDeliveryWindows[0].endDateUtc.split("T")[1].split(':00')[0] + ":00";
             var today = new Date();
             var tomorrow = new Date();
             tomorrow.setDate(tomorrow.getDate() + 1);
-
-            // falta editar a data no final da daystring
-            var dateString = response.logisticsInfo[0].slas[1].availableDeliveryWindows[0].startDateUtc.split('T')[0];
-
+            // date
+            var dateString = response.logisticsInfo[0].slas[IndexShortestNumber].availableDeliveryWindows[0].startDateUtc.split('T')[0];
+            //  today/tomorrow/date
             var dayString = today.toISOString().split('T')[0] === dateString ? 'Hoje' : tomorrow.toISOString().split('T')[0] === dateString ? 'Amanhã' : dateString.split('-')[2] + '/' + dateString.split('-')[1] + '/' + dateString.split('-')[0];
-
-            // console.log('today / isToday:', today.toISOString().split('T')[0], dateString, dayString)
-
+            //set delivery text
             _this3.deliveryText = dayString + ', entre ' + deliveryStart + ' e ' + deliveryEnd + ' ';
 
             var availableAddresses = orf.shippingData.availableAddresses;
@@ -56982,7 +57031,7 @@ var Shelf = function () {
                 $('body').prepend('<div class="mz-front-messages-placeholder" >Você só pode ter no máximo ' + limit + ' itens do produto ' + res[0].productName + ' no carrinho</div>');
                 setTimeout(function () {
                   $('.mz-front-messages-placeholder').remove();
-                }, 2500);
+                }, 5000);
                 itemArr[0].quantity = itemArr[0].quantity > limit ? limit : itemArr[0].quantity;
               }
               itemsChanged(false, {}, value, indexIncart, itemArr);
@@ -57050,7 +57099,7 @@ var Shelf = function () {
             $('[data-product-id="' + lastClicked + '"] .shelf-input-qty-control').val(itemArr[0].quantity);
           });
         }
-      }, 500);
+      }, 1000);
 
       //get values
       var getValues = function getValues(target) {
