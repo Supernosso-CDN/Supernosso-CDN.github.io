@@ -55608,6 +55608,7 @@ var StorePicker = function () {
     _classCallCheck(this, StorePicker);
 
     this.stores = [];
+    this.deliveryText = '';
   }
 
   _createClass(StorePicker, [{
@@ -55667,7 +55668,7 @@ var StorePicker = function () {
 
         return bestShippingCompanySalesChannel;
       } else {
-        console.log("checkTradePolicy -purchaseData or pickUpPoints null");
+        // console.log("checkTradePolicy -purchaseData or pickUpPoints null");
         return "1";
       }
     }
@@ -55805,9 +55806,12 @@ var StorePicker = function () {
     key: 'storeList',
     value: function storeList() {
       var orderedStoresByDistance = this.getDistanceToUserPostalCode();
+
+      // console.log('orderedStoresByDistance', orderedStoresByDistance)
+
       if (orderedStoresByDistance) {
         return '\n      ' + orderedStoresByDistance.map(function (store) {
-          return '\n              <div class="seller-modal-store-item">\n                  <a href="javascript:;" class="store-link" data-seller=' + store.sc + ' data-pickup=' + store.pickUpId + ' data-postalcode=' + store.postalCode + ' data-lat=' + store.lat + ' data-long=' + store.long + ' >\n                      <p class="store-info">\n                          <span class="store-title">\n                              ' + store.name + '\n                          </span>\n                          <p class="store-address">\n                             ' + store.number + ' - ' + store.neighborhood + ', ' + store.city + ' / ' + store.state + ' ' + store.postalCode + '\n                          </p>\n                          <p class="store-distance" >' + store.distanceToUserPostalCode + ' km</p>\n                      </p>\n                  </a>\n              </div>\n          ';
+          return '\n              <div class="seller-modal-store-item">\n                  <a href="javascript:;" class="store-link" data-seller=' + store.sc + ' data-pickup=' + store.pickUpId + ' data-postalcode=' + store.postalCode + ' data-lat=' + store.lat + ' data-long=' + store.long + ' >\n                      <p class="store-info">\n                          <span class="store-title"> \n                              ' + store.name + '\n                          </span>\n                          <p class="store-address">\n                             ' + store.number + ' - ' + store.neighborhood + ', ' + store.city + ' / ' + store.state + ' ' + store.postalCode + '\n                          </p>\n                          <p class="store-distance" >' + store.distanceToUserPostalCode + ' km</p>\n                      </p>\n                  </a>\n              </div>\n          ';
         }).join(' ') + '\n      ';
       } else {
         return '\n            ' + this.stores.map(function (store) {
@@ -55853,7 +55857,7 @@ var StorePicker = function () {
       // console.log(address);
       // console.log(lastAddress);
 
-      return '\n        <div class="delivery-choose">\n            <div class="delivery-item home-delivery">\n                <a class="delivery-link" data-delivery="delivery" href="javascript:;"><img src="https://supernossoemcasa.vteximg.com.br/arquivos/minicart-image-2.png"><div class=\'delivery-point-text\'><h3>Quero receber</h3></div><div class=\'address\'>' + (address.includes('null') ? '' : address) + '</div></a>\n            </div>\n            <div class="delivery-item ' + (hasStore == false ? 'delivery-unavailable' : '') + '">\n                <a class="delivery-link" data-delivery="pickup" href="javascript:;"><img src="https://supernossoemcasa.vteximg.com.br/arquivos/minicart-image-1.png"><div class=\'pickup-point-text\'><h3>Quero retirar na loja</h3><p>Sem limite de compra</p><p class=\'free-shipping\'>Gr\xE1tis</p></div></a>\n            </div>\n        </div>\n        ';
+      return '\n        <div class="delivery-choose">\n            <div class="delivery-item home-delivery">\n                <a class="delivery-link" data-delivery="delivery" href="javascript:;"><img src="https://supernossoemcasa.vteximg.com.br/arquivos/minicart-image-2.png"><div class=\'delivery-point-text\'><h3>Quero receber</h3><p> <strong>' + this.deliveryText + '</strong> </p></div><div class=\'address\'>' + (address.includes('null') ? '' : address) + '</div></a>\n            </div>\n            <div class="delivery-item ' + (hasStore == false ? 'delivery-unavailable' : '') + '">\n                <a class="delivery-link" data-delivery="pickup" href="javascript:;"><img src="https://supernossoemcasa.vteximg.com.br/arquivos/minicart-image-1.png"><div class=\'pickup-point-text\'><h3>Quero retirar na loja</h3><p>Sem limite de compra</p><p class=\'free-shipping\'>Gr\xE1tis</p></div></a>\n            </div>\n        </div>\n        ';
     }
   }, {
     key: 'getAddress',
@@ -55995,6 +55999,7 @@ var StorePicker = function () {
           }
 
           _this2.simulate(pc).done(function (response) {
+
             if (!response.logisticsInfo.length || !response.logisticsInfo[0].slas.length) {
               _this2.checkIfHasDelivery(false);
             }
@@ -56291,7 +56296,6 @@ var StorePicker = function () {
       });
 
       if (!lastDeliveryAddress.length) return;
-
       return lastDeliveryAddress.pop();
     }
   }, {
@@ -56347,6 +56351,26 @@ var StorePicker = function () {
           var postalCode = orf.shippingData.address.postalCode;
 
           return _this3.simulate(postalCode).then(function (response) {
+
+            // console.log('simulate response:', response.logisticsInfo[0].slas[1].availableDeliveryWindows[0])
+
+
+            var deliveryStart = response.logisticsInfo[0].slas[1].availableDeliveryWindows[0].startDateUtc.split("T")[1].split(':00+00:00')[0];
+            var deliveryEnd = response.logisticsInfo[0].slas[1].availableDeliveryWindows[0].endDateUtc.split("T")[1].split(':00+00:00')[0];
+
+            var today = new Date();
+            var tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+
+            // falta editar a data no final da daystring
+            var dateString = response.logisticsInfo[0].slas[1].availableDeliveryWindows[0].startDateUtc.split('T')[0];
+
+            var dayString = today.toISOString().split('T')[0] === dateString ? 'Hoje' : tomorrow.toISOString().split('T')[0] === dateString ? 'Amanhã' : dateString.split('-')[2] + '/' + dateString.split('-')[1] + '/' + dateString.split('-')[0];
+
+            // console.log('today / isToday:', today.toISOString().split('T')[0], dateString, dayString)
+
+            _this3.deliveryText = dayString + ', entre ' + deliveryStart + ' e ' + deliveryEnd + ' ';
+
             var availableAddresses = orf.shippingData.availableAddresses;
             var address = _this3.getLastDeliveryAddress(availableAddresses);
             var formatedAddress = _this3.getAddress(address);
@@ -56361,6 +56385,7 @@ var StorePicker = function () {
               $('.delivery-link .address').text(formatedAddress);
               $('.delivery-link .address').removeClass("adressNotFound");
               $(".delivery-item.home-delivery").removeClass("delivery-item-adress-not-found");
+              $('.delivery-point-text p strong').html(_this3.deliveryText);
               document.querySelector('.availability-cep-invalido').style.display = "none";
               document.querySelector('.has-delivery div > h4').style.display = "block";
             }
@@ -56501,6 +56526,7 @@ var StorePicker = function () {
         }).then(function (r) {
           return r.status == 200 ? r.json() : console.log(r);
         }).then(function (r) {
+          // console.log('dataEntities SP', r)
           _this4.stores = r.filter(function (x) {
             return x.status && !x.name.includes("Expressa");
             //retira as lojas expressas e as não ativas
@@ -56629,6 +56655,9 @@ var StorePicker = function () {
 
       $(window).load(function () {
         that.updateCartWithSC();
+        if (vtexjs.checkout.orderForm && vtexjs.checkout.orderForm.shippingData != null && vtexjs.checkout.orderForm.shippingData.address.postalCode) {
+          that.setDeliveryShippingData(vtexjs.checkout.orderForm.shippingData.address.postalCode);
+        }
       });
     }
   }]);
