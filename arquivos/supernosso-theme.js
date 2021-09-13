@@ -55754,7 +55754,7 @@ var StorePicker = function () {
 
       // vtexjs.checkout.addToCart([item], null, value)
       //   .then(function (orderForm) {
-      //     alert('Item adicionado!');
+      //     console.log('Item adicionado!');
 
       //     var itemIndex = orderForm.items.filter((itm, index) => {
       //       if (itm.id == 989) {
@@ -55772,14 +55772,10 @@ var StorePicker = function () {
       //     return vtexjs.checkout.updateItems([updateItem], null, false);
       //   })
       //   .done(function (orderForm) {
-      //     alert('Items atualizados!');
+      //     console.log('Items atualizados!');
       //     console.log(orderForm);
+      //     window.location.reload();
       //   });;
-
-      // vtexjs.checkout.simulateShipping(shippingData, orderFormId, "BRA", '9')
-      //   .done(function (result) {
-      //     console.log(result)
-      //   });
 
 
       var kvp = document.location.search.substr(1).split('&');
@@ -55788,6 +55784,7 @@ var StorePicker = function () {
         // alert('first')
 
         window.location.href = "https://www.supernossoemcasa.com.br/?" + key + '=' + value;
+
         // window.location.href = window.location.href.indexOf('?') > -1 ? window.location.href + "&" + key + '=' + value : window.location.href + "?" + key + '=' + value;
         // window.location.reload();
       } else {
@@ -56398,27 +56395,29 @@ var StorePicker = function () {
 
           return _this3.simulate(postalCode).then(function (response) {
 
-            // console.log('simulate response:', response.logisticsInfo[0].slas[1].availableDeliveryWindows[0])
+            // console.log('simulate response:', response.logisticsInfo[0].slas.length > 0)
 
-            //choose fastest window
-            var shortest = [];
-            response.logisticsInfo[0].slas.forEach(function (sla) {
-              shortest.push(Date.parse(sla.availableDeliveryWindows[0].startDateUtc));
-            });
-            var IndexShortestNumber = shortest.indexOf(Math.min.apply(Math, shortest));
+            if (response.logisticsInfo[0].slas.length > 0) {
+              //choose fastest window
+              var shortest = [];
+              response.logisticsInfo[0].slas.forEach(function (sla) {
+                shortest.push(Date.parse(sla.availableDeliveryWindows[0].startDateUtc));
+              });
+              var IndexShortestNumber = shortest.indexOf(Math.min.apply(Math, shortest));
 
-            //get fastest start and end
-            var deliveryStart = response.logisticsInfo[0].slas[IndexShortestNumber].availableDeliveryWindows[0].startDateUtc.split("T")[1].split(':00')[0] + ":00";
-            var deliveryEnd = response.logisticsInfo[0].slas[IndexShortestNumber].availableDeliveryWindows[0].endDateUtc.split("T")[1].split(':00')[0] + ":00";
-            var today = new Date();
-            var tomorrow = new Date();
-            tomorrow.setDate(tomorrow.getDate() + 1);
-            // date
-            var dateString = response.logisticsInfo[0].slas[IndexShortestNumber].availableDeliveryWindows[0].startDateUtc.split('T')[0];
-            //  today/tomorrow/date
-            var dayString = today.toISOString().split('T')[0] === dateString ? 'Hoje' : tomorrow.toISOString().split('T')[0] === dateString ? 'Amanhã' : dateString.split('-')[2] + '/' + dateString.split('-')[1] + '/' + dateString.split('-')[0];
-            //set delivery text
-            _this3.deliveryText = dayString + ', entre ' + deliveryStart + ' e ' + deliveryEnd + ' ';
+              //get fastest start and end
+              var deliveryStart = response.logisticsInfo[0].slas[IndexShortestNumber].availableDeliveryWindows[0].startDateUtc.split("T")[1].split(':00')[0] + ":00";
+              var deliveryEnd = response.logisticsInfo[0].slas[IndexShortestNumber].availableDeliveryWindows[0].endDateUtc.split("T")[1].split(':00')[0] + ":00";
+              var today = new Date();
+              var tomorrow = new Date();
+              tomorrow.setDate(tomorrow.getDate() + 1);
+              // date
+              var dateString = response.logisticsInfo[0].slas[IndexShortestNumber].availableDeliveryWindows[0].startDateUtc.split('T')[0];
+              //  today/tomorrow/date
+              var dayString = today.toISOString().split('T')[0] === dateString ? 'Hoje' : tomorrow.toISOString().split('T')[0] === dateString ? 'Amanhã' : dateString.split('-')[2] + '/' + dateString.split('-')[1] + '/' + dateString.split('-')[0];
+              //set delivery text
+              _this3.deliveryText = dayString + ', entre ' + deliveryStart + ' e ' + deliveryEnd + ' ';
+            }
 
             var availableAddresses = orf.shippingData.availableAddresses;
             var address = _this3.getLastDeliveryAddress(availableAddresses);
