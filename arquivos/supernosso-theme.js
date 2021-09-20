@@ -56152,15 +56152,17 @@ var StorePicker = function () {
           });
         });
 
-        document.querySelector("#enterPostalCodeInput").addEventListener("keyup", function (event) {
-          // Number 13 is the "Enter" key on the keyboard
-          if (event.keyCode === 13) {
-            // Cancel the default action, if needed
-            event.preventDefault();
-            // Trigger the button element with a click
-            document.querySelector(".enter-postal-code").click();
-          }
-        });
+        if (document.querySelector("#enterPostalCodeInput")) {
+          document.querySelector("#enterPostalCodeInput").addEventListener("keyup", function (event) {
+            // Number 13 is the "Enter" key on the keyboard
+            if (event.keyCode === 13) {
+              // Cancel the default action, if needed
+              event.preventDefault();
+              // Trigger the button element with a click
+              document.querySelector(".enter-postal-code").click();
+            }
+          });
+        }
 
         // if(userResponse.IsUserDefined){
         //   //if (!of.shippingData.address.postalCode){
@@ -56721,7 +56723,7 @@ var StorePicker = function () {
 
       $(window).load(function () {
         that.updateCartWithSC();
-        if (vtexjs.checkout.orderForm && vtexjs.checkout.orderForm.shippingData != null && vtexjs.checkout.orderForm.shippingData.address.postalCode) {
+        if (vtexjs.checkout.orderForm && vtexjs.checkout.orderForm.shippingData != null && vtexjs.checkout.orderForm.shippingData.address != null && vtexjs.checkout.orderForm.shippingData.address.postalCode) {
           that.setDeliveryShippingData(vtexjs.checkout.orderForm.shippingData.address.postalCode);
         }
       });
