@@ -55191,9 +55191,18 @@ var QuickView = exports.QuickView = function () {
     value: function openUrlCloseIframe(url) {
       window.location.href = url;
     }
+
+    //////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////
+    // Comentei pra ver se quebra por que este codigo parece não ser utilizado
+    //////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////// 
+
   }, {
     key: "openHref",
     value: function openHref(url, bestPrice, addToCart, productId, productSku) {
+
       $("body").addClass("overflow-hidden");
       $("#product-qv-iframe-wrapper").remove();
 
@@ -55277,6 +55286,37 @@ var QuickView = exports.QuickView = function () {
     key: "shelf",
     value: function shelf(el) {
       var url = $(el).attr("href");
+      // let iframeWrapper = $(
+      //   '<div id="product-qv-iframe-wrapper" />'
+      // ).append(
+      //   $('<div class="product-qv-iframe-inner-test" />').append(
+      //     $('<div class="close-product-qv-iframe" />').append(
+      //       '<img src="https://supernossoemcasa.vteximg.com.br/arquivos/icon-close.png" />'
+      //     ),
+      //     $('<i class="fa fa-spinner fa-spin iframe-loading fa-2x" />'),
+      //     $('<div class="iframe-content-inner" style="background:white;overfloy-y:scroll" />')
+      //   )
+      // );
+
+
+      // iframeWrapper.appendTo("body");
+
+      // $.ajax({
+      //   url: url,
+      //   dataType: 'html'
+      // }).done(function (html) {
+
+      //   $('.iframe-content-inner').empty();
+
+      //   const content = '<section id="product-content"' + html.split('<section id="product-content"')[1].split('<!--  <div id="comprar-flutuante"')[0];
+
+      //   $('.iframe-content-inner').append(content)
+
+      //   $("#product-qv-iframe-wrapper-test").fadeIn();
+
+
+      // });
+
 
       if (!url) {
         return;
@@ -57050,12 +57090,9 @@ var Shelf = function () {
             setTimeout(function () {
               $('.product-qty , .buy-button-normal').removeClass('disabled-qty');
               $('[data-product-id="' + lastClicked + '"] .product-qty').removeClass('loading-qty');
-              // $('[data-product-id="' + lastClicked + '"] .product-qty .shelf-input-qty-control').focus()
+              $('[data-product-id="' + lastClicked + '"] .product-qty .shelf-input-qty-control').focus();
             }, 500);
-            // check if there is postalcode or seller chosen 
-            if (!localStorage.selectedSeller || vtexjs.checkout.orderForm && (vtexjs.checkout.orderForm.shippingData == null || vtexjs.checkout.orderForm.shippingData.address == null)) {
-              $('.seller-modal').addClass('opened');
-            }
+            openSellerPicker();
           });
         } else {
           //update
@@ -57075,10 +57112,18 @@ var Shelf = function () {
             $('#product-page .product-qty .shelf-input-qty').removeClass('loading-qty');
             $('[data-product-id="' + lastClicked + '"] .product-qty').removeClass('loading-qty');
             $('[data-product-id="' + lastClicked + '"] .shelf-input-qty-control').val(itemArr[0].quantity);
-            // $('[data-product-id="' + lastClicked + '"] .product-qty .shelf-input-qty-control').focus()
+            $('[data-product-id="' + lastClicked + '"] .product-qty .shelf-input-qty-control').focus();
+            openSellerPicker();
           });
         }
       }, 1000);
+
+      var openSellerPicker = function openSellerPicker() {
+        // check if there is postalcode or seller chosen 
+        if (!localStorage.selectedSeller || vtexjs.checkout.orderForm && (vtexjs.checkout.orderForm.shippingData == null || vtexjs.checkout.orderForm.shippingData.address == null)) {
+          $('.seller-modal').addClass('opened');
+        }
+      };
 
       //get values
       var getValues = function getValues(target) {
@@ -57162,23 +57207,23 @@ var Shelf = function () {
       }, 1500);
 
       //blur
-      window.onload = function () {
-        var inputQttList = document.querySelectorAll("input.shelf-input-qty-control ");
-        inputQttList.forEach(function (input) {
-          input.addEventListener("blur", myFunction);
-          function myFunction(e) {
-            var obj = getValues(e.target);
-            if (e.target.value == '') {
-              e.target.value = 0;
-              obj.value = 0;
-            }
-            if (obj.value == 0) {
-              shelfZero(this, obj.id);
-            }
-            findItemInCart(obj.id, obj.value);
-          }
-        });
-      };
+      // window.onload = function () {
+      //   let inputQttList = document.querySelectorAll("input.shelf-input-qty-control ");
+      //   inputQttList.forEach((input) => {
+      //     input.addEventListener("blur", myFunction);
+      //     function myFunction(e) {
+      //       const obj = getValues(e.target)
+      //       if (e.target.value == '') {
+      //         e.target.value = 0
+      //         obj.value = 0
+      //       }
+      //       if (obj.value == 0) {
+      //         shelfZero(this, obj.id)
+      //       }
+      //       findItemInCart(obj.id, obj.value)
+      //     }
+      //   })
+      // };
 
       // when goes zero
       var shelfZero = function shelfZero(el, id) {
