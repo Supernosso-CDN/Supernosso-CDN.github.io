@@ -11461,7 +11461,7 @@ section.main-categories .main-cat-card a span {
   top: 0;
   left: 0;
   position: fixed;
-  z-index: 9999998;
+  z-index: 9999;
   -webkit-overflow-scrolling: touch;
   overflow-y: hidden;
 }
