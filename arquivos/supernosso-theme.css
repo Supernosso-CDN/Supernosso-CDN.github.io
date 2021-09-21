@@ -10044,6 +10044,27 @@ header .user-data-toggle strong {
   align-items: center;
   margin-bottom: 8px;
 }
+#minicart-wrapper .minicart-inner .minicart-body .cart-content .cart-top-content .cart-total-inner .cart-total-info span.cart-total-prime-freight {
+  display: flex;
+  align-items: center;
+}
+#minicart-wrapper .minicart-inner .minicart-body .cart-content .cart-top-content .cart-total-inner .cart-total-info span.cart-total-prime-freight__diff {
+  font-weight: 700;
+  font-size: 9px;
+  color: #DEAB34;
+  background: #FFEDBC;
+  border-radius: 4px;
+  padding: 2px;
+}
+#minicart-wrapper .minicart-inner .minicart-body .cart-content .cart-top-content .cart-total-inner .cart-total-info span.cart-total-prime-freight__free {
+  font-weight: 700;
+  font-size: 9px;
+  color: #DEAB34;
+  background: #FFEDBC;
+  border-radius: 4px;
+  padding: 2px;
+  margin-left: -83px;
+}
 #minicart-wrapper .minicart-inner .minicart-body .cart-content .cart-top-content .cart-total-inner .cart-total-info span {
   font-family: 'Roboto', sans-serif;
   font-style: normal;
