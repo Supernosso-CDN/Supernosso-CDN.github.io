@@ -63078,7 +63078,6 @@ var Minicart = exports.Minicart = function (_React$Component) {
     });
 
     vtexjs.checkout.getOrderForm().done(function (orderForm) {
-
       if (orderForm.loggedIn) {
         _this.setState({
           isLogged: true
@@ -63086,7 +63085,6 @@ var Minicart = exports.Minicart = function (_React$Component) {
       }
 
       if (orderForm.clientProfileData && orderForm.clientProfileData.email) {
-
         fetch('/api/dataentities/CL/search?_where=(Prime=true AND email=' + orderForm.clientProfileData.email + ')&_fields=Prime,email').then(function (res) {
           return res.json();
         }).then(function (res) {
