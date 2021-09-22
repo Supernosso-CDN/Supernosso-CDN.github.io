@@ -22937,6 +22937,11 @@ body#recipes-page .top-chefs .chef-list .list .list-item .recipes {
     margin-top: 36px;
   }
 }
+@media screen and (max-width: 992px) and (max-width: 993px) {
+  .home-supernosso-theme .header-info .header-slider + .container {
+    display: flex!important;
+  }
+}
 @media screen and (min-width: 552px) and (max-width: 992px) {
   .home-supernosso-theme .header-info p span {
     width: 100%;
