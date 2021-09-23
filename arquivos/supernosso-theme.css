@@ -9370,28 +9370,28 @@ html {
   font-style: normal;
   font-weight: 300;
   font-display: swap;
-  src: url(https://fonts.gstatic.com/s/roboto/v27/KFOlCnqEu92Fr1MmSU5fBBc9.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/roboto/v29/KFOlCnqEu92Fr1MmSU5fBBc9.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url(https://fonts.gstatic.com/s/roboto/v27/KFOmCnqEu92Fr1Mu4mxP.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/roboto/v29/KFOmCnqEu92Fr1Mu4mxP.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 500;
   font-display: swap;
-  src: url(https://fonts.gstatic.com/s/roboto/v27/KFOlCnqEu92Fr1MmEU9fBBc9.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/roboto/v29/KFOlCnqEu92Fr1MmEU9fBBc9.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url(https://fonts.gstatic.com/s/roboto/v27/KFOlCnqEu92Fr1MmWUlfBBc9.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/roboto/v29/KFOlCnqEu92Fr1MmWUlfBBc9.ttf) format('truetype');
 }
 @font-face {
   font-family: Museo;
@@ -10126,6 +10126,7 @@ header .user-data-toggle strong {
   align-items: center;
   margin-bottom: 15px;
   text-decoration: none;
+  cursor: pointer;
 }
 #minicart-wrapper .minicart-inner .minicart-body .cart-content .fretometro .frete-info .more-info i {
   font-size: 8px;
@@ -10335,7 +10336,7 @@ header .user-data-toggle strong {
   cursor: pointer;
 }
 #minicart-wrapper .minicart-inner .minicart-body .cart-content.frete-info-open .fretometro {
-  height: 315px;
+  height: auto;
 }
 #minicart-wrapper .minicart-inner .minicart-body .cart-content.frete-info-open .fretometro .frete-info {
   font-size: 15px;
