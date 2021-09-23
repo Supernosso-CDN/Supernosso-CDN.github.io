@@ -61597,8 +61597,8 @@ var Fretometro = exports.Fretometro = function (_React$Component) {
   }
 
   _createClass(Fretometro, [{
-    key: 'componentWillMount',
-    value: function componentWillMount() {
+    key: 'UNSAFE_componentWillMount',
+    value: function UNSAFE_componentWillMount() {
       var _this2 = this;
 
       this.configurableShipping.getSteps().then(function (steps) {
@@ -61747,6 +61747,27 @@ var Fretometro = exports.Fretometro = function (_React$Component) {
       return this.state.steps[this.state.steps.length - 1].from * 100;
     }
   }, {
+    key: 'getRemainingToFree',
+    value: function getRemainingToFree() {
+      var subtotalStr = this.props.subtotalValue;
+      var removedCharacters = subtotalStr.replace('R$', '').replace(',', '.');
+      var subTotalNum = parseFloat(removedCharacters);
+
+      var discount = this.props.getDiscountInfo(this.props.orderForm);
+      var discountNum = parseFloat(parseFloat(discount / 100).toFixed(2).replace('-', ''));
+      var remaining = this.props.getDifference(discountNum, subTotalNum);
+      return remaining;
+    }
+  }, {
+    key: 'calculatePrime',
+    value: function calculatePrime() {
+      var remaining = this.getRemainingToFree();
+      var freeShipAmount = 49.90;
+
+      var percent = (remaining * 100 / freeShipAmount).toFixed(2);
+      return percent <= 100 ? percent + '%' : '100%';
+    }
+  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
@@ -61762,23 +61783,51 @@ var Fretometro = exports.Fretometro = function (_React$Component) {
             _react2.default.createElement('i', { className: 'fa fa-chevron-down' })
           ),
           !this.props.minicart && _react2.default.createElement(
-            'p',
-            { className: 'frete-tip' },
-            'entrega gr\xE1tis comprando acima de R$500 ',
-            _react2.default.createElement('br', null),
-            'R$19,90 comprando at\xE9 R$299 ',
-            _react2.default.createElement('br', null),
-            'R$14,90 comprando entre R$300 e R$399 ',
-            _react2.default.createElement('br', null),
-            'R$9,90 comprando entre R$400 e R$499 ',
-            _react2.default.createElement('br', null)
+            'div',
+            null,
+            this.props.isPrime && this.props.isLogged ? _react2.default.createElement(
+              'p',
+              { className: 'frete-tip' },
+              'entrega gr\xE1tis comprando acima de R$49,90',
+              _react2.default.createElement('br', null)
+            ) : _react2.default.createElement(
+              'p',
+              { className: 'frete-tip' },
+              'entrega gr\xE1tis comprando acima de R$500 ',
+              _react2.default.createElement('br', null),
+              'R$19,90 comprando at\xE9 R$299 ',
+              _react2.default.createElement('br', null),
+              'R$14,90 comprando entre R$300 e R$399 ',
+              _react2.default.createElement('br', null),
+              'R$9,90 comprando entre R$400 e R$499 ',
+              _react2.default.createElement('br', null)
+            )
           ),
           this.props.minicart && _react2.default.createElement(
             'span',
             { className: 'fretometro-title' },
             'frete gr\xE1tis'
           ),
-          _react2.default.createElement(
+          this.props.isPrime && this.props.isLogged ? _react2.default.createElement(
+            'div',
+            { className: 'fretometro-bar' },
+            _react2.default.createElement(
+              'div',
+              { className: 'current-cart-price' },
+              'R$',
+              this.getRemainingToFree().toFixed(2).replace('.', ',')
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'bar-fill' },
+              _react2.default.createElement('div', { className: 'filling-line', style: { width: this.calculatePrime() } })
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'free-price' },
+              'R$49,90'
+            )
+          ) : _react2.default.createElement(
             'div',
             { className: 'fretometro-bar' },
             _react2.default.createElement(
@@ -61980,6 +62029,7 @@ var Minicart = exports.Minicart = function (_React$Component) {
       prime: false,
       isPrime: false,
       isLogged: false,
+      discountRes: null,
       orderForm: {
         value: 0,
         totalizers: []
@@ -62507,8 +62557,8 @@ var Minicart = exports.Minicart = function (_React$Component) {
       jqueryMini.init();
     }
   }, {
-    key: 'componentWillMount',
-    value: function componentWillMount() {
+    key: 'UNSAFE_componentWillMount',
+    value: function UNSAFE_componentWillMount() {
       var _this9 = this;
 
       this.getCart();
@@ -62526,6 +62576,23 @@ var Minicart = exports.Minicart = function (_React$Component) {
         items: orderForm.items,
         orderForm: orderForm
       });
+    }
+  }, {
+    key: 'getDiscountInfo',
+    value: function getDiscountInfo(orderForm) {
+      var totalizerId = 'Discounts';
+
+      if (!orderForm || !orderForm.totalizers) {
+        return 0;
+      }
+
+      var discount = orderForm.totalizers.filter(function (o) {
+        return o.id == totalizerId;
+      });
+
+      var discountRes = discount.length && discount[0].value ? discount[0].value : 0;
+
+      return discountRes;
     }
   }, {
     key: 'getCart',
@@ -62738,6 +62805,11 @@ var Minicart = exports.Minicart = function (_React$Component) {
       return finalNum;
     }
   }, {
+    key: 'getDifference',
+    value: function getDifference(a, b) {
+      return Math.abs(a - b);
+    }
+  }, {
     key: 'renderTotalInfo',
     value: function renderTotalInfo() {
       //let total = Currency.convert(this.state.orderForm.value)
@@ -62745,11 +62817,15 @@ var Minicart = exports.Minicart = function (_React$Component) {
         return;
       }
 
+      var discount = this.getDiscountInfo(this.state.orderForm);
+      var discountNum = parseFloat(parseFloat(discount / 100).toFixed(2).replace('-', ''));
+
       var pickUpIdStorage = this.getStorage('selectedPickup');
       var subTotalizer = this.getTotalizer('Items');
       var discountTotalizer = this.getTotalizer('Discounts');
       var subtotal = _currency.Currency.convert(subTotalizer);
       var subtotalNumber = this.getConvertedFloatNumber(subtotal);
+      var remaining = this.getDifference(discountNum, subtotalNumber);
       var totalDiscount = _currency.Currency.convert(discountTotalizer);
       var totalShipping = this.getFrete() != 0 ? _currency.Currency.convert(this.getFrete()) : "grátis";
       //let totalShipping = Currency.convert(shippingTotalizer)
@@ -62793,11 +62869,11 @@ var Minicart = exports.Minicart = function (_React$Component) {
           this.state.isLogged && this.state.isPrime && !pickUpIdStorage && _react2.default.createElement(
             'span',
             { className: 'cart-total-prime-freight' },
-            subtotalNumber < 49.90 ? _react2.default.createElement(
+            remaining < 49.90 ? _react2.default.createElement(
               'span',
               { className: 'cart-total-prime-freight__diff' },
               'faltam R$ ',
-              (49.90 - subtotalNumber).toFixed(2).replace('.', ','),
+              (49.90 - remaining).toFixed(2).replace('.', ','),
               ' para entrega gr\xE1tis'
             ) : _react2.default.createElement(
               'span',
@@ -62922,7 +62998,7 @@ var Minicart = exports.Minicart = function (_React$Component) {
           ),
           _react2.default.createElement(
             'a',
-            { href: 'javascript:;', className: 'minicart-close' },
+            { href: '#', className: 'minicart-close' },
             _react2.default.createElement('img', { src: 'https://supernossoemcasa.vteximg.com.br/arquivos/icon-close.png', alt: '' })
           )
         ),
@@ -62949,7 +63025,11 @@ var Minicart = exports.Minicart = function (_React$Component) {
                 frete03Value: this.state.frete03Value,
                 frete04Value: this.state.frete04Value,
                 prime: this.state.prime,
-                orderForm: this.state.orderForm
+                isPrime: this.state.isPrime,
+                isLogged: this.state.isLogged,
+                orderForm: this.state.orderForm,
+                getDiscountInfo: this.getDiscountInfo,
+                getDifference: this.getDifference
               }),
               _react2.default.createElement(_productList.ProductList, {
                 forceLimit: this.forceLimit.bind(this),
