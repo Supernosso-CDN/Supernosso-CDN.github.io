@@ -55741,8 +55741,8 @@ var StorePicker = function () {
         }
 
         //cria as variaveis com a primeisa e a segunda sla
-        var actualBestShippingCompanyBestDate = bestShippingCompany.availableDeliveryWindows[0].startDateUtc;
-        var shippingCompanyBestDate = sc.availableDeliveryWindows[0].startDateUtc;
+        var actualBestShippingCompanyBestDate = bestShippingCompany.availableDeliveryWindows[0].endDateUtc;
+        var shippingCompanyBestDate = sc.availableDeliveryWindows[0].endDateUtc;
 
         //compara a peimeia sla com a sla do loop 
         if ((0, _moment2.default)(actualBestShippingCompanyBestDate).isAfter(shippingCompanyBestDate)) {
@@ -56405,7 +56405,7 @@ var StorePicker = function () {
               //choose fastest window
               var shortest = [];
               response.logisticsInfo[0].slas.forEach(function (sla) {
-                shortest.push(Date.parse(sla.availableDeliveryWindows[0].startDateUtc));
+                shortest.push(Date.parse(sla.availableDeliveryWindows[0].endDateUtc));
               });
               var IndexShortestNumber = shortest.indexOf(Math.min.apply(Math, shortest));
 
@@ -56416,7 +56416,7 @@ var StorePicker = function () {
               var tomorrow = new Date();
               tomorrow.setDate(tomorrow.getDate() + 1);
               // date
-              var dateString = response.logisticsInfo[0].slas[IndexShortestNumber].availableDeliveryWindows[0].startDateUtc.split('T')[0];
+              var dateString = response.logisticsInfo[0].slas[IndexShortestNumber].availableDeliveryWindows[0].endDateUtc.split('T')[0];
               //  today/tomorrow/date
               var dayString = today.toISOString().split('T')[0] === dateString ? 'Hoje' : tomorrow.toISOString().split('T')[0] === dateString ? 'Amanhã' : dateString.split('-')[2] + '/' + dateString.split('-')[1] + '/' + dateString.split('-')[0];
               //set delivery text
