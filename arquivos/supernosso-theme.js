@@ -56420,7 +56420,7 @@ var StorePicker = function () {
               //  today/tomorrow/date
               var dayString = today.toISOString().split('T')[0] === dateString ? 'Hoje' : tomorrow.toISOString().split('T')[0] === dateString ? 'Amanhã' : dateString.split('-')[2] + '/' + dateString.split('-')[1] + '/' + dateString.split('-')[0];
               //set delivery text
-              _this3.deliveryText = dayString + ", entre " + deliveryStart + " e " + deliveryEnd + " ";
+              _this3.deliveryText = "\xE0 partir de " + dayString + ", entre " + deliveryStart + " e " + deliveryEnd + " ";
             }
 
             var availableAddresses = orf.shippingData.availableAddresses;
