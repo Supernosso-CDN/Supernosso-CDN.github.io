@@ -56743,61 +56743,6 @@ var Shelf = function () {
 
   _createClass(Shelf, [{
     key: "initQuickview",
-
-    // openFrame() {
-
-    //   alert("shelf quickview")
-    //   $("body").addClass("overflow-hidden");
-    //   $("#product-qv-iframe-wrapper").remove();
-    //   let iframe = $("<iframe />", {
-    //     name: "product-qv-iframe",
-    //     id: "product-qv-iframe",
-    //     src: $(this).attr("href"),
-    //   });
-    //   window.history.pushState("Object", "Categoria JavaScript", url);
-    //   let btn = $(this).parents(".item-shelf").find(".buy-button-shelf").clone();
-    //   $(btn).attr(
-    //     "data-product-id",
-    //     $(this).parents(".item-shelf").attr("data-product-id")
-    //   );
-    //   $(btn)
-    //     .find(".buy-button-normal")
-    //     .children("a")
-    //     .text(
-    //       `adicionar ao carrinho | ${$(this)
-    //         .parents(".item-shelf")
-    //         .find(".best-price")
-    //         .text()}`
-    //     );
-
-    //   let iframeWrapper = $(
-    //     '<div id="product-qv-iframe-wrapper" style="display: none"/>'
-    //   ).append(
-    //     $('<div class="product-qv-iframe-inner" />').append(
-    //       $('<div class="close-product-qv-iframe" />').append(
-    //         '<img src="https://supernossoemcasa.vteximg.com.br/arquivos/icon-close.png" />'
-    //       ),
-    //       $('<i class="fa fa-spinner fa-spin iframe-loading fa-2x" />'),
-    //       $('<div class="iframe-content-inner" />').append(iframe)
-    //     )
-    //   );
-
-    //   if (window.matchMedia("(max-width:768px)").matches == true) {
-    //     $(iframeWrapper).find(".iframe-content-inner").append(btn);
-    //   }
-    //   // iframe.on('load', function(e){
-    //   //     $('.iframe-loading').fadeOut();
-    //   // })
-    //   iframeWrapper.appendTo("body");
-    //   $("#product-qv-iframe-wrapper").fadeIn();
-    //   $(document).on("click", ".close-product-qv-iframe img", function (e) {
-    //     e.preventDefault();
-    //     $("body").removeClass("overflow-hidden");
-    //     $("#product-qv-iframe-wrapper").remove();
-    //     window.history.pushState("Object", "Categoria JavaScript", currentUrl);
-    //   });
-    // }
-
     value: function initQuickview() {
       var quickView = new _quickview.QuickView();
 
@@ -57054,7 +56999,7 @@ var Shelf = function () {
             if (res[0]['Limite Oferta']) {
               var limit = parseInt(res[0]['Limite Oferta'][0]);
               if (limit < itemArr[0].quantity) {
-                $('body').prepend('<div class="mz-front-messages-placeholder" >Você só pode ter no máximo ' + limit + ' itens do produto ' + res[0].productName + ' no carrinho</div>');
+                $('body').prepend('<div class="mz-front-messages-placeholder" >você só pode ter no máximo ' + limit + ' itens do produto ' + res[0].productName + ' no carrinho</div>');
                 setTimeout(function () {
                   $('.mz-front-messages-placeholder').remove();
                 }, 5000);
@@ -57068,7 +57013,7 @@ var Shelf = function () {
         }
       };
 
-      // debounce function
+      // debounce function/
       function debounce(func, wait, immediate) {
         var timeout;
         return function () {
@@ -57214,25 +57159,6 @@ var Shelf = function () {
         }
         findItemInCart(obj.id, obj.value);
       }, 1500);
-
-      //blur
-      // window.onload = function () {
-      //   let inputQttList = document.querySelectorAll("input.shelf-input-qty-control ");
-      //   inputQttList.forEach((input) => {
-      //     input.addEventListener("blur", myFunction);
-      //     function myFunction(e) {
-      //       const obj = getValues(e.target)
-      //       if (e.target.value == '') {
-      //         e.target.value = 0
-      //         obj.value = 0
-      //       }
-      //       if (obj.value == 0) {
-      //         shelfZero(this, obj.id)
-      //       }
-      //       findItemInCart(obj.id, obj.value)
-      //     }
-      //   })
-      // };
 
       // when goes zero
       var shelfZero = function shelfZero(el, id) {
@@ -63080,6 +63006,7 @@ var ProductLimit = exports.ProductLimit = function () {
   _createClass(ProductLimit, [{
     key: 'showToastyMessage',
     value: function showToastyMessage(title, message, type) {
+
       var $messagePlaceholder = $('.vtex-front-messages-placeholder');
       if (!$messagePlaceholder.length) {
         $('body').prepend('<div class="vtex-front-messages-placeholder"></div>');
@@ -63110,7 +63037,7 @@ var ProductLimit = exports.ProductLimit = function () {
           var messages = vtexjs.checkout.orderForm.messages;
 
           $.each(messages, function (key, value) {
-            if (value.text.indexOf("frete") < 0 && value.code !== "cannotBeDelivered" && value.text !== "O tipo de entrega foi alterado") {
+            if (value.text.indexOf("frete") < 0 && value.code !== "cannotBeDelivered" && value.text !== "O tipo de entrega foi alterado" && value.text.indexOf("Você só pode") == -1) {
               // ignore
               that.showToastyMessage('', value.text, value.status);
             }
@@ -63550,15 +63477,88 @@ var ProductList = exports.ProductList = function (_React$Component) {
     value: function itemDetail(item) {
       this.quickView.open(item.detailUrl, item.productCategoryIds);
     }
+
+    //remove duplicates
+
+  }, {
+    key: "remDuplicates",
+    value: function remDuplicates(limit, qtt, index1, index2) {
+      var updateCarteArr = [{
+        index: index1,
+        quantity: qtt < limit ? qtt : limit
+      }, {
+        index: index2,
+        quantity: 0
+      }];
+
+      if (qtt > limit) {
+        this.limitMsg(limit, vtexjs.checkout.orderForm.items[index1].skuName);
+      }
+
+      vtexjs.checkout.getOrderForm().then(function (orderForm) {
+        return vtexjs.checkout.updateItems(updateCarteArr, null, false);
+      }).done(function (orderForm) {
+        var updateCartEvt = new Event('updateCartEvt');
+        window.dispatchEvent(updateCartEvt);
+      });
+    }
   }, {
     key: "forceLimit",
-    value: function forceLimit(item) {}
+    value: function forceLimit(o, index) {
+      var _this2 = this;
+
+      //check Limit
+      var finalLimit = 0;
+      var url = '/api/catalog_system/pub/products/search?fq=productId:' + o.productId;
+      fetch(url).then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        if (res[0]['Limite Oferta'].length > 0) {
+          var limit = parseInt(res[0]['Limite Oferta'][0]);
+          finalLimit = limit;
+        } else {
+          finalLimit = 9999;
+        }
+
+        //remove duplicates
+        var items = _this2.props.items;
+        var duplicate = void 0;
+        items.forEach(function (itm, idx) {
+          if (idx != index && itm.id == o.id) {
+            duplicate = idx;
+          }
+        });
+        if (typeof duplicate === 'number') {
+          var duplicatedQuantitySum = _this2.props.items[duplicate].quantity ? _this2.props.items[duplicate].quantity + parseInt($("#input-" + o.id + "-" + o.index).val()) : 0;
+          _this2.remDuplicates(finalLimit, duplicatedQuantitySum, o.index, duplicate);
+          //if there are duplicates stop the function here
+          return;
+        }
+
+        //solving without duplicates
+        if (parseInt($("#input-" + o.id + "-" + o.index).val()) <= finalLimit) {
+          _this2.props.update(index, parseInt($("#input-" + o.id + "-" + o.index).val()));
+        } else {
+          _this2.props.update(index, finalLimit);
+          _this2.limitMsg(finalLimit, o.skuName);
+        }
+      });
+    }
+  }, {
+    key: "limitMsg",
+    value: function limitMsg(limit, name) {
+      if ($('.mz-front-messages-placeholder').length == 0) {
+        $('body').prepend('<div class="mz-front-messages-placeholder" >você só pode ter no máximo ' + limit + ' itens do produto ' + name + ' no carrinho</div>');
+      }
+      setTimeout(function () {
+        $('.mz-front-messages-placeholder').remove();
+      }, 5000);
+    }
   }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate() {
-      var _this2 = this;
+      var _this3 = this;
 
-      //   // Como o input nao esta em um state, é necessario este bind
       this.props.items.forEach(function (o, index) {
 
         $("#input-" + o.id + "-" + o.index).unbind('change');
@@ -63569,7 +63569,9 @@ var ProductList = exports.ProductList = function (_React$Component) {
             return;
           }
 
-          if ($("#input-" + o.id + "-" + o.index).val() > 0) _this2.props.update(index, $("#input-" + o.id + "-" + o.index).val());
+          if ($("#input-" + o.id + "-" + o.index).val() > 0) {
+            _this3.forceLimit(o, index);
+          }
         }, 0));
         $("#input-" + o.id + "-" + o.index).val(o.quantity);
       });
@@ -63580,7 +63582,7 @@ var ProductList = exports.ProductList = function (_React$Component) {
   }, {
     key: "renderList",
     value: function renderList(sorted, items) {
-      var _this3 = this;
+      var _this4 = this;
 
       return _react2.default.createElement(
         "div",
@@ -63599,7 +63601,7 @@ var ProductList = exports.ProductList = function (_React$Component) {
                   _react2.default.createElement(
                     "span",
                     { className: "product-remove", name: item.productId, id: "" + item.id, onClick: function onClick() {
-                        return _this3.removeFromCart(item, index);
+                        return _this4.removeFromCart(item, index);
                       } },
                     _react2.default.createElement("i", { className: "fa fa-times" })
                   ),
@@ -63609,7 +63611,7 @@ var ProductList = exports.ProductList = function (_React$Component) {
                     _react2.default.createElement(
                       "div",
                       { className: "product-image", style: { cursor: 'pointer' }, onClick: function onClick() {
-                          return _this3.itemDetail(item);
+                          return _this4.itemDetail(item);
                         } },
                       _react2.default.createElement("img", { src: item.imageUrl, alt: "" })
                     ),
@@ -63619,7 +63621,7 @@ var ProductList = exports.ProductList = function (_React$Component) {
                       _react2.default.createElement(
                         "p",
                         { className: "product-name", style: { cursor: 'pointer' }, onClick: function onClick() {
-                            return _this3.itemDetail(item);
+                            return _this4.itemDetail(item);
                           } },
                         item.skuName
                       ),
@@ -63647,7 +63649,7 @@ var ProductList = exports.ProductList = function (_React$Component) {
                             "div",
                             { className: "qty-minus" },
                             _react2.default.createElement("img", { src: "https://supernossoemcasa.vteximg.com.br/arquivos/icon-minus.png", alt: "", onClick: function onClick() {
-                                return _this3.minus(item, index);
+                                return _this4.minus(item, index);
                               } })
                           ),
                           _react2.default.createElement(
@@ -63659,7 +63661,7 @@ var ProductList = exports.ProductList = function (_React$Component) {
                             "div",
                             { className: "qty-more" },
                             _react2.default.createElement("img", { src: "https://supernossoemcasa.vteximg.com.br/arquivos/icon-more.png", alt: "", onClick: function onClick() {
-                                return _this3.plus(item);
+                                return _this4.plus(item);
                               } })
                           )
                         )
