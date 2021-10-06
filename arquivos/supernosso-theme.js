@@ -55741,8 +55741,8 @@ var StorePicker = function () {
         }
 
         //cria as variaveis com a primeisa e a segunda sla
-        var actualBestShippingCompanyBestDate = bestShippingCompany.availableDeliveryWindows[0].endDateUtc;
-        var shippingCompanyBestDate = sc.availableDeliveryWindows[0].endDateUtc;
+        var actualBestShippingCompanyBestDate = bestShippingCompany.availableDeliveryWindows[0].endDateUtc.replace(':59+', ':00+');
+        var shippingCompanyBestDate = sc.availableDeliveryWindows[0].endDateUtc.replace(':59+', ':00+');
 
         //compara a peimeia sla com a sla do loop 
         if ((0, _moment2.default)(actualBestShippingCompanyBestDate).isAfter(shippingCompanyBestDate)) {
