@@ -10598,9 +10598,10 @@ footer .institutional-section .dev-nav span img {
 }
 .prateleira.supernossoshelf ul li .item-shelf .promo-flags {
   display: block !important;
-  height: 2.5rem;
+  height: auto;
   overflow: hidden;
   pointer-events: none;
+  min-height: 61px;
   margin-left: 5px;
 }
 .prateleira.supernossoshelf ul li .item-shelf .promo-flags p.flag {
@@ -14108,7 +14109,7 @@ p.text-seo span.full {
   flex-wrap: wrap;
 }
 #category-page #content #collections .main .vitrine .prateleira.supernossoshelf ul li {
-  width: 22%;
+  width: 30%;
   margin-bottom: 24px;
 }
 @media (max-width: 768px) {
@@ -22363,7 +22364,7 @@ body#recipes-page .top-chefs .chef-list .list .list-item .recipes {
 }
 @media screen and (max-width: 552px) {
   .prateleira.supernossoshelf ul li .item-shelf .promo-flags {
-    min-height: 68px;
+    min-height: 79px;
     height: auto;
     pointer-events: none;
   }
