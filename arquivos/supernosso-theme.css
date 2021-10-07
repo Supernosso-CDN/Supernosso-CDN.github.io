@@ -20153,7 +20153,7 @@ body#wishlist-page.create #collections .action-area .form-action .save input[typ
 .iconesVantagensContainer .divIconesVantagensContainer {
   display: flex;
   justify-content: space-evenly;
-  align-items: center;
+  align-items: flex-start;
   margin-top: 5em;
   margin-bottom: 5em;
 }
@@ -20168,6 +20168,13 @@ body#wishlist-page.create #collections .action-area .form-action .save input[typ
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+@media (max-width: 600px) {
+  .iconesVantagensContainer .divIconesVantagensContainer section {
+    max-width: 90px;
+    margin: 0 5px;
+    text-align: center;
+  }
 }
 .iconesVantagensContainer .divIconesVantagensContainer section img {
   width: 150px;
