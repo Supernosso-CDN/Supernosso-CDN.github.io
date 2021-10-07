@@ -56225,6 +56225,46 @@ var StorePicker = function () {
             return;
           }
 
+          // "deliveryToShipping" was created based on an object returned by vtex
+          // problem was: the way it was created before, when you selected delivery then chenged to pickup it used to stay as delivery
+          var deliveryToShipping = {
+            "address": {
+              "country": "BRA",
+              "postalCode": scPostalcode
+            },
+            "logisticsInfo": [{
+
+              "slas": [{
+                "id": "Retirar na Loja " + pickup + " (" + pickup + ")",
+                "deliveryChannel": "pickup-in-point",
+                "name": "Retirar na Loja " + pickup + " (" + pickup + ")",
+                "deliveryIds": [{
+                  "courierId": pickup,
+                  "warehouseId": pickup,
+                  "courierName": "Retirar na Loja " + pickup,
+                  "quantity": 1
+                }],
+                "shippingEstimate": "6h",
+                "pickupStoreInfo": {
+                  "address": {
+                    "addressType": "pickup",
+                    "addressId": pickup,
+                    "isDisposable": true,
+                    "postalCode": scPostalcode
+                  }
+                },
+                "pickupPointId": "1_" + pickup
+              }],
+              "shipsTo": ["BRA"],
+              "deliveryChannels": [{
+                "id": "pickup-in-point"
+              }, {
+                "id": "delivery"
+              }]
+            }]
+
+          };
+
           var itemToSimulate = {
             id: 11420,
             quantity: 1,
@@ -56257,9 +56297,11 @@ var StorePicker = function () {
               }
             }
 
-            vtexjs.checkout.sendAttachment('shippingData', {
-              clearAddressIfPostalCodeNotFound: false,
-              selectedAddresses: [newAddress]
+            vtexjs.checkout.sendAttachment('shippingData', window.location.href.indexOf('?testeMaeztra=teste') > -1 ? //remover após acabarem os testes
+            deliveryToShipping : //remover após acabarem os testes
+            {
+              clearAddressIfPostalCodeNotFound: false, //remover após acabarem os testes
+              selectedAddresses: [newAddress] //remover após acabarem os testes
             }).done(function (result) {
 
               var newShippingData = result.shippingData;
