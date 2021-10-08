@@ -23612,6 +23612,7 @@ body#recipes-page .top-chefs .chef-list .list .list-item .recipes {
     position: fixed;
     top: 0;
     left: 0;
+    z-index: 99;
   }
   #product-page .product-description-modal .product-description-inner {
     width: 80%;
