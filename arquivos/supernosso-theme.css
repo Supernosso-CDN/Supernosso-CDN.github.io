@@ -23483,15 +23483,15 @@ body#recipes-page .top-chefs .chef-list .list .list-item .recipes {
     font-style: normal;
     font-weight: normal;
     font-size: 16px;
-    margin-top: -24px;
     cursor: pointer;
-    margin-bottom: 0;
     padding: 22px 15px;
     border-bottom: 1px solid #F2F2F2;
     border-top: 1px solid #F2F2F2;
     color: #666;
     display: flex;
     justify-content: space-between;
+    margin: -24px 0 0;
+    width: 100%;
   }
   #product-page #product-content #description .title:after {
     content: '›';
