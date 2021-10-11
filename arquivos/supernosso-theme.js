@@ -58018,7 +58018,7 @@ var Home = function () {
                 var strDesk = data.split('header-slider-inner')[1].split('header-slider-mob')[0];
                 strDesk = strDesk.split('<div class="box-banner">');
                 strDesk = strDesk.map(function (item) {
-                    return "<div class='box-banner'>" + item.split('"').join("'").split('</div>')[0] + '</div>';
+                    return item.split('"').join("'").split('</div>')[0];
                 });
                 strDesk.splice(0, 1);
 
@@ -58026,7 +58026,7 @@ var Home = function () {
                 var strMob = data.split('header-slider-mob-inner')[1].split('</section')[0];
                 strMob = strMob.split('<div class="box-banner">');
                 strMob = strMob.map(function (item) {
-                    return "<div class='box-banner'>" + item.split('"').join("'").split('</div>')[0] + '</div>';
+                    return item.split('"').join("'").split('</div>')[0];
                 });
                 strMob.splice(0, 1);
 
@@ -58037,7 +58037,7 @@ var Home = function () {
                     return index > 1 ? lightItemDesk : item;
                 });
                 var lightMob = strMob.map(function (item, index) {
-                    return index > 1 ? lightItemDesk : item;
+                    return index > 1 ? lightItemMob : item;
                 });
 
                 //apply slick
@@ -58051,6 +58051,7 @@ var Home = function () {
                     prevArrow: '<a href="javascript:;" class="slick-prev"><img src="https://supernossoemcasa.vteximg.com.br/arquivos/slider-arrow-left.png" /></a>',
                     nextArrow: '<a href="javascript:;" class="slick-next"><img src="https://supernossoemcasa.vteximg.com.br/arquivos/slider-arrow-right.png" /></a>'
                 });
+
                 $('.header-slider-mob-inner').append(lightMob).slick({
                     arrows: false,
                     dots: true,
