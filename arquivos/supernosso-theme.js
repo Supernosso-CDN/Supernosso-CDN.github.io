@@ -57967,16 +57967,6 @@ var Home = function () {
             });
 
             $(mobileSlider).insertAfter('.moment-slider');
-            // $('.moment-slider-mobile').slick({
-            //     arrows:false,
-            //     dots:false,
-            //     rows: 2,
-            //     slidesToShow: 2.5,
-            //     infinite:true,
-            //     centerMode:true,
-            //     swipeToSlide: true,
-            //     centerPadding:"60px"
-            // });
             if (window.matchMedia("(max-width:992px)").matches == false) {
                 $('.moment-slider').slick({
                     arrows: true,
@@ -58017,23 +58007,81 @@ var Home = function () {
     }, {
         key: 'mainSlider',
         value: function mainSlider() {
-            $('.header-slider-inner').slick({
-                arrows: true,
-                dots: true,
-                slidesToShow: 1,
-                infinite: true,
-                autoplay: true,
-                autoplaySpeed: 5000,
-                prevArrow: '<a href="javascript:;" class="slick-prev"><img src="https://supernossoemcasa.vteximg.com.br/arquivos/slider-arrow-left.png" /></a>',
-                nextArrow: '<a href="javascript:;" class="slick-next"><img src="https://supernossoemcasa.vteximg.com.br/arquivos/slider-arrow-right.png" /></a>'
-            });
-            $('.header-slider-mob-inner').slick({
-                arrows: false,
-                dots: true,
-                slidesToShow: 1,
-                infinite: true,
-                autoplay: true,
-                autoplaySpeed: 5000
+            // order placed (works)
+            $.ajax({
+                type: 'GET',
+                method: 'GET',
+                url: "https://www.supernossoemcasa.com.br/?lid=a0e5bf1b-6fea-45be-ba0a-f748c5211ed7",
+                dataType: 'html'
+            }).done(function (data) {
+                // getting desk images
+                var strDesk = data.split('header-slider-inner')[1].split('header-slider-mob')[0];
+                strDesk = strDesk.split('<div class="box-banner">');
+                strDesk = strDesk.map(function (item) {
+                    return "<div class='box-banner'>" + item.split('"').join("'").split('</div>')[0] + '</div>';
+                });
+                strDesk.splice(0, 1);
+
+                // getting mob images
+                var strMob = data.split('header-slider-mob-inner')[1].split('</section')[0];
+                strMob = strMob.split('<div class="box-banner">');
+                strMob = strMob.map(function (item) {
+                    return "<div class='box-banner'>" + item.split('"').join("'").split('</div>')[0] + '</div>';
+                });
+                strMob.splice(0, 1);
+
+                //creating light items
+                var lightItemDesk = "<div class='box-banner'><a href='/'><img width='1920px' height='472px'  alt='' src='/arquivos/blankDesk.png' complete='complete'/></a></div>";
+                var lightItemMob = "<div class='box-banner'><a href='/'><img width='1120px' height='1120px'  alt='' src='/arquivos/blank.png' complete='complete'/></a></div>";
+                var lightDesk = strDesk.map(function (item, index) {
+                    return index > 1 ? lightItemDesk : item;
+                });
+                var lightMob = strMob.map(function (item, index) {
+                    return index > 1 ? lightItemDesk : item;
+                });
+
+                //apply slick
+                $('.header-slider-inner').append(lightDesk).slick({
+                    arrows: true,
+                    dots: true,
+                    slidesToShow: 1,
+                    infinite: true,
+                    autoplay: true,
+                    autoplaySpeed: 5000,
+                    prevArrow: '<a href="javascript:;" class="slick-prev"><img src="https://supernossoemcasa.vteximg.com.br/arquivos/slider-arrow-left.png" /></a>',
+                    nextArrow: '<a href="javascript:;" class="slick-next"><img src="https://supernossoemcasa.vteximg.com.br/arquivos/slider-arrow-right.png" /></a>'
+                });
+                $('.header-slider-mob-inner').append(lightMob).slick({
+                    arrows: false,
+                    dots: true,
+                    slidesToShow: 1,
+                    infinite: true,
+                    autoplay: true,
+                    autoplaySpeed: 5000
+                });
+
+                //replace images after change
+                $('.header-slider-inner , .header-slider-mob-inner').on('afterChange', function (event, slick, currentSlide, nextSlide) {
+                    if ($("[href='/']").length > 0) {
+                        strDesk.forEach(function (item, index) {
+                            if (index > 1) {
+                                console.log(item);
+                                $(".header-slider-inner [data-slick-index=" + index + "] [href='/']").parent().html(item);
+                                $(".header-slider-inner [data-slick-index=" + index + "] [href='/']").remove();
+                            }
+                        });
+                        strMob.forEach(function (item, index) {
+                            if (index > 1) {
+                                console.log(item);
+                                $(".header-slider-mob-inner [data-slick-index=" + index + "] [href='/']").parent().html(item);
+                                $(".header-slider-mob-inner [data-slick-index=" + index + "] [href='/']").remove();
+                            }
+                        });
+                    } else {
+                        //cleaning event
+                        $(this).off('afterChange');
+                    }
+                });
             });
         }
     }, {
@@ -58069,12 +58117,6 @@ var Home = function () {
     }, {
         key: 'countrySlider',
         value: function countrySlider() {
-
-            // let item = $('.country-item');
-            // item.each(function(e){            
-            //     let image = $(item[e]).find('.box-banner').find('img');
-            //     $(item[e]).find('.country-card').attr('style', 'background-image:url('+image.attr('src')+')');
-            // })
             //apply random
             this.shuffleElements($('.country-item'));
 
