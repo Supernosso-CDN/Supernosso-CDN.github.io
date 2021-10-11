@@ -58060,28 +58060,49 @@ var Home = function () {
                     autoplaySpeed: 5000
                 });
 
+                var deskIsDone = true;
+                var mobIsDone = true;
+
+                //replace images on resize
+                window.addEventListener('resize', function resize() {
+                    if (deskIsDone || mobIsDone) {
+                        fillup();
+                    } else {
+                        //cleaning event
+                        window.removeEventListener('resize', resize);
+                    }
+                });
+
                 //replace images after change
                 $('.header-slider-inner , .header-slider-mob-inner').on('afterChange', function (event, slick, currentSlide, nextSlide) {
-                    if ($("[href='/']").length > 0) {
-                        strDesk.forEach(function (item, index) {
-                            if (index > 1) {
-                                console.log(item);
-                                $(".header-slider-inner [data-slick-index=" + index + "] [href='/']").parent().html(item);
-                                $(".header-slider-inner [data-slick-index=" + index + "] [href='/']").remove();
-                            }
-                        });
-                        strMob.forEach(function (item, index) {
-                            if (index > 1) {
-                                console.log(item);
-                                $(".header-slider-mob-inner [data-slick-index=" + index + "] [href='/']").parent().html(item);
-                                $(".header-slider-mob-inner [data-slick-index=" + index + "] [href='/']").remove();
-                            }
-                        });
+                    if (deskIsDone || mobIsDone) {
+                        fillup();
                     } else {
                         //cleaning event
                         $(this).off('afterChange');
                     }
                 });
+
+                //fillup elements
+                function fillup() {
+                    if (window.innerWidth > 992) {
+                        strDesk.forEach(function (item, index) {
+                            if (index > 1) {
+                                $(".header-slider-inner [data-slick-index=" + index + "] [href='/']").parent().html(item);
+                                $(".header-slider-inner [data-slick-index=" + index + "] [href='/']").remove();
+                            }
+                        });
+                        deskIsDone = false;
+                    } else {
+                        strMob.forEach(function (item, index) {
+                            if (index > 1) {
+                                $(".header-slider-mob-inner [data-slick-index=" + index + "] [href='/']").parent().html(item);
+                                $(".header-slider-mob-inner [data-slick-index=" + index + "] [href='/']").remove();
+                            }
+                        });
+                        mobIsDone = false;
+                    }
+                }
             });
         }
     }, {
