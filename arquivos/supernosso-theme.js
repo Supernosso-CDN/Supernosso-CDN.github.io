@@ -56958,6 +56958,9 @@ var Shelf = function () {
       });
 
       $(window).on("orderFormUpdated.vtex", function (evt, orderForm) {
+        if (vtexjs.checkout.orderForm && vtexjs.checkout.orderForm.items) {
+          $('.badge.badge-secondary , .badge.badge-cart').text(vtexjs.checkout.orderForm.items.length);
+        }
         if (that.ignore) {
           return;
         }
@@ -63087,7 +63090,15 @@ var element = document.getElementById('minicart-wrapper');
 var mobcart = document.getElementById('mobcart');
 
 if (element) {
-  _reactDom2.default.render(_react2.default.createElement(Minicart, null), element);
+  var aplyScript = function aplyScript() {
+    _reactDom2.default.render(_react2.default.createElement(Minicart, null), element);
+
+    document.removeEventListener("mouseover", aplyScript);
+    document.removeEventListener("touchstart", aplyScript, false);
+  };
+
+  document.addEventListener("mouseover", aplyScript);
+  document.addEventListener("touchstart", aplyScript, false);
 }
 if (mobcart) {
   _reactDom2.default.render(_react2.default.createElement(_mobcart.MobCart, null), mobcart);
