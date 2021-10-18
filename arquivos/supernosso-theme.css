@@ -12326,6 +12326,7 @@ p.text-seo span.full {
 #sellerModal .seller-modal-inner .seller-modal-stores .seller-modal-store-item .store-link:focus .store-info,
 #sellerModal .seller-modal-inner .seller-modal-stores .seller-modal-store-item .store-link:active .store-info {
   margin-bottom: 0;
+  line-height: 16px;
 }
 #sellerModal .seller-modal-inner .seller-modal-stores .seller-modal-store-item .store-link .store-info .store-title,
 #sellerModal .seller-modal-inner .seller-modal-stores .seller-modal-store-item .store-link:hover .store-info .store-title,
@@ -12336,6 +12337,12 @@ p.text-seo span.full {
   font-weight: bold;
   font-size: 16px;
   color: #841f27;
+}
+#sellerModal .seller-modal-inner .seller-modal-stores .seller-modal-store-item .store-link .store-window,
+#sellerModal .seller-modal-inner .seller-modal-stores .seller-modal-store-item .store-link:hover .store-window,
+#sellerModal .seller-modal-inner .seller-modal-stores .seller-modal-store-item .store-link:focus .store-window,
+#sellerModal .seller-modal-inner .seller-modal-stores .seller-modal-store-item .store-link:active .store-window {
+  font-weight: bold;
 }
 #sellerModal .seller-modal-inner .seller-modal-stores .seller-modal-store-item .store-link .store-address,
 #sellerModal .seller-modal-inner .seller-modal-stores .seller-modal-store-item .store-link:hover .store-address,
@@ -12359,6 +12366,7 @@ p.text-seo span.full {
   font-weight: bold;
   font-size: 13px;
   border-radius: 25px;
+  line-height: 13px;
 }
 #sellerModal .seller-modal-inner .seller-modal-stores .seller-modal-store-item .store-link.active,
 #sellerModal .seller-modal-inner .seller-modal-stores .seller-modal-store-item .store-link:hover.active,

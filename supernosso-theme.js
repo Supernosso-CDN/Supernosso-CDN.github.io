@@ -55166,7 +55166,7 @@ var PriceTable = function () {
 exports.default = PriceTable;
 
 },{}],35:[function(require,module,exports){
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -55187,116 +55187,171 @@ var QuickView = exports.QuickView = function () {
   }
 
   _createClass(QuickView, [{
-    key: "openUrlCloseIframe",
+    key: 'openUrlCloseIframe',
     value: function openUrlCloseIframe(url) {
       window.location.href = url;
     }
+
+    //////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////
+    // Comentei pra ver se quebra por que este codigo parece não ser utilizado
+    //////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////// 
+
+    // openHref(url, bestPrice, addToCart, productId, productSku) {
+    //   alert('openhref function quickview')
+
+    //   $("body").addClass("overflow-hidden");
+    //   $("#product-qv-iframe-wrapper").remove();
+
+    //   let iframe = $("<iframe />", {
+    //     name: "product-qv-iframe",
+    //     id: "product-qv-iframe",
+    //     src: url + "?quickview=true",
+    //   });
+
+    //   let currentUrl = window.location.href;
+
+    //   window.history.pushState({}, "", url.replace("?quickview=true", ""));
+
+    //   window.onpopstate = function (t) {
+    //     $("body").removeClass("overflow-hidden");
+    //     $("#product-qv-iframe-wrapper").remove();
+    //     $("#minicart-wrapper").trigger("sync-cart");
+    //     $(window).trigger("sync-shelf");
+    //   };
+
+    //   let btn = $("body").find(".buy-button-shelf").first().clone();
+    //   bestPrice = bestPrice.toFixed(2).toString().replace(".", ",");
+
+    //   $(btn).attr("data-product-id", productId);
+    //   $(btn)
+    //     .find(".buy-button-normal")
+    //     .children("a")
+    //     .text(`adicionar ao carrinho | ${bestPrice}`);
+    //   $(btn).find(".buy-button-normal").children("a").attr("href", addToCart);
+
+    //   let iframeWrapper = $('<div id="product-qv-iframe-wrapper" />').append(
+    //     $('<div class="product-qv-iframe-inner" />').append(
+    //       $('<div class="close-product-qv-iframe" />').append(
+    //         '<img src="https://supernossoemcasa.vteximg.com.br/arquivos/icon-close.png" />'
+    //       ),
+    //       $('<i class="fa fa-spinner fa-spin iframe-loading fa-2x" />'),
+    //       $('<div class="iframe-content-inner" />').append(iframe)
+    //     )
+    //   );
+
+    //   if (window.matchMedia("(max-width:768px)").matches == true) {
+    //     $(iframeWrapper).find(".iframe-content-inner").append(btn);
+    //   }
+
+    //   iframeWrapper.appendTo("body");
+    //   $(document).on("click", ".close-product-qv-iframe img", function (e) {
+    //     e.preventDefault();
+    //     $("body").removeClass("overflow-hidden");
+    //     $("#product-qv-iframe-wrapper").remove();
+    //     $("#minicart-wrapper").trigger("sync-cart");
+    //     $(window).trigger("sync-shelf");
+    //     window.history.pushState("Object", "Categoria JavaScript", currentUrl);
+    //   });
+    // }
+
   }, {
-    key: "openHref",
-    value: function openHref(url, bestPrice, addToCart, productId, productSku) {
-      $("body").addClass("overflow-hidden");
-      $("#product-qv-iframe-wrapper").remove();
-
-      var iframe = $("<iframe />", {
-        name: "product-qv-iframe",
-        id: "product-qv-iframe",
-        src: url + "?quickview=true"
-      });
-
-      var currentUrl = window.location.href;
-
-      window.history.pushState({}, "", url.replace("?quickview=true", ""));
-
-      window.onpopstate = function (t) {
-        $("body").removeClass("overflow-hidden");
-        $("#product-qv-iframe-wrapper").remove();
-        $("#minicart-wrapper").trigger("sync-cart");
-        $(window).trigger("sync-shelf");
-      };
-
-      var btn = $("body").find(".buy-button-shelf").first().clone();
-      bestPrice = bestPrice.toFixed(2).toString().replace(".", ",");
-
-      $(btn).attr("data-product-id", productId);
-      $(btn).find(".buy-button-normal").children("a").text("adicionar ao carrinho | " + bestPrice);
-      $(btn).find(".buy-button-normal").children("a").attr("href", addToCart);
-
-      var iframeWrapper = $('<div id="product-qv-iframe-wrapper" />').append($('<div class="product-qv-iframe-inner" />').append($('<div class="close-product-qv-iframe" />').append('<img src="https://supernossoemcasa.vteximg.com.br/arquivos/icon-close.png" />'), $('<i class="fa fa-spinner fa-spin iframe-loading fa-2x" />'), $('<div class="iframe-content-inner" />').append(iframe)));
-
-      if (window.matchMedia("(max-width:768px)").matches == true) {
-        $(iframeWrapper).find(".iframe-content-inner").append(btn);
+    key: 'open',
+    value: function open(url, productCategoryIds) {
+      if (window.innerWidth < 768) {
+        window.location.href = url;
+        return;
       }
 
+      // trava a rolagem do body e limpa o ultimo iframe aberto
+      this.lockBodyScroll();
+
+      // find category name
+      var categoryName = productCategoryIds.indexOf('3253') > -1 ? 'Vinhos e Espumantes' : 'outra categoria';
+
+      //cria todo o componente do iframe
+      var iframeWrapper = this.createIframeAndIframeWrapper(url, categoryName);
+
+      // adiciona o wrapper pro body
       iframeWrapper.appendTo("body");
-      $(document).on("click", ".close-product-qv-iframe img", function (e) {
-        e.preventDefault();
-        $("body").removeClass("overflow-hidden");
-        $("#product-qv-iframe-wrapper").remove();
-        $("#minicart-wrapper").trigger("sync-cart");
-        $(window).trigger("sync-shelf");
-        window.history.pushState("Object", "Categoria JavaScript", currentUrl);
-      });
+      $("#product-qv-iframe-wrapper").fadeIn();
+
+      // cria o evento para fechar o modal
+      this.closeQQV();
     }
   }, {
-    key: "open",
-    value: function open(url, productId, productSku, bestPrice) {
-      $("body").addClass("overflow-hidden");
-      $("#product-qv-iframe-wrapper").remove();
-
-      var iframe = $("<iframe />", {
-        name: "product-qv-iframe",
-        id: "product-qv-iframe",
-        src: url + "?quickview=true"
-      });
-
-      var btn = $("body").find(".buy-button-shelf").first().clone();
-      bestPrice = bestPrice.toFixed(2).toString().replace(".", ",");
-
-      $(btn).attr("data-product-id", productId);
-      $(btn).find(".buy-button-normal").children("a").text("adicionar ao carrinho | " + bestPrice);
-      $(btn).find(".buy-button-normal").children("a").attr("href", url);
-      var iframeWrapper = $('<div id="product-qv-iframe-wrapper" />').append($('<div class="product-qv-iframe-inner" />').append($('<div class="close-product-qv-iframe" />').append('<img src="https://supernossoemcasa.vteximg.com.br/arquivos/icon-close.png" />'), $('<i class="fa fa-spinner fa-spin iframe-loading fa-2x" />'), $('<div class="iframe-content-inner" />').append(iframe)));
-
-      if (window.matchMedia("(max-width:768px)").matches == true) {
-        $(iframeWrapper).append(btn);
-      }
-
-      iframeWrapper.appendTo("body");
-      $(document).on("click", ".close-product-qv-iframe img", function (e) {
-        if (window.isLoading) {
-          return;
-        }
-        e.preventDefault();
-        $("body").removeClass("overflow-hidden");
-        $("#product-qv-iframe-wrapper").remove();
-        $("#minicart-wrapper").trigger("sync-cart");
-        $(window).trigger("sync-shelf");
-      });
-    }
-  }, {
-    key: "shelf",
+    key: 'shelf',
     value: function shelf(el) {
+      // extrai a url do elemento do argumento da função
       var url = $(el).attr("href");
 
       if (!url) {
         return;
       }
+
+      if (window.innerWidth < 768) {
+        window.location.href = url;
+        return;
+      }
+
+      // trava a rolagem do body e limpa o ultimo iframe aberto
+      this.lockBodyScroll();
+
+      // encontra no elemento de shelf qual é a categoria 
       var categoryName = $(el).find("~#categoryName").text().trim();
 
-      var lid = vtxctx.categoryName == "Vinhos e Espumantes" || categoryName == "Vinhos e Espumantes" ? "1664205b-86a0-407e-81ad-e1a746b567d9" : "0aaff089-7323-4aa1-96fb-1c447671d2f0";
+      //cria todo o componente do iframe
+      var iframeWrapper = this.createIframeAndIframeWrapper(url, categoryName);
 
-      var urlLid = url.includes("quickview") == false ? url + "?quickview=true&lid=" + lid : url;
+      // pega url do window
       var currentUrl = window.location.href;
-      //ambiente de dev: lid=14c3fdad-aed6-404b-a950-830c9bcff8b9";
 
+      // if no address, opens sellerpicker
+      if (vtexjs.checkout.orderForm.shippingData == null || vtexjs.checkout.orderForm.shippingData.address == null) {
+        var checkExist = setInterval(function () {
+          if ($(".iframe-content-inner iframe").contents().find(".buy-button-ref").length) {
+            $(".iframe-content-inner iframe").contents().find(".buy-button-ref").click(function () {
+              $('.seller-modal').addClass('opened');
+            });
+            clearInterval(checkExist);
+          }
+        }, 200); // check every 200ms
+      }
+
+      //  append iframe wrapper to body
+      iframeWrapper.appendTo("body");
+      $("#product-qv-iframe-wrapper").fadeIn();
+
+      // cria o evento para fechar o modal
+      this.closeQQV(currentUrl);
+    }
+  }, {
+    key: 'lockBodyScroll',
+    value: function lockBodyScroll() {
+      // trava a rolagem do body e limpa o ultimo iframe aberto
       $("body").addClass("overflow-hidden");
       $("#product-qv-iframe-wrapper").remove();
+    }
+  }, {
+    key: 'createIframeAndIframeWrapper',
+    value: function createIframeAndIframeWrapper(url, categoryName) {
+
+      // se a categoria do produto for vinhos e espumantes troca o LID da url
+      var lid = vtxctx.categoryName == "Vinhos e Espumantes" || categoryName == "Vinhos e Espumantes" ? "1664205b-86a0-407e-81ad-e1a746b567d9" : "0aaff089-7323-4aa1-96fb-1c447671d2f0";
+
+      // cria url com lid
+      var urlLid = url.includes("quickview") == false ? url + "?quickview=true&lid=" + lid : url + lid;
+
+      // cria um novo iframe
       var iframe = $("<iframe />", {
         name: "product-qv-iframe",
         id: "product-qv-iframe",
         src: urlLid
       });
 
+      // coloca a url do elemento na historia do navegador
       window.history.pushState({}, "", url);
 
       window.onpopstate = function (t) {
@@ -55306,29 +55361,14 @@ var QuickView = exports.QuickView = function () {
         $(window).trigger("sync-shelf");
       };
 
-      var btn = $(el).parents(".item-shelf").find(".buy-button-shelf").clone();
-      $(btn).attr("data-product-id", $(el).parents(".item-shelf").attr("data-product-id"));
-      $(btn).find(".buy-button-normal").children("a").text("adicionar ao carrinho | " + $(el).parents(".item-shelf").find(".best-price").text());
+      //retorna o wrapper do iframe completo pronto para dar append no body
       var iframeWrapper = $('<div id="product-qv-iframe-wrapper" style="display: none"/>').append($('<div class="product-qv-iframe-inner" />').append($('<div class="close-product-qv-iframe" />').append('<img src="https://supernossoemcasa.vteximg.com.br/arquivos/icon-close.png" />'), $('<i class="fa fa-spinner fa-spin iframe-loading fa-2x" />'), $('<div class="iframe-content-inner" />').append(iframe)));
-
-      if (window.matchMedia("(max-width:768px)").matches == true) {
-        $(iframeWrapper).find(".product-qv-iframe-inner").append(btn);
-        iframeWrapper.find(".iframe-content-inner").css("height", window.innerHeight - 82);
-        iframeWrapper.find("#product-qv-iframe").css("height", window.innerHeight - 82);
-        iframeWrapper.find(".iframe-content-inner").css("min-height", window.innerHeight - 82);
-        iframeWrapper.find("#product-qv-iframe").css("min-height", window.innerHeight - 82);
-        window.addEventListener("resize", function () {
-          iframeWrapper.find(".iframe-content-inner").css("height", window.innerHeight - 82);
-          iframeWrapper.find("#product-qv-iframe").css("height", window.innerHeight - 82);
-          iframeWrapper.find(".iframe-content-inner").css("min-height", window.innerHeight - 82);
-          iframeWrapper.find("#product-qv-iframe").css("min-height", window.innerHeight - 82);
-        });
-      }
-      // iframe.on('load', function(e){
-      //     $('.iframe-loading').fadeOut();
-      // })
-      iframeWrapper.appendTo("body");
-      $("#product-qv-iframe-wrapper").fadeIn();
+      return iframeWrapper;
+    }
+  }, {
+    key: 'closeQQV',
+    value: function closeQQV(currentUrl) {
+      // set up the closing
       $(document).on("click", ".close-product-qv-iframe img", function (e) {
         if (window.isLoading) {
           return;
@@ -55338,11 +55378,13 @@ var QuickView = exports.QuickView = function () {
         $("#product-qv-iframe-wrapper").remove();
         $("#minicart-wrapper").trigger("sync-cart");
         $(window).trigger("sync-shelf");
-        window.history.pushState("Object", "Categoria JavaScript", currentUrl);
+        if (currentUrl) {
+          window.history.pushState("Object", "Categoria JavaScript", currentUrl);
+        }
       });
     }
   }, {
-    key: "init",
+    key: 'init',
     value: function init() {
       var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
       var eventer = window[eventMethod];
@@ -55510,7 +55552,7 @@ var SearchBox = function () {
                 var sku = $(this).data('sku');
                 $('body').addClass('overflow-hidden');
                 $('#search-box').removeClass('search-box-opened');
-                quickview.openHref(url, price, href, product, sku);
+                // quickview.openHref(url,price,href,product,sku)
                 window.onpopstate = null;
             });
         }
@@ -55585,7 +55627,7 @@ var SelectedSeller = function () {
 exports.default = SelectedSeller;
 
 },{"./sellerPicker":38}],38:[function(require,module,exports){
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -55593,11 +55635,13 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _utils = require('../pages/utils/utils');
+var _utils = require("../pages/utils/utils");
 
-var _moment = require('moment');
+var _moment = require("moment");
 
 var _moment2 = _interopRequireDefault(_moment);
+
+var _lodash = require("lodash");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -55608,42 +55652,44 @@ var StorePicker = function () {
     _classCallCheck(this, StorePicker);
 
     this.stores = [];
+    this.pickUpStores = [];
+    this.deliveryText = '';
   }
 
   _createClass(StorePicker, [{
-    key: 'getStore',
+    key: "getStore",
     value: function getStore(id) {
       return this.stores.find(function (x) {
         return x.pickUpId == id;
       });
     }
   }, {
-    key: 'getStorage',
+    key: "getStorage",
     value: function getStorage(name) {
       var result = localStorage.getItem(name) ? localStorage.getItem(name) : '';
       return result;
     }
   }, {
-    key: 'removeStorage',
+    key: "removeStorage",
     value: function removeStorage(name) {
       localStorage.removeItem(name);
     }
   }, {
-    key: 'setStorage',
+    key: "setStorage",
     value: function setStorage(name, value) {
       localStorage.setItem(name, value);
     }
   }, {
-    key: 'addUserInfo',
+    key: "addUserInfo",
     value: function addUserInfo(store) {
-      var html = '\n        <div class="delivery-section">\n            <span><img src="https://supernossoemcasa.vteximg.com.br/arquivos/icon-truck.png" /> <strong>' + (store && store == 'delivery' ? 'receber' : 'retirar') + ':</strong> em ' + (store && store == 'delivery' ? 'casa' : store.name) + '</span>\n            <a href="javascript:;" class="change-delivery">mudar <img src="https://supernossoemcasa.vteximg.com.br/arquivos/icon-chevron-right.png" /></a>\n        </div>';
+      var html = "\n        <div class=\"delivery-section\">\n            <span><img src=\"https://supernossoemcasa.vteximg.com.br/arquivos/icon-truck.png\" /> <strong>" + (store && store == 'delivery' ? 'receber' : 'retirar') + ":</strong> em " + (store && store == 'delivery' ? 'casa' : store.name) + "</span>\n            <a href=\"javascript:;\" class=\"change-delivery\">mudar <img src=\"https://supernossoemcasa.vteximg.com.br/arquivos/icon-chevron-right.png\" /></a>\n        </div>";
       $('#user-data').find('.wine-bar').children().detach();
-      $('#user-data').find('.wine-bar').append('<div class="container">' + html + '</div>');
+      $('#user-data').find('.wine-bar').append("<div class=\"container\">" + html + "</div>");
       $('#minicart-wrapper').find('.delivery-section').detach();
       $(html).insertBefore($('#minicart-wrapper').find('.cart-products'));
     }
   }, {
-    key: 'setDelivery',
+    key: "setDelivery",
     value: async function setDelivery() {
       var sc = await this.checkTradePolicy();
       this.addUserInfo('delivery');
@@ -55651,10 +55697,20 @@ var StorePicker = function () {
       this.changeSeller(sc, false);
     }
   }, {
-    key: 'checkTradePolicy',
+    key: "checkTradePolicy",
     value: async function checkTradePolicy() {
+
+      var itemsInCart = 0;
+      if (vtexjs.checkout.orderForm && vtexjs.checkout.orderForm.items.length > 0) {
+        vtexjs.checkout.orderForm.items.forEach(function (_ref) {
+          var quantity = _ref.quantity;
+
+          itemsInCart = itemsInCart + quantity;
+        });
+      }
+
       var checkoutPostalCode = vtexjs.checkout.orderForm.shippingData.address.postalCode;
-      var purchaseData = await (0, _utils.simulatePurchase)(checkoutPostalCode);
+      var purchaseData = await (0, _utils.simulatePurchase)(checkoutPostalCode, itemsInCart > 0 ? itemsInCart : undefined);
       var pickUpPoints = await (0, _utils.getPickUpPoints)();
 
       if (purchaseData && pickUpPoints) {
@@ -55667,7 +55723,6 @@ var StorePicker = function () {
 
         return bestShippingCompanySalesChannel;
       } else {
-        console.log("checkTradePolicy -purchaseData or pickUpPoints null");
         return "1";
       }
     }
@@ -55675,20 +55730,22 @@ var StorePicker = function () {
     // Seleciona a entregadora com o menor tempo de entrega
 
   }, {
-    key: 'selectBetterShippingCompany',
+    key: "selectBetterShippingCompany",
     value: function selectBetterShippingCompany(slas) {
       var bestShippingCompany = null;
 
       slas.forEach(function (sc) {
+        //seta a primeira como a melhor na primeira vez
         if (!bestShippingCompany) {
           bestShippingCompany = sc;
-
           return;
         }
 
-        var actualBestShippingCompanyBestDate = bestShippingCompany.availableDeliveryWindows[0].startDateUtc;
-        var shippingCompanyBestDate = sc.availableDeliveryWindows[0].startDateUtc;
+        //cria as variaveis com a primeisa e a segunda sla
+        var actualBestShippingCompanyBestDate = bestShippingCompany.availableDeliveryWindows[0].endDateUtc.replace(':59+', ':00+');
+        var shippingCompanyBestDate = sc.availableDeliveryWindows[0].endDateUtc.replace(':59+', ':00+');
 
+        //compara a peimeia sla com a sla do loop 
         if ((0, _moment2.default)(actualBestShippingCompanyBestDate).isAfter(shippingCompanyBestDate)) {
           bestShippingCompany = sc;
         } else if ((0, _moment2.default)(actualBestShippingCompanyBestDate).isSame(shippingCompanyBestDate)) {
@@ -55705,7 +55762,7 @@ var StorePicker = function () {
       return bestShippingCompany;
     }
   }, {
-    key: 'getBestShippingCompanySalesChannel',
+    key: "getBestShippingCompanySalesChannel",
     value: function getBestShippingCompanySalesChannel(pickUpPoints, bestShippingCompany) {
       var sc = "1";
 
@@ -55739,42 +55796,31 @@ var StorePicker = function () {
       return sc;
     }
   }, {
-    key: 'insertParam',
+    key: "insertParam",
     value: function insertParam(key, value) {
+      if (window.location.pathname == "/login") return;
       key = escape(key);
       value = escape(value);
-
-      var kvp = document.location.search.substr(1).split('&');
+      var kvp = document.location.search.substr(1).split('?');
       if (kvp == '') {
-        //document.location.search = '?' + key + '=' + value;
-        window.location.href = "https://www.supernossoemcasa.com.br/?" + key + '=' + value;
+        document.location.search = '?' + key + '=' + value;
       } else {
-        var i = kvp.length;
-        var x;
-        while (i--) {
-          x = kvp[i].split('=');
+        if (document.location.search.indexOf(key) > -1) {
 
-          if (x[0] == key) {
-            x[1] = value;
-            kvp[i] = x.join('=');
-            break;
-          }
+          var firstParamSection = document.location.search.split(key)[0] ? document.location.search.split(key)[0] : '';
+          var seccondParamSection = document.location.search.split(key)[1].split('&')[1] ? '&' + document.location.search.split(key)[1].split('&')[1] : '';
+
+          document.location.search = firstParamSection + key + '=' + value + seccondParamSection;
+        } else {
+          document.location.search = document.location.search + '&' + key + '=' + value;
         }
-
-        if (i < 0) {
-          kvp[kvp.length] = [key, value].join('=');
-        }
-
-        //this will reload the page, it's likely better to store this until finished
-        //document.location.search = kvp.join('&')
-        //document.location.search = '?' + key + '=' + value;
-        window.location.href = "https://www.supernossoemcasa.com.br/?" + key + '=' + value;
       }
     }
   }, {
-    key: 'changeSeller',
+    key: "changeSeller",
     value: function changeSeller(seller) {
       this.setStorage('selectedSeller', seller == '1' ? 'delivery' : seller);
+
       var currSeller = this.stores.filter(function (x) {
         return x.sc == seller;
       });
@@ -55784,12 +55830,12 @@ var StorePicker = function () {
       this.updateCartWithSC();
     }
   }, {
-    key: 'changePickup',
+    key: "changePickup",
     value: function changePickup(id) {
       this.setStorage('selectedPickup', id);
     }
   }, {
-    key: 'calculateDistance',
+    key: "calculateDistance",
     value: function calculateDistance(lat1, lon1, lat2, lon2) {
       var R = 6371;
       var dLat = (lat2 - lat1) * (Math.PI / 180);
@@ -55802,45 +55848,42 @@ var StorePicker = function () {
       return distance;
     }
   }, {
-    key: 'storeList',
+    key: "storeList",
     value: function storeList() {
       var orderedStoresByDistance = this.getDistanceToUserPostalCode();
-      if (orderedStoresByDistance) {
-        return '\n      ' + orderedStoresByDistance.map(function (store) {
-          return '\n              <div class="seller-modal-store-item">\n                  <a href="javascript:;" class="store-link" data-seller=' + store.sc + ' data-pickup=' + store.pickUpId + ' data-postalcode=' + store.postalCode + ' data-lat=' + store.lat + ' data-long=' + store.long + ' >\n                      <p class="store-info">\n                          <span class="store-title">\n                              ' + store.name + '\n                          </span>\n                          <p class="store-address">\n                             ' + store.number + ' - ' + store.neighborhood + ', ' + store.city + ' / ' + store.state + ' ' + store.postalCode + '\n                          </p>\n                          <p class="store-distance" >' + store.distanceToUserPostalCode + ' km</p>\n                      </p>\n                  </a>\n              </div>\n          ';
-        }).join(' ') + '\n      ';
-      } else {
-        return '\n            ' + this.stores.map(function (store) {
-          return '\n                    <div class="seller-modal-store-item">\n                        <a href="javascript:;" class="store-link" data-seller=' + store.sc + ' data-pickup=' + store.pickUpId + ' data-postalcode=' + store.postalCode + ' data-lat=' + store.lat + ' data-long=' + store.long + '>\n                            <p class="store-info">\n                                <span class="store-title">\n                                    ' + store.name + '\n                                </span>\n                                <p class="store-address">\n                                   ' + store.number + ' - ' + store.neighborhood + ', ' + store.city + ' / ' + store.state + ' ' + store.postalCode + '\n                                </p>\n                                <p class="store-distance" >' + store.distanceToUserPostalCode + ' km</p>\n                            </p>\n                        </a>\n                    </div>\n                ';
-        }).join(' ') + '\n        ';
-      }
+
+      var pickUpstores = orderedStoresByDistance && orderedStoresByDistance.length > 0 ? orderedStoresByDistance : this.pickUpStores;
+
+      return "\n      " + pickUpstores.map(function (store) {
+        return "\n              <div class=\"seller-modal-store-item\">\n                  <a href=\"javascript:;\" class=\"store-link\" data-seller=" + store.sc + " data-pickup=" + store.pickUpId + " data-postalcode=" + store.postalCode + " data-lat=" + store.lat + " data-long=" + store.long + " >\n                      <p class=\"store-info\">\n                          <span class=\"store-title\"> \n                              " + store.name + "\n                          </span>\n                          <p class=\"store-window\" >Retirada em at\xE9 " + store.pickupWindow + "h</p>\n                          \n                          <div>\n                            <p class=\"store-distance\" >" + store.distanceToUserPostalCode + " km</p>\n                            <p class=\"store-address\">\n                              " + store.number + " - " + store.neighborhood + ", " + store.city + " / " + store.state + " " + store.postalCode + "\n                            </p>\n                          </div>\n                      </p>\n                  </a>\n              </div>\n          ";
+      }).join(' ') + "\n      ";
     }
   }, {
-    key: 'loginButton',
+    key: "loginButton",
     value: function loginButton() {
       if (vtexjs.checkout.orderForm && !vtexjs.checkout.orderForm.loggedIn) {
-        return '\n      <div class=\'postal-code-login\'>\n          <h2>Ou fa\xE7a login</h2>\n          <p>Garanta que seu carrinho fique sempre salvo e em qualquer dispositivo.</p>\n          <button id="postalcodeloginbutton">entrar</button>\n      </div>\n      ';
+        return "\n      <div class='postal-code-login'>\n          <h2>Ou fa\xE7a login</h2>\n          <p>Garanta que seu carrinho fique sempre salvo e em qualquer dispositivo.</p>\n          <button id=\"postalcodeloginbutton\">entrar</button>\n      </div>\n      ";
       } else {
-        return ' ';
+        return " ";
       }
     }
   }, {
-    key: 'undefinedCEP',
+    key: "undefinedCEP",
     value: function undefinedCEP() {
       // se ta logado e nao tem cep
       if (vtexjs.checkout.orderForm && vtexjs.checkout.orderForm.loggedIn) {
         if (vtexjs.checkout.orderForm.shippingData) {
           if (!vtexjs.checkout.orderForm.shippingData.address) {
-            return '<h2>Ol\xE1, n\xE3o identificamos seu CEP</h2>';
+            return "<h2>Ol\xE1, n\xE3o identificamos seu CEP</h2>";
           }
         } else {
-          return '<h2>Ol\xE1, n\xE3o identificamos seu CEP</h2>';
+          return "<h2>Ol\xE1, n\xE3o identificamos seu CEP</h2>";
         }
       }
-      return '<h2>Informe seu CEP</h2>';
+      return "<h2>Informe seu CEP</h2>";
     }
   }, {
-    key: 'deliveryChoose',
+    key: "deliveryChoose",
     value: function deliveryChoose() {
       var hasStore = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
 
@@ -55853,10 +55896,10 @@ var StorePicker = function () {
       // console.log(address);
       // console.log(lastAddress);
 
-      return '\n        <div class="delivery-choose">\n            <div class="delivery-item home-delivery">\n                <a class="delivery-link" data-delivery="delivery" href="javascript:;"><img src="https://supernossoemcasa.vteximg.com.br/arquivos/minicart-image-2.png"><div class=\'delivery-point-text\'><h3>Quero receber</h3></div><div class=\'address\'>' + (address.includes('null') ? '' : address) + '</div></a>\n            </div>\n            <div class="delivery-item ' + (hasStore == false ? 'delivery-unavailable' : '') + '">\n                <a class="delivery-link" data-delivery="pickup" href="javascript:;"><img src="https://supernossoemcasa.vteximg.com.br/arquivos/minicart-image-1.png"><div class=\'pickup-point-text\'><h3>Quero retirar na loja</h3><p>Sem limite de compra</p><p class=\'free-shipping\'>Gr\xE1tis</p></div></a>\n            </div>\n        </div>\n        ';
+      return "\n        <div class=\"delivery-choose\">\n            <div class=\"delivery-item home-delivery\">\n                <a class=\"delivery-link\" data-delivery=\"delivery\" href=\"javascript:;\"><img src=\"https://supernossoemcasa.vteximg.com.br/arquivos/minicart-image-2.png\"><div class='delivery-point-text'><h3>Quero receber</h3><p> <strong>" + this.deliveryText + "</strong> </p></div><div class='address'>" + (address.includes('null') ? '' : address) + "</div></a>\n            </div>\n            <div class=\"delivery-item " + (hasStore == false ? 'delivery-unavailable' : '') + "\">\n                <a class=\"delivery-link\" data-delivery=\"pickup\" href=\"javascript:;\"><img src=\"https://supernossoemcasa.vteximg.com.br/arquivos/minicart-image-1.png\"><div class='pickup-point-text'><h3>Quero retirar na loja</h3><p>Sem limite de compra</p><p class='free-shipping'>Gr\xE1tis</p></div></a>\n            </div>\n        </div>\n        ";
     }
   }, {
-    key: 'getAddress',
+    key: "getAddress",
     value: function getAddress(deliveryAddress) {
       var formattedAd = '';
 
@@ -55868,19 +55911,19 @@ var StorePicker = function () {
           return formattedAd;
         }
 
-        formattedAd = address.street + ', ' + address.neighborhood + ' - ' + address.city + ' - ' + address.state;
+        formattedAd = address.street + ", " + address.neighborhood + " - " + address.city + " - " + address.state;
 
         return formattedAd;
       }
 
       if (vtexjs.checkout.orderForm && vtexjs.checkout.orderForm.shippingData && vtexjs.checkout.orderForm.shippingData.address) {
         var address = vtexjs.checkout.orderForm.shippingData.address;
-        formattedAd = address.street + ', ' + address.neighborhood + ' - ' + address.city + ' - ' + address.state;
+        formattedAd = address.street + ", " + address.neighborhood + " - " + address.city + " - " + address.state;
       }
       return formattedAd;
     }
   }, {
-    key: 'getDistanceToUserPostalCode',
+    key: "getDistanceToUserPostalCode",
     value: function getDistanceToUserPostalCode() {
       var _this = this;
 
@@ -55897,8 +55940,8 @@ var StorePicker = function () {
         //   storesNewData.push(store);
         // }
 
-        if (this.stores) {
-          this.stores.forEach(function (store) {
+        if (this.pickUpStores) {
+          this.pickUpStores.forEach(function (store) {
             store.distanceToUserPostalCode = _this.calculateDistance(store.lat, store.long, postalCodeCoordinates[0], postalCodeCoordinates[1]).toFixed(1);
             storesNewData.push(store);
           });
@@ -55911,7 +55954,7 @@ var StorePicker = function () {
       return storesOrderedByPostalCodeDistance;
     }
   }, {
-    key: 'modalClose',
+    key: "modalClose",
     value: function modalClose() {
       var modal = $('#sellerModal');
       modal.toggleClass('opened');
@@ -55944,7 +55987,7 @@ var StorePicker = function () {
     // }
 
   }, {
-    key: 'extractItems',
+    key: "extractItems",
     value: function extractItems(id, quantity, seller) {
       var cart = {};
 
@@ -55955,7 +55998,7 @@ var StorePicker = function () {
       return cart;
     }
   }, {
-    key: 'extractCart',
+    key: "extractCart",
     value: function extractCart(items) {
       var zippedCart = [];
 
@@ -55970,12 +56013,12 @@ var StorePicker = function () {
       return zippedCart;
     }
   }, {
-    key: 'templateModal',
+    key: "templateModal",
     value: function templateModal(hasStore, userResponse) {
       var _this2 = this;
 
       var that = this;
-      var unifiedTemplate = '\n                <div id="sellerModal" class="seller-modal">\n                <div class="seller-modal-inner">\n                    <div class="seller-modal-header">\n                        <div class="black-bar">\n                            <h3>Meu Carrinho</h3>\n                            <span class="close-modal">&times;</span>\n                        </div>\n                    </div>\n                    <div class=\'delivery-modality\'>Modalidade de entrega</div>\n                    <div class=\'delivery-availability\'>\n                        <div class=\'has-delivery\'>\n                            <div>\n                                <h4>Atendemos sua regi\xE3o</h4>\n                                <h4 class="availability-cep-invalido" style=\'display:none;color:#841F27;\'>CEP inv\xE1lido</h4>\n                                <p>CEP informado: <b></b>\n                                </p>\n                            </div>\n                        </div>\n                        <div class=\'no-delivery\'>\n                            <div>\n                                <h4>Ainda n\xE3o atendemos sua regi\xE3o</h4>\n                                <h4 class="availability-cep-invalido" style=\'display:none;color:#841F27;\'>CEP inv\xE1lido</h4>\n                                <p>CEP informado: <b></b>\n                                </p>\n                            </div>\n                        </div>\n                        <div class=\'change-postal-code\'>\n                            <button>Trocar</button>\n                        </div>\n                    </div>\n                    <div class="seller-modal-body modal-postal-code">\n                        <div class="postal-code-info">\n                            ' + this.undefinedCEP() + '\n                            <p>Para adicionar os produtos no carrinho, informe seu CEP. Indicaremos a loja mais pr\xF3xima ou\n                            verificaremos se a entrega est\xE1 dispon\xEDvel para\n                            sua regi\xE3o. </p>\n                        </div>\n                        <div class=\'postalcode-input\'>\n                            <h4>Digite seu CEP</h4>\n                            <div class="postalcode-input-box">\n                              <input id="enterPostalCodeInput" maxlength="9" type="tel" class=\'seller-postal-code\'>\n                              <button class=\'enter-postal-code\'>buscar</button>\n                            </div>\n                            <a target="_blank" href="https://buscacepinter.correios.com.br/app/endereco/index.php?t">N\xE3o sei meu CEP</a>\n                        </div>\n                        ' + this.loginButton() + '\n                    </div>\n                    <div class="seller-modal-body modal-delivery-modality">\n                        <h4>Sobre seus produtos:</h4>\n                        ' + this.deliveryChoose(hasStore, that) + '\n\n                        <div class="link-modal">\n                          <a\n                            href=""\n                            id="btn-show-modal"\n                            data-toggle="modal"\n                            data-target="#videoClickModal"\n                          >\n                            <u>saiba mais sobre este servi\xE7o</u>\n                          </a>\n                        </div>\n                    </div>\n\n                    <div class="modal fade" id="videoClickModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">\n                      <div class="modal-dialog modal-dialog-centered" role="document">\n\n                        <div class="col">\n                          <div class="close-icon">\n                            <a href="">\n                              <img src="https://supernossoemcasa.vteximg.com.br/arquivos/icon-close.png"/>\n                            </a>\n                          </div>\n\n                          <div class="modal-content">\n                            <iframe id="video-click" src="https://www.youtube.com/embed/QZ8H8O8H_tU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>\n                            <p>Escolha os produtos que deseja no site, e busque tudo separado e embalado na unidade mais pr\xF3xima de voc\xEA.\n                            Saiba mais <a href="https://conteudo.blogsupernosso.com.br/clique-e-retire-2" target="_blank"><u>aqui</u>.</a></p>\n                          </div>\n                        </div>\n\n                      </div>\n                    </div>\n\n                    <div class="seller-modal-body seller-modal-stores">\n                     ' + this.storeList() + '\n                    </div>\n                </div>\n            </div>\n        ';
+      var unifiedTemplate = "\n                <div id=\"sellerModal\" class=\"seller-modal\">\n                <div class=\"seller-modal-inner\">\n                    <div class=\"seller-modal-header\">\n                        <div class=\"black-bar\">\n                            <h3>Meu Carrinho</h3>\n                            <span class=\"close-modal\">&times;</span>\n                        </div>\n                    </div>\n                    <div class='delivery-modality'>Modalidade de entrega</div>\n                    <div class='delivery-availability'>\n                        <div class='has-delivery'>\n                            <div>\n                                <h4>Atendemos sua regi\xE3o</h4>\n                                <h4 class=\"availability-cep-invalido\" style='display:none;color:#841F27;'>CEP inv\xE1lido</h4>\n                                <p>CEP informado: <b></b>\n                                </p>\n                            </div>\n                        </div>\n                        <div class='no-delivery'>\n                            <div>\n                                <h4>Ainda n\xE3o atendemos sua regi\xE3o</h4>\n                                <h4 class=\"availability-cep-invalido\" style='display:none;color:#841F27;'>CEP inv\xE1lido</h4>\n                                <p>CEP informado: <b></b>\n                                </p>\n                            </div>\n                        </div>\n                        <div class='change-postal-code'>\n                            <button>Trocar</button>\n                        </div>\n                    </div>\n                    <div class=\"seller-modal-body modal-postal-code\">\n                        <div class=\"postal-code-info\">\n                            " + this.undefinedCEP() + "\n                            <p>Para adicionar os produtos no carrinho, informe seu CEP. Indicaremos a loja mais pr\xF3xima ou\n                            verificaremos se a entrega est\xE1 dispon\xEDvel para\n                            sua regi\xE3o. </p>\n                        </div>\n                        <div class='postalcode-input'>\n                            <h4>Digite seu CEP</h4>\n                            <div class=\"postalcode-input-box\">\n                              <input id=\"enterPostalCodeInput\" maxlength=\"9\" type=\"tel\" class='seller-postal-code'>\n                              <button class='enter-postal-code'>buscar</button>\n                            </div>\n                            <a target=\"_blank\" href=\"https://buscacepinter.correios.com.br/app/endereco/index.php?t\">N\xE3o sei meu CEP</a>\n                        </div>\n                        " + this.loginButton() + "\n                    </div>\n                    <div class=\"seller-modal-body modal-delivery-modality\">\n                        <h4>Sobre seus produtos:</h4>\n                        " + this.deliveryChoose(hasStore, that) + "\n\n                        <div class=\"link-modal\">\n                          <a\n                            href=\"\"\n                            id=\"btn-show-modal\"\n                            data-toggle=\"modal\"\n                            data-target=\"#videoClickModal\"\n                          >\n                            <u>saiba mais sobre este servi\xE7o</u>\n                          </a>\n                        </div>\n                    </div>\n\n                    <div class=\"modal fade\" id=\"videoClickModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalCenterTitle\" aria-hidden=\"true\">\n                      <div class=\"modal-dialog modal-dialog-centered\" role=\"document\">\n\n                        <div class=\"col\">\n                          <div class=\"close-icon\">\n                            <a href=\"\">\n                              <img src=\"https://supernossoemcasa.vteximg.com.br/arquivos/icon-close.png\"/>\n                            </a>\n                          </div>\n\n                          <div class=\"modal-content\">\n                            <iframe id=\"video-click\" src=\"https://www.youtube.com/embed/QZ8H8O8H_tU\" frameborder=\"0\" allow=\"accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>\n                            <p>Escolha os produtos que deseja no site, e busque tudo separado e embalado na unidade mais pr\xF3xima de voc\xEA.\n                            Saiba mais <a href=\"https://conteudo.blogsupernosso.com.br/clique-e-retire-2\" target=\"_blank\"><u>aqui</u>.</a></p>\n                          </div>\n                        </div>\n\n                      </div>\n                    </div>\n\n                    <div class=\"seller-modal-body seller-modal-stores\">\n                     " + this.storeList() + "\n                    </div>\n                </div>\n            </div>\n        ";
       // ${hasStore ? this.deliveryChoose() : this.deliveryChoose(false)}
 
 
@@ -55995,6 +56038,7 @@ var StorePicker = function () {
           }
 
           _this2.simulate(pc).done(function (response) {
+
             if (!response.logisticsInfo.length || !response.logisticsInfo[0].slas.length) {
               _this2.checkIfHasDelivery(false);
             }
@@ -56027,82 +56071,50 @@ var StorePicker = function () {
 
         events(that);
 
-        // if (!vtexjs.checkout.orderForm.canEditData) {
-        //   $('.change-postal-code button').hide()
-
-        //   const changeCEPNode = $('<a href=/login><h4>Para mudar seu CEP ou modalidade de entrega, clique aqui e faça seu login</h4></a>')
-        //   changeCEPNode.insertAfter('.modal-delivery-modality h4')
-        //   $('.postal-code-info p').replaceWith(changeCEPNode)
-        //   $('.modal-delivery-modality .delivery-choose, .postalcode-input').css({opacity: 0.3, 'pointer-events': 'none'});
-
-        //   changeCEPNode.insertAfter('.delivery-availability').find("h4")
-        //     .css(
-        //       {
-        //         'font-family': 'Roboto',
-        //         'font-weight': 'bold',
-        //         'font-size': '16px',
-        //         color: "#841F27",
-        //         'padding-left': '10px',
-        //         'margin': '25px 0 18px 0px',
-        //       });
-        // }
-
         $('.change-postal-code button').on('click', function () {
           $('.modal-delivery-modality').hide();
           $('.modal-postal-code').show();
           $('.delivery-modality').hide();
           $('.delivery-availability').hide();
           $('.seller-modal-stores').hide();
-
-          // this.deliveryLinkEvent(hasStore,that);s
         });
 
         $(document).on('click', '#sellerModal .close-modal', function (e) {
           e.preventDefault();
           that.modalClose();
-          //removing from cart when closing modal
-          if (!vtexjs.checkout.orderForm || !vtexjs.checkout.orderForm.clientProfileData || !vtexjs.checkout.orderForm.postalCode || vtexjs.checkout.orderForm.sellers.length == 0) {
-            vtexjs.checkout.getOrderForm().then(function (orderForm) {
-              var itemsToRemove = [];
-              orderForm.items.forEach(function (item, index) {
-                console.log(item.id, item.quantity, item.seller);
-                itemsToRemove.push({
-                  index: index,
-                  quantity: 0
-                });
+          if ((vtexjs.checkout.orderForm.shippingData == null || vtexjs.checkout.orderForm.shippingData.address != null) && localStorage.selectedSeller) return;
+          vtexjs.checkout.getOrderForm().then(function (orderForm) {
+            var itemsToRemove = [];
+            orderForm.items.forEach(function (item, index) {
+              itemsToRemove.push({
+                index: index,
+                quantity: 0
               });
-              return vtexjs.checkout.removeItems(itemsToRemove);
-            }).done(function (orderForm) {
-              $('.buy-button-normal a').show();
-              $('.flag-adicionado').remove();
-              $('.product-qty').remove();
-              $('.badge-secondary').text(orderForm.items.length);
             });
-          }
+            return vtexjs.checkout.removeItems(itemsToRemove);
+          }).done(function (orderForm) {
+            $('.buy-button-normal a').show();
+            $('.flag-adicionado').remove();
+            $('.product-qty').remove();
+            $('.badge-secondary , .badge-cart').text(orderForm.items.length);
+            $('.speech-balloon , .speech-balloon-mobile').addClass('active');
+            setTimeout(function () {
+              $('.speech-balloon , .speech-balloon-mobile').removeClass('active');
+            }, 5000);
+          });
         });
 
-        document.querySelector("#enterPostalCodeInput").addEventListener("keyup", function (event) {
-          // Number 13 is the "Enter" key on the keyboard
-          if (event.keyCode === 13) {
-            // Cancel the default action, if needed
-            event.preventDefault();
-            // Trigger the button element with a click
-            document.querySelector(".enter-postal-code").click();
-          }
-        });
-
-        // if(userResponse.IsUserDefined){
-        //   //if (!of.shippingData.address.postalCode){
-        //     $.when(that.getLoggedUserPostalCode(userResponse.Email)).done(function (res) {
-        //       if(res.length > 0){
-        //         let postalCodeInputFormatted = res[0].postalCode.replace('-', '');
-        //         that.setDeliveryShippingData(postalCodeInputFormatted).done(function() {
-        //           //that.removeStorage('selectedPickup');
-        //         });
-        //       }
-        //     })
-        //   //}
-        // }
+        if (document.querySelector("#enterPostalCodeInput")) {
+          document.querySelector("#enterPostalCodeInput").addEventListener("keyup", function (event) {
+            // Number 13 is the "Enter" key on the keyboard
+            if (event.keyCode === 13) {
+              // Cancel the default action, if needed
+              event.preventDefault();
+              // Trigger the button element with a click
+              document.querySelector(".enter-postal-code").click();
+            }
+          });
+        }
 
         $('.enter-postal-code').on('click', async function () {
           var postalCodeInput = $('.seller-postal-code').val();
@@ -56130,8 +56142,68 @@ var StorePicker = function () {
         $('#video-click').attr('src', url);
       });
 
+      // debounce function/
+      function debounce(func, wait, immediate) {
+        var timeout;
+        return function () {
+          var context = this,
+              args = arguments;
+          var later = function later() {
+            timeout = null;
+            if (!immediate) func.apply(context, args);
+          };
+          var callNow = immediate && !timeout;
+          clearTimeout(timeout);
+          timeout = setTimeout(later, wait);
+          if (callNow) func.apply(context, args);
+        };
+      };
+
+      var forcePickup = debounce(function () {
+        vtexjs.checkout.getOrderForm().then(function (orderForm) {
+          var postalCode = "31030050"; // o cep pode ser fixo por que é retirada mesmo 
+          var country = 'BRA';
+          var address = {
+            "postalCode": postalCode,
+            "country": country
+          };
+          return vtexjs.checkout.calculateShipping(address);
+        }).done(function (orderForm) {
+          if (orderForm.totalizers[1].value == 0) {
+            $('.cart-entrega .cart-total-value').text('grátis');
+          }
+        });
+        // console.log('pickup debounce')
+      }, 3000);
+
       function events(that) {
+        if (window.location.href.indexOf('testeMaeztra=teste') > -1) {
+          $(window).on("orderFormUpdated.vtex", function (evt, orderForm) {
+            // esse script é feio más necessário, quando troca o SC mesmo tendo selecionado retirada a vtex faz o que ela quer
+            if (window.localStorage.mzShippingSelected && window.localStorage.mzShippingSelected == 'delivery' && orderForm.totalizers[1] && orderForm.totalizers[1].value == 0) {
+              // console.log('DELIVERY')
+              var data = JSON.parse(window.localStorage.getItem('aditionalShippingData'));
+              data.selectedLeanShippingOption = "FASTEST"; // ou CHEAPEST
+              window.localStorage.setItem('aditionalShippingData', JSON.stringify(data));
+              return;
+            }
+            if (window.localStorage.mzShippingSelected && window.localStorage.mzShippingSelected == 'pickup' && orderForm.totalizers[1] && orderForm.totalizers[1].value != 0) {
+              // console.log('pickup')
+              var data = JSON.parse(window.localStorage.getItem('aditionalShippingData'));
+              data.selectedLeanShippingOption = "CHEAPEST"; // ou CHEAPEST
+              window.localStorage.setItem('aditionalShippingData', JSON.stringify(data));
+              $('.cart-entrega .cart-total-value').text('grátis'); //tentativa de nao piscar um valor > 0 na tela
+              forcePickup();
+            }
+          });
+        }
+
+        $(document).on('click', '.delivery-item.home-delivery', function (e) {
+          localStorage.setItem('mzShippingSelected', 'delivery');
+        });
+
         $(document).on('click', '.store-link', function (e) {
+
           e.preventDefault();
 
           $('.store-link').removeClass('active');
@@ -56142,6 +56214,11 @@ var StorePicker = function () {
           var scPostalcode = $(this).attr('data-postalcode');
           var lat = $(this).attr('data-lat');
           var long = $(this).attr('data-long');
+          var name = $(this).find('.store-title').text().split('Super Nosso ')[1];
+
+          // localStorage.setItem('mzSellerPickupSelected', '{"pickup":' + pickup + ',"scPostalcode":"' + scPostalcode + '","name":"' + name.replace('- ', '') + '"}')
+          localStorage.setItem('mzZipcode', scPostalcode);
+          localStorage.setItem('mzShippingSelected', 'pickup');
 
           if (!pickup.length) return;
 
@@ -56201,23 +56278,27 @@ var StorePicker = function () {
                 vtexjs.checkout.removeItems(itemsToRemove);
               }
             }
-
-            vtexjs.checkout.sendAttachment('shippingData', {
-              clearAddressIfPostalCodeNotFound: false,
-              selectedAddresses: [newAddress]
+            // alert('shipping data')
+            vtexjs.checkout.sendAttachment('shippingData',
+            // (window.location.href.indexOf('?testeMaeztra=teste') > -1) ?//remover após acabarem os testes
+            // deliveryToShipping
+            // ://remover após acabarem os testes
+            {
+              clearAddressIfPostalCodeNotFound: false, //remover após acabarem os testes
+              selectedAddresses: [newAddress] //remover após acabarem os testes
             }).done(function (result) {
 
               var newShippingData = result.shippingData;
 
-              var pickupPoint = newShippingData.pickupPoints.find(function (_ref) {
-                var id = _ref.id;
-                return id.includes('_' + pickup);
+              var pickupPoint = newShippingData.pickupPoints.find(function (_ref2) {
+                var id = _ref2.id;
+                return id.includes("_" + pickup);
               });
 
               if (pickupPoint) {
-                var logisticsInfo = newShippingData.logisticsInfo.map(function (_ref2) {
-                  var itemIndex = _ref2.itemIndex,
-                      slas = _ref2.slas;
+                var logisticsInfo = newShippingData.logisticsInfo.map(function (_ref3) {
+                  var itemIndex = _ref3.itemIndex,
+                      slas = _ref3.slas;
 
                   var sla = slas.find(function (sla) {
                     return sla.pickupPointId == pickupPoint.id;
@@ -56243,7 +56324,7 @@ var StorePicker = function () {
                     saleschannel = 1;
                   }
                   that.setStorage('selectedSeller', sc == '1' ? 'delivery' : sc);
-                  that.insertParam('sc', sc);
+                  // that.insertParam('sc', sc);
                 });
               } else {
                 // Selecionando a forma de retirada pela primeira vez
@@ -56252,20 +56333,22 @@ var StorePicker = function () {
                   selectedAddresses: [newAddress]
                 });
                 that.setStorage('selectedSeller', sc == '1' ? 'delivery' : sc);
-                that.insertParam('sc', sc);
+
+                // that.insertParam('sc', sc);
               }
+              that.insertParam('sc', sc);
             });
           });
         });
       }
     }
   }, {
-    key: 'modalVideoClick',
+    key: "modalVideoClick",
     value: function modalVideoClick() {
-      $('#modal-click').html('<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">\n        <div class="modal-dialog modal-dialog-centered" role="document">\n          <div class="modal-content">\n            <div class="modal-header">\n              <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>\n              <button type="button" class="close" data-dismiss="modal" aria-label="Close">\n                <span aria-hidden="true">&times;</span>\n              </button>\n            </div>\n            <div class="modal-body">\n              ...\n            </div>\n            <div class="modal-footer">\n              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>\n              <button type="button" class="btn btn-primary">Save changes</button>\n            </div>\n          </div>\n        </div>\n      </div>');
+      $('#modal-click').html("<div class=\"modal fade\" id=\"exampleModalCenter\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalCenterTitle\" aria-hidden=\"true\">\n        <div class=\"modal-dialog modal-dialog-centered\" role=\"document\">\n          <div class=\"modal-content\">\n            <div class=\"modal-header\">\n              <h5 class=\"modal-title\" id=\"exampleModalLongTitle\">Modal title</h5>\n              <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n                <span aria-hidden=\"true\">&times;</span>\n              </button>\n            </div>\n            <div class=\"modal-body\">\n              ...\n            </div>\n            <div class=\"modal-footer\">\n              <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>\n              <button type=\"button\" class=\"btn btn-primary\">Save changes</button>\n            </div>\n          </div>\n        </div>\n      </div>");
     }
   }, {
-    key: 'checkIfHasDelivery',
+    key: "checkIfHasDelivery",
     value: function checkIfHasDelivery(bool) {
       if (bool) {
         $('.has-delivery').css({ display: 'inline-block' });
@@ -56278,7 +56361,7 @@ var StorePicker = function () {
       }
     }
   }, {
-    key: 'getLastDeliveryAddress',
+    key: "getLastDeliveryAddress",
     value: function getLastDeliveryAddress(availableAddresses) {
       if (!availableAddresses) return;
 
@@ -56287,16 +56370,15 @@ var StorePicker = function () {
       });
 
       if (!lastDeliveryAddress.length) return;
-
       return lastDeliveryAddress.pop();
     }
   }, {
-    key: 'getLogisticsInfo',
+    key: "getLogisticsInfo",
     value: function getLogisticsInfo(orderForm, pickupPointId) {
       try {
-        var logisticsInfo = orderForm.shippingData.logisticsInfo.map(function (_ref3) {
-          var itemIndex = _ref3.itemIndex,
-              slas = _ref3.slas;
+        var logisticsInfo = orderForm.shippingData.logisticsInfo.map(function (_ref4) {
+          var itemIndex = _ref4.itemIndex,
+              slas = _ref4.slas;
 
           var sla = slas.find(function (sla) {
             return sla.pickupPointId == (pickupPointId ? pickupPointId : null);
@@ -56316,7 +56398,7 @@ var StorePicker = function () {
       }
     }
   }, {
-    key: 'setDeliveryShippingData',
+    key: "setDeliveryShippingData",
     value: function setDeliveryShippingData(postalCodeInput) {
       var _this3 = this;
 
@@ -56343,6 +56425,31 @@ var StorePicker = function () {
           var postalCode = orf.shippingData.address.postalCode;
 
           return _this3.simulate(postalCode).then(function (response) {
+
+            // console.log('simulate response:', response.logisticsInfo[0].slas.length > 0)
+
+            if (response.logisticsInfo[0].slas.length > 0) {
+              //choose fastest window
+              var shortest = [];
+              response.logisticsInfo[0].slas.forEach(function (sla) {
+                shortest.push(Date.parse(sla.availableDeliveryWindows[0].endDateUtc));
+              });
+              var IndexShortestNumber = shortest.indexOf(Math.min.apply(Math, shortest));
+
+              //get fastest start and end
+              var deliveryStart = response.logisticsInfo[0].slas[IndexShortestNumber].availableDeliveryWindows[0].startDateUtc.split("T")[1].split(':00')[0] + ":00";
+              var deliveryEnd = response.logisticsInfo[0].slas[IndexShortestNumber].availableDeliveryWindows[0].endDateUtc.split("T")[1].split(':00')[0] + ":00";
+              var today = new Date();
+              var tomorrow = new Date();
+              tomorrow.setDate(tomorrow.getDate() + 1);
+              // date
+              var dateString = response.logisticsInfo[0].slas[IndexShortestNumber].availableDeliveryWindows[0].endDateUtc.split('T')[0];
+              //  today/tomorrow/date
+              var dayString = today.toISOString().split('T')[0] === dateString ? 'Hoje' : tomorrow.toISOString().split('T')[0] === dateString ? 'Amanhã' : dateString.split('-')[2] + '/' + dateString.split('-')[1] + '/' + dateString.split('-')[0];
+              //set delivery text
+              _this3.deliveryText = "a partir de " + dayString + ", entre " + deliveryStart + " e " + deliveryEnd + " ";
+            }
+
             var availableAddresses = orf.shippingData.availableAddresses;
             var address = _this3.getLastDeliveryAddress(availableAddresses);
             var formatedAddress = _this3.getAddress(address);
@@ -56357,6 +56464,7 @@ var StorePicker = function () {
               $('.delivery-link .address').text(formatedAddress);
               $('.delivery-link .address').removeClass("adressNotFound");
               $(".delivery-item.home-delivery").removeClass("delivery-item-adress-not-found");
+              $('.delivery-point-text p strong').html(_this3.deliveryText);
               document.querySelector('.availability-cep-invalido').style.display = "none";
               document.querySelector('.has-delivery div > h4').style.display = "block";
             }
@@ -56394,8 +56502,8 @@ var StorePicker = function () {
                 elements[index].querySelector('.store-link').dataset.pickup = store.pickUpId;
                 elements[index].querySelector('.store-link').dataset.seller = store.sc;
                 elements[index].querySelector('.store-title').innerText = store.name;
-                elements[index].querySelector('.store-address').innerText = store.number + ' - ' + store.neighborhood + ', ' + store.city + ' / ' + store.state + ' ' + store.postalCode;
-                formatedAddress == "Lagoa Santa" ? elements[index].querySelector('.store-distance').innerText = ' ' : elements[index].querySelector('.store-distance').innerText = store.distanceToUserPostalCode + ' km';
+                elements[index].querySelector('.store-address').innerText = store.number + " - " + store.neighborhood + ", " + store.city + " / " + store.state + " " + store.postalCode;
+                formatedAddress == "Lagoa Santa" ? elements[index].querySelector('.store-distance').innerText = " " : elements[index].querySelector('.store-distance').innerText = store.distanceToUserPostalCode + " km";
               });
             }
           });
@@ -56403,7 +56511,7 @@ var StorePicker = function () {
       });
     }
   }, {
-    key: 'simulate',
+    key: "simulate",
     value: function simulate(postalCode) {
       var data = {
         items: [{
@@ -56424,7 +56532,7 @@ var StorePicker = function () {
       });
     }
   }, {
-    key: 'deliveryLinkEvent',
+    key: "deliveryLinkEvent",
     value: function deliveryLinkEvent(hasStore, that, postalCode) {
       var pc = postalCode ? postalCode : '';
       $('.postalcode-input input').val(pc);
@@ -56457,9 +56565,9 @@ var StorePicker = function () {
       });
     }
   }, {
-    key: 'updateCartWithSC',
+    key: "updateCartWithSC",
     value: function updateCartWithSC() {
-      if (vtexjs.checkout.orderForm.items.length > 0) {
+      if (vtexjs.checkout.orderForm && vtexjs.checkout.orderForm.items.length > 0) {
         var selectedSeller = this.getStorage('selectedSeller');
         var sc = selectedSeller == 'delivery' ? '1' : selectedSeller;
         if (vtexjs.checkout.orderForm.salesChannel != sc) {
@@ -56475,7 +56583,7 @@ var StorePicker = function () {
       }
     }
   }, {
-    key: 'init',
+    key: "init",
     value: function init() {
       var _this4 = this;
 
@@ -56486,7 +56594,7 @@ var StorePicker = function () {
         return res.json();
       }).then(function (res) {
         var userResponse = res;
-        fetch('/api/dataentities/SP/search?_fields=id,city,complement,name,neighborhood,number,pickUpId,postalCode,sc,state,street,status,lat,long&an=supernossoemcasa', {
+        fetch('/api/dataentities/SP/search?_fields=id,city,complement,name,neighborhood,number,pickUpId,postalCode,sc,state,street,status,lat,pickupWindow,long&an=supernossoemcasa', {
           method: 'GET',
           dataType: 'json',
           headers: {
@@ -56497,11 +56605,16 @@ var StorePicker = function () {
         }).then(function (r) {
           return r.status == 200 ? r.json() : console.log(r);
         }).then(function (r) {
+          // console.log('dataEntities SP', r)
           _this4.stores = r.filter(function (x) {
             return x.status && !x.name.includes("Expressa");
             //retira as lojas expressas e as não ativas
           });
-
+          _this4.pickUpStores = r.filter(function (x) {
+            return x.status && x.pickupWindow != null;
+            //retira as lojas expressas e as não ativas
+          });
+          console.log('this.pickUpStores', _this4.pickUpStores);
           if (_this4.stores.length > 0) {
             _this4.templateModal(true, userResponse);
             // this.renderStores();
@@ -56519,7 +56632,7 @@ var StorePicker = function () {
 
           $(document).on('click', '.change-delivery', function (e) {
             e.preventDefault();
-            $('#user-data').toggleClass('user-data-opened');
+            $('#user-data').removeClass('user-data-opened');
 
             $('#minicart-wrapper').toggleClass('open-minicart');
             if ($('#minicart-wrapper').hasClass('open-minicart')) {
@@ -56547,9 +56660,9 @@ var StorePicker = function () {
               if (orderForm) {
                 var shippingData = orderForm.shippingData;
 
-                var pickupPoint = shippingData.pickupPoints.find(function (_ref4) {
-                  var id = _ref4.id;
-                  return id.includes('_' + pickUpId);
+                var pickupPoint = shippingData.pickupPoints.find(function (_ref5) {
+                  var id = _ref5.id;
+                  return id.includes("_" + pickUpId);
                 });
 
                 if (pickupPoint) {
@@ -56559,9 +56672,9 @@ var StorePicker = function () {
                     addressQuery: ''
                   });
 
-                  var logisticsInfo = shippingData.logisticsInfo.map(function (_ref5) {
-                    var itemIndex = _ref5.itemIndex,
-                        slas = _ref5.slas;
+                  var logisticsInfo = shippingData.logisticsInfo.map(function (_ref6) {
+                    var itemIndex = _ref6.itemIndex,
+                        slas = _ref6.slas;
 
                     var sla = slas.find(function (sla) {
                       return sla.pickupPointId == pickupPoint.id;
@@ -56625,35 +56738,8 @@ var StorePicker = function () {
 
       $(window).load(function () {
         that.updateCartWithSC();
-      });
-
-      $(window).on('update-qty-item', function (ev) {
-        if (!that.getStorage('selectedSeller') || vtexjs.checkout.orderForm && (vtexjs.checkout.orderForm.shippingData == null || vtexjs.checkout.orderForm.shippingData.address == null)) {
-          //home ou da product page
-          if (document.querySelector('iframe[id="product-qv-iframe"]') && document.querySelector('iframe[id="product-qv-iframe"]').contentWindow.document.body.classList.contains('product-modal') || document.querySelector("#home-page")) {
-            //identifica se o produto ta em modal
-            if (document.querySelector("#home-page #sellerModal")) {
-              document.querySelector("#home-page #sellerModal").style.zIndex = 9999999;
-              $('#home-page #sellerModal').addClass('opened');
-            } else {
-              document.querySelector("#category-page #sellerModal").style.zIndex = 9999999;
-              $('#category-page #sellerModal').addClass('opened');
-            }
-            if (document.querySelector('iframe[id="product-qv-iframe"]')) {
-              var productCart = document.querySelector('iframe[id="product-qv-iframe"]').contentWindow.document.body.querySelector('#sellerModal');
-              productCart.parentNode.removeChild(productCart);
-            }
-          } else if (!document.querySelector('iframe[id="product-qv-iframe"]') || !document.querySelector('iframe[id="product-qv-iframe"]').contentWindow.document.body.classList.contains('product-modal')) {
-            //identifica se o produto esta em uma pagina de produto
-            if (document.querySelector("#product-page #sellerModal")) {
-              document.querySelector("#product-page #sellerModal").style.zIndex = 9999999;
-              $('#product-page #sellerModal').addClass('opened');
-            } else if (window.location.href.indexOf("adegasupernosso") > -1) {
-              $('#sellerModal').addClass('opened');
-            } else {
-              $('#category-page #sellerModal').addClass('opened');
-            }
-          }
+        if (vtexjs.checkout.orderForm && vtexjs.checkout.orderForm.shippingData != null && vtexjs.checkout.orderForm.shippingData.address != null && vtexjs.checkout.orderForm.shippingData.address.postalCode) {
+          that.setDeliveryShippingData(vtexjs.checkout.orderForm.shippingData.address.postalCode);
         }
       });
     }
@@ -56664,7 +56750,7 @@ var StorePicker = function () {
 
 exports.default = StorePicker;
 
-},{"../pages/utils/utils":54,"moment":6}],39:[function(require,module,exports){
+},{"../pages/utils/utils":54,"lodash":5,"moment":6}],39:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -56687,38 +56773,6 @@ var Shelf = function () {
   }
 
   _createClass(Shelf, [{
-    key: "openFrame",
-    value: function openFrame() {
-      $("body").addClass("overflow-hidden");
-      $("#product-qv-iframe-wrapper").remove();
-      var iframe = $("<iframe />", {
-        name: "product-qv-iframe",
-        id: "product-qv-iframe",
-        src: $(this).attr("href")
-      });
-      window.history.pushState("Object", "Categoria JavaScript", url);
-      var btn = $(this).parents(".item-shelf").find(".buy-button-shelf").clone();
-      $(btn).attr("data-product-id", $(this).parents(".item-shelf").attr("data-product-id"));
-      $(btn).find(".buy-button-normal").children("a").text("adicionar ao carrinho | " + $(this).parents(".item-shelf").find(".best-price").text());
-
-      var iframeWrapper = $('<div id="product-qv-iframe-wrapper" style="display: none"/>').append($('<div class="product-qv-iframe-inner" />').append($('<div class="close-product-qv-iframe" />').append('<img src="https://supernossoemcasa.vteximg.com.br/arquivos/icon-close.png" />'), $('<i class="fa fa-spinner fa-spin iframe-loading fa-2x" />'), $('<div class="iframe-content-inner" />').append(iframe)));
-
-      if (window.matchMedia("(max-width:768px)").matches == true) {
-        $(iframeWrapper).find(".iframe-content-inner").append(btn);
-      }
-      // iframe.on('load', function(e){
-      //     $('.iframe-loading').fadeOut();
-      // })
-      iframeWrapper.appendTo("body");
-      $("#product-qv-iframe-wrapper").fadeIn();
-      $(document).on("click", ".close-product-qv-iframe img", function (e) {
-        e.preventDefault();
-        $("body").removeClass("overflow-hidden");
-        $("#product-qv-iframe-wrapper").remove();
-        window.history.pushState("Object", "Categoria JavaScript", currentUrl);
-      });
-    }
-  }, {
     key: "initQuickview",
     value: function initQuickview() {
       var quickView = new _quickview.QuickView();
@@ -56729,10 +56783,17 @@ var Shelf = function () {
         e.preventDefault();
 
         var className = $(this).attr("class");
+        var productNameLink = $(this).parent().attr("class");
+        var url = $(this).attr("href");
 
         // Link da imagem e link do nome serao por quickview
-        if (className == "product-image" || !className) {
-          quickView.shelf($(this));
+        if (productNameLink.indexOf("product-name") > -1 || className.indexOf("product-image") > -1) {
+
+          if (window.matchMedia("(min-width:768px)").matches == true) {
+            quickView.shelf($(this));
+          } else {
+            window.location.href = url;
+          }
         } else {
           // Link do botao comprar será normal
           return true;
@@ -56833,8 +56894,6 @@ var Shelf = function () {
 
                 $(thisFlag).attr("data-link", "/178?PS=24&map=productClusterIds&O=OrderByBestDiscountDESC");
 
-                console.log("Product: ", product, " - ", product.clusterHighlights);
-
                 Object.keys(product.clusterHighlights).forEach(function (key) {
                   if (product.clusterHighlights[key].toLowerCase() == flag) {
                     $(thisFlag).attr("data-link", "/" + key + "?PS=24&map=productClusterIds&O=OrderByBestDiscountDESC");
@@ -56888,6 +56947,9 @@ var Shelf = function () {
       });
 
       $(window).on("orderFormUpdated.vtex", function (evt, orderForm) {
+        if (vtexjs.checkout.orderForm && vtexjs.checkout.orderForm.items) {
+          $('.badge.badge-secondary , .badge.badge-cart').text(vtexjs.checkout.orderForm.items.length);
+        }
         if (that.ignore) {
           return;
         }
@@ -56936,25 +56998,56 @@ var Shelf = function () {
       });
 
       var findItemInCart = function findItemInCart(id, value) {
+        var orderForm = vtexjs.checkout.orderForm;
         var itemArr = [];
         var indexIncart = void 0;
         var counter = 0;
-        vtexjs.checkout.orderForm.items.forEach(function (item, index) {
-          if (id === item.productId) {
-            indexIncart = index;
-            itemArr.push({
-              id: item.id,
-              index: index,
-              quantity: counter == 0 ? value : 0,
-              seller: item.seller
-            });
-            counter++;
-          }
-        });
-        itemsChanged(false, {}, value, indexIncart, itemArr);
+
+        var find = function find(orderForm) {
+          orderForm.items.forEach(function (item, index) {
+            if (id === item.productId) {
+              indexIncart = index;
+              itemArr.push({
+                id: item.id,
+                index: index,
+                quantity: counter == 0 ? value : 0,
+                seller: item.seller
+              });
+              counter++;
+            }
+          });
+        };
+
+        find(orderForm);
+        if (vtexjs.checkout.orderForm.items.length == 0 || indexIncart == undefined) {
+          vtexjs.checkout.getOrderForm().done(function (ordForm) {
+            orderForm = ordForm;
+            find(orderForm);
+          });
+        } else {
+          // checking max limit of items in order
+          var url = '/api/catalog_system/pub/products/search?fq=productId:' + id;
+          fetch(url).then(function (res) {
+            return res.json();
+          }).then(function (res) {
+            if (res[0]['Limite Oferta']) {
+              var limit = parseInt(res[0]['Limite Oferta'][0]);
+              if (limit < itemArr[0].quantity) {
+                $('body').prepend('<div class="mz-front-messages-placeholder" >você só pode ter no máximo ' + limit + ' itens do produto ' + res[0].productName + ' no carrinho</div>');
+                setTimeout(function () {
+                  $('.mz-front-messages-placeholder').remove();
+                }, 5000);
+                itemArr[0].quantity = itemArr[0].quantity > limit ? limit : itemArr[0].quantity;
+              }
+              itemsChanged(false, {}, value, indexIncart, itemArr);
+            } else {
+              itemsChanged(false, {}, value, indexIncart, itemArr);
+            }
+          });
+        }
       };
 
-      // debounce function
+      // debounce function/
       function debounce(func, wait, immediate) {
         var timeout;
         return function () {
@@ -56975,7 +57068,7 @@ var Shelf = function () {
       var itemsChanged = debounce(function (add, item, itemsQuantity, itemIndex, itemArr) {
         $('.product-qty , .buy-button-normal').addClass('disabled-qty');
         $('[data-product-id="' + lastClicked + '"] .product-qty').addClass('loading-qty');
-
+        $('#product-page .product-qty .shelf-input-qty').addClass('loading-qty');
         if (add || itemIndex == undefined) {
           item = itemAdded;
           item.quantity = add ? 1 : itemsQuantity;
@@ -56985,10 +57078,9 @@ var Shelf = function () {
             setTimeout(function () {
               $('.product-qty , .buy-button-normal').removeClass('disabled-qty');
               $('[data-product-id="' + lastClicked + '"] .product-qty').removeClass('loading-qty');
+              $('[data-product-id="' + lastClicked + '"] .product-qty .shelf-input-qty-control').focus();
             }, 500);
-            if (orderForm.shippingData.address == null) {
-              $('.seller-modal').addClass('opened');
-            }
+            openSellerPicker();
           });
         } else {
           //update
@@ -57000,14 +57092,26 @@ var Shelf = function () {
                 quantity: item.quantity
               });
             });
+
             return vtexjs.checkout.updateItems(updateItem, null, false);
           }).done(function (orderForm) {
             updateEvent();
             $('.product-qty , .buy-button-normal').removeClass('disabled-qty');
+            $('#product-page .product-qty .shelf-input-qty').removeClass('loading-qty');
             $('[data-product-id="' + lastClicked + '"] .product-qty').removeClass('loading-qty');
+            $('[data-product-id="' + lastClicked + '"] .shelf-input-qty-control').val(itemArr[0].quantity);
+            $('[data-product-id="' + lastClicked + '"] .product-qty .shelf-input-qty-control').focus();
+            openSellerPicker();
           });
         }
-      }, 500);
+      }, 1000);
+
+      var openSellerPicker = function openSellerPicker() {
+        // check if there is postalcode or seller chosen 
+        if (!localStorage.selectedSeller || vtexjs.checkout.orderForm && (vtexjs.checkout.orderForm.shippingData == null || vtexjs.checkout.orderForm.shippingData.address == null)) {
+          $('.seller-modal').addClass('opened');
+        }
+      };
 
       //get values
       var getValues = function getValues(target) {
@@ -57031,6 +57135,7 @@ var Shelf = function () {
       var itemAdded = void 0,
           lastClicked = void 0;
       $(document).on("click", ".buy-button-shelf a", async function (e) {
+        //not this one
         e.preventDefault();
         var href = $(this).attr('href');
         var item = {
@@ -57044,7 +57149,6 @@ var Shelf = function () {
 
         // adds flag
         $(e.target).parents(".item-shelf").append('<span class="flag-adicionado">Adicionado</span>');
-
         itemsChanged(true, item);
         itemAdded = item;
         $(this).hide();
@@ -57071,38 +57175,29 @@ var Shelf = function () {
         findItemInCart(obj.id, obj.value);
       });
 
-      //keup
+      //keup 
       $(document).on("keyup", ".shelf-input-qty-control", function (e) {
-        // console.log(e.key)
-        // console.log(e.target.value)
-        if (parseInt(e.key) == NaN || e.keyCode == 8) {
+        e.target.focus();
+        if (parseInt(e.key) == NaN) {
           return;
         }
-        var obj = getValues(this);
+        keyup(this);
+      });
+      var keyup = debounce(function (element) {
+        var obj = getValues(element);
+        if (element.value == '') {
+          obj.value = 0;
+        }
         if (obj.value == 0) {
-          shelfZero(this, obj.id);
+          shelfZero(element, obj.id);
         }
         findItemInCart(obj.id, obj.value);
-      });
-
-      //blur
-      window.onload = function () {
-        var inputQttList = document.querySelectorAll("input.shelf-input-qty-control ");
-        inputQttList.forEach(function (input) {
-          input.addEventListener("blur", myFunction);
-          function myFunction(e) {
-            var obj = getValues(e.target);
-            if (obj.value == 0) {
-              shelfZero(this, obj.id);
-            }
-            findItemInCart(obj.id, obj.value);
-          }
-        });
-      };
+      }, 1500);
 
       // when goes zero
       var shelfZero = function shelfZero(el, id) {
         $(el).parents(".item-shelf").find('.flag-adicionado').remove();
+        $(el).parents(".item-shelf").find(".buy-button-ref").show();
         $(el).parents(".item-shelf").find(".buy-button-shelf a").show();
         $(el).parents(".item-shelf").find('.product-qty').remove();
       };
@@ -57864,16 +57959,6 @@ var Home = function () {
             });
 
             $(mobileSlider).insertAfter('.moment-slider');
-            // $('.moment-slider-mobile').slick({
-            //     arrows:false,
-            //     dots:false,
-            //     rows: 2,
-            //     slidesToShow: 2.5,
-            //     infinite:true,
-            //     centerMode:true,
-            //     swipeToSlide: true,
-            //     centerPadding:"60px"
-            // });
             if (window.matchMedia("(max-width:992px)").matches == false) {
                 $('.moment-slider').slick({
                     arrows: true,
@@ -57914,23 +57999,103 @@ var Home = function () {
     }, {
         key: 'mainSlider',
         value: function mainSlider() {
-            $('.header-slider-inner').slick({
-                arrows: true,
-                dots: true,
-                slidesToShow: 1,
-                infinite: true,
-                autoplay: true,
-                autoplaySpeed: 5000,
-                prevArrow: '<a href="javascript:;" class="slick-prev"><img src="https://supernossoemcasa.vteximg.com.br/arquivos/slider-arrow-left.png" /></a>',
-                nextArrow: '<a href="javascript:;" class="slick-next"><img src="https://supernossoemcasa.vteximg.com.br/arquivos/slider-arrow-right.png" /></a>'
-            });
-            $('.header-slider-mob-inner').slick({
-                arrows: false,
-                dots: true,
-                slidesToShow: 1,
-                infinite: true,
-                autoplay: true,
-                autoplaySpeed: 5000
+            // order placed (works)
+            $.ajax({
+                type: 'GET',
+                method: 'GET',
+                url: "https://www.supernossoemcasa.com.br/?lid=a0e5bf1b-6fea-45be-ba0a-f748c5211ed7",
+                dataType: 'html'
+            }).done(function (data) {
+                // getting desk images
+                var strDesk = data.split('header-slider-inner')[1].split('header-slider-mob')[0];
+                strDesk = strDesk.split('<div class="box-banner">');
+                strDesk = strDesk.map(function (item) {
+                    return item.split('"').join("'").split('</div>')[0];
+                });
+                strDesk.splice(0, 1);
+
+                // getting mob images
+                var strMob = data.split('header-slider-mob-inner')[1].split('</section')[0];
+                strMob = strMob.split('<div class="box-banner">');
+                strMob = strMob.map(function (item) {
+                    return item.split('"').join("'").split('</div>')[0];
+                });
+                strMob.splice(0, 1);
+
+                //creating light items
+                var lightItemDesk = "<div class='box-banner'><a href='/'><img width='1920px' height='472px'  alt='' src='/arquivos/blankDesk.png' complete='complete'/></a></div>";
+                var lightItemMob = "<div class='box-banner'><a href='/'><img width='1120px' height='1120px'  alt='' src='/arquivos/blank.png' complete='complete'/></a></div>";
+                var lightDesk = strDesk.map(function (item, index) {
+                    return index > 1 ? lightItemDesk : item;
+                });
+                var lightMob = strMob.map(function (item, index) {
+                    return index > 1 ? lightItemMob : item;
+                });
+
+                //apply slick
+                $('.header-slider-inner').append(lightDesk).slick({
+                    arrows: true,
+                    dots: true,
+                    slidesToShow: 1,
+                    infinite: true,
+                    autoplay: true,
+                    autoplaySpeed: 5000,
+                    prevArrow: '<a href="javascript:;" class="slick-prev"><img src="https://supernossoemcasa.vteximg.com.br/arquivos/slider-arrow-left.png" /></a>',
+                    nextArrow: '<a href="javascript:;" class="slick-next"><img src="https://supernossoemcasa.vteximg.com.br/arquivos/slider-arrow-right.png" /></a>'
+                });
+
+                $('.header-slider-mob-inner').append(lightMob).slick({
+                    arrows: false,
+                    dots: true,
+                    slidesToShow: 1,
+                    infinite: true,
+                    autoplay: true,
+                    autoplaySpeed: 5000
+                });
+
+                var deskIsDone = true;
+                var mobIsDone = true;
+
+                //replace images on resize
+                window.addEventListener('resize', function resize() {
+                    if (deskIsDone || mobIsDone) {
+                        fillup();
+                    } else {
+                        //cleaning event
+                        window.removeEventListener('resize', resize);
+                    }
+                });
+
+                //replace images after change
+                $('.header-slider-inner , .header-slider-mob-inner').on('afterChange', function (event, slick, currentSlide, nextSlide) {
+                    if (deskIsDone || mobIsDone) {
+                        fillup();
+                    } else {
+                        //cleaning event
+                        $(this).off('afterChange');
+                    }
+                });
+
+                //fillup elements
+                function fillup() {
+                    if (window.innerWidth > 992) {
+                        strDesk.forEach(function (item, index) {
+                            if (index > 1) {
+                                $(".header-slider-inner [data-slick-index=" + index + "] [href='/']").parent().html(item);
+                                $(".header-slider-inner [data-slick-index=" + index + "] [href='/']").remove();
+                            }
+                        });
+                        deskIsDone = false;
+                    } else {
+                        strMob.forEach(function (item, index) {
+                            if (index > 1) {
+                                $(".header-slider-mob-inner [data-slick-index=" + index + "] [href='/']").parent().html(item);
+                                $(".header-slider-mob-inner [data-slick-index=" + index + "] [href='/']").remove();
+                            }
+                        });
+                        mobIsDone = false;
+                    }
+                }
             });
         }
     }, {
@@ -57966,12 +58131,6 @@ var Home = function () {
     }, {
         key: 'countrySlider',
         value: function countrySlider() {
-
-            // let item = $('.country-item');
-            // item.each(function(e){            
-            //     let image = $(item[e]).find('.box-banner').find('img');
-            //     $(item[e]).find('.country-card').attr('style', 'background-image:url('+image.attr('src')+')');
-            // })
             //apply random
             this.shuffleElements($('.country-item'));
 
@@ -58549,7 +58708,7 @@ var Product = function () {
   }, {
     key: "mobileNav",
     value: function mobileNav() {
-      var descModal = "\n            <div class=\"product-description-modal product-description-modal-desc\" style=\"display:none;\">\n                <div class=\"product-description-inner\">\n                    <div class=\"product-description-details\">\n                        <span class=\"product-description-close\">\n                            <img src=\"https://supernossoemcasa.vteximg.com.br/arquivos/icon-back.png\" />\n                        </span>\n                        " + $("#description").html() + "\n                    </div>\n                </div>\n            </div>\n        ";
+      var descModal = "\n            <div class=\"product-description-modal product-description-modal-desc\" style=\"display:none;\">\n                <div class=\"product-description-inner\">\n                    <div class=\"product-description-details\">\n                        <span class=\"product-description-close\">\n                            <img src=\"https://supernossoemcasa.vteximg.com.br/arquivos/icon-back.png\" />\n                        </span>\n                        " + $("#description").html() + "\n                        " + $("#specification").html() + "\n                    </div>\n                </div>\n            </div>\n        ";
       var specModal = "\n            <div class=\"product-description-modal product-description-modal-spec\" style=\"display:none;\">\n                <div class=\"product-description-inner\">\n                    <div class=\"product-description-spec\">\n                        <span class=\"product-description-close\">\n                            <img src=\"https://supernossoemcasa.vteximg.com.br/arquivos/icon-back.png\" />\n                        </span>\n                        " + $("#caracteristicas").html() + "\n                    </div>\n                </div>\n            </div>\n        ";
       $(descModal).appendTo("body");
       $(specModal).appendTo("body");
@@ -58895,22 +59054,34 @@ var Product = function () {
 
         $(document).on("click", ".buy-button-ref", async function (e) {
           e.preventDefault();
-          var skuId = skuJson_0.skus[0].sku;
-
-          that.ignore = true;
-
-          setTimeout(function (e) {
-            that.ignore = false;
-          }, 8000);
 
           var id = skuJson_0.productId;
           that.qtyLayout(1, $(this), id, skuJson_0.skus[0].sku);
-          $("#minicart-wrapper").trigger("product-update", [skuJson_0.productId, $(this), 1, skuJson_0.skus[0].sku]);
+
+          var href = $(this).attr('href');
+          var item = {
+            id: parseInt(href.split('sku=')[1].split('&')[0]),
+            quantity: 1,
+            seller: href.split('&seller=')[1].split('&')[0]
+          };
+          $('.product-qty , .buy-button-normal').addClass('disabled-qty');
+          $('#product-page .product-qty .shelf-input-qty').addClass('loading-qty');
+
+          // add
+          vtexjs.checkout.addToCart([item], null, jssalesChannel).done(function (orderForm) {
+            $('.product-qty , .buy-button-normal').removeClass('disabled-qty');
+            $('#product-page .product-qty .shelf-input-qty').removeClass('loading-qty');
+            var updateCartEvt = new Event('updateCartEvt');
+            window.dispatchEvent(updateCartEvt);
+            if (orderForm.shippingData.address == null) {
+              if ($('body.product-modal ,body.wine-modal-2021').length == 0) {
+                $('.seller-modal').addClass('opened');
+              }
+            }
+          });
         });
 
         // Sync button
-
-
         $(window).on("orderFormUpdated.vtex", function (evt, orderForm) {
           if (that.ignore) {
             return;
@@ -58927,7 +59098,9 @@ var Product = function () {
             $(".buy-button-ref").show();
             $(".buy-button-ref").removeClass("d-none");
           } else {
-            $(".buy-button-ref").addClass("d-none");
+            if (orderForm.shippingData.address != null) {
+              $(".buy-button-ref").addClass("d-none");
+            }
           }
 
           // $('.badge-secondary').text(quantity)
@@ -59954,11 +60127,11 @@ var checkEmail = exports.checkEmail = function checkEmail(email) {
     return _emailValidator2.default.validate(email);
 };
 
-var simulatePurchase = exports.simulatePurchase = async function simulatePurchase(postalCode) {
+var simulatePurchase = exports.simulatePurchase = async function simulatePurchase(postalCode, qty) {
     var mockedData = {
         items: [{
             id: 11420,
-            quantity: 40,
+            quantity: qty ? qty : 1,
             seller: 1
         }],
         country: 'BRA',
@@ -61448,8 +61621,8 @@ var Fretometro = exports.Fretometro = function (_React$Component) {
   }
 
   _createClass(Fretometro, [{
-    key: 'componentWillMount',
-    value: function componentWillMount() {
+    key: 'UNSAFE_componentWillMount',
+    value: function UNSAFE_componentWillMount() {
       var _this2 = this;
 
       this.configurableShipping.getSteps().then(function (steps) {
@@ -61598,6 +61771,27 @@ var Fretometro = exports.Fretometro = function (_React$Component) {
       return this.state.steps[this.state.steps.length - 1].from * 100;
     }
   }, {
+    key: 'getRemainingToFree',
+    value: function getRemainingToFree() {
+      var subtotalStr = this.props.subtotalValue;
+      var removedCharacters = subtotalStr.replace('R$', '').replace(',', '.');
+      var subTotalNum = parseFloat(removedCharacters);
+
+      var discount = this.props.getDiscountInfo(this.props.orderForm);
+      var discountNum = parseFloat(parseFloat(discount / 100).toFixed(2).replace('-', ''));
+      var remaining = this.props.getDifference(discountNum, subTotalNum);
+      return remaining;
+    }
+  }, {
+    key: 'calculatePrime',
+    value: function calculatePrime() {
+      var remaining = this.getRemainingToFree();
+      var freeShipAmount = 49.90;
+
+      var percent = (remaining * 100 / freeShipAmount).toFixed(2);
+      return percent <= 100 ? percent + '%' : '100%';
+    }
+  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
@@ -61613,23 +61807,51 @@ var Fretometro = exports.Fretometro = function (_React$Component) {
             _react2.default.createElement('i', { className: 'fa fa-chevron-down' })
           ),
           !this.props.minicart && _react2.default.createElement(
-            'p',
-            { className: 'frete-tip' },
-            'entrega gr\xE1tis comprando acima de R$500 ',
-            _react2.default.createElement('br', null),
-            'R$19,90 comprando at\xE9 R$299 ',
-            _react2.default.createElement('br', null),
-            'R$14,90 comprando entre R$300 e R$399 ',
-            _react2.default.createElement('br', null),
-            'R$9,90 comprando entre R$400 e R$499 ',
-            _react2.default.createElement('br', null)
+            'div',
+            null,
+            this.props.isPrime && this.props.isLogged ? _react2.default.createElement(
+              'p',
+              { className: 'frete-tip' },
+              'entrega gr\xE1tis comprando acima de R$49,90',
+              _react2.default.createElement('br', null)
+            ) : _react2.default.createElement(
+              'p',
+              { className: 'frete-tip' },
+              'entrega gr\xE1tis comprando acima de R$500 ',
+              _react2.default.createElement('br', null),
+              'R$19,90 comprando at\xE9 R$299 ',
+              _react2.default.createElement('br', null),
+              'R$14,90 comprando entre R$300 e R$399 ',
+              _react2.default.createElement('br', null),
+              'R$9,90 comprando entre R$400 e R$499 ',
+              _react2.default.createElement('br', null)
+            )
           ),
           this.props.minicart && _react2.default.createElement(
             'span',
             { className: 'fretometro-title' },
             'frete gr\xE1tis'
           ),
-          _react2.default.createElement(
+          this.props.isPrime && this.props.isLogged ? _react2.default.createElement(
+            'div',
+            { className: 'fretometro-bar' },
+            _react2.default.createElement(
+              'div',
+              { className: 'current-cart-price' },
+              'R$',
+              this.getRemainingToFree().toFixed(2).replace('.', ',')
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'bar-fill' },
+              _react2.default.createElement('div', { className: 'filling-line', style: { width: this.calculatePrime() } })
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'free-price' },
+              'R$49,90'
+            )
+          ) : _react2.default.createElement(
             'div',
             { className: 'fretometro-bar' },
             _react2.default.createElement(
@@ -61829,6 +62051,9 @@ var Minicart = exports.Minicart = function (_React$Component) {
     _this.state = {
       items: [],
       prime: false,
+      isPrime: false,
+      isLogged: false,
+      discountRes: null,
       orderForm: {
         value: 0,
         totalizers: []
@@ -61849,6 +62074,31 @@ var Minicart = exports.Minicart = function (_React$Component) {
           }
         }
       });
+    });
+
+    vtexjs.checkout.getOrderForm().done(function (orderForm) {
+
+      if (orderForm.loggedIn) {
+        _this.setState({
+          isLogged: true
+        });
+      }
+
+      if (orderForm.clientProfileData && orderForm.clientProfileData.email) {
+
+        fetch('/api/dataentities/CL/search?_where=(Prime=true AND email=' + orderForm.clientProfileData.email + ')&_fields=Prime,email').then(function (res) {
+          return res.json();
+        }).then(function (res) {
+          if (res.length) {
+
+            if (res.length > 0) {
+              _this.setState({
+                isPrime: true
+              });
+            }
+          }
+        });
+      }
     });
 
     $('#minicart-wrapper').on('open', function (e) {
@@ -62331,8 +62581,8 @@ var Minicart = exports.Minicart = function (_React$Component) {
       jqueryMini.init();
     }
   }, {
-    key: 'componentWillMount',
-    value: function componentWillMount() {
+    key: 'UNSAFE_componentWillMount',
+    value: function UNSAFE_componentWillMount() {
       var _this9 = this;
 
       this.getCart();
@@ -62350,6 +62600,23 @@ var Minicart = exports.Minicart = function (_React$Component) {
         items: orderForm.items,
         orderForm: orderForm
       });
+    }
+  }, {
+    key: 'getDiscountInfo',
+    value: function getDiscountInfo(orderForm) {
+      var totalizerId = 'Discounts';
+
+      if (!orderForm || !orderForm.totalizers) {
+        return 0;
+      }
+
+      var discount = orderForm.totalizers.filter(function (o) {
+        return o.id == totalizerId;
+      });
+
+      var discountRes = discount.length && discount[0].value ? discount[0].value : 0;
+
+      return discountRes;
     }
   }, {
     key: 'getCart',
@@ -62555,15 +62822,34 @@ var Minicart = exports.Minicart = function (_React$Component) {
       return 0;
     }
   }, {
+    key: 'getConvertedFloatNumber',
+    value: function getConvertedFloatNumber(str) {
+      var removedCharacters = str.replace('R$ ', '').replace(',', '.');
+      var finalNum = parseFloat(removedCharacters).toFixed(2);
+      return finalNum;
+    }
+  }, {
+    key: 'getDifference',
+    value: function getDifference(a, b) {
+      return Math.abs(a - b);
+    }
+  }, {
     key: 'renderTotalInfo',
     value: function renderTotalInfo() {
       //let total = Currency.convert(this.state.orderForm.value)
       if (!this.state.orderForm.totalizers) {
         return;
       }
+
+      var discount = this.getDiscountInfo(this.state.orderForm);
+      var discountNum = parseFloat(parseFloat(discount / 100).toFixed(2).replace('-', ''));
+
+      var pickUpIdStorage = this.getStorage('selectedPickup');
       var subTotalizer = this.getTotalizer('Items');
       var discountTotalizer = this.getTotalizer('Discounts');
       var subtotal = _currency.Currency.convert(subTotalizer);
+      var subtotalNumber = this.getConvertedFloatNumber(subtotal);
+      var remaining = this.getDifference(discountNum, subtotalNumber);
       var totalDiscount = _currency.Currency.convert(discountTotalizer);
       var totalShipping = this.getFrete() != 0 ? _currency.Currency.convert(this.getFrete()) : "grátis";
       //let totalShipping = Currency.convert(shippingTotalizer)
@@ -62603,6 +62889,21 @@ var Minicart = exports.Minicart = function (_React$Component) {
             'span',
             { className: 'cart-total-label' },
             'entrega'
+          ),
+          this.state.isLogged && this.state.isPrime && !pickUpIdStorage && _react2.default.createElement(
+            'span',
+            { className: 'cart-total-prime-freight' },
+            remaining < 49.90 ? _react2.default.createElement(
+              'span',
+              { className: 'cart-total-prime-freight__diff' },
+              'faltam R$ ',
+              (49.90 - remaining).toFixed(2).replace('.', ','),
+              ' para entrega gr\xE1tis'
+            ) : _react2.default.createElement(
+              'span',
+              { className: 'cart-total-prime-freight__free' },
+              'prime'
+            )
           ),
           _react2.default.createElement(
             'span',
@@ -62721,7 +63022,7 @@ var Minicart = exports.Minicart = function (_React$Component) {
           ),
           _react2.default.createElement(
             'a',
-            { href: 'javascript:;', className: 'minicart-close' },
+            { href: '#', className: 'minicart-close' },
             _react2.default.createElement('img', { src: 'https://supernossoemcasa.vteximg.com.br/arquivos/icon-close.png', alt: '' })
           )
         ),
@@ -62748,7 +63049,11 @@ var Minicart = exports.Minicart = function (_React$Component) {
                 frete03Value: this.state.frete03Value,
                 frete04Value: this.state.frete04Value,
                 prime: this.state.prime,
-                orderForm: this.state.orderForm
+                isPrime: this.state.isPrime,
+                isLogged: this.state.isLogged,
+                orderForm: this.state.orderForm,
+                getDiscountInfo: this.getDiscountInfo,
+                getDifference: this.getDifference
               }),
               _react2.default.createElement(_productList.ProductList, {
                 forceLimit: this.forceLimit.bind(this),
@@ -62799,6 +63104,7 @@ var ProductLimit = exports.ProductLimit = function () {
   _createClass(ProductLimit, [{
     key: 'showToastyMessage',
     value: function showToastyMessage(title, message, type) {
+
       var $messagePlaceholder = $('.vtex-front-messages-placeholder');
       if (!$messagePlaceholder.length) {
         $('body').prepend('<div class="vtex-front-messages-placeholder"></div>');
@@ -62821,121 +63127,23 @@ var ProductLimit = exports.ProductLimit = function () {
   }, {
     key: 'init',
     value: function init() {
-
       var that = this;
-
-      // ****************************************************************************************************
-      // ****************************************************************************************************
-      // ****************************************************************************************************
-      // ****************************************************************************************************
-
-      // ajax dentro de ajaxStop não da
-
-      // ****************************************************************************************************
-      // ****************************************************************************************************
-      // ****************************************************************************************************
-      // ****************************************************************************************************
-
-
       $(document).ajaxStop(function (e) {
-
-        var items = {};
-        // Capta todos os skus e skus clonados
-        vtexjs.checkout.orderForm.items.forEach(function (item, index) {
-          if (!items[item.productId]) {
-            items[item.productId] = {};
-            items[item.productId].quantity = 0;
-            items[item.productId].indexes = [];
-            items[item.productId].sku = item.id;
-          }
-          items[item.productId].quantity += item.quantity;
-          items[item.productId].indexes.push(index);
-        });
-
         //show messages
         if (vtexjs.checkout.orderForm.messages && vtexjs.checkout.orderForm.messages.length) {
           //show message toasty
           var messages = vtexjs.checkout.orderForm.messages;
 
           $.each(messages, function (key, value) {
-            if (value.text.indexOf("frete") < 0 && value.code !== "cannotBeDelivered" && value.text !== "O tipo de entrega foi alterado") {
+            if (value.text.indexOf("frete") < 0 && value.code !== "cannotBeDelivered" && value.text !== "O tipo de entrega foi alterado" && value.text.indexOf("Você só pode") == -1) {
               // ignore
               that.showToastyMessage('', value.text, value.status);
             }
           });
-
           vtexjs.checkout.getOrderForm().then(function (orderForm) {
             return vtexjs.checkout.clearMessages();
           }).then(function () {
             console.log("mensagens excluidas");
-          });
-          //vtexjs.checkout.clearMessages();
-        }
-
-        // Varre todos os skus e aplica o limite, caso o item tenha um sku clonado, remove todos os items
-        // e adiciona um novo sku com a quantidade limite
-
-        if (Object.keys(items).length > 0) {
-          var url = '/api/catalog_system/pub/products/search?';
-
-          Object.keys(items).forEach(function (key) {
-            url += 'fq=productId:' + key + '&';
-          });
-
-          fetch(url).then(function (res) {
-            return res.json();
-          }).then(function (res) {
-            var _loop = function _loop(i) {
-              var product = res[i];
-
-              if (product && product['Limite Oferta']) {
-                var limit = product['Limite Oferta'][0];
-                // console.log("limite de oferta: ", product['Limite Oferta'][0])
-                // console.log("quantidade: ", items[product['productId']].quantity )
-                // console.log("item: ", items[product['productId']])
-                if (items[product['productId']].quantity > limit) {
-                  if (items[product['productId']].indexes.length == 1) {
-                    // doens't have cloned sku
-                    var updateItem = {
-                      index: items[product['productId']].indexes[0],
-                      quantity: limit
-                    };
-
-                    vtexjs.checkout.updateItems([updateItem], null, false).done(function (orderForm) {
-                      $("#minicart-wrapper").trigger('get-cart');
-                    });
-
-                    // show message "estoque maximo"
-                    that.showToastyMessage('', 'Você só pode ter no máximo ' + limit + ' itens do produto ' + res[0].productName + ' no carrinho', 'info');
-                  } else {
-                    var removeItems = items[product['productId']].indexes.map(function (index) {
-                      return {
-                        index: index,
-                        quantity: 0
-                      };
-                    });
-
-                    vtexjs.checkout.removeItems(removeItems).then(function (res) {
-
-                      var item = {
-                        id: items[product['productId']].sku,
-                        quantity: limit,
-                        seller: '1'
-                      };
-
-                      vtexjs.checkout.addToCart([item], null).then(function (orderForm) {
-                        $("#minicart-wrapper").trigger('get-cart');
-                      });
-                    });
-                  }
-                }
-              }
-            };
-
-            //console.log("limit - res: ", res)
-            for (var i = 0; i < res.length; i++) {
-              _loop(i);
-            }
           });
         }
       });
@@ -63152,11 +63360,11 @@ var MobCart = exports.MobCart = function (_React$Component) {
       return _react2.default.createElement(
         'ul',
         { className: 'product-list' },
-        this.state.items.map(function (item) {
+        this.state.items.map(function (item, index) {
 
           return _react2.default.createElement(
             'li',
-            { className: 'product-item' },
+            { className: 'product-item', key: index },
             _react2.default.createElement(
               'span',
               { className: 'badge badge-gold' },
@@ -63321,13 +63529,16 @@ var ProductList = exports.ProductList = function (_React$Component) {
 
   _createClass(ProductList, [{
     key: "minus",
-    value: function minus(item) {
+    value: function minus(item, index) {
       var qty = parseInt($("#input-" + item.id + "-" + item.index).val()) - 1;
 
       if (qty > 0) {
         $("#input-" + item.id + "-" + item.index).val(qty);
         $("#input-" + item.id + "-" + item.index).trigger('keyup');
         $("#input-" + item.id + "-" + item.index).trigger('keyup');
+      }
+      if (qty == 0) {
+        this.removeFromCart(item, index);
       }
     }
   }, {
@@ -63341,23 +63552,111 @@ var ProductList = exports.ProductList = function (_React$Component) {
     }
   }, {
     key: "removeFromCart",
-    value: function removeFromCart(item) {
-      this.props.removeFromCart(item);
+    value: function removeFromCart(item, index) {
+      var counter = 0;
+      vtexjs.checkout.orderForm.items.forEach(function (itm) {
+        if (itm.productId == item.productId) {
+          counter++;
+        }
+      });
+
+      console.log('counter', counter);
+      if (counter == 1) {
+        $('[data-product-id="' + item.productId + '"]').find('.flag-adicionado').remove();
+        $('[data-product-id="' + item.productId + '"]').find(".buy-button-shelf a").show();
+        $('[data-product-id="' + item.productId + '"]').find(".buy-button-normal").show();
+        $('[data-product-id="' + item.productId + '"]').find('.product-qty').remove();
+      }
+
+      this.props.removeFromCart(item, index);
     }
   }, {
     key: "itemDetail",
     value: function itemDetail(item) {
-      this.quickView.open(item.detailUrl, item.productId, item.id, item.price);
+      this.quickView.open(item.detailUrl, item.productCategoryIds);
+    }
+
+    //remove duplicates
+
+  }, {
+    key: "remDuplicates",
+    value: function remDuplicates(limit, qtt, index1, index2) {
+      var updateCarteArr = [{
+        index: index1,
+        quantity: qtt < limit ? qtt : limit
+      }, {
+        index: index2,
+        quantity: 0
+      }];
+
+      if (qtt > limit) {
+        this.limitMsg(limit, vtexjs.checkout.orderForm.items[index1].skuName);
+      }
+
+      vtexjs.checkout.getOrderForm().then(function (orderForm) {
+        return vtexjs.checkout.updateItems(updateCarteArr, null, false);
+      }).done(function (orderForm) {
+        var updateCartEvt = new Event('updateCartEvt');
+        window.dispatchEvent(updateCartEvt);
+      });
     }
   }, {
     key: "forceLimit",
-    value: function forceLimit(item) {}
+    value: function forceLimit(o, index) {
+      var _this2 = this;
+
+      //check Limit
+      var finalLimit = 0;
+      var url = '/api/catalog_system/pub/products/search?fq=productId:' + o.productId;
+      fetch(url).then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        if (res[0]['Limite Oferta'].length > 0) {
+          var limit = parseInt(res[0]['Limite Oferta'][0]);
+          finalLimit = limit;
+        } else {
+          finalLimit = 9999;
+        }
+
+        //remove duplicates
+        var items = _this2.props.items;
+        var duplicate = void 0;
+        items.forEach(function (itm, idx) {
+          if (idx != index && itm.id == o.id) {
+            duplicate = idx;
+          }
+        });
+        if (typeof duplicate === 'number') {
+          var duplicatedQuantitySum = _this2.props.items[duplicate].quantity ? _this2.props.items[duplicate].quantity + parseInt($("#input-" + o.id + "-" + o.index).val()) : 0;
+          _this2.remDuplicates(finalLimit, duplicatedQuantitySum, o.index, duplicate);
+          //if there are duplicates stop the function here
+          return;
+        }
+
+        //solving without duplicates
+        if (parseInt($("#input-" + o.id + "-" + o.index).val()) <= finalLimit) {
+          _this2.props.update(index, parseInt($("#input-" + o.id + "-" + o.index).val()));
+        } else {
+          _this2.props.update(index, finalLimit);
+          _this2.limitMsg(finalLimit, o.skuName);
+        }
+      });
+    }
+  }, {
+    key: "limitMsg",
+    value: function limitMsg(limit, name) {
+      if ($('.mz-front-messages-placeholder').length == 0) {
+        $('body').prepend('<div class="mz-front-messages-placeholder" >você só pode ter no máximo ' + limit + ' itens do produto ' + name + ' no carrinho</div>');
+      }
+      setTimeout(function () {
+        $('.mz-front-messages-placeholder').remove();
+      }, 5000);
+    }
   }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate() {
-      var _this2 = this;
+      var _this3 = this;
 
-      //   // Como o input nao esta em um state, é necessario este bind
       this.props.items.forEach(function (o, index) {
 
         $("#input-" + o.id + "-" + o.index).unbind('change');
@@ -63368,7 +63667,9 @@ var ProductList = exports.ProductList = function (_React$Component) {
             return;
           }
 
-          if ($("#input-" + o.id + "-" + o.index).val() > 0) _this2.props.update(index, $("#input-" + o.id + "-" + o.index).val());
+          if ($("#input-" + o.id + "-" + o.index).val() > 0) {
+            _this3.forceLimit(o, index);
+          }
         }, 0));
         $("#input-" + o.id + "-" + o.index).val(o.quantity);
       });
@@ -63379,7 +63680,7 @@ var ProductList = exports.ProductList = function (_React$Component) {
   }, {
     key: "renderList",
     value: function renderList(sorted, items) {
-      var _this3 = this;
+      var _this4 = this;
 
       return _react2.default.createElement(
         "div",
@@ -63394,11 +63695,11 @@ var ProductList = exports.ProductList = function (_React$Component) {
               items[key].map(function (item, index) {
                 return _react2.default.createElement(
                   "li",
-                  { className: "product-item", id: 'cartItemId-' + item.id, key: index },
+                  { className: "product-item ", id: 'cartItemId-' + item.id, key: index },
                   _react2.default.createElement(
                     "span",
-                    { className: "product-remove", id: "" + item.id, onClick: function onClick() {
-                        return _this3.removeFromCart(item);
+                    { className: "product-remove", name: item.productId, id: "" + item.id, onClick: function onClick() {
+                        return _this4.removeFromCart(item, index);
                       } },
                     _react2.default.createElement("i", { className: "fa fa-times" })
                   ),
@@ -63408,7 +63709,7 @@ var ProductList = exports.ProductList = function (_React$Component) {
                     _react2.default.createElement(
                       "div",
                       { className: "product-image", style: { cursor: 'pointer' }, onClick: function onClick() {
-                          return _this3.itemDetail(item);
+                          return _this4.itemDetail(item);
                         } },
                       _react2.default.createElement("img", { src: item.imageUrl, alt: "" })
                     ),
@@ -63418,7 +63719,7 @@ var ProductList = exports.ProductList = function (_React$Component) {
                       _react2.default.createElement(
                         "p",
                         { className: "product-name", style: { cursor: 'pointer' }, onClick: function onClick() {
-                            return _this3.itemDetail(item);
+                            return _this4.itemDetail(item);
                           } },
                         item.skuName
                       ),
@@ -63446,7 +63747,7 @@ var ProductList = exports.ProductList = function (_React$Component) {
                             "div",
                             { className: "qty-minus" },
                             _react2.default.createElement("img", { src: "https://supernossoemcasa.vteximg.com.br/arquivos/icon-minus.png", alt: "", onClick: function onClick() {
-                                return _this3.minus(item);
+                                return _this4.minus(item, index);
                               } })
                           ),
                           _react2.default.createElement(
@@ -63458,7 +63759,7 @@ var ProductList = exports.ProductList = function (_React$Component) {
                             "div",
                             { className: "qty-more" },
                             _react2.default.createElement("img", { src: "https://supernossoemcasa.vteximg.com.br/arquivos/icon-more.png", alt: "", onClick: function onClick() {
-                                return _this3.plus(item);
+                                return _this4.plus(item);
                               } })
                           )
                         )
