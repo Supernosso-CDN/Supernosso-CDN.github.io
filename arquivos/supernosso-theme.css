@@ -20320,7 +20320,7 @@ body#wishlist-page.create #collections .action-area .form-action .save input[typ
   color: #DBA527;
   text-align: center;
   font-size: 2.4em;
-  padding: 1em 0em;
+  padding: 1em 0em 0;
   font-weight: bold;
 }
 .planosContainer .planosCards .vantagemCard {
@@ -20331,6 +20331,12 @@ body#wishlist-page.create #collections .action-area .form-action .save input[typ
 }
 .planosContainer .planosCards .vantagemCardVermelho {
   color: #ffffff;
+}
+.planosContainer .planosCards .vantagemCardAmarelo {
+  color: #DBA527;
+  font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 20px;
 }
 .planosContainer .planosCards .botaoComprarCard {
   background: #981A2A;

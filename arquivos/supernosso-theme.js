@@ -64541,6 +64541,11 @@ var PrimePlans = function (_React$Component) {
             ),
             _react2.default.createElement(
               "p",
+              { className: "vantagemCard vantagemCardAmarelo" },
+              "menos de 16,80 ao m\xEAs"
+            ),
+            _react2.default.createElement(
+              "p",
               { className: "vantagemCard" },
               "3 meses de entregas gr\xE1tis"
             ),
@@ -64569,6 +64574,11 @@ var PrimePlans = function (_React$Component) {
               "h1",
               { className: "precoCard" },
               price
+            ),
+            _react2.default.createElement(
+              "p",
+              { className: "vantagemCard vantagemCardAmarelo" },
+              "menos de R$8,50 ao m\xEAs"
             ),
             _react2.default.createElement(
               "p",
@@ -64605,6 +64615,11 @@ var PrimePlans = function (_React$Component) {
               "h1",
               { className: "precoCard" },
               price
+            ),
+            _react2.default.createElement(
+              "p",
+              { className: "vantagemCard vantagemCardAmarelo" },
+              "menos de R$11,80 ao m\xEAs"
             ),
             _react2.default.createElement(
               "p",
