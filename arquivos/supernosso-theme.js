@@ -56159,44 +56159,48 @@ var StorePicker = function () {
         };
       };
 
-      var forcePickup = debounce(function () {
-        vtexjs.checkout.getOrderForm().then(function (orderForm) {
-          var postalCode = "31030050"; // o cep pode ser fixo por que é retirada mesmo 
-          var country = 'BRA';
-          var address = {
-            "postalCode": postalCode,
-            "country": country
-          };
-          return vtexjs.checkout.calculateShipping(address);
-        }).done(function (orderForm) {
-          if (orderForm.totalizers[1].value == 0) {
-            $('.cart-entrega .cart-total-value').text('grátis');
+      var forcePickup = debounce(function (orderForm) {
+        //force pickup
+        var pickupforce = false;
+        var shippingData = orderForm.shippingData;
+        orderForm.shippingData.logisticsInfo.forEach(function (item, index) {
+          console.log('logisticsInfo item', item);
+          console.log('logisticsInfo item', item.selectedSla);
+          if (item.selectedSla.indexOf('Agendada') > -1 && window.localStorage.mzShippingSelected == 'pickup') {
+            shippingData.logisticsInfo[index].selectedSla = item.slas[1].id;
+            shippingData.logisticsInfo[index].selectedDeliveryChannel = item.slas[1].deliveryChannel;
+            pickupforce = true;
           }
         });
-        // console.log('pickup debounce')
+        if (pickupforce) {
+          vtexjs.checkout.sendAttachment('shippingData', shippingData).done(function () {
+            that.insertParam('sc', localStorage.mzSc);
+          });
+        }
       }, 3000);
 
       function events(that) {
-        if (window.location.href.indexOf('testeMaeztra=teste') > -1) {
-          $(window).on("orderFormUpdated.vtex", function (evt, orderForm) {
-            // esse script é feio más necessário, quando troca o SC mesmo tendo selecionado retirada a vtex faz o que ela quer
-            if (window.localStorage.mzShippingSelected && window.localStorage.mzShippingSelected == 'delivery' && orderForm.totalizers[1] && orderForm.totalizers[1].value == 0) {
-              // console.log('DELIVERY')
-              var data = JSON.parse(window.localStorage.getItem('aditionalShippingData'));
-              data.selectedLeanShippingOption = "FASTEST"; // ou CHEAPEST
-              window.localStorage.setItem('aditionalShippingData', JSON.stringify(data));
-              return;
-            }
-            if (window.localStorage.mzShippingSelected && window.localStorage.mzShippingSelected == 'pickup' && orderForm.totalizers[1] && orderForm.totalizers[1].value != 0) {
-              // console.log('pickup')
-              var data = JSON.parse(window.localStorage.getItem('aditionalShippingData'));
-              data.selectedLeanShippingOption = "CHEAPEST"; // ou CHEAPEST
-              window.localStorage.setItem('aditionalShippingData', JSON.stringify(data));
-              $('.cart-entrega .cart-total-value').text('grátis'); //tentativa de nao piscar um valor > 0 na tela
-              forcePickup();
-            }
-          });
-        }
+        // if (window.location.href.indexOf('testeMaeztra=teste') > -1) {
+        $(window).on("orderFormUpdated.vtex", function (evt, orderForm) {
+          // esse script é feio más necessário, quando troca o SC mesmo tendo selecionado retirada a vtex faz o que ela quer
+          if (window.localStorage.mzShippingSelected && window.localStorage.mzShippingSelected == 'delivery' && orderForm.totalizers[1] && orderForm.totalizers[1].value == 0) {
+            // console.log('DELIVERY')
+            var data = JSON.parse(window.localStorage.getItem('aditionalShippingData'));
+            data.selectedLeanShippingOption = "FASTEST"; // ou CHEAPEST
+            window.localStorage.setItem('aditionalShippingData', JSON.stringify(data));
+            return;
+          }
+          if (window.localStorage.mzShippingSelected && window.localStorage.mzShippingSelected == 'pickup' && orderForm.totalizers[1] && orderForm.totalizers[1].value != 0) {
+            // console.log('pickup')
+            var data = JSON.parse(window.localStorage.getItem('aditionalShippingData'));
+            data.selectedLeanShippingOption = "CHEAPEST"; // ou CHEAPEST
+            window.localStorage.setItem('aditionalShippingData', JSON.stringify(data));
+            //$('.cart-entrega .cart-total-value').text('grátis')//tentativa de nao piscar um valor > 0 na tela
+            // forcePickup(orderForm);
+          }
+        });
+        // }
+
 
         $(document).on('click', '.delivery-item.home-delivery', function (e) {
           localStorage.setItem('mzShippingSelected', 'delivery');
@@ -56216,8 +56220,6 @@ var StorePicker = function () {
           var long = $(this).attr('data-long');
           var name = $(this).find('.store-title').text().split('Super Nosso ')[1];
 
-          // localStorage.setItem('mzSellerPickupSelected', '{"pickup":' + pickup + ',"scPostalcode":"' + scPostalcode + '","name":"' + name.replace('- ', '') + '"}')
-          localStorage.setItem('mzZipcode', scPostalcode);
           localStorage.setItem('mzShippingSelected', 'pickup');
 
           if (!pickup.length) return;
@@ -56278,14 +56280,11 @@ var StorePicker = function () {
                 vtexjs.checkout.removeItems(itemsToRemove);
               }
             }
+
             // alert('shipping data')
-            vtexjs.checkout.sendAttachment('shippingData',
-            // (window.location.href.indexOf('?testeMaeztra=teste') > -1) ?//remover após acabarem os testes
-            // deliveryToShipping
-            // ://remover após acabarem os testes
-            {
-              clearAddressIfPostalCodeNotFound: false, //remover após acabarem os testes
-              selectedAddresses: [newAddress] //remover após acabarem os testes
+            vtexjs.checkout.sendAttachment('shippingData', {
+              clearAddressIfPostalCodeNotFound: false,
+              selectedAddresses: [newAddress]
             }).done(function (result) {
 
               var newShippingData = result.shippingData;
@@ -56614,7 +56613,7 @@ var StorePicker = function () {
             return x.status && x.pickupWindow != null;
             //retira as lojas expressas e as não ativas
           });
-          console.log('this.pickUpStores', _this4.pickUpStores);
+          // console.log('this.pickUpStores', this.pickUpStores)
           if (_this4.stores.length > 0) {
             _this4.templateModal(true, userResponse);
             // this.renderStores();
@@ -57064,6 +57063,36 @@ var Shelf = function () {
         };
       };
 
+      //force pickup
+      function forcePickup(orderForm) {
+        var pickupforce = false;
+        var shippingData = orderForm.shippingData;
+        orderForm.shippingData.logisticsInfo.forEach(function (item, index) {
+          console.log('logisticsInfo item', item);
+          console.log('logisticsInfo item', item.selectedSla);
+          if (window.localStorage.mzShippingSelected == 'pickup' && item.selectedSla.indexOf('Agendada') > -1) {
+            console.log('try to change to pickup');
+            shippingData.logisticsInfo[index].selectedSla = item.slas[1].id;
+            shippingData.logisticsInfo[index].selectedDeliveryChannel = item.slas[1].deliveryChannel;
+            pickupforce = true;
+          }
+        });
+        if (pickupforce) {
+          console.log('pickupForce');
+          vtexjs.checkout.sendAttachment('shippingData', shippingData);
+        }
+      }
+
+      window.addEventListener('load', function (event) {
+        var checkExist = setInterval(function () {
+          if (vtexjs.checkout.orderForm.shippingData && vtexjs.checkout.orderForm.shippingData.logisticsInfo) {
+            clearInterval(checkExist);
+            if (window.location.href.indexOf('testeMaeztra=teste') > -1) {
+              forcePickup(vtexjs.checkout.orderForm);
+            }
+          }
+        }, 1000);
+      });
       // main function when items change
       var itemsChanged = debounce(function (add, item, itemsQuantity, itemIndex, itemArr) {
         $('.product-qty , .buy-button-normal').addClass('disabled-qty');
@@ -57072,10 +57101,45 @@ var Shelf = function () {
         if (add || itemIndex == undefined) {
           item = itemAdded;
           item.quantity = add ? 1 : itemsQuantity;
-          // add
-          vtexjs.checkout.addToCart([item], null, item.salesChannel).done(function (orderForm) {
+
+          var url = "/api/checkout/pub/orderForm/" + vtexjs.checkout.orderForm.orderFormId + "/items";
+          var body = {
+            "orderItems": [{
+              "id": item.id,
+              "quantity": add ? 1 : itemsQuantity,
+              "seller": "1",
+              "salesChannel": item.salesChannel
+            }]
+            // add
+            // vtexjs.checkout.addToCart([item], item.salesChannel).then((orderForm) => {
+
+            // if (window.localStorage.mzShippingSelected && window.localStorage.mzShippingSelected == 'pickup' && orderForm.totalizers[1] && orderForm.totalizers[1].value != 0) {
+            //   console.log('wrong sla')
+            //   var postalCode = localStorage.mzZipcode;
+            //   var country = 'BRA';
+            //   var address = {
+            //     "postalCode": postalCode,
+            //     "country": country
+            //   };
+            //   return vtexjs.checkout.calculateShipping(address)
+            // }
+
+          };$.ajax({
+            type: 'POST',
+            url: url,
+            dataType: 'json',
+            headers: {
+              "Accept": "application/vnd.vtex.ds.v10+json",
+              "Content-Type": "application/json; charset=utf-8"
+            }, data: JSON.stringify(body)
+          }).then(function (orderForm) {
+            if (window.location.href.indexOf('testeMaeztra=teste') > -1) {
+              forcePickup(orderForm);
+            }
+          }).done(function (orderForm) {
             updateEvent();
             setTimeout(function () {
+
               $('.product-qty , .buy-button-normal').removeClass('disabled-qty');
               $('[data-product-id="' + lastClicked + '"] .product-qty').removeClass('loading-qty');
               $('[data-product-id="' + lastClicked + '"] .product-qty .shelf-input-qty-control').focus();
@@ -57094,6 +57158,8 @@ var Shelf = function () {
             });
 
             return vtexjs.checkout.updateItems(updateItem, null, false);
+          }).then(function () {
+            if (item.quantity > 0 && window.location.href.indexOf('testeMaeztra=teste') > -1) forcePickup(orderForm);
           }).done(function (orderForm) {
             updateEvent();
             $('.product-qty , .buy-button-normal').removeClass('disabled-qty');
