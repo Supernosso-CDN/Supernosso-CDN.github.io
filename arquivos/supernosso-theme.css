@@ -12315,6 +12315,16 @@ p.text-seo span.full {
   overflow: hidden;
   text-decoration: none;
 }
+#sellerModal .seller-modal-inner .seller-modal-stores .seller-modal-store-item .store-link .store-window,
+#sellerModal .seller-modal-inner .seller-modal-stores .seller-modal-store-item .store-link:hover .store-window,
+#sellerModal .seller-modal-inner .seller-modal-stores .seller-modal-store-item .store-link:focus .store-window,
+#sellerModal .seller-modal-inner .seller-modal-stores .seller-modal-store-item .store-link:active .store-window,
+#sellerModal .seller-modal-inner .seller-modal-stores .seller-modal-store-item .store-link .store-defence,
+#sellerModal .seller-modal-inner .seller-modal-stores .seller-modal-store-item .store-link:hover .store-defence,
+#sellerModal .seller-modal-inner .seller-modal-stores .seller-modal-store-item .store-link:focus .store-defence,
+#sellerModal .seller-modal-inner .seller-modal-stores .seller-modal-store-item .store-link:active .store-defence {
+  color: #666;
+}
 #sellerModal .seller-modal-inner .seller-modal-stores .seller-modal-store-item .store-link p,
 #sellerModal .seller-modal-inner .seller-modal-stores .seller-modal-store-item .store-link:hover p,
 #sellerModal .seller-modal-inner .seller-modal-stores .seller-modal-store-item .store-link:focus p,
@@ -12343,6 +12353,25 @@ p.text-seo span.full {
 #sellerModal .seller-modal-inner .seller-modal-stores .seller-modal-store-item .store-link:focus .store-window,
 #sellerModal .seller-modal-inner .seller-modal-stores .seller-modal-store-item .store-link:active .store-window {
   font-weight: bold;
+  margin-top: 3px;
+}
+#sellerModal .seller-modal-inner .seller-modal-stores .seller-modal-store-item .store-link .store-defence,
+#sellerModal .seller-modal-inner .seller-modal-stores .seller-modal-store-item .store-link:hover .store-defence,
+#sellerModal .seller-modal-inner .seller-modal-stores .seller-modal-store-item .store-link:focus .store-defence,
+#sellerModal .seller-modal-inner .seller-modal-stores .seller-modal-store-item .store-link:active .store-defence {
+  font-size: 11px;
+  margin-bottom: 10px;
+}
+#sellerModal .seller-modal-inner .seller-modal-stores .seller-modal-store-item .store-link .store-window,
+#sellerModal .seller-modal-inner .seller-modal-stores .seller-modal-store-item .store-link:hover .store-window,
+#sellerModal .seller-modal-inner .seller-modal-stores .seller-modal-store-item .store-link:focus .store-window,
+#sellerModal .seller-modal-inner .seller-modal-stores .seller-modal-store-item .store-link:active .store-window,
+#sellerModal .seller-modal-inner .seller-modal-stores .seller-modal-store-item .store-link .store-defence,
+#sellerModal .seller-modal-inner .seller-modal-stores .seller-modal-store-item .store-link:hover .store-defence,
+#sellerModal .seller-modal-inner .seller-modal-stores .seller-modal-store-item .store-link:focus .store-defence,
+#sellerModal .seller-modal-inner .seller-modal-stores .seller-modal-store-item .store-link:active .store-defence {
+  margin-top: 3px;
+  line-height: 1;
 }
 #sellerModal .seller-modal-inner .seller-modal-stores .seller-modal-store-item .store-link .store-address,
 #sellerModal .seller-modal-inner .seller-modal-stores .seller-modal-store-item .store-link:hover .store-address,
