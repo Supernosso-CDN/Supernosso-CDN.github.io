@@ -55191,72 +55191,6 @@ var QuickView = exports.QuickView = function () {
     value: function openUrlCloseIframe(url) {
       window.location.href = url;
     }
-
-    //////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////////////////
-    // Comentei pra ver se quebra por que este codigo parece não ser utilizado
-    //////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////// 
-
-    // openHref(url, bestPrice, addToCart, productId, productSku) {
-    //   alert('openhref function quickview')
-
-    //   $("body").addClass("overflow-hidden");
-    //   $("#product-qv-iframe-wrapper").remove();
-
-    //   let iframe = $("<iframe />", {
-    //     name: "product-qv-iframe",
-    //     id: "product-qv-iframe",
-    //     src: url + "?quickview=true",
-    //   });
-
-    //   let currentUrl = window.location.href;
-
-    //   window.history.pushState({}, "", url.replace("?quickview=true", ""));
-
-    //   window.onpopstate = function (t) {
-    //     $("body").removeClass("overflow-hidden");
-    //     $("#product-qv-iframe-wrapper").remove();
-    //     $("#minicart-wrapper").trigger("sync-cart");
-    //     $(window).trigger("sync-shelf");
-    //   };
-
-    //   let btn = $("body").find(".buy-button-shelf").first().clone();
-    //   bestPrice = bestPrice.toFixed(2).toString().replace(".", ",");
-
-    //   $(btn).attr("data-product-id", productId);
-    //   $(btn)
-    //     .find(".buy-button-normal")
-    //     .children("a")
-    //     .text(`adicionar ao carrinho | ${bestPrice}`);
-    //   $(btn).find(".buy-button-normal").children("a").attr("href", addToCart);
-
-    //   let iframeWrapper = $('<div id="product-qv-iframe-wrapper" />').append(
-    //     $('<div class="product-qv-iframe-inner" />').append(
-    //       $('<div class="close-product-qv-iframe" />').append(
-    //         '<img src="https://supernossoemcasa.vteximg.com.br/arquivos/icon-close.png" />'
-    //       ),
-    //       $('<i class="fa fa-spinner fa-spin iframe-loading fa-2x" />'),
-    //       $('<div class="iframe-content-inner" />').append(iframe)
-    //     )
-    //   );
-
-    //   if (window.matchMedia("(max-width:768px)").matches == true) {
-    //     $(iframeWrapper).find(".iframe-content-inner").append(btn);
-    //   }
-
-    //   iframeWrapper.appendTo("body");
-    //   $(document).on("click", ".close-product-qv-iframe img", function (e) {
-    //     e.preventDefault();
-    //     $("body").removeClass("overflow-hidden");
-    //     $("#product-qv-iframe-wrapper").remove();
-    //     $("#minicart-wrapper").trigger("sync-cart");
-    //     $(window).trigger("sync-shelf");
-    //     window.history.pushState("Object", "Categoria JavaScript", currentUrl);
-    //   });
-    // }
-
   }, {
     key: 'open',
     value: function open(url, productCategoryIds) {
@@ -56523,7 +56457,7 @@ var StorePicker = function () {
       };
 
       return $.ajax({
-        url: '/api/checkout/pub/orderforms/simulation',
+        url: '/api/checkout/pub/orderforms/simulation?sc=12',
         type: 'POST',
         dataType: 'JSON',
         contentType: 'application/json',
