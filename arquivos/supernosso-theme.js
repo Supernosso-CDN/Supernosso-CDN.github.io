@@ -56854,6 +56854,15 @@ var Shelf = function () {
       $(window).on("orderFormUpdated.vtex", function (evt, orderForm) {
         if (vtexjs.checkout.orderForm && vtexjs.checkout.orderForm.items) {
           $('.badge.badge-secondary , .badge.badge-cart').text(vtexjs.checkout.orderForm.items.length);
+
+          if ($('body.produto').length === 1) {
+            var pdpProductId = skuJson.productId;
+            orderForm.items.forEach(function (item) {
+              if (pdpProductId == item.productId) {
+                $('.product-qty .shelf-input-qty-control').val(item.quantity);
+              }
+            });
+          }
         }
         if (that.ignore) {
           return;
@@ -56935,6 +56944,7 @@ var Shelf = function () {
           fetch(url).then(function (res) {
             return res.json();
           }).then(function (res) {
+
             if (res[0]['Limite Oferta']) {
               var limit = parseInt(res[0]['Limite Oferta'][0]);
               if (limit < itemArr[0].quantity) {
@@ -56974,17 +56984,17 @@ var Shelf = function () {
         var pickupforce = false;
         var shippingData = orderForm.shippingData;
         orderForm.shippingData.logisticsInfo.forEach(function (item, index) {
-          console.log('logisticsInfo item', item);
-          console.log('logisticsInfo item', item.selectedSla);
+          // console.log('logisticsInfo item', item)
+          // console.log('logisticsInfo item', item.selectedSla)
           if (window.localStorage.mzShippingSelected == 'pickup' && item.selectedSla.indexOf('Agendada') > -1) {
-            console.log('try to change to pickup');
+            // console.log('try to change to pickup')
             shippingData.logisticsInfo[index].selectedSla = item.slas[1].id;
             shippingData.logisticsInfo[index].selectedDeliveryChannel = item.slas[1].deliveryChannel;
             pickupforce = true;
           }
         });
         if (pickupforce) {
-          console.log('pickupForce');
+          // console.log('pickupForce')
           vtexjs.checkout.sendAttachment('shippingData', shippingData);
         }
       }
@@ -63580,7 +63590,7 @@ var ProductList = exports.ProductList = function (_React$Component) {
       fetch(url).then(function (res) {
         return res.json();
       }).then(function (res) {
-        if (res[0]['Limite Oferta'].length > 0) {
+        if (res[0]['Limite Oferta'] && res[0]['Limite Oferta'].length > 0) {
           var limit = parseInt(res[0]['Limite Oferta'][0]);
           finalLimit = limit;
         } else {
