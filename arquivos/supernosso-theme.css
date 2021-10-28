@@ -20549,6 +20549,55 @@ body#parceiro-lecupon .toast.toast-error {
 body#parceiro-lecupon #ajaxBusy {
   display: none !important;
 }
+body#parceiro-lecupon .orgBranchesSelection {
+  display: flex;
+  align-items: center;
+  margin: 30px 0 20px 0;
+}
+body#parceiro-lecupon .orgBranchesSelection span {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  font-style: normal;
+  font-size: 14px;
+  line-height: 16.41px;
+  color: #666666;
+  margin-right: 15px;
+}
+body#parceiro-lecupon .orgBranchesSelection.selectHidden {
+  display: none;
+}
+body#parceiro-lecupon .orgBranchesSelection select#orgBranches {
+  appearance: none;
+  padding: 8px 36px 8px 16px;
+  border: 1px solid #F2F2F2;
+  box-sizing: border-box;
+  border-radius: 6px;
+  background: #FFF url(https://supernossoemcasa.vteximg.com.br/arquivos/icon-chevron-down.png) no-repeat center right 10px;
+  font-style: normal;
+  font-weight: normal;
+  position: relative;
+  cursor: pointer;
+  width: 410px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 16.41px;
+  color: #666666;
+}
+@media screen and (max-width: 991px) {
+  body#parceiro-lecupon .orgBranchesSelection {
+    flex-direction: column;
+    align-items: baseline;
+  }
+  body#parceiro-lecupon .orgBranchesSelection span {
+    margin-bottom: 15px;
+  }
+  body#parceiro-lecupon .orgBranchesSelection select#orgBranches {
+    margin-top: 15px;
+    width: 100%;
+    padding: 8px 36px 8px 10px;
+  }
+}
 body#parceiro-lecupon .bread-crumb {
   margin-top: 20px;
 }
@@ -20612,7 +20661,7 @@ body#parceiro-lecupon #content .videoContent .container {
   }
 }
 body#parceiro-lecupon .couponDetails {
-  padding: 64px 108px;
+  padding: 64px 108px 20px 108px;
   background: #FFFFFF;
   border-radius: 8px;
   border-left: 5px solid #DA291C;
@@ -20631,7 +20680,7 @@ body#parceiro-lecupon .couponDetails.isloading::before {
 }
 @media screen and (max-width: 991px) {
   body#parceiro-lecupon .couponDetails {
-    padding: 20px 40px 20px 50px;
+    padding: 20px 30px 20px 30px;
   }
 }
 body#parceiro-lecupon .couponDetails-title {
