@@ -20457,9 +20457,11 @@ body.pagina-prime #ajaxBusy {
   display: none !important;
 }
 body.pagina-prime .toast.toast-success,
-body.pagina-prime .toast.toast-error {
-  box-shadow: none;
-  opacity: 1;
+body.pagina-prime .toast.toast-error,
+body.pagina-prime .toast.toast-warning,
+body.pagina-prime .toast.toast-info {
+  box-shadow: none !important;
+  opacity: 1 !important;
 }
 body.pagina-prime #content {
   display: none;
@@ -20542,9 +20544,11 @@ body#parceiro-lecupon {
   height: auto;
 }
 body#parceiro-lecupon .toast.toast-success,
-body#parceiro-lecupon .toast.toast-error {
-  box-shadow: none;
-  opacity: 1;
+body#parceiro-lecupon .toast.toast-error,
+body#parceiro-lecupon .toast.toast-warning,
+body#parceiro-lecupon .toast.toast-info {
+  box-shadow: none !important;
+  opacity: 1 !important;
 }
 body#parceiro-lecupon #ajaxBusy {
   display: none !important;
@@ -20720,6 +20724,7 @@ body#parceiro-lecupon .generateCouponBtn {
 }
 body#parceiro-lecupon .generateCouponBtn.disabled {
   pointer-events: none;
+  background: #ccc;
 }
 body#parceiro-lecupon .generateCouponBtn.btnloading {
   font-size: 0;
