@@ -55648,7 +55648,7 @@ var StorePicker = function () {
       var pickUpPoints = await (0, _utils.getPickUpPoints)();
 
       if (purchaseData && pickUpPoints) {
-        if (purchaseData.postalCode == "33400000") {
+        if (purchaseData.postalCode == "33400000" || purchaseData.postalCode >= "33230000" && purchaseData.postalCode <= "33240370") {
           return "10";
         }
         var slas = purchaseData.logisticsInfo[0].slas;
@@ -55840,7 +55840,7 @@ var StorePicker = function () {
       if (deliveryAddress) {
         var address = deliveryAddress;
 
-        if (address.postalCode == "33400000") {
+        if (address.postalCode == "33400000" || address.postalCode >= "33230000" && address.postalCode <= "33240370") {
           formattedAd = "Lagoa Santa";
           return formattedAd;
         }
