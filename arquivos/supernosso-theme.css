@@ -9977,6 +9977,24 @@ header .user-data-toggle strong {
   height: 100%;
   transform: translate3d(0, 0, 0);
 }
+#minicart-wrapper .minicart-inner .minicart-body .cart-content button.elipse-prime {
+  background: url('https://supernossoemcasa.vteximg.com.br/arquivos/elipse_prime.png');
+  background-size: contain;
+  width: 80px;
+  height: 80px;
+  border: none;
+  position: fixed;
+  bottom: 115px;
+  padding: 0;
+  left: -30px;
+  outline: none;
+}
+@media screen and (max-width: 991px) {
+  #minicart-wrapper .minicart-inner .minicart-body .cart-content button.elipse-prime {
+    bottom: 30px;
+    left: 10px;
+  }
+}
 #minicart-wrapper .minicart-inner .minicart-body .cart-content .cart-top-content {
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -10414,6 +10432,477 @@ header .user-data-toggle strong {
   }
   #minicart-wrapper .minicart-inner .minicart-body .empty-cart .more-products {
     margin-bottom: -28px !important;
+  }
+}
+.primePlans-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 9999999;
+  transition: opacity 0.3s ease-in-out;
+  opacity: 0;
+  background: rgba(0, 0, 0, 0.8);
+}
+.primePlans-container.active {
+  opacity: 1;
+}
+.primeAd-popup {
+  min-height: 200px;
+  border: none;
+  border-radius: none;
+  margin-bottom: 20px;
+  background: #E5E5E5;
+  background: linear-gradient(to bottom right, #FFFFFF, #E5E5E5);
+  padding: 20px;
+  display: none;
+  width: 440px;
+  height: 320px;
+  transition: transform 0.3s;
+}
+.primeAd-popup.active {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+@media screen and (max-width: 991px) {
+  .primeAd-popup .primeAd-carousel {
+    overflow: hidden;
+    width: 300px;
+    position: relative;
+    margin: 0 auto;
+  }
+}
+.primeAd-popup .primeAd-carousel {
+  overflow: hidden;
+  width: 400px;
+  position: relative;
+}
+.primeAd-popup .primeAd-carousel .buttons-container {
+  display: flex;
+  width: 320px;
+  overflow: hidden;
+  margin: 0 auto;
+}
+@media screen and (max-width: 991px) {
+  .primeAd-popup .primeAd-carousel .buttons-container {
+    display: flex;
+    width: 238px;
+    overflow: hidden;
+    margin: 0 auto;
+  }
+}
+.primeAd-popup .primeAd-carousel .prev-prime {
+  position: absolute;
+  top: 50%;
+  margin-top: -25px;
+  z-index: 1;
+  display: block;
+  background: transparent;
+  height: 100%;
+  color: #f7f7f7;
+  line-height: 100%;
+  width: 30px;
+  transition: 0.2s ease;
+  border: 0;
+  left: 0;
+  padding: 0;
+  outline: none;
+}
+.primeAd-popup .primeAd-carousel .prev-prime img {
+  height: 22px;
+}
+.primeAd-popup .primeAd-carousel .next-prime {
+  position: absolute;
+  top: 50%;
+  margin-top: -25px;
+  z-index: 1;
+  right: 0;
+  display: block;
+  background: transparent;
+  height: 100%;
+  color: #959595;
+  line-height: 100%;
+  width: 30px;
+  transition: 0.2s ease;
+  border: 0;
+  padding: 0;
+  outline: none;
+}
+.primeAd-popup .primeAd-carousel .next-prime img {
+  height: 22px;
+}
+@media screen and (max-width: 991px) {
+  .primeAd-popup .buttons {
+    display: flex;
+    align-items: center;
+    transition: transform 0.5s ease-in-out;
+    transform: translateX(0px);
+    gap: 10px;
+    margin: 0 30px 0 0;
+  }
+}
+.primeAd-popup .buttons {
+  display: flex;
+  align-items: center;
+  transition: transform 0.5s ease-in-out;
+  transform: translateX(0px);
+  gap: 10px;
+  margin: 0 10%;
+}
+.primeAd-popup .primeAd-button {
+  height: 50px;
+  width: 180px;
+  border-radius: 6px;
+  border: 1px solid #841F27;
+  background-color: #841F27;
+  padding: 10px;
+  display: flex !important;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  min-width: 180px;
+  text-decoration: none;
+}
+.primeAd-popup .primeAd-button.btn-disabled {
+  pointer-events: none;
+}
+.primeAd-popup .primeAd-button.added {
+  background-color: #FFFFFF;
+}
+.primeAd-popup .primeAd-button.added p {
+  color: #841F27;
+}
+.primeAd-popup .primeAd-button:active,
+.primeAd-popup .primeAd-button:visited,
+.primeAd-popup .primeAd-button:focus,
+.primeAd-popup .primeAd-button:hover {
+  text-decoration: none !important;
+}
+.primeAd-popup .primeAd-button.active::after {
+  content: "";
+  background: url('https://supernossoemcasa.vteximg.com.br/arquivos/spinner-loading-white.gif');
+  background-size: 25px;
+  height: 25px;
+  width: 25px;
+  display: block;
+}
+.primeAd-popup .primeAd-button.active p {
+  display: none;
+}
+.primeAd-popup .primeAd-button p {
+  text-transform: none !important;
+  color: #FFFFFF;
+  font-size: 14px;
+  line-height: 13px;
+  font-weight: normal;
+  margin-bottom: 0 !important;
+}
+.primeAd-popup .primeAd-button p span {
+  text-transform: none !important;
+  font-size: 12px;
+}
+.primeAd-popup .primeAd-button p strong {
+  font-size: 12px;
+}
+.primeAd-popup .primeAd-button p strong span {
+  text-transform: capitalize !important;
+  font-size: 12px;
+}
+.primeAd-popup .logo-content img {
+  width: 180px;
+  height: 53px;
+  margin-bottom: 10px;
+}
+.primeAd-popup .content .content-main p {
+  font-family: 'Roboto';
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  color: #666666;
+  margin-bottom: 10px !important;
+}
+.primeAd-popup .content .content-main strong {
+  font-family: 'Roboto';
+  text-transform: none !important;
+}
+.primeAd-popup .content .content-second {
+  font-family: 'Roboto';
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 19px;
+  color: #666666;
+  margin-bottom: 10px;
+}
+.primeAd-popup .content .content-second strong {
+  color: #841F27;
+}
+@media screen and (max-width: 991px) {
+  .primeAd-popup {
+    min-height: 200px;
+    border: none;
+    margin-bottom: 0 !important;
+    background: linear-gradient(to bottom right, #FFFFFF, #E5E5E5);
+    padding: 20px;
+    display: flex;
+    width: 100%;
+    height: auto;
+    border-radius: none !important;
+    flex-direction: column;
+    transition: transform 0.3s ease-in-out;
+    transform: translateY(calc(100% + 285px));
+    position: fixed;
+    bottom: 0;
+  }
+  .primeAd-popup.active {
+    transform: translateY(calc(100% - 285px));
+  }
+  .primeAd-popup .primeAd-carousel {
+    width: 100%;
+  }
+  .primeAd-popup .primeAd-carousel .buttons-container {
+    width: 250px;
+  }
+  .primeAd-popup .primeAd-carousel .buttons-container .buttons {
+    transform: translateX(-180px);
+  }
+  .primeAd-popup .primeAd-carousel .prev-prime,
+  .primeAd-popup .primeAd-carousel .next-prime {
+    margin-top: -25px;
+  }
+}
+.popup-terms {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 9999999;
+  background: rgba(0, 0, 0, 0.8);
+}
+.popup-terms.active {
+  display: flex;
+}
+.popup-terms-inner {
+  background: white;
+  max-width: 560px;
+  position: absolute;
+  width: 440px;
+  height: auto;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transition: transform 0.3s ease-in-out;
+}
+.popup-terms-inner.popup-hidden {
+  transform: translateY(calc(100% + 285px));
+}
+.popup-terms-inner .warnning-msg,
+.popup-terms-inner .warnning-msg2 {
+  text-transform: none !important;
+  color: #666666;
+  font-weight: 700;
+  margin: 0;
+}
+.popup-terms-inner .warnning-msg2 {
+  margin-bottom: 15px;
+}
+.popup-terms-inner .close-icon {
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  border: none;
+  background-color: transparent;
+  background-image: url('https://supernossoemcasa.vteximg.com.br/arquivos/close-icon-black.png');
+  background-size: 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: absolute;
+  right: 0;
+  top: 0;
+  margin: 15px 20px;
+  outline: none;
+}
+.popup-terms-header {
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #F2F2F2;
+  border-radius: 8px;
+}
+.popup-terms-header button {
+  border: none;
+  outline: none;
+}
+.popup-terms-header img:first-of-type {
+  height: 50px;
+}
+.popup-terms-header img:last-of-type {
+  height: 40px;
+}
+.popup-terms-header .icon-close {
+  cursor: pointer;
+}
+.popup-terms-content {
+  padding: 35px 90px;
+}
+.popup-terms-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.popup-terms-button .button {
+  width: calc(50% - 12px);
+}
+@media screen and (max-width: 991px) {
+  .popup-terms-content {
+    padding: 35px 30px;
+  }
+  .popup-terms-button {
+    flex-direction: column;
+    gap: 20px;
+  }
+  .popup-terms-button .button {
+    width: 100%;
+  }
+  .popup-terms-button .button-primary {
+    flex: 1;
+  }
+}
+.popup-terms .button {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 24px;
+  color: #841F27;
+  border: 1px solid #E5E5E5;
+  box-sizing: border-box;
+  border-radius: 6px;
+  background: transparent;
+  padding: 11px 30px;
+  display: inline-block;
+}
+.popup-terms .button-secondary span {
+  font-size: 14px;
+  font-family: 'Roboto', sans-serif;
+}
+.popup-terms .button-secondary,
+.popup-terms .button:hover {
+  background: #841F27;
+  color: white;
+  border-color: #841F27;
+}
+.popup-terms .button-secondary.isloading::after {
+  content: "";
+  background: url('https://supernossoemcasa.vteximg.com.br/arquivos/spinner-loading-white.gif');
+  background-size: 24px;
+  height: 24px;
+  width: 24px;
+  display: block;
+  margin: 0 auto;
+}
+.popup-terms .button-secondary.isloading span {
+  display: none;
+}
+.popup-terms h2 {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 150%;
+  color: #333333;
+  margin: 0 0 14px 0;
+  padding: 0;
+}
+.popup-terms p {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 150%;
+  color: #999999;
+  margin: 0 0 18px 0;
+  padding: 0;
+}
+.popup-terms p a {
+  color: #841F27;
+  font-family: 'Roboto';
+  font-size: 14px;
+}
+.popup-terms .terms-text {
+  display: none;
+  height: 300px;
+  overflow: auto !important;
+  padding: 10px 10px 0px 10px;
+  margin: 0 0 20px 0;
+  background: hsl(0deg 0% 95%);
+}
+.popup-terms .terms-text.show-terms {
+  display: block;
+}
+.popup-terms .terms-text p {
+  color: #000000;
+  text-transform: none !important;
+  text-align: justify;
+}
+@media screen and (max-width: 991px) {
+  .popup-terms {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 9999999;
+    background: rgba(0, 0, 0, 0.8);
+  }
+  .popup-terms.active {
+    display: flex;
+  }
+  .popup-terms-inner {
+    display: none;
+    min-height: 200px;
+    border: none;
+    margin-bottom: 0 !important;
+    background: linear-gradient(to bottom right, #FFFFFF, #E5E5E5);
+    padding: 20px;
+    display: flex;
+    width: 100%;
+    height: auto;
+    border-radius: none !important;
+    flex-direction: column;
+    transition: transform 0.3s ease-in-out;
+    position: fixed;
+    bottom: 0;
+  }
+  .popup-terms-button {
+    display: flex;
+    flex-direction: row;
+  }
+}
+.link-toggle-terms {
+  display: flex;
+  align-items: center;
+  width: 150px;
+}
+@media screen and (max-width: 991px) {
+  .link-toggle-terms {
+    position: absolute;
+    margin-top: -22px;
+    margin-left: 50px;
+    font-size: 14px;
   }
 }
 footer {
