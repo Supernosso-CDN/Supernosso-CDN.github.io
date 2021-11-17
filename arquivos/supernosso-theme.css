@@ -10458,16 +10458,16 @@ header .user-data-toggle strong {
   margin-bottom: 20px;
   background: #E5E5E5;
   background: linear-gradient(to bottom right, #FFFFFF, #E5E5E5);
-  padding: 20px;
+  padding: 30px 15px;
   display: none;
-  width: 440px;
-  height: 320px;
+  width: 560px;
+  height: 421px;
   transition: transform 0.3s;
 }
 .primeAd-popup.active {
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: space-around;
 }
 @media screen and (max-width: 991px) {
   .primeAd-popup .primeAd-carousel {
@@ -10479,12 +10479,12 @@ header .user-data-toggle strong {
 }
 .primeAd-popup .primeAd-carousel {
   overflow: hidden;
-  width: 400px;
+  width: 100%;
   position: relative;
 }
 .primeAd-popup .primeAd-carousel .buttons-container {
   display: flex;
-  width: 320px;
+  width: 445px;
   overflow: hidden;
   margin: 0 auto;
 }
@@ -10499,7 +10499,6 @@ header .user-data-toggle strong {
 .primeAd-popup .primeAd-carousel .prev-prime {
   position: absolute;
   top: 50%;
-  margin-top: -25px;
   z-index: 1;
   display: block;
   background: transparent;
@@ -10514,12 +10513,11 @@ header .user-data-toggle strong {
   outline: none;
 }
 .primeAd-popup .primeAd-carousel .prev-prime img {
-  height: 22px;
+  height: 28px;
 }
 .primeAd-popup .primeAd-carousel .next-prime {
   position: absolute;
   top: 50%;
-  margin-top: -25px;
   z-index: 1;
   right: 0;
   display: block;
@@ -10534,7 +10532,11 @@ header .user-data-toggle strong {
   outline: none;
 }
 .primeAd-popup .primeAd-carousel .next-prime img {
-  height: 22px;
+  height: 28px;
+}
+.primeAd-popup .primeAd-carousel .prev-prime,
+.primeAd-popup .primeAd-carousel .next-prime {
+  margin-top: -35px;
 }
 @media screen and (max-width: 991px) {
   .primeAd-popup .buttons {
@@ -10555,8 +10557,8 @@ header .user-data-toggle strong {
   margin: 0 10%;
 }
 .primeAd-popup .primeAd-button {
-  height: 50px;
-  width: 180px;
+  height: 75px;
+  width: 241px;
   border-radius: 6px;
   border: 1px solid #841F27;
   background-color: #841F27;
@@ -10598,29 +10600,35 @@ header .user-data-toggle strong {
   text-transform: none !important;
   color: #FFFFFF;
   font-size: 14px;
-  line-height: 13px;
+  line-height: 17px;
   font-weight: normal;
   margin-bottom: 0 !important;
 }
 .primeAd-popup .primeAd-button p span {
   text-transform: none !important;
-  font-size: 12px;
+  font-size: 16px;
 }
 .primeAd-popup .primeAd-button p strong {
-  font-size: 12px;
+  font-size: 16px;
 }
 .primeAd-popup .primeAd-button p strong span {
   text-transform: capitalize !important;
-  font-size: 12px;
+  font-size: 16px;
+}
+.primeAd-popup .logo-content {
+  padding: 0 43px;
 }
 .primeAd-popup .logo-content img {
-  width: 180px;
-  height: 53px;
+  width: 245px;
+  height: 74px;
   margin-bottom: 10px;
+}
+.primeAd-popup .content {
+  padding: 0 43px;
 }
 .primeAd-popup .content .content-main p {
   font-family: 'Roboto';
-  font-size: 16px;
+  font-size: 22px;
   font-weight: 500;
   line-height: 24px;
   color: #666666;
@@ -10629,17 +10637,22 @@ header .user-data-toggle strong {
 .primeAd-popup .content .content-main strong {
   font-family: 'Roboto';
   text-transform: none !important;
+  font-size: 22px;
 }
 .primeAd-popup .content .content-second {
   font-family: 'Roboto';
   font-weight: 400;
-  font-size: 14px;
+  font-size: 15px;
   line-height: 19px;
   color: #666666;
   margin-bottom: 10px;
 }
+.primeAd-popup .content .content-second p {
+  font-size: 15px;
+}
 .primeAd-popup .content .content-second strong {
   color: #841F27;
+  font-size: 15px;
 }
 @media screen and (max-width: 991px) {
   .primeAd-popup {
@@ -10647,25 +10660,68 @@ header .user-data-toggle strong {
     border: none;
     margin-bottom: 0 !important;
     background: linear-gradient(to bottom right, #FFFFFF, #E5E5E5);
-    padding: 20px;
+    padding: 20px 0;
     display: flex;
     width: 100%;
-    height: auto;
     border-radius: none !important;
     flex-direction: column;
     transition: transform 0.3s ease-in-out;
     transform: translateY(calc(100% + 285px));
     position: fixed;
     bottom: 0;
+    height: 285px;
+  }
+  .primeAd-popup .primeAd-button {
+    height: 50px;
+    width: 180px;
+  }
+  .primeAd-popup .primeAd-button p {
+    line-height: 13px;
+  }
+  .primeAd-popup .primeAd-button p span {
+    font-size: 12px;
+  }
+  .primeAd-popup .primeAd-button p strong {
+    font-size: 12px;
+  }
+  .primeAd-popup .primeAd-button p strong span {
+    font-size: 12px;
   }
   .primeAd-popup.active {
     transform: translateY(calc(100% - 285px));
+  }
+  .primeAd-popup .logo-content {
+    padding: 0 35px;
+  }
+  .primeAd-popup .logo-content img {
+    width: 180px;
+    height: 53px;
+  }
+  .primeAd-popup .content {
+    padding: 0 35px;
+  }
+  .primeAd-popup .content .content-main {
+    font-size: 16px;
+  }
+  .primeAd-popup .content .content-main p {
+    font-size: 16px;
+    line-height: 20px;
+  }
+  .primeAd-popup .content .content-main strong {
+    font-size: 16px;
+  }
+  .primeAd-popup .content .content-second p {
+    line-height: 14px;
+    font-size: 13px;
+  }
+  .primeAd-popup .content .content-second p strong {
+    font-size: 13px;
   }
   .primeAd-popup .primeAd-carousel {
     width: 100%;
   }
   .primeAd-popup .primeAd-carousel .buttons-container {
-    width: 250px;
+    width: 290px;
   }
   .primeAd-popup .primeAd-carousel .buttons-container .buttons {
     transform: translateX(-180px);
@@ -10673,6 +10729,10 @@ header .user-data-toggle strong {
   .primeAd-popup .primeAd-carousel .prev-prime,
   .primeAd-popup .primeAd-carousel .next-prime {
     margin-top: -25px;
+  }
+  .primeAd-popup .primeAd-carousel .prev-prime img,
+  .primeAd-popup .primeAd-carousel .next-prime img {
+    height: 22px;
   }
 }
 .popup-terms {
@@ -10694,12 +10754,12 @@ header .user-data-toggle strong {
   background: white;
   max-width: 560px;
   position: absolute;
-  width: 440px;
+  width: 560px;
   height: auto;
-  padding: 40px;
+  padding: 50px 70px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-around;
   transition: transform 0.3s ease-in-out;
 }
 .popup-terms-inner.popup-hidden {
