@@ -21013,7 +21013,7 @@ body.pagina-prime .toast.toast-info {
   opacity: 1 !important;
 }
 body.pagina-prime #content {
-  display: none;
+  padding: 0 !important;
 }
 body.pagina-prime #content .menu-departamento::before {
   display: none !important;
@@ -21352,7 +21352,7 @@ body#parceiro-lecupon #departament-navegador .categoryTitle small {
 }
 body.pagina-prime .ofertasPrime-benefits,
 body#parceiro-lecupon .ofertasPrime-benefits {
-  margin: 35px 0;
+  margin: 35px 0 56px 0;
 }
 body.pagina-prime .ofertasPrime-benefits-cards,
 body#parceiro-lecupon .ofertasPrime-benefits-cards {
@@ -21394,6 +21394,7 @@ body#parceiro-lecupon .ofertasPrime-benefits-cards.slick-initialized .benefit-it
   font-weight: 400;
   color: #111111;
   max-width: 315px;
+  margin-bottom: 0;
 }
 @media screen and (max-width: 991px) {
   body.pagina-prime .ofertasPrime-benefits-cards.slick-initialized .benefit-item p,
@@ -21409,6 +21410,10 @@ body#parceiro-lecupon .ofertasPrime-benefits h2 {
   font-weight: bold;
   margin-bottom: 30px;
   margin-left: 0;
+}
+body.pagina-prime .ofertasPrime-plans,
+body#parceiro-lecupon .ofertasPrime-plans {
+  margin: 0 0 56px 0;
 }
 body.pagina-prime .ofertasPrime-plans-title h2,
 body#parceiro-lecupon .ofertasPrime-plans-title h2 {
@@ -21507,6 +21512,28 @@ body#parceiro-lecupon .ofertasPrime-plans-inner.slick-initialized .slick-list {
     margin-right: -180px;
     top: 20px;
   }
+}
+body.pagina-prime .ofertasPrime-plans-inner.slick-initialized img.elipse-prime-3meses,
+body#parceiro-lecupon .ofertasPrime-plans-inner.slick-initialized img.elipse-prime-3meses,
+body.pagina-prime .ofertasPrime-plans-inner.slick-initialized img.elipse-prime-6meses,
+body#parceiro-lecupon .ofertasPrime-plans-inner.slick-initialized img.elipse-prime-6meses,
+body.pagina-prime .ofertasPrime-plans-inner.slick-initialized img.elipse-prime-12meses,
+body#parceiro-lecupon .ofertasPrime-plans-inner.slick-initialized img.elipse-prime-12meses {
+  position: absolute;
+  bottom: 24px;
+  margin-left: 230px;
+}
+body.pagina-prime .ofertasPrime-plans-inner.slick-initialized img.elipse-prime-6meses,
+body#parceiro-lecupon .ofertasPrime-plans-inner.slick-initialized img.elipse-prime-6meses {
+  height: 70px;
+  width: 70px;
+}
+body.pagina-prime .ofertasPrime-plans-inner.slick-initialized img.elipse-prime-3meses,
+body#parceiro-lecupon .ofertasPrime-plans-inner.slick-initialized img.elipse-prime-3meses,
+body.pagina-prime .ofertasPrime-plans-inner.slick-initialized img.elipse-prime-12meses,
+body#parceiro-lecupon .ofertasPrime-plans-inner.slick-initialized img.elipse-prime-12meses {
+  width: 60px;
+  height: 60px;
 }
 @media screen and (min-width: 991px) {
   body.pagina-prime .ofertasPrime-plans-item,
@@ -21646,8 +21673,7 @@ body#parceiro-lecupon .ofertasPrime-plans-item button.buy-prime-btn.isloading::a
 }
 body.pagina-prime .ofertasPrime-partners,
 body#parceiro-lecupon .ofertasPrime-partners {
-  padding: 50px 0;
-  height: 300px;
+  margin: 0 0 56px 0;
 }
 body.pagina-prime .ofertasPrime-partners .slick-prev-prime,
 body#parceiro-lecupon .ofertasPrime-partners .slick-prev-prime,
@@ -21765,7 +21791,7 @@ body#parceiro-lecupon .ofertasPrime-partners-item p {
   font-family: Museo, sans-serif;
   font-weight: 700;
   font-size: 14px;
-  margin-top: 10px;
+  margin: 10px 0 0 0;
   text-align: center;
 }
 body.pagina-prime .popup-terms,
