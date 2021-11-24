@@ -21018,6 +21018,9 @@ body.pagina-prime #ajaxBusy {
     margin-bottom: 35px !important;
   }
 }
+body.pagina-prime #content {
+  display: none;
+}
 body.pagina-prime .toast.toast-success,
 body.pagina-prime .toast.toast-error,
 body.pagina-prime .toast.toast-warning,
