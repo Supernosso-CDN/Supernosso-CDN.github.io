@@ -21099,6 +21099,22 @@ body.pagina-prime .ofertasPrime-banner .slick-dots li.slick-active button {
   }
 }
 @media screen and (max-width: 991px) {
+  body.ceia-natal #content {
+    margin-top: 0 !important;
+  }
+  body.ceia-natal #content:before {
+    content: '' !important;
+    font-family: Museo, sans-serif !important;
+    font-size: 17px !important;
+    font-weight: 700 !important;
+    margin-left: 30px !important;
+    margin-bottom: 35px !important;
+  }
+  body.ceia-natal .buy-button-shelf .buy-button-normal a {
+    padding: 10px !important;
+  }
+}
+@media screen and (max-width: 991px) {
   body#parceiro-lecupon {
     padding-top: 40px !important;
   }
