@@ -21200,6 +21200,7 @@ body.indique-e-ganhe .steps-container .indique-step .step-icon {
   padding: 10px;
   align-items: center;
   justify-content: center;
+  margin-bottom: 10px;
 }
 body.indique-e-ganhe .steps-container .indique-step .step-icon img {
   width: 100px;
@@ -21210,11 +21211,12 @@ body.indique-e-ganhe .steps-container .indique-step .step-description {
   padding: 0 10px;
   max-width: 250px;
   border-right: 1px solid #E21F2B;
-  height: 90px;
+  height: 30%;
 }
 body.indique-e-ganhe .steps-container .indique-step .step-description span {
   font-family: 'Poppins';
   text-align: center;
+  font-size: 1rem;
 }
 body.indique-e-ganhe .steps-container .indique-step:last-child .step-description {
   border-right: none;
@@ -21230,6 +21232,32 @@ body.indique-e-ganhe .prime-info .prime-info-text {
 }
 body.indique-e-ganhe .poppins-font {
   font-family: 'Poppins';
+}
+@media screen and (max-width: 991px) {
+  body.indique-e-ganhe .steps-container {
+    display: grid;
+    grid-template-columns: 2fr 2fr;
+    gap: 10px;
+  }
+  body.indique-e-ganhe .steps-container .indique-step .step-description {
+    border: none;
+    align-items: unset;
+  }
+  body.indique-e-ganhe .steps-container .indique-step .step-icon {
+    display: flex;
+    padding: 10px;
+    align-items: center;
+    justify-content: center;
+  }
+  body.indique-e-ganhe .steps-container .indique-step .step-icon img {
+    width: 25%;
+  }
+  body.indique-e-ganhe .prime-info .prime-info-text {
+    width: 100%;
+    height: 650px;
+    background-image: url(https://supernossoemcasa.vteximg.com.br/arquivos/banner-vinhos-prime.jpg);
+    background-size: cover;
+  }
 }
 @media screen and (max-width: 991px) {
   body#parceiro-lecupon {
