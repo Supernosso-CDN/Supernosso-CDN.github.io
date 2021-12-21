@@ -57124,10 +57124,15 @@ var StorePicker = function () {
           $('.seller-modal-stores').hide();
         });
 
-        $(document).on('click', '#sellerModal .close-modal', function (e) {
+        $(document).on('click', '#sellerModal .close-modal', async function (e) {
           e.preventDefault();
           that.modalClose();
-          if ((vtexjs.checkout.orderForm.shippingData == null || vtexjs.checkout.orderForm.shippingData.address != null) && localStorage.selectedSeller) return;
+
+          var orderForm = await vtexjs.checkout.getOrderForm();
+
+          // if there's shippingData, then the cart won't be cleared.
+          if (orderForm.shippingData && orderForm.shippingData.address) return;
+
           vtexjs.checkout.getOrderForm().then(function (orderForm) {
             var itemsToRemove = [];
             orderForm.items.forEach(function (item, index) {
@@ -58204,9 +58209,12 @@ var Shelf = function () {
         }
       }, 1000);
 
-      var openSellerPicker = function openSellerPicker() {
+      var openSellerPicker = async function openSellerPicker() {
         // check if there is postalcode or seller chosen 
-        if (!localStorage.selectedSeller || vtexjs.checkout.orderForm && (vtexjs.checkout.orderForm.shippingData == null || vtexjs.checkout.orderForm.shippingData.address == null)) {
+
+        var orderForm = await vtexjs.checkout.getOrderForm();
+
+        if (orderForm && (orderForm.shippingData == null || orderForm.shippingData.address == null)) {
           $('.seller-modal').addClass('opened');
         }
       };
@@ -63809,9 +63817,8 @@ var JqueryMinicart = function () {
   _createClass(JqueryMinicart, [{
     key: 'minicartVisibility',
     value: function minicartVisibility() {
-      if (!localStorage.getItem('selectedSeller') || vtexjs.checkout.orderForm && (vtexjs.checkout.orderForm.shippingData == null || vtexjs.checkout.orderForm.shippingData.address == null)) {
+      if (vtexjs.checkout.orderForm && vtexjs.checkout.orderForm.shippingData == null || !vtexjs.checkout.orderForm.shippingData.address) {
         //Chama evento que exibe o modal de seleção de SLA
-
         $('#minicart-wrapper').trigger('update-qty-item');
       } else {
         $('#minicart-wrapper').toggleClass('open-minicart');
