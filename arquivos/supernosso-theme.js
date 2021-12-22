@@ -55727,7 +55727,23 @@ var Header = function () {
         });
     }
 
+    // TEMPORARY until turn off linx completely
+
+
     _createClass(Header, [{
+        key: "removeLinxTag",
+        value: function removeLinxTag() {
+            var removeLinxTagInterval = setInterval(function () {
+                if ($('impulse-autocomplete')) {
+                    $('impulse-autocomplete').remove();
+                    console.log('encontrou a tag e REMOVEU');
+                    clearInterval(removeLinxTagInterval);
+                }
+            }, 1000);
+        }
+        // TEMPORARY until turn off linx completely
+
+    }, {
         key: "userToggle",
         value: function userToggle() {
             $("[id=user-data]").toggleClass('user-data-opened');
@@ -55856,6 +55872,10 @@ var Header = function () {
         value: function init() {
 
             var that = this;
+            $(window).load(function () {
+                that.removeLinxTag();
+            });
+
             this.loggedState();
             if (window.matchMedia("(max-width:768px)").matches == false) {
                 this.headerScroll();
