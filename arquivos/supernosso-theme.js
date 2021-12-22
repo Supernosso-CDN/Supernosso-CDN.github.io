@@ -55930,12 +55930,6 @@ var Header = function () {
                 $(window).trigger('close-inactive-nav');
                 that.searchToggle();
             });
-            $('.mobile-nav-search').click(function (e) {
-                e.preventDefault();
-                that.closeMiniCartModal();
-                $(window).trigger('close-inactive-nav');
-                that.searchToggle();
-            });
             $('.mobile-nav-account').click(function (e) {
                 e.preventDefault();
                 that.closeMiniCartModal();
