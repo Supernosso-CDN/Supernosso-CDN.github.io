@@ -58122,9 +58122,12 @@ var Shelf = function () {
       function forcePickup(orderForm) {
         var pickupforce = false;
         var shippingData = orderForm.shippingData;
+
         orderForm.shippingData.logisticsInfo.forEach(function (item, index) {
           // console.log('logisticsInfo item', item)
           // console.log('logisticsInfo item', item.selectedSla)
+          if (!item.selectedSla) return;
+
           if (window.localStorage.mzShippingSelected == 'pickup' && item.selectedSla.indexOf('Agendada') > -1) {
             // console.log('try to change to pickup')
             shippingData.logisticsInfo[index].selectedSla = item.slas[1].id;
@@ -58186,11 +58189,14 @@ var Shelf = function () {
               "Content-Type": "application/json; charset=utf-8"
             }, data: JSON.stringify(body)
           }).then(function (orderForm) {
-            forcePickup(orderForm);
+            try {
+              forcePickup(orderForm);
+            } catch (error) {
+              console.log(error);
+            }
           }).done(function (orderForm) {
             updateEvent();
             setTimeout(function () {
-
               $('.product-qty , .buy-button-normal').removeClass('disabled-qty');
               $('[data-product-id="' + lastClicked + '"] .product-qty').removeClass('loading-qty');
               $('[data-product-id="' + lastClicked + '"] .product-qty .shelf-input-qty-control').focus();
@@ -58210,7 +58216,11 @@ var Shelf = function () {
 
             return vtexjs.checkout.updateItems(updateItem, null, false);
           }).then(function () {
-            if (item.quantity > 0) forcePickup(orderForm);
+            try {
+              if (item.quantity > 0) forcePickup(orderForm);
+            } catch (error) {
+              console.log(error);
+            }
           }).done(function (orderForm) {
             updateEvent();
             $('.product-qty , .buy-button-normal').removeClass('disabled-qty');
