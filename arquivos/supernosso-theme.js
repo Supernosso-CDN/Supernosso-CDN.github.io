@@ -55736,7 +55736,6 @@ var Header = function () {
             var removeLinxTagInterval = setInterval(function () {
                 if ($('impulse-autocomplete')) {
                     $('impulse-autocomplete').remove();
-                    console.log('encontrou a tag e REMOVEU');
                     clearInterval(removeLinxTagInterval);
                 }
             }, 1000);
@@ -55868,12 +55867,44 @@ var Header = function () {
             });
         }
     }, {
+        key: "checkUserLoginAndOrderFormDataDivergence",
+        value: async function checkUserLoginAndOrderFormDataDivergence() {
+            var loginData = await this.userCheck();
+
+            if (!loginData.IsUserDefined) return;
+
+            var orderForm = await vtexjs.checkout.getOrderForm();
+
+            if (!orderForm) return;
+
+            var userLoginEmail = loginData.Email;
+            var userOFEmail = orderForm.clientProfileData.email;
+
+            if (userLoginEmail === userOFEmail) return;
+
+            var userMasterData = await fetch("/api/dataentities/CL/search?_where=(email=" + userLoginEmail + ")&_fields=homePhone,document");
+            var userMasterDataJson = await userMasterData.json();
+
+            if (!userMasterDataJson[0].homePhone || !userMasterDataJson[0].document) return;
+
+            vtexjs.checkout.sendAttachment('clientProfileData', {
+                email: userLoginEmail,
+                firstName: loginData.FirstName,
+                lastName: loginData.LastName,
+                phone: userMasterDataJson[0].homePhone,
+                document: userMasterDataJson[0].document
+            }).done(function () {
+                console.log("clientProfileData sincronizado com login");
+            });
+        }
+    }, {
         key: "init",
         value: function init() {
 
             var that = this;
             $(window).load(function () {
                 that.removeLinxTag();
+                that.checkUserLoginAndOrderFormDataDivergence();
             });
 
             this.loggedState();
