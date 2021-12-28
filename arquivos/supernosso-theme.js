@@ -55885,17 +55885,20 @@ var Header = function () {
             var userMasterData = await fetch("/api/dataentities/CL/search?_where=(email=" + userLoginEmail + ")&_fields=homePhone,document");
             var userMasterDataJson = await userMasterData.json();
 
-            if (!userMasterDataJson[0].homePhone || !userMasterDataJson[0].document) return;
+            if (userMasterDataJson) {
 
-            vtexjs.checkout.sendAttachment('clientProfileData', {
-                email: userLoginEmail,
-                firstName: loginData.FirstName,
-                lastName: loginData.LastName,
-                phone: userMasterDataJson[0].homePhone,
-                document: userMasterDataJson[0].document
-            }).done(function () {
-                console.log("clientProfileData sincronizado com login");
-            });
+                var clientDataAttach = {
+                    email: userLoginEmail,
+                    firstName: loginData.FirstName,
+                    lastName: loginData.LastName,
+                    phone: userMasterDataJson[0].homePhone ? userMasterDataJson[0].homePhone : null,
+                    document: userMasterDataJson[0].document ? userMasterDataJson[0].document : null
+                };
+
+                vtexjs.checkout.sendAttachment('clientProfileData', clientDataAttach).done(function () {
+                    console.log("clientProfileData sincronizado com login");
+                });
+            }
         }
     }, {
         key: "init",
