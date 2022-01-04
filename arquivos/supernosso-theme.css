@@ -20318,7 +20318,7 @@ body#wishlist-page.create #collections .action-area .form-action .save input[typ
   background: #FAFAFA;
   border: 1px solid #FAFAFA;
   font-weight: bold;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
 }
 .institutional-prime .prime-header .tabs li a.active,
 .institutional-prime .prime-header .tabs li a:hover {
@@ -21185,7 +21185,7 @@ body.indique-e-ganhe .indique-button {
   background-color: #E21F2B;
   border: 0;
   border-radius: 10px;
-  padding: 5px 40px;
+  padding: 5px 70px;
   outline: none;
   color: #FFF;
   font-size: 1.3rem;
@@ -21246,6 +21246,28 @@ body.indique-e-ganhe .prime-info .prime-info-text {
 }
 body.indique-e-ganhe .poppins-font {
   font-family: 'Poppins';
+}
+body.indique-e-ganhe .input-contents {
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+}
+@media screen and (max-width: 991px) {
+  body.indique-e-ganhe .input-contents {
+    flex-direction: column;
+    margin: 0 10px;
+  }
+}
+body.indique-e-ganhe .input-col {
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+body.indique-e-ganhe .input-col input {
+  border: none;
+  background-color: #eee;
+  padding: 10px;
 }
 @media screen and (max-width: 991px) {
   body.indique-e-ganhe .steps-container {
