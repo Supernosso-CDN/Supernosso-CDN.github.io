@@ -22821,6 +22821,700 @@ body#parceiro-lecupon .popup-partner-coupon-code-container .copy-code {
   margin-left: 5px;
   background-repeat: no-repeat;
 }
+@media screen and (max-width: 991px) {
+  .feira-de-vinhos .ofertasPrime-banner .header-slider-inner-desktop {
+    display: none;
+  }
+}
+@media screen and (min-width: 991px) {
+  .feira-de-vinhos .ofertasPrime-banner .header-slider-inner-mobile {
+    display: none;
+  }
+}
+.feira-de-vinhos .ofertasPrime-benefits {
+  margin: 35px 0 56px 0;
+}
+@media (max-width: 768px) {
+  .feira-de-vinhos .ofertasPrime-benefits {
+    margin: 34px 0 30px 0;
+  }
+}
+@media (min-width: 1600px) {
+  .feira-de-vinhos .ofertasPrime-benefits .container.all {
+    max-width: 1500px;
+  }
+}
+.feira-de-vinhos .ofertasPrime-benefits-cards {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  width: fit-content;
+  margin: 0 auto;
+  padding: 0 0 15px 0;
+  border-radius: 30px;
+}
+@media screen and (min-width: 1600px) {
+  .feira-de-vinhos .ofertasPrime-benefits-cards {
+    padding: 0;
+    gap: 0;
+  }
+}
+@media screen and (max-width: 1600px) {
+  .feira-de-vinhos .ofertasPrime-benefits-cards {
+    height: auto;
+    flex-wrap: wrap;
+    gap: 0;
+  }
+}
+.feira-de-vinhos .ofertasPrime-benefits-cards .entrega {
+  background-image: url(https://supernossoemcasa.vteximg.com.br/arquivos/prime-benefit-entrega-svg.svg);
+  background-position-y: -10px;
+}
+.feira-de-vinhos .ofertasPrime-benefits-cards .ofertas {
+  background-image: url(https://supernossoemcasa.vteximg.com.br/arquivos/prime-benefit-ofertas-svg.svg);
+  background-position-y: -11px;
+}
+.feira-de-vinhos .ofertasPrime-benefits-cards .adega {
+  background-image: url(https://supernossoemcasa.vteximg.com.br/arquivos/prime-benefit-adega-svg.svg);
+  background-position-y: -7px;
+}
+.feira-de-vinhos .ofertasPrime-benefits-cards .ogin {
+  background-image: url(https://supernossoemcasa.vteximg.com.br/arquivos/prime-benefit-ogin-svg.svg);
+  background-position-y: 2px;
+}
+.feira-de-vinhos .ofertasPrime-benefits-cards .parceiros {
+  background-image: url(https://supernossoemcasa.vteximg.com.br/arquivos/prime-benefit-parceiros-svg.svg);
+  background-position-y: -8px;
+}
+@media screen and (max-width: 768px) {
+  .feira-de-vinhos .ofertasPrime-benefits-cards .parceiros {
+    background-position-y: -5px;
+  }
+}
+.feira-de-vinhos .ofertasPrime-benefits-cards i {
+  background-size: 200px 200px;
+  height: 200px;
+  width: 180px;
+  display: block;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+@media screen and (min-width: 1600px) {
+  .feira-de-vinhos .ofertasPrime-benefits-cards i {
+    background-size: 267px 267px;
+    height: 267px;
+    width: 267px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .feira-de-vinhos .ofertasPrime-benefits-cards i {
+    background-size: 120px 120px;
+    height: 100px;
+    width: 100px;
+  }
+}
+.feira-de-vinhos .ofertasPrime-benefits-cards.slick-initialized {
+  visibility: visible;
+  opacity: 1;
+}
+.feira-de-vinhos .ofertasPrime-benefits-cards.slick-initialized .slick-list {
+  padding: 0px 50px 0 0 !important;
+}
+.feira-de-vinhos .ofertasPrime-benefits-cards.slick-initialized .benefit-item img {
+  height: 192px;
+  width: 315px;
+  margin-bottom: 27px;
+}
+.feira-de-vinhos .ofertasPrime-benefits-cards.slick-initialized .benefit-item.slick-slide {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+@media screen and (max-width: 991px) {
+  .feira-de-vinhos .ofertasPrime-benefits-cards.slick-initialized .benefit-item img {
+    height: 130px;
+    width: 215px;
+    margin-bottom: 11px;
+  }
+  .feira-de-vinhos .ofertasPrime-benefits-cards.slick-initialized .benefit-item p {
+    font-size: 11px !important;
+  }
+}
+.feira-de-vinhos .ofertasPrime-benefits-cards.slick-initialized .benefit-item p {
+  font-family: 'Roboto', sans-serif;
+  font-size: 17px;
+  font-weight: 400;
+  color: #111111;
+  max-width: 315px;
+  margin-bottom: 0;
+}
+@media screen and (max-width: 991px) {
+  .feira-de-vinhos .ofertasPrime-benefits-cards.slick-initialized .benefit-item p {
+    max-width: 215px;
+  }
+}
+@media screen and (max-width: 991px) {
+  .feira-de-vinhos .ofertasPrime-benefits-cards.slick-initialized .benefit-item {
+    align-items: center;
+  }
+}
+.feira-de-vinhos .ofertasPrime-benefits h2 {
+  font-family: Museo, sans-serif;
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  margin-left: 0;
+  text-transform: lowercase;
+}
+@media screen and (min-width: 1600px) {
+  .feira-de-vinhos .ofertasPrime-benefits h2 {
+    font-size: 35px;
+  }
+}
+@media screen and (max-width: 991px) {
+  .feira-de-vinhos .ofertasPrime-benefits h2 {
+    margin-left: 15px;
+    font-size: 17px;
+    margin-bottom: 20px;
+  }
+}
+.feira-de-vinhos .ofertasPrime-video {
+  margin: 34px 0 90px 0;
+}
+@media (max-width: 768px) {
+  .feira-de-vinhos .ofertasPrime-video {
+    margin: 34px 0 156px 0;
+  }
+}
+.feira-de-vinhos .ofertasPrime-video .video-flag {
+  height: 179px;
+  background: #C6152B;
+  padding: 42px 112px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+@media (max-width: 768px) {
+  .feira-de-vinhos .ofertasPrime-video .video-flag {
+    width: 280px;
+    margin: 0 auto;
+  }
+}
+.feira-de-vinhos .ofertasPrime-video .video-content-container {
+  display: flex;
+  justify-content: center;
+}
+.feira-de-vinhos .ofertasPrime-video .video-content-container .video-flag-content {
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  gap: 15%;
+  margin-top: -200px;
+}
+@media (max-width: 768px) {
+  .feira-de-vinhos .ofertasPrime-video .video-content-container .video-flag-content {
+    flex-direction: column;
+  }
+}
+.feira-de-vinhos .ofertasPrime-video .video-content-container .video-flag-content .text-content {
+  align-items: center;
+  display: flex;
+}
+@media (max-width: 768px) {
+  .feira-de-vinhos .ofertasPrime-video .video-content-container .video-flag-content .text-content {
+    width: 280px;
+    margin: 75px auto 20px auto;
+  }
+}
+.feira-de-vinhos .ofertasPrime-video .video-content-container .video-flag-content .text-content p {
+  width: 353px;
+  text-align: center;
+  color: #ffffff;
+  font-size: 28px;
+  line-height: 33.6px;
+  font-weight: 500;
+  font-family: 'Museo';
+  margin-bottom: 0;
+  margin: -35px 0 0 0;
+}
+@media (max-width: 768px) {
+  .feira-de-vinhos .ofertasPrime-video .video-content-container .video-flag-content .text-content p {
+    padding: 0 30px;
+    font-size: 18px;
+    line-height: 20.6px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .feira-de-vinhos .ofertasPrime-video .video-content-container .video-flag-content .video-iframe {
+    margin: 0 auto;
+    width: 330px;
+    right: 0;
+    position: relative;
+    margin-top: 0;
+  }
+}
+.feira-de-vinhos .ofertasPrime-video .video-content-container .video-flag-content .video-iframe iframe {
+  width: 450px;
+  height: 253px;
+  box-shadow: -7px 10px 13px -1px rgba(0, 0, 0, 0.42);
+}
+@media screen and (max-width: 768px) {
+  .feira-de-vinhos .ofertasPrime-video .video-content-container .video-flag-content .video-iframe iframe {
+    width: 330px;
+    height: 185px;
+    box-shadow: none;
+  }
+}
+.feira-de-vinhos .ofertasPrime-plans {
+  margin: 0 0 56px 0;
+  width: 100%;
+}
+.feira-de-vinhos .ofertasPrime-plans-title h2 {
+  font-family: Museo, sans-serif;
+  font-size: 20px;
+  text-transform: lowercase;
+  font-weight: bold;
+  margin-bottom: 20px;
+  margin-left: 0;
+}
+@media screen and (min-width: 1600px) {
+  .feira-de-vinhos .ofertasPrime-plans-title h2 {
+    font-size: 35px;
+  }
+}
+@media screen and (max-width: 991px) {
+  .feira-de-vinhos .ofertasPrime-plans-title h2 {
+    margin-left: 15px;
+    font-size: 17px;
+  }
+}
+.feira-de-vinhos .ofertasPrime-plans-container {
+  height: fit-content;
+  background: #F4F4F4;
+  width: 100%;
+  padding: 35px 0 35px 0;
+  /*display: flex;
+                align-items: center;
+                justify-content: center;*/
+  position: relative;
+  overflow: hidden;
+}
+@media (max-width: 768px) {
+  .feira-de-vinhos .ofertasPrime-plans-container {
+    height: fit-content;
+    padding: 35px 0 35px 0;
+  }
+  .feira-de-vinhos .ofertasPrime-plans-container::before {
+    height: 341px;
+    border-radius: 50%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    content: "";
+    width: 341px;
+    position: absolute;
+    right: -80px;
+    border: 5px solid #E7CC8E;
+    margin-bottom: 50px;
+    margin-left: 40%;
+    top: 40px;
+  }
+}
+@media (min-width: 768px) {
+  .feira-de-vinhos .ofertasPrime-plans-container::before {
+    height: 341px;
+    border-radius: 50%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    content: "";
+    width: 341px;
+    position: absolute;
+    left: 0;
+    border: 10px solid #E7CC8E;
+    margin-bottom: 50px;
+    margin-left: 40%;
+    top: -100px;
+  }
+}
+@media screen and (max-width: 991px) {
+  .feira-de-vinhos .ofertasPrime-plans-container::before {
+    margin-left: 10%;
+  }
+}
+.feira-de-vinhos .ofertasPrime-plans-inner {
+  display: flex;
+  justify-content: center;
+}
+@media screen and (max-width: 991px) {
+  .feira-de-vinhos .ofertasPrime-plans-inner {
+    flex-direction: column;
+    gap: 30px;
+  }
+  .feira-de-vinhos .ofertasPrime-plans-inner::before {
+    height: 316px;
+    border-radius: 50%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    content: "";
+    width: 316px;
+    position: absolute;
+    left: 0;
+    border: 6px solid #DAA528;
+    margin-bottom: 50px;
+    opacity: 38%;
+    margin-left: -200px;
+    bottom: -200px;
+  }
+}
+@media screen and (min-width: 991px) {
+  .feira-de-vinhos .ofertasPrime-plans-inner::before {
+    height: 316px;
+    border-radius: 50%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    content: "";
+    width: 316px;
+    position: absolute;
+    left: 0;
+    border: 6px solid #DAA528;
+    margin-bottom: 50px;
+    opacity: 38%;
+    margin-left: -140px;
+    top: -100px;
+  }
+  .feira-de-vinhos .ofertasPrime-plans-inner::after {
+    height: 316px;
+    border-radius: 50%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    content: "";
+    width: 316px;
+    position: absolute;
+    right: 0;
+    border: 4px solid #DAA528;
+    margin-bottom: 50px;
+    opacity: 38%;
+    margin-right: -180px;
+    top: 20px;
+  }
+}
+@media screen and (min-width: 991px) {
+  .feira-de-vinhos .ofertasPrime-plans-item {
+    width: 387px !important;
+    max-width: 387px;
+    height: 288px;
+  }
+}
+.feira-de-vinhos .ofertasPrime-plans-item {
+  margin: 0 3%;
+  border-radius: 8px;
+  background: #FFFFFF;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 10px 57px;
+  gap: 2px;
+  z-index: 1;
+  justify-content: space-between;
+}
+@media (max-width: 768px) {
+  .feira-de-vinhos .ofertasPrime-plans-item {
+    padding: 10px 45px;
+  }
+}
+.feira-de-vinhos .ofertasPrime-plans-item h3 {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  color: #E7C677;
+}
+.feira-de-vinhos .ofertasPrime-plans-item h3::after {
+  content: "";
+  border-bottom: 1px solid #E7C677;
+  width: 88px;
+  display: flex;
+  margin: 2px auto 0 auto;
+}
+.feira-de-vinhos .ofertasPrime-plans-item .price-info {
+  display: flex;
+  align-items: center;
+  margin-top: -5px;
+  gap: 5px;
+}
+@media (max-width: 768px) {
+  .feira-de-vinhos .ofertasPrime-plans-item .price-info {
+    margin-top: 5px;
+  }
+}
+.feira-de-vinhos .ofertasPrime-plans-item .price-info small {
+  font-family: 'Roboto', sans-serif;
+  color: #C5132A;
+  font-weight: 700;
+  font-size: 18px;
+}
+.feira-de-vinhos .ofertasPrime-plans-item .price-info .price {
+  color: #C5132A;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  font-size: 34px;
+  margin-top: -10px;
+  text-transform: none;
+}
+.feira-de-vinhos .ofertasPrime-plans-item .advantages p {
+  color: #C6152B;
+  font-size: 14px;
+  line-height: 18.65px;
+  text-align: center;
+  text-transform: none;
+}
+@media (max-width: 768px) {
+  .feira-de-vinhos .ofertasPrime-plans-item .advantages p {
+    font-size: 12px;
+  }
+}
+.feira-de-vinhos .ofertasPrime-plans-item .advantages p strong {
+  font-size: 14px;
+}
+@media (max-width: 768px) {
+  .feira-de-vinhos .ofertasPrime-plans-item .advantages p strong {
+    font-size: 12px;
+  }
+}
+.feira-de-vinhos .ofertasPrime-plans-item span.validity {
+  font-size: 14px;
+  color: #C5132A;
+  font-weight: 700;
+  line-height: 16.41px;
+  margin-bottom: -10px;
+}
+@media (max-width: 768px) {
+  .feira-de-vinhos .ofertasPrime-plans-item span.validity {
+    margin-bottom: 0;
+  }
+}
+.feira-de-vinhos .ofertasPrime-plans-item button.buy-prime-btn {
+  width: 100%;
+  height: 48.11px;
+  background: #C5132A;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 8px;
+  outline: none;
+  cursor: pointer;
+}
+.feira-de-vinhos .ofertasPrime-plans-item button.buy-prime-btn.primeBtn-disabled {
+  pointer-events: none;
+  filter: brightness(0.8);
+}
+@media (max-width: 768px) {
+  .feira-de-vinhos .ofertasPrime-plans-item button.buy-prime-btn {
+    height: 43px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+.feira-de-vinhos .ofertasPrime-plans-item button.buy-prime-btn p {
+  margin-bottom: 0 !important;
+  color: #FFFFFF;
+  font-family: 'Roboto', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+}
+@media (max-width: 768px) {
+  .feira-de-vinhos .ofertasPrime-plans-item button.buy-prime-btn p {
+    font-size: 17px;
+  }
+}
+.feira-de-vinhos .ofertasPrime-plans-item button.buy-prime-btn.isloading p {
+  display: none;
+}
+.feira-de-vinhos .ofertasPrime-plans-item button.buy-prime-btn.isloading::after {
+  content: "";
+  background: url('https://supernossoemcasa.vteximg.com.br/arquivos/spinner-loading-white.gif');
+  background-size: 24px;
+  height: 24px;
+  width: 24px;
+  display: block;
+  margin: 0 auto;
+}
+@media screen and (max-width: 768px) {
+  .feira-de-vinhos .ofertasPrime-plans-item {
+    min-height: 250px;
+  }
+  .feira-de-vinhos .ofertasPrime-plans-item h3 {
+    font-size: 11px;
+    text-align: center;
+  }
+  .feira-de-vinhos .ofertasPrime-plans-item .price {
+    font-size: 24px;
+  }
+}
+.feira-de-vinhos .ofertasPrime-partners {
+  margin: 0 0 56px 0;
+}
+.feira-de-vinhos .ofertasPrime-partners .slick-prev-prime,
+.feira-de-vinhos .ofertasPrime-partners .slick-next-prime {
+  display: block;
+  height: 35px;
+  width: 35px;
+  padding: 0;
+  border: none;
+  background: none;
+  outline: none;
+  margin-bottom: 40px;
+}
+.feira-de-vinhos .ofertasPrime-partners .slick-prev-prime img,
+.feira-de-vinhos .ofertasPrime-partners .slick-next-prime img {
+  height: 29px;
+  width: 29px;
+}
+.feira-de-vinhos .ofertasPrime-partners .slick-prev-prime {
+  margin-right: 20px;
+}
+.feira-de-vinhos .ofertasPrime-partners .slick-next-prime {
+  margin-left: 20px;
+}
+@media screen and (max-width: 991px) {
+  .feira-de-vinhos .ofertasPrime-partners-title {
+    flex-direction: column;
+  }
+}
+.feira-de-vinhos .ofertasPrime-partners-title {
+  display: flex;
+  align-items: baseline;
+  padding: 5px 0;
+  gap: 10px;
+}
+.feira-de-vinhos .ofertasPrime-partners-title h2 {
+  font-family: Museo, sans-serif;
+  font-size: 20px;
+  text-transform: lowercase;
+  font-weight: bold;
+  margin-left: 0;
+  margin-bottom: 0px;
+}
+@media screen and (min-width: 1600px) {
+  .feira-de-vinhos .ofertasPrime-partners-title h2 {
+    font-size: 35px;
+  }
+}
+@media screen and (max-width: 991px) {
+  .feira-de-vinhos .ofertasPrime-partners-title h2 {
+    margin-left: 15px;
+    font-size: 17px;
+  }
+}
+.feira-de-vinhos .ofertasPrime-partners-title small {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 12px;
+  font-family: 'Roboto', sans-serif;
+}
+@media screen and (max-width: 991px) {
+  .feira-de-vinhos .ofertasPrime-partners-title small {
+    margin-left: 15px;
+  }
+}
+.feira-de-vinhos .ofertasPrime-partners-items {
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+  min-height: 212px;
+  justify-content: space-evenly;
+}
+@media screen and (max-width: 768px) {
+  .feira-de-vinhos .ofertasPrime-partners-items {
+    height: auto;
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+}
+.feira-de-vinhos .ofertasPrime-partners-items.partnersLoading::before {
+  content: "";
+  background: url(https://supernossoemcasa.vteximg.com.br/arquivos/spinner-loading-red.gif);
+  background-size: 44px;
+  height: 44px;
+  width: 44px;
+  display: block;
+  margin: 0 auto;
+  background-repeat: no-repeat;
+  margin-bottom: 30px;
+}
+.feira-de-vinhos .ofertasPrime-partners-items .slick-list {
+  flex: 1;
+}
+.feira-de-vinhos .ofertasPrime-partners-items.slick-initialized {
+  visibility: visible;
+  opacity: 1;
+}
+.feira-de-vinhos .ofertasPrime-partners-item {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  outline: none;
+}
+.feira-de-vinhos .ofertasPrime-partners-item .double-frame {
+  width: 165px;
+  border: 6px solid #f9f1dd;
+  border-radius: 50%;
+  height: 165px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+@media screen and (max-width: 768px) {
+  .feira-de-vinhos .ofertasPrime-partners-item .double-frame {
+    width: 100px;
+    height: 100px;
+  }
+}
+.feira-de-vinhos .ofertasPrime-partners-item img {
+  border-radius: 50%;
+  border: 8px solid #e8c678;
+  width: 144px;
+  height: 144px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+@media screen and (max-width: 768px) {
+  .feira-de-vinhos .ofertasPrime-partners-item img {
+    width: 84px;
+    height: 84px;
+  }
+}
+.feira-de-vinhos .ofertasPrime-partners-item p {
+  font-family: Museo, sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  margin: 10px 0 0 0;
+  text-align: center;
+}
+@media screen and (max-width: 768px) {
+  .feira-de-vinhos .ofertasPrime-partners-item p {
+    font-size: 12px;
+  }
+}
+.feira-de-vinhos .container-caio-soter .container {
+  width: 100%;
+  max-width: 100%;
+  padding: 0;
+  margin: 0;
+}
+.feira-de-vinhos .container-caio-soter .container .prime-plans-no-margin {
+  margin: 0;
+  width: 100%;
+}
+.feira-de-vinhos h2#popup-terms-and-conditions {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 150%;
+  color: #333333;
+  margin: 0 0 14px 0;
+  padding: 0;
+  border: 0;
+}
 .institutional-assinatura .assinatura-section .button {
   font-family: 'Roboto', sans-serif;
   font-style: normal;
