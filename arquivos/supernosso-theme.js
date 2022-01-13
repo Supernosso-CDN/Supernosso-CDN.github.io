@@ -61797,49 +61797,73 @@ exports.default = SearchBox;
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+	value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _sellerPicker = require('./sellerPicker');
-
-var _sellerPicker2 = _interopRequireDefault(_sellerPicker);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var SelectedSeller = function () {
-  function SelectedSeller() {
-    _classCallCheck(this, SelectedSeller);
-  }
+	function SelectedSeller() {
+		_classCallCheck(this, SelectedSeller);
+	}
 
-  _createClass(SelectedSeller, [{
-    key: 'forceSalesChannel',
-    value: function forceSalesChannel() {
-      var selectedSeller = localStorage.getItem('selectedSeller');
-      if (selectedSeller) {
-        var sc = selectedSeller == 'delivery' ? '1' : selectedSeller;
-        if (jssalesChannel !== sc) {
-          // Caso esteja no SC errado, força a mudança
-          _sellerPicker2.default.insertParam('sc', sc);
-        }
-      }
-    }
-  }, {
-    key: 'init',
-    value: function init() {
-      this.forceSalesChannel();
-    }
-  }]);
+	_createClass(SelectedSeller, [{
+		key: 'forceSalesChannel',
+		value: function forceSalesChannel() {
+			var rightSalesChannel = localStorage.getItem('rightSC');
 
-  return SelectedSeller;
+			if (!rightSalesChannel) return;
+
+			if (jssalesChannel !== rightSalesChannel) {
+				// Caso esteja no SC errado, força a mudança
+				this.insertParam('sc', rightSalesChannel);
+			}
+		}
+	}, {
+		key: 'insertParam',
+		value: function insertParam(key, value) {
+			key = escape(key);
+			value = escape(value);
+
+			var kvp = document.location.search.substr(1).split('&');
+			if (kvp == '') {
+				document.location.search = '?' + key + '=' + value;
+			} else {
+				var i = kvp.length;
+				var x;
+				while (i--) {
+					x = kvp[i].split('=');
+
+					if (x[0] == key) {
+						x[1] = value;
+						kvp[i] = x.join('=');
+						break;
+					}
+				}
+
+				if (i < 0) {
+					kvp[kvp.length] = [key, value].join('=');
+				}
+
+				//this will reload the page, it's likely better to store this until finished
+				document.location.search = kvp.join('&');
+			}
+		}
+	}, {
+		key: 'init',
+		value: function init() {
+			this.forceSalesChannel();
+		}
+	}]);
+
+	return SelectedSeller;
 }();
 
 exports.default = SelectedSeller;
 
-},{"./sellerPicker":73}],73:[function(require,module,exports){
+},{}],73:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -62788,8 +62812,9 @@ var StorePicker = function () {
     key: "updateCartWithSC",
     value: function updateCartWithSC() {
       if (vtexjs.checkout.orderForm && vtexjs.checkout.orderForm.items.length > 0) {
-        var selectedSeller = this.getStorage('selectedSeller');
-        var sc = selectedSeller == 'delivery' ? '1' : selectedSeller;
+        var rightSC = this.getStorage('rightSC');
+        var sc = rightSC ? rightSC : '1';
+
         if (vtexjs.checkout.orderForm.salesChannel != sc) {
           var items = vtexjs.checkout.orderForm.items.map(function (i) {
             return {
