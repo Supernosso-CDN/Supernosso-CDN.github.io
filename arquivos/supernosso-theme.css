@@ -22822,29 +22822,35 @@ body#parceiro-lecupon .popup-partner-coupon-code-container .copy-code {
   background-repeat: no-repeat;
 }
 @media screen and (max-width: 991px) {
-  .feira-de-vinhos .ofertasPrime-banner .header-slider-inner-desktop {
+  .feira-de-vinhos .ofertasPrime-banner .header-slider-inner-desktop,
+  .indique-e-ganhe .ofertasPrime-banner .header-slider-inner-desktop {
     display: none;
   }
 }
 @media screen and (min-width: 991px) {
-  .feira-de-vinhos .ofertasPrime-banner .header-slider-inner-mobile {
+  .feira-de-vinhos .ofertasPrime-banner .header-slider-inner-mobile,
+  .indique-e-ganhe .ofertasPrime-banner .header-slider-inner-mobile {
     display: none;
   }
 }
-.feira-de-vinhos .ofertasPrime-benefits {
+.feira-de-vinhos .ofertasPrime-benefits,
+.indique-e-ganhe .ofertasPrime-benefits {
   margin: 35px 0 56px 0;
 }
 @media (max-width: 768px) {
-  .feira-de-vinhos .ofertasPrime-benefits {
+  .feira-de-vinhos .ofertasPrime-benefits,
+  .indique-e-ganhe .ofertasPrime-benefits {
     margin: 34px 0 30px 0;
   }
 }
 @media (min-width: 1600px) {
-  .feira-de-vinhos .ofertasPrime-benefits .container.all {
+  .feira-de-vinhos .ofertasPrime-benefits .container.all,
+  .indique-e-ganhe .ofertasPrime-benefits .container.all {
     max-width: 1500px;
   }
 }
-.feira-de-vinhos .ofertasPrime-benefits-cards {
+.feira-de-vinhos .ofertasPrime-benefits-cards,
+.indique-e-ganhe .ofertasPrime-benefits-cards {
   display: flex;
   justify-content: center;
   gap: 10px;
@@ -22854,44 +22860,53 @@ body#parceiro-lecupon .popup-partner-coupon-code-container .copy-code {
   border-radius: 30px;
 }
 @media screen and (min-width: 1600px) {
-  .feira-de-vinhos .ofertasPrime-benefits-cards {
+  .feira-de-vinhos .ofertasPrime-benefits-cards,
+  .indique-e-ganhe .ofertasPrime-benefits-cards {
     padding: 0;
     gap: 0;
   }
 }
 @media screen and (max-width: 1600px) {
-  .feira-de-vinhos .ofertasPrime-benefits-cards {
+  .feira-de-vinhos .ofertasPrime-benefits-cards,
+  .indique-e-ganhe .ofertasPrime-benefits-cards {
     height: auto;
     flex-wrap: wrap;
     gap: 0;
   }
 }
-.feira-de-vinhos .ofertasPrime-benefits-cards .entrega {
+.feira-de-vinhos .ofertasPrime-benefits-cards .entrega,
+.indique-e-ganhe .ofertasPrime-benefits-cards .entrega {
   background-image: url(https://supernossoemcasa.vteximg.com.br/arquivos/prime-benefit-entrega-svg.svg);
   background-position-y: -10px;
 }
-.feira-de-vinhos .ofertasPrime-benefits-cards .ofertas {
+.feira-de-vinhos .ofertasPrime-benefits-cards .ofertas,
+.indique-e-ganhe .ofertasPrime-benefits-cards .ofertas {
   background-image: url(https://supernossoemcasa.vteximg.com.br/arquivos/prime-benefit-ofertas-svg.svg);
   background-position-y: -11px;
 }
-.feira-de-vinhos .ofertasPrime-benefits-cards .adega {
+.feira-de-vinhos .ofertasPrime-benefits-cards .adega,
+.indique-e-ganhe .ofertasPrime-benefits-cards .adega {
   background-image: url(https://supernossoemcasa.vteximg.com.br/arquivos/prime-benefit-adega-svg.svg);
   background-position-y: -7px;
 }
-.feira-de-vinhos .ofertasPrime-benefits-cards .ogin {
+.feira-de-vinhos .ofertasPrime-benefits-cards .ogin,
+.indique-e-ganhe .ofertasPrime-benefits-cards .ogin {
   background-image: url(https://supernossoemcasa.vteximg.com.br/arquivos/prime-benefit-ogin-svg.svg);
   background-position-y: 2px;
 }
-.feira-de-vinhos .ofertasPrime-benefits-cards .parceiros {
+.feira-de-vinhos .ofertasPrime-benefits-cards .parceiros,
+.indique-e-ganhe .ofertasPrime-benefits-cards .parceiros {
   background-image: url(https://supernossoemcasa.vteximg.com.br/arquivos/prime-benefit-parceiros-svg.svg);
   background-position-y: -8px;
 }
 @media screen and (max-width: 768px) {
-  .feira-de-vinhos .ofertasPrime-benefits-cards .parceiros {
+  .feira-de-vinhos .ofertasPrime-benefits-cards .parceiros,
+  .indique-e-ganhe .ofertasPrime-benefits-cards .parceiros {
     background-position-y: -5px;
   }
 }
-.feira-de-vinhos .ofertasPrime-benefits-cards i {
+.feira-de-vinhos .ofertasPrime-benefits-cards i,
+.indique-e-ganhe .ofertasPrime-benefits-cards i {
   background-size: 200px 200px;
   height: 200px;
   width: 180px;
@@ -22900,47 +22915,56 @@ body#parceiro-lecupon .popup-partner-coupon-code-container .copy-code {
   background-position: center;
 }
 @media screen and (min-width: 1600px) {
-  .feira-de-vinhos .ofertasPrime-benefits-cards i {
+  .feira-de-vinhos .ofertasPrime-benefits-cards i,
+  .indique-e-ganhe .ofertasPrime-benefits-cards i {
     background-size: 267px 267px;
     height: 267px;
     width: 267px;
   }
 }
 @media screen and (max-width: 768px) {
-  .feira-de-vinhos .ofertasPrime-benefits-cards i {
+  .feira-de-vinhos .ofertasPrime-benefits-cards i,
+  .indique-e-ganhe .ofertasPrime-benefits-cards i {
     background-size: 120px 120px;
     height: 100px;
     width: 100px;
   }
 }
-.feira-de-vinhos .ofertasPrime-benefits-cards.slick-initialized {
+.feira-de-vinhos .ofertasPrime-benefits-cards.slick-initialized,
+.indique-e-ganhe .ofertasPrime-benefits-cards.slick-initialized {
   visibility: visible;
   opacity: 1;
 }
-.feira-de-vinhos .ofertasPrime-benefits-cards.slick-initialized .slick-list {
+.feira-de-vinhos .ofertasPrime-benefits-cards.slick-initialized .slick-list,
+.indique-e-ganhe .ofertasPrime-benefits-cards.slick-initialized .slick-list {
   padding: 0px 50px 0 0 !important;
 }
-.feira-de-vinhos .ofertasPrime-benefits-cards.slick-initialized .benefit-item img {
+.feira-de-vinhos .ofertasPrime-benefits-cards.slick-initialized .benefit-item img,
+.indique-e-ganhe .ofertasPrime-benefits-cards.slick-initialized .benefit-item img {
   height: 192px;
   width: 315px;
   margin-bottom: 27px;
 }
-.feira-de-vinhos .ofertasPrime-benefits-cards.slick-initialized .benefit-item.slick-slide {
+.feira-de-vinhos .ofertasPrime-benefits-cards.slick-initialized .benefit-item.slick-slide,
+.indique-e-ganhe .ofertasPrime-benefits-cards.slick-initialized .benefit-item.slick-slide {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 @media screen and (max-width: 991px) {
-  .feira-de-vinhos .ofertasPrime-benefits-cards.slick-initialized .benefit-item img {
+  .feira-de-vinhos .ofertasPrime-benefits-cards.slick-initialized .benefit-item img,
+  .indique-e-ganhe .ofertasPrime-benefits-cards.slick-initialized .benefit-item img {
     height: 130px;
     width: 215px;
     margin-bottom: 11px;
   }
-  .feira-de-vinhos .ofertasPrime-benefits-cards.slick-initialized .benefit-item p {
+  .feira-de-vinhos .ofertasPrime-benefits-cards.slick-initialized .benefit-item p,
+  .indique-e-ganhe .ofertasPrime-benefits-cards.slick-initialized .benefit-item p {
     font-size: 11px !important;
   }
 }
-.feira-de-vinhos .ofertasPrime-benefits-cards.slick-initialized .benefit-item p {
+.feira-de-vinhos .ofertasPrime-benefits-cards.slick-initialized .benefit-item p,
+.indique-e-ganhe .ofertasPrime-benefits-cards.slick-initialized .benefit-item p {
   font-family: 'Roboto', sans-serif;
   font-size: 17px;
   font-weight: 400;
@@ -22949,16 +22973,19 @@ body#parceiro-lecupon .popup-partner-coupon-code-container .copy-code {
   margin-bottom: 0;
 }
 @media screen and (max-width: 991px) {
-  .feira-de-vinhos .ofertasPrime-benefits-cards.slick-initialized .benefit-item p {
+  .feira-de-vinhos .ofertasPrime-benefits-cards.slick-initialized .benefit-item p,
+  .indique-e-ganhe .ofertasPrime-benefits-cards.slick-initialized .benefit-item p {
     max-width: 215px;
   }
 }
 @media screen and (max-width: 991px) {
-  .feira-de-vinhos .ofertasPrime-benefits-cards.slick-initialized .benefit-item {
+  .feira-de-vinhos .ofertasPrime-benefits-cards.slick-initialized .benefit-item,
+  .indique-e-ganhe .ofertasPrime-benefits-cards.slick-initialized .benefit-item {
     align-items: center;
   }
 }
-.feira-de-vinhos .ofertasPrime-benefits h2 {
+.feira-de-vinhos .ofertasPrime-benefits h2,
+.indique-e-ganhe .ofertasPrime-benefits h2 {
   font-family: Museo, sans-serif;
   font-size: 20px;
   font-weight: bold;
@@ -22967,26 +22994,31 @@ body#parceiro-lecupon .popup-partner-coupon-code-container .copy-code {
   text-transform: lowercase;
 }
 @media screen and (min-width: 1600px) {
-  .feira-de-vinhos .ofertasPrime-benefits h2 {
+  .feira-de-vinhos .ofertasPrime-benefits h2,
+  .indique-e-ganhe .ofertasPrime-benefits h2 {
     font-size: 35px;
   }
 }
 @media screen and (max-width: 991px) {
-  .feira-de-vinhos .ofertasPrime-benefits h2 {
+  .feira-de-vinhos .ofertasPrime-benefits h2,
+  .indique-e-ganhe .ofertasPrime-benefits h2 {
     margin-left: 15px;
     font-size: 17px;
     margin-bottom: 20px;
   }
 }
-.feira-de-vinhos .ofertasPrime-video {
+.feira-de-vinhos .ofertasPrime-video,
+.indique-e-ganhe .ofertasPrime-video {
   margin: 34px 0 90px 0;
 }
 @media (max-width: 768px) {
-  .feira-de-vinhos .ofertasPrime-video {
+  .feira-de-vinhos .ofertasPrime-video,
+  .indique-e-ganhe .ofertasPrime-video {
     margin: 34px 0 156px 0;
   }
 }
-.feira-de-vinhos .ofertasPrime-video .video-flag {
+.feira-de-vinhos .ofertasPrime-video .video-flag,
+.indique-e-ganhe .ofertasPrime-video .video-flag {
   height: 179px;
   background: #C6152B;
   padding: 42px 112px;
@@ -22995,16 +23027,19 @@ body#parceiro-lecupon .popup-partner-coupon-code-container .copy-code {
   justify-content: space-around;
 }
 @media (max-width: 768px) {
-  .feira-de-vinhos .ofertasPrime-video .video-flag {
+  .feira-de-vinhos .ofertasPrime-video .video-flag,
+  .indique-e-ganhe .ofertasPrime-video .video-flag {
     width: 280px;
     margin: 0 auto;
   }
 }
-.feira-de-vinhos .ofertasPrime-video .video-content-container {
+.feira-de-vinhos .ofertasPrime-video .video-content-container,
+.indique-e-ganhe .ofertasPrime-video .video-content-container {
   display: flex;
   justify-content: center;
 }
-.feira-de-vinhos .ofertasPrime-video .video-content-container .video-flag-content {
+.feira-de-vinhos .ofertasPrime-video .video-content-container .video-flag-content,
+.indique-e-ganhe .ofertasPrime-video .video-content-container .video-flag-content {
   display: flex;
   justify-content: space-between;
   position: absolute;
@@ -23012,21 +23047,25 @@ body#parceiro-lecupon .popup-partner-coupon-code-container .copy-code {
   margin-top: -200px;
 }
 @media (max-width: 768px) {
-  .feira-de-vinhos .ofertasPrime-video .video-content-container .video-flag-content {
+  .feira-de-vinhos .ofertasPrime-video .video-content-container .video-flag-content,
+  .indique-e-ganhe .ofertasPrime-video .video-content-container .video-flag-content {
     flex-direction: column;
   }
 }
-.feira-de-vinhos .ofertasPrime-video .video-content-container .video-flag-content .text-content {
+.feira-de-vinhos .ofertasPrime-video .video-content-container .video-flag-content .text-content,
+.indique-e-ganhe .ofertasPrime-video .video-content-container .video-flag-content .text-content {
   align-items: center;
   display: flex;
 }
 @media (max-width: 768px) {
-  .feira-de-vinhos .ofertasPrime-video .video-content-container .video-flag-content .text-content {
+  .feira-de-vinhos .ofertasPrime-video .video-content-container .video-flag-content .text-content,
+  .indique-e-ganhe .ofertasPrime-video .video-content-container .video-flag-content .text-content {
     width: 280px;
     margin: 75px auto 20px auto;
   }
 }
-.feira-de-vinhos .ofertasPrime-video .video-content-container .video-flag-content .text-content p {
+.feira-de-vinhos .ofertasPrime-video .video-content-container .video-flag-content .text-content p,
+.indique-e-ganhe .ofertasPrime-video .video-content-container .video-flag-content .text-content p {
   width: 353px;
   text-align: center;
   color: #ffffff;
@@ -23038,14 +23077,16 @@ body#parceiro-lecupon .popup-partner-coupon-code-container .copy-code {
   margin: -35px 0 0 0;
 }
 @media (max-width: 768px) {
-  .feira-de-vinhos .ofertasPrime-video .video-content-container .video-flag-content .text-content p {
+  .feira-de-vinhos .ofertasPrime-video .video-content-container .video-flag-content .text-content p,
+  .indique-e-ganhe .ofertasPrime-video .video-content-container .video-flag-content .text-content p {
     padding: 0 30px;
     font-size: 18px;
     line-height: 20.6px;
   }
 }
 @media screen and (max-width: 768px) {
-  .feira-de-vinhos .ofertasPrime-video .video-content-container .video-flag-content .video-iframe {
+  .feira-de-vinhos .ofertasPrime-video .video-content-container .video-flag-content .video-iframe,
+  .indique-e-ganhe .ofertasPrime-video .video-content-container .video-flag-content .video-iframe {
     margin: 0 auto;
     width: 330px;
     right: 0;
@@ -23053,23 +23094,27 @@ body#parceiro-lecupon .popup-partner-coupon-code-container .copy-code {
     margin-top: 0;
   }
 }
-.feira-de-vinhos .ofertasPrime-video .video-content-container .video-flag-content .video-iframe iframe {
+.feira-de-vinhos .ofertasPrime-video .video-content-container .video-flag-content .video-iframe iframe,
+.indique-e-ganhe .ofertasPrime-video .video-content-container .video-flag-content .video-iframe iframe {
   width: 450px;
   height: 253px;
   box-shadow: -7px 10px 13px -1px rgba(0, 0, 0, 0.42);
 }
 @media screen and (max-width: 768px) {
-  .feira-de-vinhos .ofertasPrime-video .video-content-container .video-flag-content .video-iframe iframe {
+  .feira-de-vinhos .ofertasPrime-video .video-content-container .video-flag-content .video-iframe iframe,
+  .indique-e-ganhe .ofertasPrime-video .video-content-container .video-flag-content .video-iframe iframe {
     width: 330px;
     height: 185px;
     box-shadow: none;
   }
 }
-.feira-de-vinhos .ofertasPrime-plans {
+.feira-de-vinhos .ofertasPrime-plans,
+.indique-e-ganhe .ofertasPrime-plans {
   margin: 0 0 56px 0;
   width: 100%;
 }
-.feira-de-vinhos .ofertasPrime-plans-title h2 {
+.feira-de-vinhos .ofertasPrime-plans-title h2,
+.indique-e-ganhe .ofertasPrime-plans-title h2 {
   font-family: Museo, sans-serif;
   font-size: 20px;
   text-transform: lowercase;
@@ -23078,17 +23123,20 @@ body#parceiro-lecupon .popup-partner-coupon-code-container .copy-code {
   margin-left: 0;
 }
 @media screen and (min-width: 1600px) {
-  .feira-de-vinhos .ofertasPrime-plans-title h2 {
+  .feira-de-vinhos .ofertasPrime-plans-title h2,
+  .indique-e-ganhe .ofertasPrime-plans-title h2 {
     font-size: 35px;
   }
 }
 @media screen and (max-width: 991px) {
-  .feira-de-vinhos .ofertasPrime-plans-title h2 {
+  .feira-de-vinhos .ofertasPrime-plans-title h2,
+  .indique-e-ganhe .ofertasPrime-plans-title h2 {
     margin-left: 15px;
     font-size: 17px;
   }
 }
-.feira-de-vinhos .ofertasPrime-plans-container {
+.feira-de-vinhos .ofertasPrime-plans-container,
+.indique-e-ganhe .ofertasPrime-plans-container {
   height: fit-content;
   background: #F4F4F4;
   width: 100%;
@@ -23100,11 +23148,13 @@ body#parceiro-lecupon .popup-partner-coupon-code-container .copy-code {
   overflow: hidden;
 }
 @media (max-width: 768px) {
-  .feira-de-vinhos .ofertasPrime-plans-container {
+  .feira-de-vinhos .ofertasPrime-plans-container,
+  .indique-e-ganhe .ofertasPrime-plans-container {
     height: fit-content;
     padding: 35px 0 35px 0;
   }
-  .feira-de-vinhos .ofertasPrime-plans-container::before {
+  .feira-de-vinhos .ofertasPrime-plans-container::before,
+  .indique-e-ganhe .ofertasPrime-plans-container::before {
     height: 341px;
     border-radius: 50%;
     -moz-border-radius: 50%;
@@ -23120,7 +23170,8 @@ body#parceiro-lecupon .popup-partner-coupon-code-container .copy-code {
   }
 }
 @media (min-width: 768px) {
-  .feira-de-vinhos .ofertasPrime-plans-container::before {
+  .feira-de-vinhos .ofertasPrime-plans-container::before,
+  .indique-e-ganhe .ofertasPrime-plans-container::before {
     height: 341px;
     border-radius: 50%;
     -moz-border-radius: 50%;
@@ -23136,20 +23187,24 @@ body#parceiro-lecupon .popup-partner-coupon-code-container .copy-code {
   }
 }
 @media screen and (max-width: 991px) {
-  .feira-de-vinhos .ofertasPrime-plans-container::before {
+  .feira-de-vinhos .ofertasPrime-plans-container::before,
+  .indique-e-ganhe .ofertasPrime-plans-container::before {
     margin-left: 10%;
   }
 }
-.feira-de-vinhos .ofertasPrime-plans-inner {
+.feira-de-vinhos .ofertasPrime-plans-inner,
+.indique-e-ganhe .ofertasPrime-plans-inner {
   display: flex;
   justify-content: center;
 }
 @media screen and (max-width: 991px) {
-  .feira-de-vinhos .ofertasPrime-plans-inner {
+  .feira-de-vinhos .ofertasPrime-plans-inner,
+  .indique-e-ganhe .ofertasPrime-plans-inner {
     flex-direction: column;
     gap: 30px;
   }
-  .feira-de-vinhos .ofertasPrime-plans-inner::before {
+  .feira-de-vinhos .ofertasPrime-plans-inner::before,
+  .indique-e-ganhe .ofertasPrime-plans-inner::before {
     height: 316px;
     border-radius: 50%;
     -moz-border-radius: 50%;
@@ -23166,7 +23221,8 @@ body#parceiro-lecupon .popup-partner-coupon-code-container .copy-code {
   }
 }
 @media screen and (min-width: 991px) {
-  .feira-de-vinhos .ofertasPrime-plans-inner::before {
+  .feira-de-vinhos .ofertasPrime-plans-inner::before,
+  .indique-e-ganhe .ofertasPrime-plans-inner::before {
     height: 316px;
     border-radius: 50%;
     -moz-border-radius: 50%;
@@ -23181,7 +23237,8 @@ body#parceiro-lecupon .popup-partner-coupon-code-container .copy-code {
     margin-left: -140px;
     top: -100px;
   }
-  .feira-de-vinhos .ofertasPrime-plans-inner::after {
+  .feira-de-vinhos .ofertasPrime-plans-inner::after,
+  .indique-e-ganhe .ofertasPrime-plans-inner::after {
     height: 316px;
     border-radius: 50%;
     -moz-border-radius: 50%;
@@ -23198,13 +23255,15 @@ body#parceiro-lecupon .popup-partner-coupon-code-container .copy-code {
   }
 }
 @media screen and (min-width: 991px) {
-  .feira-de-vinhos .ofertasPrime-plans-item {
+  .feira-de-vinhos .ofertasPrime-plans-item,
+  .indique-e-ganhe .ofertasPrime-plans-item {
     width: 387px !important;
     max-width: 387px;
     height: 288px;
   }
 }
-.feira-de-vinhos .ofertasPrime-plans-item {
+.feira-de-vinhos .ofertasPrime-plans-item,
+.indique-e-ganhe .ofertasPrime-plans-item {
   margin: 0 3%;
   border-radius: 8px;
   background: #FFFFFF;
@@ -23217,41 +23276,48 @@ body#parceiro-lecupon .popup-partner-coupon-code-container .copy-code {
   justify-content: space-between;
 }
 @media (max-width: 768px) {
-  .feira-de-vinhos .ofertasPrime-plans-item {
+  .feira-de-vinhos .ofertasPrime-plans-item,
+  .indique-e-ganhe .ofertasPrime-plans-item {
     padding: 10px 45px;
   }
 }
-.feira-de-vinhos .ofertasPrime-plans-item h3 {
+.feira-de-vinhos .ofertasPrime-plans-item h3,
+.indique-e-ganhe .ofertasPrime-plans-item h3 {
   font-family: 'Roboto', sans-serif;
   font-weight: 700;
   font-size: 16px;
   color: #E7C677;
 }
-.feira-de-vinhos .ofertasPrime-plans-item h3::after {
+.feira-de-vinhos .ofertasPrime-plans-item h3::after,
+.indique-e-ganhe .ofertasPrime-plans-item h3::after {
   content: "";
   border-bottom: 1px solid #E7C677;
   width: 88px;
   display: flex;
   margin: 2px auto 0 auto;
 }
-.feira-de-vinhos .ofertasPrime-plans-item .price-info {
+.feira-de-vinhos .ofertasPrime-plans-item .price-info,
+.indique-e-ganhe .ofertasPrime-plans-item .price-info {
   display: flex;
   align-items: center;
   margin-top: -5px;
   gap: 5px;
 }
 @media (max-width: 768px) {
-  .feira-de-vinhos .ofertasPrime-plans-item .price-info {
+  .feira-de-vinhos .ofertasPrime-plans-item .price-info,
+  .indique-e-ganhe .ofertasPrime-plans-item .price-info {
     margin-top: 5px;
   }
 }
-.feira-de-vinhos .ofertasPrime-plans-item .price-info small {
+.feira-de-vinhos .ofertasPrime-plans-item .price-info small,
+.indique-e-ganhe .ofertasPrime-plans-item .price-info small {
   font-family: 'Roboto', sans-serif;
   color: #C5132A;
   font-weight: 700;
   font-size: 18px;
 }
-.feira-de-vinhos .ofertasPrime-plans-item .price-info .price {
+.feira-de-vinhos .ofertasPrime-plans-item .price-info .price,
+.indique-e-ganhe .ofertasPrime-plans-item .price-info .price {
   color: #C5132A;
   font-family: 'Roboto', sans-serif;
   font-weight: 700;
@@ -23259,7 +23325,8 @@ body#parceiro-lecupon .popup-partner-coupon-code-container .copy-code {
   margin-top: -10px;
   text-transform: none;
 }
-.feira-de-vinhos .ofertasPrime-plans-item .advantages p {
+.feira-de-vinhos .ofertasPrime-plans-item .advantages p,
+.indique-e-ganhe .ofertasPrime-plans-item .advantages p {
   color: #C6152B;
   font-size: 14px;
   line-height: 18.65px;
@@ -23267,19 +23334,23 @@ body#parceiro-lecupon .popup-partner-coupon-code-container .copy-code {
   text-transform: none;
 }
 @media (max-width: 768px) {
-  .feira-de-vinhos .ofertasPrime-plans-item .advantages p {
+  .feira-de-vinhos .ofertasPrime-plans-item .advantages p,
+  .indique-e-ganhe .ofertasPrime-plans-item .advantages p {
     font-size: 12px;
   }
 }
-.feira-de-vinhos .ofertasPrime-plans-item .advantages p strong {
+.feira-de-vinhos .ofertasPrime-plans-item .advantages p strong,
+.indique-e-ganhe .ofertasPrime-plans-item .advantages p strong {
   font-size: 14px;
 }
 @media (max-width: 768px) {
-  .feira-de-vinhos .ofertasPrime-plans-item .advantages p strong {
+  .feira-de-vinhos .ofertasPrime-plans-item .advantages p strong,
+  .indique-e-ganhe .ofertasPrime-plans-item .advantages p strong {
     font-size: 12px;
   }
 }
-.feira-de-vinhos .ofertasPrime-plans-item span.validity {
+.feira-de-vinhos .ofertasPrime-plans-item span.validity,
+.indique-e-ganhe .ofertasPrime-plans-item span.validity {
   font-size: 14px;
   color: #C5132A;
   font-weight: 700;
@@ -23287,11 +23358,13 @@ body#parceiro-lecupon .popup-partner-coupon-code-container .copy-code {
   margin-bottom: -10px;
 }
 @media (max-width: 768px) {
-  .feira-de-vinhos .ofertasPrime-plans-item span.validity {
+  .feira-de-vinhos .ofertasPrime-plans-item span.validity,
+  .indique-e-ganhe .ofertasPrime-plans-item span.validity {
     margin-bottom: 0;
   }
 }
-.feira-de-vinhos .ofertasPrime-plans-item button.buy-prime-btn {
+.feira-de-vinhos .ofertasPrime-plans-item button.buy-prime-btn,
+.indique-e-ganhe .ofertasPrime-plans-item button.buy-prime-btn {
   width: 100%;
   height: 48.11px;
   background: #C5132A;
@@ -23301,19 +23374,22 @@ body#parceiro-lecupon .popup-partner-coupon-code-container .copy-code {
   outline: none;
   cursor: pointer;
 }
-.feira-de-vinhos .ofertasPrime-plans-item button.buy-prime-btn.primeBtn-disabled {
+.feira-de-vinhos .ofertasPrime-plans-item button.buy-prime-btn.primeBtn-disabled,
+.indique-e-ganhe .ofertasPrime-plans-item button.buy-prime-btn.primeBtn-disabled {
   pointer-events: none;
   filter: brightness(0.8);
 }
 @media (max-width: 768px) {
-  .feira-de-vinhos .ofertasPrime-plans-item button.buy-prime-btn {
+  .feira-de-vinhos .ofertasPrime-plans-item button.buy-prime-btn,
+  .indique-e-ganhe .ofertasPrime-plans-item button.buy-prime-btn {
     height: 43px;
     display: flex;
     align-items: center;
     justify-content: center;
   }
 }
-.feira-de-vinhos .ofertasPrime-plans-item button.buy-prime-btn p {
+.feira-de-vinhos .ofertasPrime-plans-item button.buy-prime-btn p,
+.indique-e-ganhe .ofertasPrime-plans-item button.buy-prime-btn p {
   margin-bottom: 0 !important;
   color: #FFFFFF;
   font-family: 'Roboto', sans-serif;
@@ -23321,14 +23397,17 @@ body#parceiro-lecupon .popup-partner-coupon-code-container .copy-code {
   font-weight: 700;
 }
 @media (max-width: 768px) {
-  .feira-de-vinhos .ofertasPrime-plans-item button.buy-prime-btn p {
+  .feira-de-vinhos .ofertasPrime-plans-item button.buy-prime-btn p,
+  .indique-e-ganhe .ofertasPrime-plans-item button.buy-prime-btn p {
     font-size: 17px;
   }
 }
-.feira-de-vinhos .ofertasPrime-plans-item button.buy-prime-btn.isloading p {
+.feira-de-vinhos .ofertasPrime-plans-item button.buy-prime-btn.isloading p,
+.indique-e-ganhe .ofertasPrime-plans-item button.buy-prime-btn.isloading p {
   display: none;
 }
-.feira-de-vinhos .ofertasPrime-plans-item button.buy-prime-btn.isloading::after {
+.feira-de-vinhos .ofertasPrime-plans-item button.buy-prime-btn.isloading::after,
+.indique-e-ganhe .ofertasPrime-plans-item button.buy-prime-btn.isloading::after {
   content: "";
   background: url('https://supernossoemcasa.vteximg.com.br/arquivos/spinner-loading-white.gif');
   background-size: 24px;
@@ -23338,22 +23417,28 @@ body#parceiro-lecupon .popup-partner-coupon-code-container .copy-code {
   margin: 0 auto;
 }
 @media screen and (max-width: 768px) {
-  .feira-de-vinhos .ofertasPrime-plans-item {
+  .feira-de-vinhos .ofertasPrime-plans-item,
+  .indique-e-ganhe .ofertasPrime-plans-item {
     min-height: 250px;
   }
-  .feira-de-vinhos .ofertasPrime-plans-item h3 {
+  .feira-de-vinhos .ofertasPrime-plans-item h3,
+  .indique-e-ganhe .ofertasPrime-plans-item h3 {
     font-size: 11px;
     text-align: center;
   }
-  .feira-de-vinhos .ofertasPrime-plans-item .price {
+  .feira-de-vinhos .ofertasPrime-plans-item .price,
+  .indique-e-ganhe .ofertasPrime-plans-item .price {
     font-size: 24px;
   }
 }
-.feira-de-vinhos .ofertasPrime-partners {
+.feira-de-vinhos .ofertasPrime-partners,
+.indique-e-ganhe .ofertasPrime-partners {
   margin: 0 0 56px 0;
 }
 .feira-de-vinhos .ofertasPrime-partners .slick-prev-prime,
-.feira-de-vinhos .ofertasPrime-partners .slick-next-prime {
+.indique-e-ganhe .ofertasPrime-partners .slick-prev-prime,
+.feira-de-vinhos .ofertasPrime-partners .slick-next-prime,
+.indique-e-ganhe .ofertasPrime-partners .slick-next-prime {
   display: block;
   height: 35px;
   width: 35px;
@@ -23364,28 +23449,35 @@ body#parceiro-lecupon .popup-partner-coupon-code-container .copy-code {
   margin-bottom: 40px;
 }
 .feira-de-vinhos .ofertasPrime-partners .slick-prev-prime img,
-.feira-de-vinhos .ofertasPrime-partners .slick-next-prime img {
+.indique-e-ganhe .ofertasPrime-partners .slick-prev-prime img,
+.feira-de-vinhos .ofertasPrime-partners .slick-next-prime img,
+.indique-e-ganhe .ofertasPrime-partners .slick-next-prime img {
   height: 29px;
   width: 29px;
 }
-.feira-de-vinhos .ofertasPrime-partners .slick-prev-prime {
+.feira-de-vinhos .ofertasPrime-partners .slick-prev-prime,
+.indique-e-ganhe .ofertasPrime-partners .slick-prev-prime {
   margin-right: 20px;
 }
-.feira-de-vinhos .ofertasPrime-partners .slick-next-prime {
+.feira-de-vinhos .ofertasPrime-partners .slick-next-prime,
+.indique-e-ganhe .ofertasPrime-partners .slick-next-prime {
   margin-left: 20px;
 }
 @media screen and (max-width: 991px) {
-  .feira-de-vinhos .ofertasPrime-partners-title {
+  .feira-de-vinhos .ofertasPrime-partners-title,
+  .indique-e-ganhe .ofertasPrime-partners-title {
     flex-direction: column;
   }
 }
-.feira-de-vinhos .ofertasPrime-partners-title {
+.feira-de-vinhos .ofertasPrime-partners-title,
+.indique-e-ganhe .ofertasPrime-partners-title {
   display: flex;
   align-items: baseline;
   padding: 5px 0;
   gap: 10px;
 }
-.feira-de-vinhos .ofertasPrime-partners-title h2 {
+.feira-de-vinhos .ofertasPrime-partners-title h2,
+.indique-e-ganhe .ofertasPrime-partners-title h2 {
   font-family: Museo, sans-serif;
   font-size: 20px;
   text-transform: lowercase;
@@ -23394,28 +23486,33 @@ body#parceiro-lecupon .popup-partner-coupon-code-container .copy-code {
   margin-bottom: 0px;
 }
 @media screen and (min-width: 1600px) {
-  .feira-de-vinhos .ofertasPrime-partners-title h2 {
+  .feira-de-vinhos .ofertasPrime-partners-title h2,
+  .indique-e-ganhe .ofertasPrime-partners-title h2 {
     font-size: 35px;
   }
 }
 @media screen and (max-width: 991px) {
-  .feira-de-vinhos .ofertasPrime-partners-title h2 {
+  .feira-de-vinhos .ofertasPrime-partners-title h2,
+  .indique-e-ganhe .ofertasPrime-partners-title h2 {
     margin-left: 15px;
     font-size: 17px;
   }
 }
-.feira-de-vinhos .ofertasPrime-partners-title small {
+.feira-de-vinhos .ofertasPrime-partners-title small,
+.indique-e-ganhe .ofertasPrime-partners-title small {
   font-size: 12px;
   font-weight: 400;
   line-height: 12px;
   font-family: 'Roboto', sans-serif;
 }
 @media screen and (max-width: 991px) {
-  .feira-de-vinhos .ofertasPrime-partners-title small {
+  .feira-de-vinhos .ofertasPrime-partners-title small,
+  .indique-e-ganhe .ofertasPrime-partners-title small {
     margin-left: 15px;
   }
 }
-.feira-de-vinhos .ofertasPrime-partners-items {
+.feira-de-vinhos .ofertasPrime-partners-items,
+.indique-e-ganhe .ofertasPrime-partners-items {
   margin-top: 30px;
   display: flex;
   align-items: center;
@@ -23423,13 +23520,15 @@ body#parceiro-lecupon .popup-partner-coupon-code-container .copy-code {
   justify-content: space-evenly;
 }
 @media screen and (max-width: 768px) {
-  .feira-de-vinhos .ofertasPrime-partners-items {
+  .feira-de-vinhos .ofertasPrime-partners-items,
+  .indique-e-ganhe .ofertasPrime-partners-items {
     height: auto;
     flex-wrap: wrap;
     gap: 15px;
   }
 }
-.feira-de-vinhos .ofertasPrime-partners-items.partnersLoading::before {
+.feira-de-vinhos .ofertasPrime-partners-items.partnersLoading::before,
+.indique-e-ganhe .ofertasPrime-partners-items.partnersLoading::before {
   content: "";
   background: url(https://supernossoemcasa.vteximg.com.br/arquivos/spinner-loading-red.gif);
   background-size: 44px;
@@ -23440,21 +23539,25 @@ body#parceiro-lecupon .popup-partner-coupon-code-container .copy-code {
   background-repeat: no-repeat;
   margin-bottom: 30px;
 }
-.feira-de-vinhos .ofertasPrime-partners-items .slick-list {
+.feira-de-vinhos .ofertasPrime-partners-items .slick-list,
+.indique-e-ganhe .ofertasPrime-partners-items .slick-list {
   flex: 1;
 }
-.feira-de-vinhos .ofertasPrime-partners-items.slick-initialized {
+.feira-de-vinhos .ofertasPrime-partners-items.slick-initialized,
+.indique-e-ganhe .ofertasPrime-partners-items.slick-initialized {
   visibility: visible;
   opacity: 1;
 }
-.feira-de-vinhos .ofertasPrime-partners-item {
+.feira-de-vinhos .ofertasPrime-partners-item,
+.indique-e-ganhe .ofertasPrime-partners-item {
   cursor: pointer;
   display: flex;
   flex-direction: column;
   align-items: center;
   outline: none;
 }
-.feira-de-vinhos .ofertasPrime-partners-item .double-frame {
+.feira-de-vinhos .ofertasPrime-partners-item .double-frame,
+.indique-e-ganhe .ofertasPrime-partners-item .double-frame {
   width: 165px;
   border: 6px solid #f9f1dd;
   border-radius: 50%;
@@ -23464,12 +23567,14 @@ body#parceiro-lecupon .popup-partner-coupon-code-container .copy-code {
   justify-content: center;
 }
 @media screen and (max-width: 768px) {
-  .feira-de-vinhos .ofertasPrime-partners-item .double-frame {
+  .feira-de-vinhos .ofertasPrime-partners-item .double-frame,
+  .indique-e-ganhe .ofertasPrime-partners-item .double-frame {
     width: 100px;
     height: 100px;
   }
 }
-.feira-de-vinhos .ofertasPrime-partners-item img {
+.feira-de-vinhos .ofertasPrime-partners-item img,
+.indique-e-ganhe .ofertasPrime-partners-item img {
   border-radius: 50%;
   border: 8px solid #e8c678;
   width: 144px;
@@ -23477,12 +23582,14 @@ body#parceiro-lecupon .popup-partner-coupon-code-container .copy-code {
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 @media screen and (max-width: 768px) {
-  .feira-de-vinhos .ofertasPrime-partners-item img {
+  .feira-de-vinhos .ofertasPrime-partners-item img,
+  .indique-e-ganhe .ofertasPrime-partners-item img {
     width: 84px;
     height: 84px;
   }
 }
-.feira-de-vinhos .ofertasPrime-partners-item p {
+.feira-de-vinhos .ofertasPrime-partners-item p,
+.indique-e-ganhe .ofertasPrime-partners-item p {
   font-family: Museo, sans-serif;
   font-weight: 700;
   font-size: 14px;
@@ -23490,21 +23597,25 @@ body#parceiro-lecupon .popup-partner-coupon-code-container .copy-code {
   text-align: center;
 }
 @media screen and (max-width: 768px) {
-  .feira-de-vinhos .ofertasPrime-partners-item p {
+  .feira-de-vinhos .ofertasPrime-partners-item p,
+  .indique-e-ganhe .ofertasPrime-partners-item p {
     font-size: 12px;
   }
 }
-.feira-de-vinhos .container-caio-soter .container {
+.feira-de-vinhos .container-caio-soter .container,
+.indique-e-ganhe .container-caio-soter .container {
   width: 100%;
   max-width: 100%;
   padding: 0;
   margin: 0;
 }
-.feira-de-vinhos .container-caio-soter .container .prime-plans-no-margin {
+.feira-de-vinhos .container-caio-soter .container .prime-plans-no-margin,
+.indique-e-ganhe .container-caio-soter .container .prime-plans-no-margin {
   margin: 0;
   width: 100%;
 }
-.feira-de-vinhos h2#popup-terms-and-conditions {
+.feira-de-vinhos h2#popup-terms-and-conditions,
+.indique-e-ganhe h2#popup-terms-and-conditions {
   font-family: 'Roboto';
   font-style: normal;
   font-weight: bold;
