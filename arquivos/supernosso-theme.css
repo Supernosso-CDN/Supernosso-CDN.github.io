@@ -21482,8 +21482,12 @@ body#parceiro-lecupon .couponDetails-rescueTime p {
   color: #666666;
 }
 body#parceiro-lecupon .couponDetails-rescueTime span {
-  font-weight: 700;
+  font-weight: 400;
   font-size: 14px;
+  font-family: 'Roboto', sans-serif;
+}
+body#parceiro-lecupon .couponDetails-rescueTime span:first-child {
+  font-weight: 700;
 }
 body#parceiro-lecupon .couponDetails-rescueTime__rules {
   margin-top: 10px;
@@ -21491,6 +21495,15 @@ body#parceiro-lecupon .couponDetails-rescueTime__rules {
   background: #F2F2F2;
   border-radius: 8px;
   line-height: 18px;
+}
+body#parceiro-lecupon .couponDetails-rescueTime__rules h2 {
+  font-weight: 700;
+  font-size: 16px;
+  color: #666666;
+  margin-bottom: 4px;
+}
+body#parceiro-lecupon .couponDetails-rescueTime__rules .observation {
+  margin: 15px 0 0 0;
 }
 body#parceiro-lecupon .generateCouponBtn {
   width: 100%;
