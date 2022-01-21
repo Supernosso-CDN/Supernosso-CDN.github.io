@@ -62996,7 +62996,7 @@ var StorePicker = function () {
           },
           logisticsInfo: logisticsInfo
         }).done(function (orf) {
-          if (orf.shippingData.logisticsInfo && orf.shippingData.logisticsInfo[0].selectedDeliveryChannel === 'pickup-in-point') {
+          if (orf.shippingData.logisticsInfo && orf.shippingData.logisticsInfo.length > 0 && orf.shippingData.logisticsInfo[0].selectedDeliveryChannel === 'pickup-in-point') {
             _this3.setStorage('activeDeliveryChannel', 'pickup-in-point');
             _this3.setStorage('aditionalShippingData', JSON.stringify({
               activeTab: "pickup-in-point",
