@@ -61081,7 +61081,7 @@ var Header = function () {
             });
             $('.search-bar .busca input').click(function (e) {
                 e.preventDefault();
-                //that.searchToggle();
+                that.searchToggle();
             });
             $('.close-search-box').click(function (e) {
                 e.preventDefault();
