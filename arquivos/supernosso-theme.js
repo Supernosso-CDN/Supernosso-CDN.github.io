@@ -71113,14 +71113,14 @@ var Minicart = exports.Minicart = function (_React$Component) {
       });
 
       switch (skuPrimeOncart) {
-        case "7953":
+        case "7955":
           idx = 0;
           break;
-        case "7955":
+        case "7953":
           idx = 1;
           break;
         default:
-          idx = 1;
+          idx = 0;
           break;
       }
 
@@ -71244,13 +71244,13 @@ var Minicart = exports.Minicart = function (_React$Component) {
 
       var primeSkuIds = ['7953', '7955'];
       var primeSkus = [{
-        id: '7953',
-        period: '6 meses',
-        price: 'R$69,90'
-      }, {
         id: '7955',
         period: '12 meses',
         price: 'R$99,90'
+      }, {
+        id: '7953',
+        period: '6 meses',
+        price: 'R$69,90'
       }];
       var primeOnCart = false;
       var userName = null;
