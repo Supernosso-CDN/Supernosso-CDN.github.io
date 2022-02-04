@@ -60998,13 +60998,14 @@ var StorePicker = function () {
       var pickUpPoints = await (0, _utils.getPickUpPoints)();
 
       if (purchaseData && pickUpPoints) {
-        if (purchaseData.postalCode == "33400000" || purchaseData.postalCode >= "33230000" && purchaseData.postalCode <= "33240370") {
+        var postalCode = purchaseData.postalCode.replace('-', '');
+        if (postalCode == 33400000 || postalCode >= 33230000 && postalCode <= 33240370) {
           return "10";
         }
         var slas = purchaseData.logisticsInfo[0].slas;
         var bestShippingCompany = this.selectBetterShippingCompany(slas);
         var bestShippingCompanySalesChannel = this.getBestShippingCompanySalesChannel(pickUpPoints, bestShippingCompany);
-        console.log('bestShippingCompanySalesChannel --->', bestShippingCompanySalesChannel);
+        console.log("bestShippingCompanySalesChannel --->", bestShippingCompanySalesChannel);
 
         return bestShippingCompanySalesChannel;
       } else {
@@ -61012,35 +61013,36 @@ var StorePicker = function () {
       }
     }
 
-    // Seleciona a entregadora com o menor tempo de entrega
+    // seleciona a entregadora com o menor tempo de entrega
 
   }, {
     key: "selectBetterShippingCompany",
     value: function selectBetterShippingCompany(slas) {
       var bestShippingCompany = null;
 
-      slas.forEach(function (sc) {
-        //seta a primeira como a melhor na primeira vez
-        if (!bestShippingCompany) {
-          bestShippingCompany = sc;
+      slas.forEach(function (sla) {
+        // ignora a transportadora Prime
+        if (sla.deliveryIds[0].courierName == "Prime") {
           return;
         }
 
-        //cria as variaveis com a primeisa e a segunda sla
-        var actualBestShippingCompanyBestDate = bestShippingCompany.availableDeliveryWindows[0].endDateUtc.replace(':59+', ':00+');
-        var shippingCompanyBestDate = sc.availableDeliveryWindows[0].endDateUtc.replace(':59+', ':00+');
-
-        //compara a peimeia sla com a sla do loop 
-        if ((0, _moment2.default)(actualBestShippingCompanyBestDate).isAfter(shippingCompanyBestDate)) {
-          bestShippingCompany = sc;
-        } else if ((0, _moment2.default)(actualBestShippingCompanyBestDate).isSame(shippingCompanyBestDate)) {
-          // Se as datas forem iguais enviar para qualquer menos o CD
-          if (bestShippingCompany.deliveryIds[0].courierName == "Agendada") {
-            bestShippingCompany = sc;
-          }
+        // seta a primeira como a melhor na primeira vez
+        if (!bestShippingCompany) {
+          bestShippingCompany = sla;
+          return;
         }
-        if (bestShippingCompany.deliveryIds[0].courierName == "Prime") {
-          bestShippingCompany = sc;
+
+        // compara a data e hora da entrega anterior com a entrega do loop atual, buscando a mais rápida
+        var actualBestShippingCompanyBestDate = bestShippingCompany.availableDeliveryWindows[0].endDateUtc.replace(':59+', ':00+');
+        var shippingCompanyBestDate = sla.availableDeliveryWindows[0].endDateUtc.replace(':59+', ':00+');
+
+        if ((0, _moment2.default)(actualBestShippingCompanyBestDate).isAfter(shippingCompanyBestDate)) {
+          bestShippingCompany = sla;
+        } else if ((0, _moment2.default)(actualBestShippingCompanyBestDate).isSame(shippingCompanyBestDate)) {
+          // se as datas forem iguais enviar para qualquer um menos o CD
+          if (bestShippingCompany.deliveryIds[0].courierName == "Agendada") {
+            bestShippingCompany = sla;
+          }
         }
       });
 
@@ -62588,7 +62590,6 @@ var Shelf = function () {
 
       //more qty
       $(document).on("click", ".shelf-more-qty", function (e) {
-        console.log('clicou no mais do produto');
         var obj = getValues(this);
         obj.value++;
         $(obj.el).val(obj.value);
@@ -65802,7 +65803,7 @@ var simulatePurchase = exports.simulatePurchase = async function simulatePurchas
     var mockedData = {
         items: [{
             id: 11420,
-            quantity: qty ? qty : 1,
+            quantity: 52,
             seller: 1
         }],
         country: 'BRA',
