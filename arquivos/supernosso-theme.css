@@ -21643,48 +21643,36 @@ body#parceiro-lecupon .ofertasPrime-benefits-cards {
 }
 body.pagina-prime .ofertasPrime-benefits-cards .entrega,
 body#parceiro-lecupon .ofertasPrime-benefits-cards .entrega {
-  background-image: url(https://supernossoemcasa.vteximg.com.br/arquivos/prime-benefit-entrega-svg.svg);
-  background-position-y: -10px;
+  background-image: url(https://supernossoemcasa.vteximg.com.br/arquivos/primeEntregaNovo.svg);
 }
 body.pagina-prime .ofertasPrime-benefits-cards .ofertas,
 body#parceiro-lecupon .ofertasPrime-benefits-cards .ofertas {
-  background-image: url(https://supernossoemcasa.vteximg.com.br/arquivos/prime-benefit-ofertas-svg.svg);
-  background-position-y: -11px;
+  background-image: url(https://supernossoemcasa.vteximg.com.br/arquivos/primeOfertasNovo.svg);
 }
 body.pagina-prime .ofertasPrime-benefits-cards .adega,
 body#parceiro-lecupon .ofertasPrime-benefits-cards .adega {
-  background-image: url(https://supernossoemcasa.vteximg.com.br/arquivos/prime-benefit-adega-svg.svg);
-  background-position-y: -7px;
+  background-image: url(https://supernossoemcasa.vteximg.com.br/arquivos/primeAdegaNovo.svg);
 }
 body.pagina-prime .ofertasPrime-benefits-cards .ogin,
 body#parceiro-lecupon .ofertasPrime-benefits-cards .ogin {
-  background-image: url(https://supernossoemcasa.vteximg.com.br/arquivos/prime-benefit-ogin-svg.svg);
-  background-position-y: 2px;
+  background-image: url(https://supernossoemcasa.vteximg.com.br/arquivos/primeOginNovo.svg);
 }
 body.pagina-prime .ofertasPrime-benefits-cards .stella,
 body#parceiro-lecupon .ofertasPrime-benefits-cards .stella {
   background-image: url(https://supernossoemcasa.vteximg.com.br/arquivos/stella.svg);
-  background-size: auto;
 }
 body.pagina-prime .ofertasPrime-benefits-cards .parceiros,
 body#parceiro-lecupon .ofertasPrime-benefits-cards .parceiros {
   background-image: url(https://supernossoemcasa.vteximg.com.br/arquivos/ate50desconto.svg);
-  background-size: auto;
-}
-@media screen and (max-width: 768px) {
-  body.pagina-prime .ofertasPrime-benefits-cards .parceiros,
-  body#parceiro-lecupon .ofertasPrime-benefits-cards .parceiros {
-    background-position-y: -5px;
-  }
 }
 body.pagina-prime .ofertasPrime-benefits-cards i,
 body#parceiro-lecupon .ofertasPrime-benefits-cards i {
-  background-size: 200px 200px;
   height: 200px;
   width: 180px;
   display: block;
   background-repeat: no-repeat;
   background-position: center;
+  background-size: auto;
 }
 @media screen and (min-width: 1600px) {
   body.pagina-prime .ofertasPrime-benefits-cards i,
@@ -21697,9 +21685,7 @@ body#parceiro-lecupon .ofertasPrime-benefits-cards i {
 @media screen and (max-width: 768px) {
   body.pagina-prime .ofertasPrime-benefits-cards i,
   body#parceiro-lecupon .ofertasPrime-benefits-cards i {
-    background-size: 120px 120px;
-    height: 100px;
-    width: 100px;
+    flex-basis: 33.333%;
   }
 }
 body.pagina-prime .ofertasPrime-benefits-cards.slick-initialized,
