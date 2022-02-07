@@ -21661,10 +21661,15 @@ body#parceiro-lecupon .ofertasPrime-benefits-cards .ogin {
   background-image: url(https://supernossoemcasa.vteximg.com.br/arquivos/prime-benefit-ogin-svg.svg);
   background-position-y: 2px;
 }
+body.pagina-prime .ofertasPrime-benefits-cards .stella,
+body#parceiro-lecupon .ofertasPrime-benefits-cards .stella {
+  background-image: url(https://supernossoemcasa.vteximg.com.br/arquivos/stella.svg);
+  background-position-y: 2px;
+  background-size: auto;
+}
 body.pagina-prime .ofertasPrime-benefits-cards .parceiros,
 body#parceiro-lecupon .ofertasPrime-benefits-cards .parceiros {
-  background-image: url(https://supernossoemcasa.vteximg.com.br/arquivos/prime-benefit-parceiros-svg.svg);
-  background-position-y: -8px;
+  background-image: url(https://supernossoemcasa.vteximg.com.br/arquivos/ate50desconto.svg);
 }
 @media screen and (max-width: 768px) {
   body.pagina-prime .ofertasPrime-benefits-cards .parceiros,
