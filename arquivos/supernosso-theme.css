@@ -21644,17 +21644,42 @@ body.pagina-prime .ofertasPrime-benefits-cards .entrega,
 body#parceiro-lecupon .ofertasPrime-benefits-cards .entrega {
   background-image: url(https://supernossoemcasa.vteximg.com.br/arquivos/primeEntregaNovo.svg);
 }
+@media screen and (max-width: 768px) {
+  body.pagina-prime .ofertasPrime-benefits-cards .entrega,
+  body#parceiro-lecupon .ofertasPrime-benefits-cards .entrega {
+    background-size: 80px;
+  }
+}
 body.pagina-prime .ofertasPrime-benefits-cards .ofertas,
 body#parceiro-lecupon .ofertasPrime-benefits-cards .ofertas {
   background-image: url(https://supernossoemcasa.vteximg.com.br/arquivos/primeOfertasNovo.svg);
+}
+@media screen and (max-width: 768px) {
+  body.pagina-prime .ofertasPrime-benefits-cards .ofertas,
+  body#parceiro-lecupon .ofertasPrime-benefits-cards .ofertas {
+    background-position-y: 52px;
+  }
 }
 body.pagina-prime .ofertasPrime-benefits-cards .adega,
 body#parceiro-lecupon .ofertasPrime-benefits-cards .adega {
   background-image: url(https://supernossoemcasa.vteximg.com.br/arquivos/primeAdegaNovo.svg);
 }
+@media screen and (max-width: 768px) {
+  body.pagina-prime .ofertasPrime-benefits-cards .adega,
+  body#parceiro-lecupon .ofertasPrime-benefits-cards .adega {
+    background-size: 80px;
+    background-position-y: 52px;
+  }
+}
 body.pagina-prime .ofertasPrime-benefits-cards .ogin,
 body#parceiro-lecupon .ofertasPrime-benefits-cards .ogin {
   background-image: url(https://supernossoemcasa.vteximg.com.br/arquivos/primeOginNovo.svg);
+}
+@media screen and (max-width: 768px) {
+  body.pagina-prime .ofertasPrime-benefits-cards .ogin,
+  body#parceiro-lecupon .ofertasPrime-benefits-cards .ogin {
+    background-size: 70px;
+  }
 }
 body.pagina-prime .ofertasPrime-benefits-cards .stella,
 body#parceiro-lecupon .ofertasPrime-benefits-cards .stella {
@@ -21686,7 +21711,7 @@ body#parceiro-lecupon .ofertasPrime-benefits-cards i {
   body#parceiro-lecupon .ofertasPrime-benefits-cards i {
     flex-basis: 30%;
     margin: 0 5px;
-    background-size: contain;
+    background-size: 90px;
   }
 }
 body.pagina-prime .ofertasPrime-benefits-cards.slick-initialized,
