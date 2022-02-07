@@ -21664,12 +21664,12 @@ body#parceiro-lecupon .ofertasPrime-benefits-cards .ogin {
 body.pagina-prime .ofertasPrime-benefits-cards .stella,
 body#parceiro-lecupon .ofertasPrime-benefits-cards .stella {
   background-image: url(https://supernossoemcasa.vteximg.com.br/arquivos/stella.svg);
-  background-position-y: 2px;
   background-size: auto;
 }
 body.pagina-prime .ofertasPrime-benefits-cards .parceiros,
 body#parceiro-lecupon .ofertasPrime-benefits-cards .parceiros {
   background-image: url(https://supernossoemcasa.vteximg.com.br/arquivos/ate50desconto.svg);
+  background-size: auto;
 }
 @media screen and (max-width: 768px) {
   body.pagina-prime .ofertasPrime-benefits-cards .parceiros,
