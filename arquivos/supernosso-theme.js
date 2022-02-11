@@ -66711,7 +66711,9 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _styles = require('./styles');
+var _styles = require('../../pages/Home/styles');
+
+var _styles2 = require('./styles');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -66747,10 +66749,89 @@ var Info = function Info() {
                 _react2.default.createElement('br', null),
                 ' ',
                 _react2.default.createElement('br', null),
-                '1. Se o seu amigo indicado ainda n\xE3o for cliente do Supernosso.com e Aplicativo Clube Supernosso e fizer a primeira compra utilizando o seu cupom/vale compras cada um ganhar\xE1 35 reais para serem utilizados em compras acima de 100 reais. Caso nessa mesma compra seu amigo assine o Prime Supernosso voc\xEA e ele ganham mais 20 reais cada para serem utilizados em compras acima de 100 reais. Dessa forma, cada um ganhar\xE1 um cupom/vale compras de 55 reais. Se seu amigo n\xE3o realizar a assinatura do Prime Supernosso na primeira compra voc\xEA ainda pode fazer uma nova indica\xE7\xE3o. 2. Se o seu amigo indicado j\xE1 for cliente do Supernosso.com e Aplicativo Clube Supernosso e fizer assinatura do Prime Supernosso voc\xEA e ele ganham um cupom/vale compras de 20 reais cada para serem utilizados em compras acima de 100 reais. Para realizar a indica\xE7\xE3o voc\xEA deve estar logado no site Supernosso.com ou no Clube Supernosso e colocar nome e email do amigo que gostaria de indicar. Para a libera\xE7\xE3o do b\xF4nus, s\xE3o considerados apenas os indicados que se cadastrarem e realizarem a compra (de acordo os termos e condi\xE7\xF5es do programa) durante o per\xEDodo da promo\xE7\xE3o (de XX/XX/XXXX a YY/YY/YYYY). O seu cupom estar\xE1 dispon\xEDvel ap\xF3s a efetiva\xE7\xE3o da compra pelo amigo indicado e poder\xE1 ser utilizado durante o per\xEDodo da promo\xE7\xE3o ou em at\xE9 Z dias. Regras: - Voc\xEA poder\xE1 indicar v\xE1rios amigos ao mesmo tempo, mas n\xE3o ser\xE1 permitido que os valores sejam acumulados em um \xFAnico cupom/vale ou em um \xFAnico pedido. Cada desconto dever\xE1 ser usado em um pedido distinto, desde que respeitada sua validade; - Tempo de validade do desconto de cada indica\xE7\xE3o ser\xE1 de 45 dias ou enquanto durar a promo\xE7\xE3o; - Os cupons/vales n\xE3o poder\xE3o ser reativados, caso n\xE3o tenham sido usados dentro do prazo de validade; tamb\xE9m n\xE3o poder\xE3o ser prorrogados, caso estejam pr\xF3ximos a vencer. Perde-se automaticamente o direito de uso a partir da data final de validade; - Os descontos s\xE3o pessoais, intransfer\xEDveis e utiliz\xE1vel apenas ao cliente que lhe foi concedido e estar\xE1 vinculada ao cadastro, portanto, n\xE3o pode ser transferida, atribu\xEDda ou utilizada por outro usu\xE1rio; - Os descontos da indica\xE7\xE3o poder\xE3o ser cumulativos com descontos dados a todos os clientes, diretamente no pre\xE7o do produto, independentemente de estar participando ou n\xE3o do programa (Indique e ganhe); - N\xE3o \xE9 poss\xEDvel acumular descontos com outros cupons de desconto oferecidos em outras campanhas promocionais independentes desta campanha; - N\xE3o \xE9 poss\xEDvel cadastrar usando a indica\xE7\xE3o de mais de uma pessoa simultaneamente; - Somente um email poder\xE1 estar vinculado a um mesmo CPF/CNPJ; - Cliente j\xE1 cadastrado n\xE3o pode cadastrar novamente, poder\xE1 somente convidar novos clientes; - \xC9 proibido criar contas para terceiros e/ou fazer o gerenciamento destas; - Poderemos, a nosso crit\xE9rio, mudar Termos e as Condi\xE7\xF5es de Programa de Indique e Ganhe sem notifica\xE7\xE3o pr\xE9via. Se qualquer mudan\xE7a nestes termos for considerada inv\xE1lida, nula ou, por qualquer motivo, inexequ\xEDvel, essa mudan\xE7a poder\xE1 ser retirada e n\xE3o afetar\xE1 a validade e a exequibilidade de quaisquer mudan\xE7as ou condi\xE7\xF5es remanescentes; - O participante que violar essas condi\xE7\xF5es ou mantiver qualquer outra conduta que, ao razo\xE1vel crit\xE9rio do Supernosso, seja considerada fraudulenta, ilegal ou prejudicial a outros clientes, ter\xE1 sua participa\xE7\xE3o cancelada imediatamente e n\xE3o receber\xE1 reembolso; - A participa\xE7\xE3o do programa Indique e Ganhe \xE9 regido por estes termos especiais, bem como pelos termos e condi\xE7\xF5es gerais do Supernosso e sua Pol\xEDtica de Privacidade; - Poderemos enviar-lhe e-mail e outras comunica\xE7\xF5es relacionadas ao Programa de Indique e Ganhe (independentemente de quaisquer configura\xE7\xF5es ou prefer\xEAncias relacionadas \xE0 sua Conta);'
+                '1. Se o seu amigo indicado ',
+                _react2.default.createElement(
+                    'span',
+                    { style: { textDecoration: 'underline' } },
+                    'ainda n\xE3o for cliente do Supernosso.com e Aplicativo Clube Supernosso'
+                ),
+                ' e fizer a primeira compra utilizando o seu ',
+                _react2.default.createElement(
+                    'span',
+                    { className: 'red-text' },
+                    'cupom '
+                ),
+                'cada um ganhar\xE1 35 reais ',
+                _react2.default.createElement(
+                    _styles.RedBoldText,
+                    null,
+                    'para serem utilizados em compras acima de 100 reais'
+                ),
+                '. Caso nessa mesma compra seu amigo assine o Prime Supernosso voc\xEA e ele ganham mais 20 reais cada para serem utilizados em compras acima de 100 reais. Dessa forma, cada um ganhar\xE1 um cupom/vale compras de 55 reais. Se seu amigo n\xE3o realizar a assinatura do Prime Supernosso na primeira compra voc\xEA ainda pode fazer uma nova indica\xE7\xE3o.',
+                _react2.default.createElement('br', null),
+                _react2.default.createElement('br', null),
+                '2. Se o seu amigo indicado j\xE1 for cliente do Supernosso.com e Aplicativo Clube Supernosso e fizer assinatura do Prime Supernosso voc\xEA e ele ganham um ',
+                _react2.default.createElement(
+                    'span',
+                    { className: 'red-text' },
+                    'cupom/vale compras '
+                ),
+                'de 20 reais cada ',
+                _react2.default.createElement(
+                    _styles.RedBoldText,
+                    null,
+                    'para serem utilizados em compras acima de 100 reais'
+                ),
+                '.',
+                _react2.default.createElement('br', null),
+                _react2.default.createElement('br', null),
+                'Para realizar a indica\xE7\xE3o voc\xEA deve estar logado no site Supernosso.com ou no Clube Supernosso e colocar nome e email do amigo que gostaria de indicar.',
+                _react2.default.createElement('br', null),
+                _react2.default.createElement('br', null),
+                'Para a libera\xE7\xE3o do b\xF4nus, s\xE3o considerados apenas os indicados que se cadastrarem e realizarem a compra (de acordo os termos e condi\xE7\xF5es do programa) durante o per\xEDodo da promo\xE7\xE3o (de XX/XX/XXXX a YY/YY/YYYY).',
+                _react2.default.createElement('br', null),
+                _react2.default.createElement('br', null),
+                'O seu cupom estar\xE1 dispon\xEDvel ap\xF3s a efetiva\xE7\xE3o da compra pelo amigo indicado e poder\xE1 ser utilizado durante o per\xEDodo da promo\xE7\xE3o ou em at\xE9 Z dias.',
+                _react2.default.createElement('br', null),
+                _react2.default.createElement('br', null),
+                _react2.default.createElement(
+                    'b',
+                    null,
+                    'Regras:'
+                ),
+                _react2.default.createElement('br', null),
+                _react2.default.createElement('br', null),
+                '- Voc\xEA poder\xE1 indicar v\xE1rios amigos ao mesmo tempo, mas n\xE3o ser\xE1 permitido que os valores sejam acumulados em um \xFAnico cupom/vale ou em um \xFAnico pedido. Cada desconto dever\xE1 ser usado em um pedido distinto, desde que respeitada sua validade;',
+                _react2.default.createElement('br', null),
+                '- Tempo de validade do desconto de cada indica\xE7\xE3o ser\xE1 de 45 dias ou enquanto durar a promo\xE7\xE3o;',
+                _react2.default.createElement('br', null),
+                '- Os cupons/vales n\xE3o poder\xE3o ser reativados, caso n\xE3o tenham sido usados dentro do prazo de validade; tamb\xE9m n\xE3o poder\xE3o ser prorrogados, caso estejam pr\xF3ximos a vencer. Perde-se automaticamente o direito de uso a partir da data final de validade;',
+                _react2.default.createElement('br', null),
+                '- Os descontos s\xE3o pessoais, intransfer\xEDveis e utiliz\xE1vel apenas ao cliente que lhe foi concedido e estar\xE1 vinculada ao cadastro, portanto, n\xE3o pode ser transferida, atribu\xEDda ou utilizada por outro usu\xE1rio;',
+                _react2.default.createElement('br', null),
+                '- Os descontos da indica\xE7\xE3o poder\xE3o ser cumulativos com descontos dados a todos os clientes, diretamente no pre\xE7o do produto, independentemente de estar participando ou n\xE3o do programa (Indique e ganhe);',
+                _react2.default.createElement('br', null),
+                '- N\xE3o \xE9 poss\xEDvel acumular descontos com outros cupons de desconto oferecidos em outras campanhas promocionais independentes desta campanha;',
+                _react2.default.createElement('br', null),
+                '- N\xE3o \xE9 poss\xEDvel cadastrar usando a indica\xE7\xE3o de mais de uma pessoa simultaneamente;',
+                _react2.default.createElement('br', null),
+                '- Somente um email poder\xE1 estar vinculado a um mesmo CPF/CNPJ;',
+                _react2.default.createElement('br', null),
+                '- Cliente j\xE1 cadastrado n\xE3o pode cadastrar novamente, poder\xE1 somente convidar novos clientes;',
+                _react2.default.createElement('br', null),
+                '- \xC9 proibido criar contas para terceiros e/ou fazer o gerenciamento destas;',
+                _react2.default.createElement('br', null),
+                '- Poderemos, a nosso crit\xE9rio, mudar Termos e as Condi\xE7\xF5es de Programa de Indique e Ganhe sem notifica\xE7\xE3o pr\xE9via. Se qualquer mudan\xE7a nestes termos for considerada inv\xE1lida, nula ou, por qualquer motivo, inexequ\xEDvel, essa mudan\xE7a poder\xE1 ser retirada e n\xE3o afetar\xE1 a validade e a exequibilidade de quaisquer mudan\xE7as ou condi\xE7\xF5es remanescentes;',
+                _react2.default.createElement('br', null),
+                '- O participante que violar essas condi\xE7\xF5es ou mantiver qualquer outra conduta que, ao razo\xE1vel crit\xE9rio do Supernosso, seja considerada fraudulenta, ilegal ou prejudicial a outros clientes, ter\xE1 sua participa\xE7\xE3o cancelada imediatamente e n\xE3o receber\xE1 reembolso;',
+                _react2.default.createElement('br', null),
+                '- A participa\xE7\xE3o do programa Indique e Ganhe \xE9 regido por estes termos especiais, bem como pelos termos e condi\xE7\xF5es gerais do Supernosso e sua Pol\xEDtica de Privacidade;',
+                _react2.default.createElement('br', null),
+                '- Poderemos enviar-lhe e-mail e outras comunica\xE7\xF5es relacionadas ao Programa de Indique e Ganhe (independentemente de quaisquer configura\xE7\xF5es ou prefer\xEAncias relacionadas \xE0 sua Conta);'
             ),
+            _react2.default.createElement('br', null),
             _react2.default.createElement(
-                _styles.ReadMoreButton,
+                _styles2.ReadMoreButton,
                 { onClick: function onClick() {
                         return setInfoToggled(!infoToggled);
                     } },
@@ -66762,7 +66843,7 @@ var Info = function Info() {
 
 exports.default = Info;
 
-},{"./styles":105,"react":56}],105:[function(require,module,exports){
+},{"../../pages/Home/styles":110,"./styles":105,"react":56}],105:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -66805,11 +66886,35 @@ var defaultRuleItems = [{
     active: false
 }, {
     title: 'Como eu recebo meu código para passar aos amigos?',
-    info: 'Não se preocupe - é só indicá-lo em nossa página. Ao indicar o amigo, ele receberá um e-mail com o cupom de R$35 (válido apenas para a compra acima de R$100). Basta ele aplicar o cupom no carrinho de compras para receber o desconto.',
+    info: _react2.default.createElement(
+        _react2.default.Fragment,
+        null,
+        'N\xE3o se preocupe - \xE9 s\xF3 indic\xE1-lo em nossa p\xE1gina. Ao indicar o amigo, ele receber\xE1 um e-mail com o cupom de R$35 (v\xE1lido apenas para a compra acima de R$100). Basta ele aplicar o cupom no carrinho de compras para receber o desconto.',
+        _react2.default.createElement('br', null),
+        _react2.default.createElement(
+            'div',
+            { style: { alignItems: 'center', justifyContent: 'center', display: 'flex' } },
+            _react2.default.createElement('img', { src: 'https://supernossoemcasa.vteximg.com.br/arquivos/AddCouponMinicart.png', alt: 'Adicionar desconto' })
+        )
+    ),
     active: false
 }, {
     title: 'É preciso ser PRIME para indicar um amigo?',
-    info: 'NÃO! Mas ser PRIME é ter vantagens exclusivas como entrega gratuita, 10% off em toda Adega e muitas ofertas especiais. Se ainda não é PRIME, clique aqui, conheça os planos e comece a usar os benefícios.',
+    info: _react2.default.createElement(
+        _react2.default.Fragment,
+        null,
+        'N\xC3O! Mas ser PRIME \xE9 ter vantagens exclusivas como entrega gratuita, 10% off em toda Adega e muitas ofertas especiais. Se ainda n\xE3o \xE9 PRIME, ',
+        _react2.default.createElement(
+            'a',
+            { href: 'https://www.supernossoemcasa.com.br/prime', style: { textDecoration: 'underline' } },
+            'clique aqui'
+        ),
+        ', conhe\xE7a os planos e comece a usar os benef\xEDcios.'
+    ),
+    active: false
+}, {
+    title: 'Quantos amigos posso indicar?',
+    info: 'Quantos voc\xEA quiser. Quanto mais amigos se tornarem clientes Supernosso.com com a sua indica\xE7\xE3o, \n        mais voc\xEA ganha!',
     active: false
 }, {
     title: 'Quanto ganho por indicação?',
@@ -66821,7 +66926,20 @@ var defaultRuleItems = [{
     active: false
 }, {
     title: 'Como usar o valor recebido?',
-    info: 'Você será informado que o amigo fez a compra por e-mail. Depois é só acessar o Supernosso.com, comprar seus produtos preferidos e, ao finalizar a compra, inserir o vale-compras com o valor que você recebeu.',
+    info: _react2.default.createElement(
+        _react2.default.Fragment,
+        null,
+        'Voc\xEA ser\xE1 informado que o amigo fez a compra por e-mail. Depois \xE9 s\xF3 acessar o Supernosso.com, comprar seus produtos preferidos e, ao finalizar a compra, inserir o vale-compras com o valor que voc\xEA recebeu.',
+        _react2.default.createElement('br', null),
+        _react2.default.createElement('br', null),
+        _react2.default.createElement(
+            'div',
+            { style: { alignItems: 'center', justifyContent: 'center', display: 'flex' } },
+            _react2.default.createElement('img', { src: 'https://supernossoemcasa.vteximg.com.br/arquivos/AddCouponMinicart.png', alt: 'Adicionar desconto' })
+        ),
+        _react2.default.createElement('br', null),
+        'O valor do vale-compras \xE9 aplicado ao final da compra, no momento da escolha da forma de pagamento. Nesse momento o valor \xE9 descontado.'
+    ),
     active: false
 }, {
     title: 'Qual a duração do vale-compras?',
@@ -67981,7 +68099,6 @@ var CartHandler = function () {
       });
 
       if (pipeIndex >= 0) {
-
         this.pipe[pipeIndex] = {
           qty: qty,
           index: index,
@@ -69081,7 +69198,8 @@ var JqueryMinicart = function () {
   _createClass(JqueryMinicart, [{
     key: 'minicartVisibility',
     value: function minicartVisibility() {
-      if (vtexjs.checkout.orderForm && vtexjs.checkout.orderForm.shippingData == null || !vtexjs.checkout.orderForm.shippingData.address) {
+      var vtexC = vtexjs.checkout;
+      if (vtexC.orderForm && vtexC.orderForm.shippingData == null || !vtexC.orderForm.shippingData.address) {
         //Chama evento que exibe o modal de seleção de SLA
         $('#minicart-wrapper').trigger('update-qty-item');
       } else {
@@ -69512,6 +69630,7 @@ var Minicart = exports.Minicart = function (_React$Component) {
           });
           vtexjs.checkout.removeItems(removeItems).then(function (res) {
             var btn = $('.item-shelf[data-product-id=' + sku + ']').find('.buy-button-shelf .buy-button-normal a');
+
             $(btn).parent('.buy-button-normal').show();
             $(btn).parents('.buy-button-shelf').find('.product-qty').detach();
 
@@ -69948,7 +70067,6 @@ var Minicart = exports.Minicart = function (_React$Component) {
       });
 
       return totalizer.length ? totalizer[0].value : 0;
-      return 0;
     }
   }, {
     key: 'getConvertedFloatNumber',
@@ -70999,7 +71117,6 @@ var ProductList = exports.ProductList = function (_React$Component) {
       var _this3 = this;
 
       this.props.items.forEach(function (o, index) {
-
         $("#input-" + o.id + "-" + o.index).unbind('change');
 
         $("#input-" + o.id + "-" + o.index).on('keyup', _.debounce(function (e) {
@@ -71052,7 +71169,7 @@ var ProductList = exports.ProductList = function (_React$Component) {
                       { className: "product-image", style: { cursor: 'pointer' }, onClick: function onClick() {
                           return _this4.itemDetail(item);
                         } },
-                      _react2.default.createElement("img", { src: item.imageUrl, alt: "" })
+                      _react2.default.createElement("img", { src: item.imageUrl })
                     ),
                     _react2.default.createElement(
                       "div",
@@ -71087,7 +71204,7 @@ var ProductList = exports.ProductList = function (_React$Component) {
                           _react2.default.createElement(
                             "div",
                             { className: "qty-minus" },
-                            _react2.default.createElement("img", { src: "https://supernossoemcasa.vteximg.com.br/arquivos/icon-minus.png", alt: "", onClick: function onClick() {
+                            _react2.default.createElement("img", { src: "https://supernossoemcasa.vteximg.com.br/arquivos/icon-minus.png", onClick: function onClick() {
                                 return _this4.minus(item, index);
                               } })
                           ),
@@ -71099,7 +71216,7 @@ var ProductList = exports.ProductList = function (_React$Component) {
                           _react2.default.createElement(
                             "div",
                             { className: "qty-more" },
-                            _react2.default.createElement("img", { src: "https://supernossoemcasa.vteximg.com.br/arquivos/icon-more.png", alt: "", onClick: function onClick() {
+                            _react2.default.createElement("img", { src: "https://supernossoemcasa.vteximg.com.br/arquivos/icon-more.png", onClick: function onClick() {
                                 return _this4.plus(item);
                               } })
                           )
@@ -71135,7 +71252,6 @@ var ProductList = exports.ProductList = function (_React$Component) {
 
       return this.renderList(sorted, items);
       //this.state.items = items;
-
     }
   }]);
 
