@@ -21300,6 +21300,9 @@ body.indique-e-ganhe .input-col input {
     background-size: cover;
   }
 }
+body.indique-e-ganhe .red-text {
+  color: #E21F2B;
+}
 @media screen and (max-width: 991px) {
   body#parceiro-lecupon {
     padding-top: 40px !important;
