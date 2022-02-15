@@ -9632,6 +9632,21 @@ body {
   width: auto;
   font-weight: bold;
 }
+#ajaxBusy {
+  width: 100%;
+  height: 100%;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: rgba(255, 255, 255, 0.5);
+}
+#ajaxBusy p {
+  margin-top: 40%;
+  margin-top: 45vh;
+  margin-top: calc(45vh - 32px);
+  user-select: none;
+}
 #product-added {
   z-index: 999999999;
 }
@@ -13633,6 +13648,7 @@ p.text-seo span.full {
   display: block;
 }
 .home-supernosso-theme header .logo a img {
+  user-select: none;
   height: auto;
   max-width: 100%;
   vertical-align: middle;
