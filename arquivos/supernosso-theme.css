@@ -14791,12 +14791,6 @@ p.text-seo span.full {
   font-size: 12px;
   color: #999;
 }
-#category-page #ajaxBusy {
-  display: none !important;
-}
-#category-page #ajaxBusy.hide-ajaxBusy {
-  display: none !important;
-}
 #returnToTop {
   display: none !important;
 }
