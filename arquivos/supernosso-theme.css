@@ -9767,6 +9767,8 @@ header .search-bar .busca {
 }
 #nav-categories .nav-cat-body .nav-cat-card img {
   width: 100%;
+  border-radius: 4px;
+  filter: brightness(0.8);
 }
 #nav-categories .nav-cat-body .nav-cat-card strong {
   position: absolute;
@@ -14790,12 +14792,6 @@ p.text-seo span.full {
   font-weight: normal;
   font-size: 12px;
   color: #999;
-}
-#category-page #ajaxBusy {
-  display: none !important;
-}
-#category-page #ajaxBusy.hide-ajaxBusy {
-  display: none !important;
 }
 #returnToTop {
   display: none !important;
