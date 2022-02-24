@@ -60298,7 +60298,7 @@ var Nav = function () {
     function Nav() {
         _classCallCheck(this, Nav);
 
-        window.matchMedia("(max-width: 700px)").matches ? this.categories = new Promise(function (resolve, reject) {
+        window.matchMedia("(max-width: 992px)").matches ? this.categories = new Promise(function (resolve, reject) {
             fetch('/api/dataentities/CT/search?_fields=id,name,url,image,order').then(function (r) {
                 return r.status == 200 ? r.json() : reject(r.statusText);
             }).then(function (r) {
