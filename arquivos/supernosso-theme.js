@@ -72897,24 +72897,23 @@ var ProductList = exports.ProductList = function (_React$Component) {
   _createClass(ProductList, [{
     key: "minus",
     value: function minus(item, index) {
-      // console.log('minus');
-      var qty = parseInt($("#input-" + item.id + "-" + item.index).val()) - 1;
+      var $miniCartInput = $("#input-" + item.id + "-" + item.index);
+      var qty = parseInt($miniCartInput.val()) - 1;
 
       if (qty > 0) {
-        $("#input-" + item.id + "-" + item.index).val(qty);
-        $("#input-" + item.id + "-" + item.index).trigger('keyup');
-      }
-      if (qty == 0) {
+        $miniCartInput.val(qty);
+        $miniCartInput.trigger('keyup');
+      } else if (qty == 0) {
         this.removeFromCart(item, index);
       }
     }
   }, {
     key: "plus",
     value: function plus(item) {
-      // console.log('plus');
-      var qty = parseInt($("#input-" + item.id + "-" + item.index).val()) + 1;
-      $("#input-" + item.id + "-" + item.index).val(qty);
-      $("#input-" + item.id + "-" + item.index).trigger('keyup');
+      var $miniCartInput = $("#input-" + item.id + "-" + item.index);
+      var qty = parseInt($miniCartInput.val()) + 1;
+      $miniCartInput.val(qty);
+      $miniCartInput.trigger('keyup');
     }
   }, {
     key: "removeFromCart",
@@ -72928,10 +72927,11 @@ var ProductList = exports.ProductList = function (_React$Component) {
 
       console.log('counter', counter);
       if (counter == 1) {
-        $('[data-product-id="' + item.productId + '"]').find('.flag-adicionado').remove();
-        $('[data-product-id="' + item.productId + '"]').find(".buy-button-shelf a").show();
-        $('[data-product-id="' + item.productId + '"]').find(".buy-button-normal").show();
-        $('[data-product-id="' + item.productId + '"]').find('.product-qty').remove();
+        var $dataProductId = $('[data-product-id="' + item.productId + '"]');
+        $dataProductId.find('.flag-adicionado').remove();
+        $dataProductId.find(".buy-button-shelf a").show();
+        $dataProductId.find(".buy-button-normal").show();
+        $dataProductId.find('.product-qty').remove();
       }
 
       this.props.removeFromCart(item, index);
@@ -73038,23 +73038,19 @@ var ProductList = exports.ProductList = function (_React$Component) {
       var _this3 = this;
 
       this.props.items.forEach(function (o, index) {
-        var $miniCart = $('#minicart-wrapper');
-        $("#input-" + o.id + "-" + o.index, $miniCart).unbind('change');
+        var $miniCartInput = $("#input-" + o.id + "-" + o.index, '#minicart-wrapper');
 
-        $("#input-" + o.id + "-" + o.index, $miniCart).off().on('keyup', function (e) {
-          $("#input-" + o.id + "-" + o.index, $miniCart).val(o.quantity);
-        });
-
-        $("#input-" + o.id + "-" + o.index, $miniCart).off().on('keyup', _this3.lastClick(function (e) {
+        $miniCartInput.unbind('change').off().on('keyup', _this3.lastClick(function (e) {
           if (window.cartLoading) {
             return;
           }
-          if ($("#input-" + o.id + "-" + o.index, $miniCart).val() > 0) {
+          $('body').addClass('minicart-loading');
+          if ($miniCartInput.val() > 0) {
             _this3.forceLimit(o, index);
           }
         }, 600));
 
-        $("#input-" + o.id + "-" + o.index, $miniCart).val(o.quantity);
+        $miniCartInput.val(o.quantity);
       });
     }
   }, {
