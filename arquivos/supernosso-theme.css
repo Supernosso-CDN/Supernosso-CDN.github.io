@@ -23727,6 +23727,22 @@ body#parceiro-lecupon .popup-partner-coupon-code-container .copy-code {
     display: none;
   }
 }
+body.cadastro-prime #content {
+  margin: 0;
+  padding: 0;
+  max-width: 100%;
+}
+body.cadastro-prime .red-text {
+  color: #E31E2A;
+}
+body.cadastro-prime .header-title {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 50%;
+  border-bottom: 1px solid red;
+}
 .institutional-assinatura .assinatura-section .button {
   font-family: 'Roboto', sans-serif;
   font-style: normal;
