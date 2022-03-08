@@ -63198,7 +63198,6 @@ var StorePicker = function () {
           zippedCart.push(zippedItem);
         }
       }
-
       return zippedCart;
     }
   }, {
@@ -63219,7 +63218,6 @@ var StorePicker = function () {
       if (pcChecked.indexOf('*') === -1 && this.checkValidPostalCode(pcChecked)) {
         localStorage.setItem('selectedPostalCode', pcChecked);
       }
-
       return pcChecked;
     }
   }, {
@@ -63231,12 +63229,10 @@ var StorePicker = function () {
       var unifiedTemplate = "\n                <div id=\"sellerModal\" class=\"seller-modal\">\n                <div class=\"seller-modal-inner\">\n                    <div class=\"seller-modal-header\">\n                        <div class=\"black-bar\">\n                            <h3>Meu Carrinho</h3>\n                            <span class=\"close-modal\">&times;</span>\n                        </div>\n                    </div>\n                    <div class='delivery-modality'>Modalidade de entrega</div>\n                    <div class='delivery-availability'>\n                        <div class='has-delivery'>\n                            <div>\n                                <h4>Atendemos sua regi\xE3o</h4>\n                                <h4 class=\"availability-cep-invalido\" style='display:none;color:#841F27;'>CEP inv\xE1lido</h4>\n                                <p>CEP informado: <b></b>\n                                </p>\n                            </div>\n                        </div>\n                        <div class='no-delivery'>\n                            <div>\n                                <h4>Ainda n\xE3o atendemos sua regi\xE3o</h4>\n                                <h4 class=\"availability-cep-invalido\" style='display:none;color:#841F27;'>CEP inv\xE1lido</h4>\n                                <p>CEP informado: <b></b>\n                                </p>\n                            </div>\n                        </div>\n                        <div class='change-postal-code'>\n                            <button>Trocar</button>\n                        </div>\n                    </div>\n                    <div class=\"seller-modal-body modal-postal-code\">\n                        <div class=\"postal-code-info\">\n                            " + this.undefinedCEP() + "\n                            <p>Para adicionar os produtos no carrinho, informe seu CEP. Indicaremos a loja mais pr\xF3xima ou\n                            verificaremos se a entrega est\xE1 dispon\xEDvel para\n                            sua regi\xE3o. </p>\n                        </div>\n                        <div class='postalcode-input'>\n                            <h4>Digite seu CEP</h4>\n                            <div class=\"postalcode-input-box\">\n                              <input id=\"enterPostalCodeInput\" maxlength=\"9\" type=\"tel\" class='seller-postal-code'>\n                              <button class='enter-postal-code'>buscar</button>\n                            </div>\n                            <a target=\"_blank\" href=\"https://buscacepinter.correios.com.br/app/endereco/index.php?t\">N\xE3o sei meu CEP</a>\n                        </div>\n                        " + this.loginButton() + "\n                    </div>\n                    <div class=\"seller-modal-body modal-delivery-modality\">\n                        <h4>Sobre seus produtos:</h4>\n                        " + this.deliveryChoose(hasStore, that) + "\n\n                        <div class=\"link-modal\">\n                          <a\n                            href=\"\"\n                            id=\"btn-show-modal\"\n                            data-toggle=\"modal\"\n                            data-target=\"#videoClickModal\"\n                          >\n                            <u>saiba mais sobre este servi\xE7o</u>\n                          </a>\n                        </div>\n                    </div>\n\n                    <div class=\"modal fade\" id=\"videoClickModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalCenterTitle\" aria-hidden=\"true\">\n                      <div class=\"modal-dialog modal-dialog-centered\" role=\"document\">\n\n                        <div class=\"col\">\n                          <div class=\"close-icon\">\n                            <a href=\"\">\n                              <img src=\"https://supernossoemcasa.vteximg.com.br/arquivos/icon-close.png\"/>\n                            </a>\n                          </div>\n\n                          <div class=\"modal-content\">\n                            <iframe id=\"video-click\" src=\"https://www.youtube.com/embed/QZ8H8O8H_tU\" frameborder=\"0\" allow=\"accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>\n                            <p>Escolha os produtos que deseja no site, e busque tudo separado e embalado na unidade mais pr\xF3xima de voc\xEA.\n                            Saiba mais <a href=\"https://conteudo.blogsupernosso.com.br/clique-e-retire-2\" target=\"_blank\"><u>aqui</u>.</a></p>\n                          </div>\n                        </div>\n\n                      </div>\n                    </div>\n\n                    <div class=\"seller-modal-body seller-modal-stores\">\n                     " + this.storeList() + "\n                    </div>\n                </div>\n            </div>\n        ";
       // ${hasStore ? this.deliveryChoose() : this.deliveryChoose(false)}
 
-
       $('body').append(unifiedTemplate);
 
       vtexjs.checkout.getOrderForm().done(function (of) {
         var pc = '';
-
         if (of.shippingData && of.shippingData.address && of.shippingData.address.postalCode) {
           var availableAddresses = vtexjs.checkout.orderForm && !!of.shippingData && !!of.shippingData.availableAddresses && of.shippingData.availableAddresses.length ? of.shippingData.availableAddresses : null;
 
@@ -63365,7 +63361,7 @@ var StorePicker = function () {
         $('#video-click').attr('src', url);
       });
 
-      // debounce function/
+      // debounce function
       function debounce(func, wait, immediate) {
         var timeout;
         return function () {
@@ -63402,7 +63398,6 @@ var StorePicker = function () {
         });
 
         $(document).on('click', '.store-link', function (e) {
-
           e.preventDefault();
 
           $('.store-link').removeClass('active');
@@ -69135,9 +69130,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var api = _axios2.default.create({
     baseURL: 'https://mali.supernosso.com.br/IntegraSnc_Core/rest/PrimeLojaFisica',
-    headers: {
-        Username: "primefisico",
-        Password: 'SuperSN@321'
+    auth: {
+        username: "primefisico",
+        password: 'SuperSN@321'
     }
 });
 
