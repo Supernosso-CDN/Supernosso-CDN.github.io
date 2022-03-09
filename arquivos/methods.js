@@ -1,5 +1,5 @@
 // on-attr-change.js v1, based on https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver
-export default function onAttrChange(elements, attrs, callback, firstRun) { // support jquery too
+function onAttrChange(elements, attrs, callback, firstRun) { // support jquery too
 	if (typeof(elements) === 'string') {
 		elements = document.querySelectorAll(elements);
 		if (elements.length === 0) {
@@ -60,3 +60,14 @@ export default function onAttrChange(elements, attrs, callback, firstRun) { // s
 		return objAttrs;
 	};
 };
+
+// nope.js v1.0.1
+function nope(){
+	let _fn = function(){};
+	_fn.done = function(fn){
+			return fn();
+	};
+	return _fn;
+};
+
+export {onAttrChange, nope};
