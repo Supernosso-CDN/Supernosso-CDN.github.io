@@ -68066,7 +68066,7 @@ var Form = function Form(_ref) {
         placeholder: 'XXX.XXX.XXX-XX',
         value: formData.cpf,
         mask: '999.999.999-99',
-        type: 'number'
+        inputmode: 'numeric'
       }),
       _react2.default.createElement(_Input2.default, {
         title: 'Email:',
@@ -68092,7 +68092,7 @@ var Form = function Form(_ref) {
         placeholder: '(XX) X XXXX-XXXX',
         value: formData.phone,
         mask: '(99) 9 9999-9999',
-        type: 'number'
+        inputmode: 'numeric'
       }),
       _react2.default.createElement(_InputSelect2.default, {
         title: 'Loja:',
