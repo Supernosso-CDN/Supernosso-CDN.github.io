@@ -68006,7 +68006,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.ModalHeader = undefined;
 
-var _templateObject = _taggedTemplateLiteral(['\n    display: flex;\n    flex: 1;\n\n    position: inherit;\n\n    align-items: flex-end;\n    justify-content: flex-end;    \n\n    margin: 10px 0;\n\n    button {\n        color: #E31E2A;\n        font-weight: bold;\n        font-size: 25px;\n        outline: none;\n        border: 0;\n    }\n\n'], ['\n    display: flex;\n    flex: 1;\n\n    position: inherit;\n\n    align-items: flex-end;\n    justify-content: flex-end;    \n\n    margin: 10px 0;\n\n    button {\n        color: #E31E2A;\n        font-weight: bold;\n        font-size: 25px;\n        outline: none;\n        border: 0;\n    }\n\n']);
+var _templateObject = _taggedTemplateLiteral(['\n    display: flex;\n    flex: 1;\n\n    box-shadow: none;\n\n    position: inherit;\n\n    align-items: flex-end;\n    justify-content: flex-end;    \n\n    margin: 10px 0;\n\n    button {\n        color: #E31E2A;\n        font-weight: bold;\n        font-size: 25px;\n        outline: none;\n        border: 0;\n        background-color: white;\n    }\n\n'], ['\n    display: flex;\n    flex: 1;\n\n    box-shadow: none;\n\n    position: inherit;\n\n    align-items: flex-end;\n    justify-content: flex-end;    \n\n    margin: 10px 0;\n\n    button {\n        color: #E31E2A;\n        font-weight: bold;\n        font-size: 25px;\n        outline: none;\n        border: 0;\n        background-color: white;\n    }\n\n']);
 
 var _styledComponents = require('styled-components');
 
@@ -68065,7 +68065,8 @@ var Form = function Form(_ref) {
         },
         placeholder: 'XXX.XXX.XXX-XX',
         value: formData.cpf,
-        mask: '999.999.999-99'
+        mask: '999.999.999-99',
+        type: 'number'
       }),
       _react2.default.createElement(_Input2.default, {
         title: 'Email:',
@@ -68090,7 +68091,8 @@ var Form = function Form(_ref) {
         },
         placeholder: '(XX) X XXXX-XXXX',
         value: formData.phone,
-        mask: '(99) 9 9999-9999'
+        mask: '(99) 9 9999-9999',
+        type: 'number'
       }),
       _react2.default.createElement(_InputSelect2.default, {
         title: 'Loja:',
@@ -69112,7 +69114,8 @@ var PaymentInfo = function PaymentInfo() {
         var base64Image = null;
         if (receiptFile.name) {
             base64Image = await toBase64(receiptFile);
-            base64Image = base64Image.slice(base64Image.indexOf(',/') + 1, base64Image.length);
+            console.log({ beforeSlice_b64: base64Image });
+            base64Image = base64Image.slice(base64Image.indexOf('base64,') + "base64,".length, base64Image.length);
             console.log({ base64Image: base64Image });
         }
 
