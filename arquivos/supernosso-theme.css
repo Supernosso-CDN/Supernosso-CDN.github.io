@@ -11553,11 +11553,12 @@ footer .institutional-section .dev-nav span img {
   margin: 0 20px;
 }
 .disabled-qty {
+  color: #888888 !important;
   pointer-events: none;
-  opacity: 0.7;
+  opacity: 0.6;
 }
 .disabled-qty * {
-  pointer-events: none!important;
+  pointer-events: none !important;
 }
 #product-page .shelf-input-qty {
   position: relative;
