@@ -71284,7 +71284,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Container = undefined;
 
-var _templateObject = _taggedTemplateLiteral(['\n    display: flex;\n    flex: 1;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n\n    padding: 20px 0;\n    \n    background-color: #E31E2A;\n    \n    text-transform: uppercase;\n    font-family: Roboto;\n    font-size: 20px;\n    font-weight: bold;\n    color: #FFF;\n\n    outline: none;\n    border: none;\n\n    border-radius: 8px;\n    \n    \n    transition: .3s filter;\n    cursor: pointer;\n\n    margin-top: 20px;\n\n    &:hover {\n        filter: brightness(90%);\n    }\n'], ['\n    display: flex;\n    flex: 1;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n\n    padding: 20px 0;\n    \n    background-color: #E31E2A;\n    \n    text-transform: uppercase;\n    font-family: Roboto;\n    font-size: 20px;\n    font-weight: bold;\n    color: #FFF;\n\n    outline: none;\n    border: none;\n\n    border-radius: 8px;\n    \n    \n    transition: .3s filter;\n    cursor: pointer;\n\n    margin-top: 20px;\n\n    &:hover {\n        filter: brightness(90%);\n    }\n']);
+var _templateObject = _taggedTemplateLiteral(['\n    display: flex;\n    flex: 1;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n\n    padding: 20px 0;\n    \n    background-color: #E31E2A;\n    \n    text-transform: uppercase;\n    font-family: Roboto;\n    font-size: 20px;\n    font-weight: bold;\n    color: #FFF;\n\n    outline: none;\n    border: none;\n\n    overflow-wrap: anywhere;\n\n    border-radius: 8px;\n    \n    \n    transition: .3s filter;\n    cursor: pointer;\n\n    margin-top: 20px;\n\n    &:hover {\n        filter: brightness(90%);\n    }\n'], ['\n    display: flex;\n    flex: 1;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n\n    padding: 20px 0;\n    \n    background-color: #E31E2A;\n    \n    text-transform: uppercase;\n    font-family: Roboto;\n    font-size: 20px;\n    font-weight: bold;\n    color: #FFF;\n\n    outline: none;\n    border: none;\n\n    overflow-wrap: anywhere;\n\n    border-radius: 8px;\n    \n    \n    transition: .3s filter;\n    cursor: pointer;\n\n    margin-top: 20px;\n\n    &:hover {\n        filter: brightness(90%);\n    }\n']);
 
 var _styledComponents = require('styled-components');
 
@@ -71606,15 +71606,20 @@ var PrimeCadastroHome = function PrimeCadastroHome() {
     };
 
     var validateData = function validateData(data) {
-        var requiredFields = ['name', 'email', 'cpf', 'plan', 'storeName'];
+        var requiredFields = ['cpf', 'email', 'name', 'storeName', 'plan'];
+        var missingFields = [];
 
         var lackRequiredFields = requiredFields.some(function (field) {
-            return !Object.entries(data).some(function (_ref3) {
+            var lackField = !Object.entries(data).some(function (_ref3) {
                 var _ref4 = _slicedToArray(_ref3, 1),
                     key = _ref4[0];
 
                 return key === field;
             });
+
+            if (lackField) missingFields.push(field);
+
+            return lackField;
         });
 
         var hasNullRequiredField = Object.entries(data).some(function (_ref5) {
@@ -71622,10 +71627,19 @@ var PrimeCadastroHome = function PrimeCadastroHome() {
                 key = _ref6[0],
                 value = _ref6[1];
 
-            return requiredFields.includes(key) && !value;
+            var isFieldNull = requiredFields.includes(key) && !value;
+
+            if (isFieldNull) missingFields.push(key);
+
+            return isFieldNull;
         });
 
-        return !(lackRequiredFields || hasNullRequiredField);
+        var result = {
+            isValid: !(lackRequiredFields || hasNullRequiredField),
+            missingFields: missingFields
+        };
+
+        return result;
     };
 
     var validateEmail = function validateEmail(email) {
@@ -71740,10 +71754,12 @@ var PrimeCadastroHome = function PrimeCadastroHome() {
             return;
         }
 
-        var isDataValid = validateData(formData);
+        var _validateData = validateData(formData),
+            isValid = _validateData.isValid,
+            missingFields = _validateData.missingFields;
 
-        if (!isDataValid) {
-            alert('Preencha todos os campos obrigatórios!');
+        if (!isValid) {
+            alert('Preencha todos os campos obrigat\xF3rios! Campo \'' + missingFields[0] + '\' faltando.');
             return;
         }
 
@@ -72195,6 +72211,20 @@ var PaymentInfo = function PaymentInfo() {
                         { style: { marginTop: 15 } },
                         insertImageText
                     )
+                ),
+                !!receiptFile.name && _react2.default.createElement(
+                    'button',
+                    {
+                        onClick: function onClick() {
+                            return setReceiptFile(false);
+                        },
+                        style: {
+                            textDecoration: 'underline',
+                            outline: 'none',
+                            border: 'none'
+                        }
+                    },
+                    'remover imagem'
                 ),
                 _react2.default.createElement('textarea', {
                     style: {
