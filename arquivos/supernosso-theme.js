@@ -72221,7 +72221,8 @@ var PaymentInfo = function PaymentInfo() {
                         style: {
                             textDecoration: 'underline',
                             outline: 'none',
-                            border: 'none'
+                            border: 'none',
+                            backgroundColor: 'transparent'
                         }
                     },
                     'remover imagem'
