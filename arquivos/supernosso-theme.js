@@ -72187,7 +72187,8 @@ var PaymentInfo = function PaymentInfo() {
                             return setReceiptFile(base64);
                         },
                         onError: window.alert,
-                        style: { display: 'flex', alignItems: 'center' }
+                        style: { display: 'flex', alignItems: 'center' },
+                        maxSize: 20 * 1000
                     },
                     _react2.default.createElement(
                         _ModalButton2.default,
