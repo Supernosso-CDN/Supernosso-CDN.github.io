@@ -77924,7 +77924,7 @@ var PrimeCadastroHome = function PrimeCadastroHome() {
     var _React$useState9 = _react2.default.useState(false),
         _React$useState10 = _slicedToArray(_React$useState9, 2),
         loading = _React$useState10[0],
-        setLoding = _React$useState10[1];
+        setLoading = _React$useState10[1];
 
     var handleFormChange = function handleFormChange(field, value) {
         setFormData(function (prevData) {
@@ -78008,7 +78008,7 @@ var PrimeCadastroHome = function PrimeCadastroHome() {
 
         console.log('create usr payload', { data: data });
 
-        setLoding(true);
+        setLoading(true);
 
         try {
             var response = await _api2.default.post('/CriarUsuario', data);
@@ -78025,7 +78025,7 @@ var PrimeCadastroHome = function PrimeCadastroHome() {
             }
         }
 
-        setLoding(false);
+        setLoading(false);
         return false;
     };
 
@@ -78298,7 +78298,7 @@ var PaymentInfo = function PaymentInfo() {
     var _React$useState9 = _react2.default.useState(false),
         _React$useState10 = _slicedToArray(_React$useState9, 2),
         loading = _React$useState10[0],
-        setLoding = _React$useState10[1];
+        setLoading = _React$useState10[1];
 
     var _React$useState11 = _react2.default.useState(''),
         _React$useState12 = _slicedToArray(_React$useState11, 2),
@@ -78336,7 +78336,7 @@ var PaymentInfo = function PaymentInfo() {
     };
 
     var handleReceiptSubmit = async function handleReceiptSubmit() {
-        setLoding(true);
+        setLoading(true);
 
         if (!receiptModalNotes && !receiptFile.name) {
             alert('Insira um comprovante ou uma observação!');
@@ -78373,7 +78373,7 @@ var PaymentInfo = function PaymentInfo() {
             alert(error);
         }
 
-        setLoding(false);
+        setLoading(false);
     };
 
     var handleConfirmSubmit = function handleConfirmSubmit() {
