@@ -9933,6 +9933,9 @@ header .search-bar .busca {
   left: 30.5%;
   top: 80px;
 }
+#nav-wrapper ul.categories-list::-webkit-scrollbar-thumb {
+  background-color: gray;
+}
 @keyframes dots {
   0% {
     content: '';
