@@ -70,4 +70,16 @@ function nope(){
 	return _fn;
 };
 
-export {onAttrChange, nope};
+// setTimesout.js v1
+function setTimesout(function_ = function() {}, repeats = [0]) {
+	repeats = repeats.sort(function(a, b) {
+		return a - b;
+	});
+	for (let i = 0; i < repeats.length; i++) {
+		setTimeout(function() {
+			function_();
+		}, repeats[i]);
+	};
+};
+
+export {onAttrChange, nope, setTimesout};
