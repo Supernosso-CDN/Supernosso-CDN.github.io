@@ -21180,6 +21180,12 @@ body.pagina-prime .ofertasPrime-banner .slick-dots li.slick-active button {
     margin-top: 60px;
   }
 }
+body.pagina-prime #expand-mobile-benefits {
+  display: none;
+  align-items: center;
+  flex-direction: column;
+  color: #C6152B;
+}
 @media screen and (max-width: 991px) {
   body.ceia-natal #content {
     margin-top: 0 !important;
