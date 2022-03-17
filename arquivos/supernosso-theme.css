@@ -21756,34 +21756,49 @@ body#parceiro-lecupon .ofertasPrime-benefits-cards .ogin {
 body.pagina-prime .ofertasPrime-benefits-cards .stella,
 body#parceiro-lecupon .ofertasPrime-benefits-cards .stella {
   background-image: url(https://supernossoemcasa.vteximg.com.br/arquivos/stella.svg);
+  background-size: 103px;
 }
 body.pagina-prime .ofertasPrime-benefits-cards .top-food,
 body#parceiro-lecupon .ofertasPrime-benefits-cards .top-food {
   background-image: url(https://supernossoemcasa.vteximg.com.br/arquivos/descontoTopFoods.svg);
+  background-size: 155px;
+  margin-top: -13px;
 }
 body.pagina-prime .ofertasPrime-benefits-cards .praya,
 body#parceiro-lecupon .ofertasPrime-benefits-cards .praya {
-  background-image: url(https://supernossoemcasa.vteximg.com.br/arquivos/descontoPadaria.svg);
+  background-image: url(https://supernossoemcasa.vteximg.com.br/arquivos/descontoPraya.svg);
+  background-size: 155px;
+  margin-top: -13px;
 }
 body.pagina-prime .ofertasPrime-benefits-cards .baer-mete,
 body#parceiro-lecupon .ofertasPrime-benefits-cards .baer-mete {
   background-image: url(https://supernossoemcasa.vteximg.com.br/arquivos/descontoBaerMata.svg);
+  background-size: 160px;
+  margin-top: -18px;
 }
 body.pagina-prime .ofertasPrime-benefits-cards .finish,
 body#parceiro-lecupon .ofertasPrime-benefits-cards .finish {
   background-image: url(https://supernossoemcasa.vteximg.com.br/arquivos/descontoFinish.svg);
+  background-size: 165px;
+  margin-top: -17px;
 }
 body.pagina-prime .ofertasPrime-benefits-cards .redbull,
 body#parceiro-lecupon .ofertasPrime-benefits-cards .redbull {
   background-image: url(https://supernossoemcasa.vteximg.com.br/arquivos/descontoRedBull.svg);
+  background-size: 160px;
+  margin-top: -15px;
 }
 body.pagina-prime .ofertasPrime-benefits-cards .padaria,
 body#parceiro-lecupon .ofertasPrime-benefits-cards .padaria {
   background-image: url(https://supernossoemcasa.vteximg.com.br/arquivos/descontoPadaria.svg);
+  background-size: 160px;
+  margin-top: -15px;
 }
 body.pagina-prime .ofertasPrime-benefits-cards .parceiros,
 body#parceiro-lecupon .ofertasPrime-benefits-cards .parceiros {
   background-image: url(https://supernossoemcasa.vteximg.com.br/arquivos/ate50desconto.svg);
+  margin-top: -10px;
+  margin-left: -10px;
 }
 body.pagina-prime .ofertasPrime-benefits-cards i,
 body#parceiro-lecupon .ofertasPrime-benefits-cards i {
@@ -21870,7 +21885,7 @@ body#parceiro-lecupon .ofertasPrime-benefits .slick-arrow {
 }
 body.pagina-prime .ofertasPrime-benefits .slick-prev,
 body#parceiro-lecupon .ofertasPrime-benefits .slick-prev {
-  left: 24px;
+  left: 0px;
 }
 body.pagina-prime .ofertasPrime-benefits .slick-next,
 body#parceiro-lecupon .ofertasPrime-benefits .slick-next {
