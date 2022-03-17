@@ -21757,6 +21757,30 @@ body.pagina-prime .ofertasPrime-benefits-cards .stella,
 body#parceiro-lecupon .ofertasPrime-benefits-cards .stella {
   background-image: url(https://supernossoemcasa.vteximg.com.br/arquivos/stella.svg);
 }
+body.pagina-prime .ofertasPrime-benefits-cards .top-food,
+body#parceiro-lecupon .ofertasPrime-benefits-cards .top-food {
+  background-image: url(https://supernossoemcasa.vteximg.com.br/arquivos/descontoTopFoods.svg);
+}
+body.pagina-prime .ofertasPrime-benefits-cards .praya,
+body#parceiro-lecupon .ofertasPrime-benefits-cards .praya {
+  background-image: url(https://supernossoemcasa.vteximg.com.br/arquivos/descontoPadaria.svg);
+}
+body.pagina-prime .ofertasPrime-benefits-cards .baer-mete,
+body#parceiro-lecupon .ofertasPrime-benefits-cards .baer-mete {
+  background-image: url(https://supernossoemcasa.vteximg.com.br/arquivos/descontoBaerMata.svg);
+}
+body.pagina-prime .ofertasPrime-benefits-cards .finish,
+body#parceiro-lecupon .ofertasPrime-benefits-cards .finish {
+  background-image: url(https://supernossoemcasa.vteximg.com.br/arquivos/descontoFinish.svg);
+}
+body.pagina-prime .ofertasPrime-benefits-cards .redbull,
+body#parceiro-lecupon .ofertasPrime-benefits-cards .redbull {
+  background-image: url(https://supernossoemcasa.vteximg.com.br/arquivos/descontoRedBull.svg);
+}
+body.pagina-prime .ofertasPrime-benefits-cards .padaria,
+body#parceiro-lecupon .ofertasPrime-benefits-cards .padaria {
+  background-image: url(https://supernossoemcasa.vteximg.com.br/arquivos/descontoPadaria.svg);
+}
 body.pagina-prime .ofertasPrime-benefits-cards .parceiros,
 body#parceiro-lecupon .ofertasPrime-benefits-cards .parceiros {
   background-image: url(https://supernossoemcasa.vteximg.com.br/arquivos/ate50desconto.svg);
