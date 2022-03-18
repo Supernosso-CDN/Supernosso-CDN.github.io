@@ -21719,7 +21719,8 @@ body#parceiro-lecupon .ofertasPrime-benefits-cards .entrega {
 @media screen and (max-width: 768px) {
   body.pagina-prime .ofertasPrime-benefits-cards .entrega,
   body#parceiro-lecupon .ofertasPrime-benefits-cards .entrega {
-    background-size: 80px;
+    background-size: 60px;
+    background-position-y: 42px;
   }
 }
 body.pagina-prime .ofertasPrime-benefits-cards .ofertas,
@@ -21729,7 +21730,7 @@ body#parceiro-lecupon .ofertasPrime-benefits-cards .ofertas {
 @media screen and (max-width: 768px) {
   body.pagina-prime .ofertasPrime-benefits-cards .ofertas,
   body#parceiro-lecupon .ofertasPrime-benefits-cards .ofertas {
-    background-position-y: 52px;
+    background-size: 75px;
   }
 }
 body.pagina-prime .ofertasPrime-benefits-cards .adega,
@@ -21739,8 +21740,7 @@ body#parceiro-lecupon .ofertasPrime-benefits-cards .adega {
 @media screen and (max-width: 768px) {
   body.pagina-prime .ofertasPrime-benefits-cards .adega,
   body#parceiro-lecupon .ofertasPrime-benefits-cards .adega {
-    background-size: 80px;
-    background-position-y: 52px;
+    background-size: 70px;
   }
 }
 body.pagina-prime .ofertasPrime-benefits-cards .ogin,
@@ -21750,7 +21750,7 @@ body#parceiro-lecupon .ofertasPrime-benefits-cards .ogin {
 @media screen and (max-width: 768px) {
   body.pagina-prime .ofertasPrime-benefits-cards .ogin,
   body#parceiro-lecupon .ofertasPrime-benefits-cards .ogin {
-    background-size: 70px;
+    background-size: 65px;
   }
 }
 body.pagina-prime .ofertasPrime-benefits-cards .stella,
@@ -21758,11 +21758,24 @@ body#parceiro-lecupon .ofertasPrime-benefits-cards .stella {
   background-image: url(https://supernossoemcasa.vteximg.com.br/arquivos/stella.svg);
   background-size: 103px;
 }
+@media screen and (max-width: 768px) {
+  body.pagina-prime .ofertasPrime-benefits-cards .stella,
+  body#parceiro-lecupon .ofertasPrime-benefits-cards .stella {
+    background-size: 80px;
+  }
+}
 body.pagina-prime .ofertasPrime-benefits-cards .top-food,
 body#parceiro-lecupon .ofertasPrime-benefits-cards .top-food {
   background-image: url(https://supernossoemcasa.vteximg.com.br/arquivos/descontoTopFoods.svg);
   background-size: 155px;
   margin-top: -13px;
+}
+@media screen and (max-width: 768px) {
+  body.pagina-prime .ofertasPrime-benefits-cards .top-food,
+  body#parceiro-lecupon .ofertasPrime-benefits-cards .top-food {
+    background-size: 125px;
+    margin-top: -10px;
+  }
 }
 body.pagina-prime .ofertasPrime-benefits-cards .praya,
 body#parceiro-lecupon .ofertasPrime-benefits-cards .praya {
@@ -21770,11 +21783,25 @@ body#parceiro-lecupon .ofertasPrime-benefits-cards .praya {
   background-size: 155px;
   margin-top: -13px;
 }
+@media screen and (max-width: 768px) {
+  body.pagina-prime .ofertasPrime-benefits-cards .praya,
+  body#parceiro-lecupon .ofertasPrime-benefits-cards .praya {
+    background-size: 120px;
+  }
+}
 body.pagina-prime .ofertasPrime-benefits-cards .baer-mete,
 body#parceiro-lecupon .ofertasPrime-benefits-cards .baer-mete {
   background-image: url(https://supernossoemcasa.vteximg.com.br/arquivos/descontoBaerMata.svg);
   background-size: 160px;
   margin-top: -18px;
+}
+@media screen and (max-width: 768px) {
+  body.pagina-prime .ofertasPrime-benefits-cards .baer-mete,
+  body#parceiro-lecupon .ofertasPrime-benefits-cards .baer-mete {
+    background-size: 120px;
+    margin-left: 12px;
+    margin-right: -4px;
+  }
 }
 body.pagina-prime .ofertasPrime-benefits-cards .finish,
 body#parceiro-lecupon .ofertasPrime-benefits-cards .finish {
@@ -21782,11 +21809,23 @@ body#parceiro-lecupon .ofertasPrime-benefits-cards .finish {
   background-size: 165px;
   margin-top: -17px;
 }
+@media screen and (max-width: 768px) {
+  body.pagina-prime .ofertasPrime-benefits-cards .finish,
+  body#parceiro-lecupon .ofertasPrime-benefits-cards .finish {
+    background-size: 120px;
+  }
+}
 body.pagina-prime .ofertasPrime-benefits-cards .redbull,
 body#parceiro-lecupon .ofertasPrime-benefits-cards .redbull {
   background-image: url(https://supernossoemcasa.vteximg.com.br/arquivos/descontoRedBull.svg);
   background-size: 160px;
   margin-top: -15px;
+}
+@media screen and (max-width: 768px) {
+  body.pagina-prime .ofertasPrime-benefits-cards .redbull,
+  body#parceiro-lecupon .ofertasPrime-benefits-cards .redbull {
+    background-size: 115px;
+  }
 }
 body.pagina-prime .ofertasPrime-benefits-cards .padaria,
 body#parceiro-lecupon .ofertasPrime-benefits-cards .padaria {
@@ -21794,11 +21833,24 @@ body#parceiro-lecupon .ofertasPrime-benefits-cards .padaria {
   background-size: 160px;
   margin-top: -15px;
 }
+@media screen and (max-width: 768px) {
+  body.pagina-prime .ofertasPrime-benefits-cards .padaria,
+  body#parceiro-lecupon .ofertasPrime-benefits-cards .padaria {
+    background-size: 110px;
+  }
+}
 body.pagina-prime .ofertasPrime-benefits-cards .parceiros,
 body#parceiro-lecupon .ofertasPrime-benefits-cards .parceiros {
   background-image: url(https://supernossoemcasa.vteximg.com.br/arquivos/ate50desconto.svg);
   margin-top: -10px;
   margin-left: -10px;
+}
+@media screen and (max-width: 768px) {
+  body.pagina-prime .ofertasPrime-benefits-cards .parceiros,
+  body#parceiro-lecupon .ofertasPrime-benefits-cards .parceiros {
+    background-size: 70px;
+    margin-left: 8px;
+  }
 }
 body.pagina-prime .ofertasPrime-benefits-cards i,
 body#parceiro-lecupon .ofertasPrime-benefits-cards i {
@@ -21820,6 +21872,7 @@ body#parceiro-lecupon .ofertasPrime-benefits-cards i {
 @media screen and (max-width: 768px) {
   body.pagina-prime .ofertasPrime-benefits-cards i,
   body#parceiro-lecupon .ofertasPrime-benefits-cards i {
+    height: 160px;
     flex-basis: 30%;
     margin: 0 5px;
     background-size: 90px;
