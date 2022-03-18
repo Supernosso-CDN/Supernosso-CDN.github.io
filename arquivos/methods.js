@@ -82,4 +82,16 @@ function setTimesout(function_ = function() {}, repeats = [0]) {
 	};
 };
 
-export {onAttrChange, nope, setTimesout};
+// throttle.js v1
+function throttle(func, wait) {
+	let wasCalled = false;
+	return function() {
+			if (!wasCalled) {
+					func();
+					wasCalled = true;
+					setTimeout(function() {
+							wasCalled = false;
+					}, wait);
+			}
+	};
+};
