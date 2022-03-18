@@ -78961,7 +78961,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Container = undefined;
 
-var _templateObject = _taggedTemplateLiteral(['\n    display: flex;\n    flex: 1;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n\n    outline: none;\n    border: none;\n    \n    padding: 20px 0;\n    \n    background-color: #E31E2A;\n    \n    text-transform: uppercase;\n    font-family: Roboto;\n    font-weight: bold;\n    color: #FFF;\n\n    border-radius: 7px;\n    \n    \n    transition: .3s filter;\n    cursor: pointer;\n\n    margin-top: 20px;\n\n    &:hover {\n        filter: brightness(90%);\n    }\n'], ['\n    display: flex;\n    flex: 1;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n\n    outline: none;\n    border: none;\n    \n    padding: 20px 0;\n    \n    background-color: #E31E2A;\n    \n    text-transform: uppercase;\n    font-family: Roboto;\n    font-weight: bold;\n    color: #FFF;\n\n    border-radius: 7px;\n    \n    \n    transition: .3s filter;\n    cursor: pointer;\n\n    margin-top: 20px;\n\n    &:hover {\n        filter: brightness(90%);\n    }\n']);
+var _templateObject = _taggedTemplateLiteral(['\n    display: flex;\n    flex: 1;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n    outline: none;\n    border: none;\n    padding: 20px 0;\n    background-color: #E31E2A;\n    text-transform: uppercase;\n    font-family: Roboto;\n    font-weight: bold;\n    color: #FFF;\n    border-radius: 6px;\n    margin-top: 40px;\n    cursor: pointer;\n    transition: .2s filter;\n\n    &:hover {\n        filter: brightness(1.2);\n    }\n'], ['\n    display: flex;\n    flex: 1;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n    outline: none;\n    border: none;\n    padding: 20px 0;\n    background-color: #E31E2A;\n    text-transform: uppercase;\n    font-family: Roboto;\n    font-weight: bold;\n    color: #FFF;\n    border-radius: 6px;\n    margin-top: 40px;\n    cursor: pointer;\n    transition: .2s filter;\n\n    &:hover {\n        filter: brightness(1.2);\n    }\n']);
 
 var _styledComponents = require('styled-components');
 
@@ -79058,7 +79058,7 @@ var ModalHeader = exports.ModalHeader = _styledComponents2.default.header(_templ
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 
 var _react = require('react');
@@ -79086,63 +79086,66 @@ var _styles = require('./styles');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Form = function Form(_ref) {
-  var onFormChange = _ref.onFormChange,
-      formData = _ref.formData;
-  return _react2.default.createElement(
-    _react2.default.Fragment,
-    null,
-    _react2.default.createElement(
-      _styles.Container,
-      null,
-      _react2.default.createElement(_MaskedInput2.default, {
-        title: 'CPF:',
-        onChange: function onChange(e) {
-          return onFormChange('cpf', e.target.value);
-        },
-        placeholder: 'XXX.XXX.XXX-XX',
-        value: formData.cpf,
-        mask: '000.000.000-00',
-        inputmode: 'numeric'
-      }),
-      _react2.default.createElement(_Input2.default, {
-        title: 'Email:',
-        onChange: function onChange(e) {
-          return onFormChange('email', e.target.value);
-        },
-        placeholder: 'email@email.com.br',
-        value: formData.email
-      }),
-      _react2.default.createElement(_Input2.default, {
-        title: 'Nome Completo',
-        onChange: function onChange(e) {
-          return onFormChange('name', e.target.value);
-        },
-        placeholder: 'Nome',
-        value: formData.name
-      }),
-      _react2.default.createElement(_MaskedInput2.default, {
-        title: 'Celular:',
-        onChange: function onChange(e) {
-          return onFormChange('phone', e.target.value);
-        },
-        placeholder: '(XX) X XXXX-XXXX',
-        value: formData.phone,
-        mask: '(00) 0 0000-0000',
-        inputmode: 'numeric'
-      }),
-      _react2.default.createElement(_InputSelect2.default, {
-        title: 'Loja:',
-        onChange: function onChange(e) {
-          return onFormChange('storeName', e.target.value);
-        },
-        placeholder: 'Escolha uma Loja',
-        value: formData.storeName
-      }),
-      _react2.default.createElement(_PlansSelector2.default, { onSelectPlan: function onSelectPlan(plan) {
-          return onFormChange('plan', plan);
-        } })
-    )
-  );
+    var onFormChange = _ref.onFormChange,
+        formData = _ref.formData;
+    return _react2.default.createElement(
+        _react2.default.Fragment,
+        null,
+        _react2.default.createElement(
+            _styles.Container,
+            null,
+            _react2.default.createElement(_MaskedInput2.default, {
+                title: 'CPF:',
+                onChange: function onChange(e) {
+                    return onFormChange('cpf', e.target.value);
+                },
+                placeholder: 'XXX.XXX.XXX-XX',
+                value: formData.cpf,
+                mask: '000.000.000-00',
+                inputMode: 'numeric'
+            }),
+            _react2.default.createElement(_Input2.default, {
+                title: 'E-mail:',
+                onChange: function onChange(e) {
+                    return onFormChange('email', e.target.value);
+                },
+                placeholder: 'email@email.com.br',
+                value: formData.email
+            }),
+            _react2.default.createElement(_Input2.default, {
+                title: 'Nome completo:',
+                onChange: function onChange(e) {
+                    return onFormChange('name', e.target.value);
+                },
+                placeholder: 'Nome',
+                value: formData.name
+            }),
+            _react2.default.createElement(_MaskedInput2.default, {
+                title: 'Celular:',
+                onChange: function onChange(e) {
+                    return onFormChange('phone', e.target.value);
+                },
+                placeholder: '(XX) X XXXX-XXXX',
+                value: formData.phone,
+                mask: '(00) 0 0000-0000',
+                inputMode: 'numeric'
+            }),
+            _react2.default.createElement(_InputSelect2.default, {
+                title: 'Loja:',
+                onChange: function onChange(e) {
+                    return onFormChange('storeName', e.target.value);
+                },
+                placeholder: 'Escolha uma Loja',
+                value: formData.storeName
+            }),
+            _react2.default.createElement(_PlansSelector2.default, {
+                title: 'Planos:',
+                onSelectPlan: function onSelectPlan(plan) {
+                    return onFormChange('plan', plan);
+                }
+            })
+        )
+    );
 };
 
 exports.default = Form;
@@ -79155,7 +79158,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Container = undefined;
 
-var _templateObject = _taggedTemplateLiteral(['\n    display: flex;\n    flex: 1;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n\n    padding: 10px;\n'], ['\n    display: flex;\n    flex: 1;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n\n    padding: 10px;\n']);
+var _templateObject = _taggedTemplateLiteral(['\n    display: flex;\n    flex: 1;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n'], ['\n    display: flex;\n    flex: 1;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n']);
 
 var _styledComponents = require('styled-components');
 
@@ -79217,19 +79220,15 @@ var Header = function Header() {
                 { className: 'header-title' },
                 _react2.default.createElement(
                     'h1',
-                    { className: 'red-text', style: { fontFamily: 'Roboto', fontWeight: "bold" } },
+                    null,
                     'CADASTRO PRIME'
                 ),
                 _react2.default.createElement(
                     'span',
-                    {
-                        style: { textDecoration: 'underline', cursor: "pointer", color: '#E31E2A' },
-                        onClick: handleNewRegister
-                    },
+                    { onClick: handleNewRegister },
                     'NOVO CADASTRO'
                 )
-            ),
-            _react2.default.createElement('hr', null)
+            )
         ),
         _react2.default.createElement(
             _Section2.default,
@@ -79253,7 +79252,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Container = undefined;
 
-var _templateObject = _taggedTemplateLiteral(['\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n\n    padding: 10px 0;\n    \n    font-family: \'Poppins\' !important;\n\n    .header-title {\n        @media screen and (max-width: 991px) {\n            border-bottom: none !important;\n            flex-direction: column !important;\n            text-align: center !important;\n        } \n    }\n\n    .banner-benefits-image {\n        width: 65%;\n        @media screen and (max-width: 992px) {\n            width: 90%;\n        }\n    }\n'], ['\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n\n    padding: 10px 0;\n    \n    font-family: \'Poppins\' !important;\n\n    .header-title {\n        @media screen and (max-width: 991px) {\n            border-bottom: none !important;\n            flex-direction: column !important;\n            text-align: center !important;\n        } \n    }\n\n    .banner-benefits-image {\n        width: 65%;\n        @media screen and (max-width: 992px) {\n            width: 90%;\n        }\n    }\n']);
+var _templateObject = _taggedTemplateLiteral(['\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    font-family: \'Poppins\' !important;\n\n    .header-title {\n        display: flex;\n        width: 100% !important;\n        font-family: \'Roboto\';\n        font-weight: 700;\n\n        h1 {\n            font-size: 32px;\n            line-height: 38px;\n            color: #E31E2A;\n            padding: 0;\n            margin: 0;\n        }\n\n        span {\n            font-size: 14px;\n            line-height: 16px;\n            text-decoration-line: underline;\n            color: #04C200;\n            cursor: pointer;\n        }\n\n        @media (max-width: 767px) {\n            flex-direction: column !important;\n            padding-bottom: 15px;\n        }\n    }\n\n    .banner-benefits-image {\n        margin: 40px 0;\n    }\n'], ['\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    font-family: \'Poppins\' !important;\n\n    .header-title {\n        display: flex;\n        width: 100% !important;\n        font-family: \'Roboto\';\n        font-weight: 700;\n\n        h1 {\n            font-size: 32px;\n            line-height: 38px;\n            color: #E31E2A;\n            padding: 0;\n            margin: 0;\n        }\n\n        span {\n            font-size: 14px;\n            line-height: 16px;\n            text-decoration-line: underline;\n            color: #04C200;\n            cursor: pointer;\n        }\n\n        @media (max-width: 767px) {\n            flex-direction: column !important;\n            padding-bottom: 15px;\n        }\n    }\n\n    .banner-benefits-image {\n        margin: 40px 0;\n    }\n']);
 
 var _styledComponents = require('styled-components');
 
@@ -79271,6 +79270,8 @@ var Container = exports.Container = _styledComponents2.default.div(_templateObje
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 var _react = require('react');
 
@@ -79291,10 +79292,10 @@ var InputSelect = function InputSelect(props) {
         ),
         _react2.default.createElement(
             _styles.StyledSelect,
-            props,
+            _extends({}, props, { defaultValue: '0' }),
             _react2.default.createElement(
                 'option',
-                { value: '0', disabled: true, selected: true },
+                { value: '0', disabled: true },
                 props.placeholder
             ),
             _react2.default.createElement(
@@ -79316,8 +79317,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.StyledSelect = exports.Container = undefined;
 
-var _templateObject = _taggedTemplateLiteral(['\n    display: flex;\n    flex: 1;\n    width: 50%;\n    flex-direction: column;\n    justify-content: center;    \n\n    margin: 10px 0;\n\n    h2 {\n        font-size: 1.5rem;\n        font-weight: bold;\n    }\n'], ['\n    display: flex;\n    flex: 1;\n    width: 50%;\n    flex-direction: column;\n    justify-content: center;    \n\n    margin: 10px 0;\n\n    h2 {\n        font-size: 1.5rem;\n        font-weight: bold;\n    }\n']),
-    _templateObject2 = _taggedTemplateLiteral(['\n    border: 1px solid black;\n    padding: 8px 10px;\n\n    border-radius: 10px;\n\n'], ['\n    border: 1px solid black;\n    padding: 8px 10px;\n\n    border-radius: 10px;\n\n']);
+var _templateObject = _taggedTemplateLiteral(['\n    display: flex;\n    flex: 1;\n    width: 100%;\n    flex-direction: column;\n    justify-content: center;    \n    margin: 10px 0;\n\n    h2 {\n        font-size: 20px;\n        font-weight: bold;\n    }\n'], ['\n    display: flex;\n    flex: 1;\n    width: 100%;\n    flex-direction: column;\n    justify-content: center;    \n    margin: 10px 0;\n\n    h2 {\n        font-size: 20px;\n        font-weight: bold;\n    }\n']),
+    _templateObject2 = _taggedTemplateLiteral(['\n    border: 1px solid black;\n    padding: 8px 10px;\n    border-radius: 6px;\n'], ['\n    border: 1px solid black;\n    padding: 8px 10px;\n    border-radius: 6px;\n']);
 
 var _styledComponents = require('styled-components');
 
@@ -79369,8 +79370,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.StyledInput = exports.Container = undefined;
 
-var _templateObject = _taggedTemplateLiteral(['\n    display: flex;\n    flex: 1;\n    width: 50%;\n    flex-direction: column;\n    justify-content: center;    \n\n    margin: 10px 0;\n\n    h2 {\n        font-size: 1.5rem;\n        font-weight: bold;\n    }\n'], ['\n    display: flex;\n    flex: 1;\n    width: 50%;\n    flex-direction: column;\n    justify-content: center;    \n\n    margin: 10px 0;\n\n    h2 {\n        font-size: 1.5rem;\n        font-weight: bold;\n    }\n']),
-    _templateObject2 = _taggedTemplateLiteral(['\n    border: 1px solid black;\n    padding: 5px 10px;\n\n    border-radius: 10px;\n'], ['\n    border: 1px solid black;\n    padding: 5px 10px;\n\n    border-radius: 10px;\n']);
+var _templateObject = _taggedTemplateLiteral(['\n    display: flex;\n    flex: 1;\n    width: 100%;\n    flex-direction: column;\n    justify-content: center;    \n    margin: 10px 0;\n\n    h2 {\n        font-size: 20px;\n        font-weight: bold;\n    }\n'], ['\n    display: flex;\n    flex: 1;\n    width: 100%;\n    flex-direction: column;\n    justify-content: center;    \n    margin: 10px 0;\n\n    h2 {\n        font-size: 20px;\n        font-weight: bold;\n    }\n']),
+    _templateObject2 = _taggedTemplateLiteral(['\n    border: 1px solid black;\n    padding: 5px 10px;\n    border-radius: 6px;\n'], ['\n    border: 1px solid black;\n    padding: 5px 10px;\n    border-radius: 6px;\n']);
 
 var _styledComponents = require('styled-components');
 
@@ -79422,16 +79423,12 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.StyledInput = exports.Container = undefined;
 
-var _templateObject = _taggedTemplateLiteral(['\n    display: flex;\n    flex: 1;\n    width: 50%;\n    flex-direction: column;\n    justify-content: center;    \n\n    margin: 10px 0;\n\n    h2 {\n        font-size: 1.5rem;\n        font-weight: bold;\n    }\n'], ['\n    display: flex;\n    flex: 1;\n    width: 50%;\n    flex-direction: column;\n    justify-content: center;    \n\n    margin: 10px 0;\n\n    h2 {\n        font-size: 1.5rem;\n        font-weight: bold;\n    }\n']),
-    _templateObject2 = _taggedTemplateLiteral(['\n    border: 1px solid black;\n    padding: 5px 10px;\n\n    border-radius: 10px;\n'], ['\n    border: 1px solid black;\n    padding: 5px 10px;\n\n    border-radius: 10px;\n']);
+var _templateObject = _taggedTemplateLiteral(['\n    display: flex;\n    flex: 1;\n    width: 100%;\n    flex-direction: column;\n    justify-content: center;    \n    margin: 10px 0;\n\n    h2 {\n        font-size: 20px;\n        font-weight: bold;\n    }\n'], ['\n    display: flex;\n    flex: 1;\n    width: 100%;\n    flex-direction: column;\n    justify-content: center;    \n    margin: 10px 0;\n\n    h2 {\n        font-size: 20px;\n        font-weight: bold;\n    }\n']),
+    _templateObject2 = _taggedTemplateLiteral(['\n    border: 1px solid black;\n    padding: 5px 10px;\n    border-radius: 6px;\n'], ['\n    border: 1px solid black;\n    padding: 5px 10px;\n    border-radius: 6px;\n']);
 
 var _styledComponents = require('styled-components');
 
 var _styledComponents2 = _interopRequireDefault(_styledComponents);
-
-var _reactInputMask = require('react-input-mask');
-
-var _reactInputMask2 = _interopRequireDefault(_reactInputMask);
 
 var _reactImask = require('react-imask');
 
@@ -79443,7 +79440,7 @@ var Container = exports.Container = _styledComponents2.default.div(_templateObje
 
 var StyledInput = exports.StyledInput = (0, _styledComponents2.default)(_reactImask.IMaskInput)(_templateObject2);
 
-},{"react-imask":59,"react-input-mask":61,"styled-components":97}],143:[function(require,module,exports){
+},{"react-imask":59,"styled-components":97}],143:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -79532,7 +79529,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Container = undefined;
 
-var _templateObject = _taggedTemplateLiteral(['\n    display: flex;\n    flex: 0.48;\n    flex-direction: column;\n    justify-content: center;  \n    align-items: center;\n\n    padding: 25px 10px;\n    border-radius: 10px;\n\n    border: ', ';\n\n    &:hover {\n        cursor: pointer;\n        border: 4px solid #E31E2A;\n        border: ', ';\n\n    }\n    \n    h3 {\n        font-size: 1rem;\n        font-weight: bold;\n    }\n    \n    span {\n        font-weight: bold;\n        color: #808080;\n    }\n'], ['\n    display: flex;\n    flex: 0.48;\n    flex-direction: column;\n    justify-content: center;  \n    align-items: center;\n\n    padding: 25px 10px;\n    border-radius: 10px;\n\n    border: ', ';\n\n    &:hover {\n        cursor: pointer;\n        border: 4px solid #E31E2A;\n        border: ', ';\n\n    }\n    \n    h3 {\n        font-size: 1rem;\n        font-weight: bold;\n    }\n    \n    span {\n        font-weight: bold;\n        color: #808080;\n    }\n']);
+var _templateObject = _taggedTemplateLiteral(['\n    display: flex;\n    flex: 0.48;\n    flex-direction: column;\n    justify-content: center;  \n    align-items: center;\n    padding: 25px 10px;\n    border-radius: 6px;\n    cursor: pointer;\n    box-shadow: ', ';\n    transition: .2s;\n\n    &:hover {\n        box-shadow: ', ';\n    }\n    \n    h3 {\n        font-size: 1rem;\n        font-weight: bold;\n    }\n    \n    span {\n        font-weight: bold;\n        color: #808080;\n    }\n'], ['\n    display: flex;\n    flex: 0.48;\n    flex-direction: column;\n    justify-content: center;  \n    align-items: center;\n    padding: 25px 10px;\n    border-radius: 6px;\n    cursor: pointer;\n    box-shadow: ', ';\n    transition: .2s;\n\n    &:hover {\n        box-shadow: ', ';\n    }\n    \n    h3 {\n        font-size: 1rem;\n        font-weight: bold;\n    }\n    \n    span {\n        font-weight: bold;\n        color: #808080;\n    }\n']);
 
 var _styledComponents = require('styled-components');
 
@@ -79543,9 +79540,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
 var Container = exports.Container = _styledComponents2.default.div(_templateObject, function (props) {
-    return props.selected ? '5px solid #E31E2A' : '1px solid black';
+    return props.selected ? '0px 0px 0px 4px #E31E2A' : '0px 0px 0px 1px #000';
 }, function (props) {
-    return props.selected ? '6px solid #E31E2A' : '4px solid #E31E2A';
+    return props.selected ? '0px 0px 0px 6px #E31E2A' : '0px 0px 0px 4px #E31E2A';
 });
 
 },{"styled-components":97}],147:[function(require,module,exports){
@@ -79570,7 +79567,7 @@ var _styles = require('./styles');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var PlansSelector = function PlansSelector(props) {
-    var defaultPlans = [{ skuId: '7955', name: 'Plano 12 Meses', description: '1x de R$99,90', price: 'R$99,90', selected: false }, { skuId: '7953', name: 'Plano 6 Meses', description: '1x de R$69,90', price: 'R$69,90', selected: false }];
+    var defaultPlans = [{ skuId: '7955', name: 'Plano 12 Meses', description: '1x de R$99,90', price: 'R$99,90', selected: true }, { skuId: '7953', name: 'Plano 6 Meses', description: '1x de R$69,90', price: 'R$69,90', selected: false }];
 
     var _React$useState = _react2.default.useState(defaultPlans),
         _React$useState2 = _slicedToArray(_React$useState, 2),
@@ -79608,7 +79605,7 @@ var PlansSelector = function PlansSelector(props) {
             plans.map(function (plan) {
                 return _react2.default.createElement(_PlanCard2.default, { plan: plan, onClick: function onClick() {
                         return handleSelectPlan(plan);
-                    } });
+                    }, key: plan.skuId });
             })
         )
     );
@@ -79624,7 +79621,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.PlansSection = exports.Container = undefined;
 
-var _templateObject = _taggedTemplateLiteral(['\n    display: flex;\n    flex-direction: column;\n    width: 50%;\n'], ['\n    display: flex;\n    flex-direction: column;\n    width: 50%;\n']),
+var _templateObject = _taggedTemplateLiteral(['\n    display: flex;\n    flex-direction: column;\n    width: 100%;\n\n    h2 {\n        font-size: 20px;\n        font-weight: bold;\n    }\n'], ['\n    display: flex;\n    flex-direction: column;\n    width: 100%;\n\n    h2 {\n        font-size: 20px;\n        font-weight: bold;\n    }\n']),
     _templateObject2 = _taggedTemplateLiteral(['\n    display: flex;\n    flex: 1;\n    flex-direction: row;\n    justify-content: space-between;\n'], ['\n    display: flex;\n    flex: 1;\n    flex-direction: row;\n    justify-content: space-between;\n']);
 
 var _styledComponents = require('styled-components');
@@ -79668,11 +79665,11 @@ exports.default = Section;
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 exports.Section = undefined;
 
-var _templateObject = _taggedTemplateLiteral(['\n    flex: 1;\n    display: flex;\n\n    align-items: center;\n    justify-content: center;\n '], ['\n    flex: 1;\n    display: flex;\n\n    align-items: center;\n    justify-content: center;\n ']);
+var _templateObject = _taggedTemplateLiteral(['\n    flex: 1;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    width: 100%;\n '], ['\n    flex: 1;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    width: 100%;\n ']);
 
 var _styledComponents = require('styled-components');
 
@@ -79752,8 +79749,19 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var PrimeCadastroHome = function PrimeCadastroHome() {
     var navigate = (0, _reactRouterDom.useNavigate)();
+    var location = (0, _reactRouterDom.useLocation)();
 
-    var _React$useState = _react2.default.useState({}),
+    var params = location.state;
+
+    var _React$useState = _react2.default.useState({
+        plan: {
+            skuId: "7955",
+            name: "Plano 12 Meses",
+            description: "1x de R$99,90",
+            price: "R$99,90",
+            selected: true
+        }
+    }),
         _React$useState2 = _slicedToArray(_React$useState, 2),
         formData = _React$useState2[0],
         setFormData = _React$useState2[1];
@@ -79906,7 +79914,6 @@ var PrimeCadastroHome = function PrimeCadastroHome() {
                 newPrevData.phone = data.Celular;
             }
 
-            console.log({ aaaPRevData: newPrevData });
             return newPrevData;
         });
     };
@@ -79940,7 +79947,6 @@ var PrimeCadastroHome = function PrimeCadastroHome() {
     };
 
     var handleSubmit = async function handleSubmit() {
-
         if (isCurrentEmailPrime) {
             alert('Este email já é prime. Por favor, insira outro.');
             return;
@@ -79986,6 +79992,12 @@ var PrimeCadastroHome = function PrimeCadastroHome() {
             verifyEmail(formData.email);
         }
     }, [formData.email]);
+
+    _react2.default.useEffect(function () {
+        if (params) {
+            setFormData(params);
+        }
+    }, []);
 
     return _react2.default.createElement(
         _styles.Container,
@@ -80053,11 +80065,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.EmailItem = exports.HeadText = exports.RedBoldText = exports.Section = exports.Container = undefined;
 
-var _templateObject = _taggedTemplateLiteral(['\n    display: flex;\n    flex-direction: column;\n    \n    flex: 1;\n    \n    font-family: \'Poppins\' !important;\n\n'], ['\n    display: flex;\n    flex-direction: column;\n    \n    flex: 1;\n    \n    font-family: \'Poppins\' !important;\n\n']),
-    _templateObject2 = _taggedTemplateLiteral(['\n    display: flex;\n    flex-direction: column;\n    \n    flex: 1;\n    margin-top: 10px;\n    justify-content: center;\n    align-items: center;\n\n'], ['\n    display: flex;\n    flex-direction: column;\n    \n    flex: 1;\n    margin-top: 10px;\n    justify-content: center;\n    align-items: center;\n\n']),
-    _templateObject3 = _taggedTemplateLiteral(['\n    font-weight: bold;\n    color: #E21F2B;\n\n    \n'], ['\n    font-weight: bold;\n    color: #E21F2B;\n\n    \n']),
-    _templateObject4 = _taggedTemplateLiteral(['\n    font-size: 2rem;\n    font-family: \'Poppins\' !important;\n    \n'], ['\n    font-size: 2rem;\n    font-family: \'Poppins\' !important;\n    \n']),
-    _templateObject5 = _taggedTemplateLiteral(['\n    text-decoration: underline;\n    cursor: pointer;\n    color: #E21F2B;\n\n\n    margin: 5px 0;\n\n    font-weight: bold;\n    font-size: 1.2rem;\n    font-family: \'Roboto\';\n'], ['\n    text-decoration: underline;\n    cursor: pointer;\n    color: #E21F2B;\n\n\n    margin: 5px 0;\n\n    font-weight: bold;\n    font-size: 1.2rem;\n    font-family: \'Roboto\';\n']);
+var _templateObject = _taggedTemplateLiteral(['\n    display: flex;\n    flex-direction: column;\n    font-family: \'Poppins\' !important;\n    width: 100%;\n    max-width: 600px;\n    margin: 40px auto;\n    padding: 0 15px;\n'], ['\n    display: flex;\n    flex-direction: column;\n    font-family: \'Poppins\' !important;\n    width: 100%;\n    max-width: 600px;\n    margin: 40px auto;\n    padding: 0 15px;\n']),
+    _templateObject2 = _taggedTemplateLiteral(['\n    display: flex;\n    flex-direction: column;\n    flex: 1;\n    margin-top: 10px;\n    justify-content: center;\n    align-items: center;\n'], ['\n    display: flex;\n    flex-direction: column;\n    flex: 1;\n    margin-top: 10px;\n    justify-content: center;\n    align-items: center;\n']),
+    _templateObject3 = _taggedTemplateLiteral(['\n    font-weight: bold;\n    color: #E21F2B;\n'], ['\n    font-weight: bold;\n    color: #E21F2B;\n']),
+    _templateObject4 = _taggedTemplateLiteral(['\n    font-size: 2rem;\n    font-family: \'Poppins\' !important;\n'], ['\n    font-size: 2rem;\n    font-family: \'Poppins\' !important;\n']),
+    _templateObject5 = _taggedTemplateLiteral(['\n    text-decoration: underline;\n    cursor: pointer;\n    color: #E21F2B;\n    margin: 5px 0;\n    font-weight: bold;\n    font-size: 1.2rem;\n    font-family: \'Roboto\';\n'], ['\n    text-decoration: underline;\n    cursor: pointer;\n    color: #E21F2B;\n    margin: 5px 0;\n    font-weight: bold;\n    font-size: 1.2rem;\n    font-family: \'Roboto\';\n']);
 
 var _styledComponents = require('styled-components');
 
@@ -80126,6 +80138,20 @@ var PaymentInfo = function PaymentInfo() {
     var navigate = (0, _reactRouterDom.useNavigate)();
     var location = (0, _reactRouterDom.useLocation)();
     var params = location.state;
+    // const params = {
+    //         "cpf": "152.737.616-89",
+    //         "email": "ztaaso27@gmail.com",
+    //         "name": "Thiago Afonso (teste)",
+    //         "phone": "(33) 9 9822-5944",
+    //         "storeName": "CD - Loja 59",
+    //         "plan": {
+    //             "skuId": "7955",
+    //             "name": "Plano 12 Meses",
+    //             "description": "1x de R$99,90",
+    //             "price": "R$99,90",
+    //             "selected": true
+    //         },
+    // };
 
     var _React$useState = _react2.default.useState(false),
         _React$useState2 = _slicedToArray(_React$useState, 2),
@@ -80162,7 +80188,7 @@ var PaymentInfo = function PaymentInfo() {
         receiptFile = _React$useState14[0],
         setReceiptFile = _React$useState14[1];
 
-    var submitButtonText = hasFinished ? 'Novo cadastro' : 'Pago';
+    var submitButtonText = hasFinished ? 'Novo cadastro' : 'Confirmar';
     var insertImageText = receiptFile.name || 'Tirar foto';
 
     var handleSubmitPayment = function handleSubmitPayment() {
@@ -80235,6 +80261,10 @@ var PaymentInfo = function PaymentInfo() {
         console.log('confirmed');
     };
 
+    var handleCorrectData = function handleCorrectData() {
+        navigate('/cadastro-prime', { state: params });
+    };
+
     _react2.default.useEffect(function () {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }, []);
@@ -80242,28 +80272,6 @@ var PaymentInfo = function PaymentInfo() {
     return _react2.default.createElement(
         _styles.Container,
         null,
-        _react2.default.createElement(_Header2.default, null),
-        successfulActivation && _react2.default.createElement(
-            _styles.Section,
-            null,
-            _react2.default.createElement(
-                'div',
-                {
-                    style: {
-                        width: '50%',
-                        lineHeight: '1.6',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        padding: '20px 0'
-                    }
-                },
-                _react2.default.createElement(
-                    'b',
-                    null,
-                    'Parab\xE9ns, agora voc\xEA \xE9 um cliente Supernosso Prime e vai ter acesso a entregas gr\xE1tis ilimitadas, ofertas exclusivas e inacredit\xE1veis e muito mais.'
-                )
-            )
-        ),
         _react2.default.createElement(
             _styles.Section,
             null,
@@ -80271,13 +80279,36 @@ var PaymentInfo = function PaymentInfo() {
                 'div',
                 {
                     style: {
-                        width: '50%',
+                        width: '100%',
+                        maxWidth: '1000px',
                         lineHeight: '1.6',
                         display: 'flex',
                         flexDirection: 'column',
-                        padding: '20px 0'
+                        margin: '0 auto'
                     }
                 },
+                _react2.default.createElement(_Header2.default, null),
+                successfulActivation && _react2.default.createElement(
+                    _styles.Section,
+                    null,
+                    _react2.default.createElement(
+                        'div',
+                        {
+                            style: {
+                                width: '50%',
+                                lineHeight: '1.6',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                padding: '20px 0'
+                            }
+                        },
+                        _react2.default.createElement(
+                            'b',
+                            null,
+                            'Parab\xE9ns, agora voc\xEA \xE9 um cliente Supernosso Prime e vai ter acesso a entregas gr\xE1tis ilimitadas, ofertas exclusivas e inacredit\xE1veis e muito mais.'
+                        )
+                    )
+                ),
                 _react2.default.createElement(
                     'span',
                     null,
@@ -80295,7 +80326,7 @@ var PaymentInfo = function PaymentInfo() {
                     _react2.default.createElement(
                         'b',
                         null,
-                        'Email:'
+                        'E-mail:'
                     ),
                     ' ',
                     params.email
@@ -80354,6 +80385,11 @@ var PaymentInfo = function PaymentInfo() {
                     ),
                     ' ',
                     params.storeName
+                ),
+                _react2.default.createElement(
+                    _Button2.default,
+                    { onClick: handleCorrectData, style: { background: '#2c2d42' } },
+                    'Corrigir'
                 )
             )
         ),
@@ -80547,7 +80583,8 @@ var _axios2 = _interopRequireDefault(_axios);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var api = _axios2.default.create({
-    baseURL: 'https://mauricio.supernosso.com.br/IntegraSnc_Core/rest/PrimeLojaFisica',
+    // baseURL: 'https://mauricio.supernosso.com.br/IntegraSnc_Core/rest/PrimeLojaFisica',
+    baseURL: 'https://mali.supernosso.com.br/IntegraSnc_Core/rest/PrimeLojaFisica',
     auth: {
         username: "primefisico",
         password: 'SuperSN@321'
