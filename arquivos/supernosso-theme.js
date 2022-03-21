@@ -79202,11 +79202,10 @@ var Header = function Header() {
         var isAlready = location.pathname === '/cadastro-prime';
 
         if (isAlready) {
-            location.reload();
-            return;
+            window.location.reload();
         }
 
-        navigate('/cadastro-prime');
+        navigate('/cadastro-prime', { state: null });
     };
 
     return _react2.default.createElement(
@@ -79234,9 +79233,10 @@ var Header = function Header() {
             _Section2.default,
             null,
             _react2.default.createElement('img', {
-                src: 'https://supernossoemcasa.vteximg.com.br/arquivos/beneficios-cadastro-prime.png',
+                src: 'https://supernossoemcasa.vteximg.com.br/arquivos/beneficios-cadastro-prime-2.png',
                 alt: 'benefits',
-                className: 'banner-benefits-image'
+                className: 'banner-benefits-image',
+                loading: 'lazy'
             })
         )
     );
@@ -79252,7 +79252,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Container = undefined;
 
-var _templateObject = _taggedTemplateLiteral(['\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    font-family: \'Poppins\' !important;\n\n    .header-title {\n        display: flex;\n        width: 100% !important;\n        font-family: \'Roboto\';\n        font-weight: 700;\n\n        h1 {\n            font-size: 32px;\n            line-height: 38px;\n            color: #E31E2A;\n            padding: 0;\n            margin: 0;\n        }\n\n        span {\n            font-size: 14px;\n            line-height: 16px;\n            text-decoration-line: underline;\n            color: #04C200;\n            cursor: pointer;\n        }\n\n        @media (max-width: 767px) {\n            flex-direction: column !important;\n            padding-bottom: 15px;\n        }\n    }\n\n    .banner-benefits-image {\n        margin: 40px 0;\n    }\n'], ['\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    font-family: \'Poppins\' !important;\n\n    .header-title {\n        display: flex;\n        width: 100% !important;\n        font-family: \'Roboto\';\n        font-weight: 700;\n\n        h1 {\n            font-size: 32px;\n            line-height: 38px;\n            color: #E31E2A;\n            padding: 0;\n            margin: 0;\n        }\n\n        span {\n            font-size: 14px;\n            line-height: 16px;\n            text-decoration-line: underline;\n            color: #04C200;\n            cursor: pointer;\n        }\n\n        @media (max-width: 767px) {\n            flex-direction: column !important;\n            padding-bottom: 15px;\n        }\n    }\n\n    .banner-benefits-image {\n        margin: 40px 0;\n    }\n']);
+var _templateObject = _taggedTemplateLiteral(['\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    font-family: \'Poppins\' !important;\n\n    .header-title {\n        display: flex;\n        width: 100% !important;\n        font-family: \'Roboto\';\n        font-weight: 700;\n\n        h1 {\n            font-size: 32px;\n            line-height: 38px;\n            color: #E31E2A;\n            padding: 0;\n            margin: 0;\n        }\n\n        span {\n            font-size: 14px;\n            line-height: 16px;\n            text-decoration-line: underline;\n            color: #04C200;\n            cursor: pointer;\n        }\n\n        @media (max-width: 767px) {\n            flex-direction: column !important;\n            padding-bottom: 15px;\n        }\n    }\n\n    .banner-benefits-image {\n        margin: 40px 0;\n        width: 100%;\n    }\n'], ['\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    font-family: \'Poppins\' !important;\n\n    .header-title {\n        display: flex;\n        width: 100% !important;\n        font-family: \'Roboto\';\n        font-weight: 700;\n\n        h1 {\n            font-size: 32px;\n            line-height: 38px;\n            color: #E31E2A;\n            padding: 0;\n            margin: 0;\n        }\n\n        span {\n            font-size: 14px;\n            line-height: 16px;\n            text-decoration-line: underline;\n            color: #04C200;\n            cursor: pointer;\n        }\n\n        @media (max-width: 767px) {\n            flex-direction: column !important;\n            padding-bottom: 15px;\n        }\n    }\n\n    .banner-benefits-image {\n        margin: 40px 0;\n        width: 100%;\n    }\n']);
 
 var _styledComponents = require('styled-components');
 
@@ -79754,12 +79754,12 @@ var PrimeCadastroHome = function PrimeCadastroHome() {
     var params = location.state;
 
     var _React$useState = _react2.default.useState({
-        plan: {
-            skuId: "7955",
-            name: "Plano 12 Meses",
-            description: "1x de R$99,90",
-            price: "R$99,90",
-            selected: true
+        "plan": {
+            "skuId": "7955",
+            "name": "Plano 12 Meses",
+            "description": "1x de R$99,90",
+            "price": "R$99,90",
+            "selected": true
         }
     }),
         _React$useState2 = _slicedToArray(_React$useState, 2),
@@ -79800,6 +79800,8 @@ var PrimeCadastroHome = function PrimeCadastroHome() {
             });
 
             newPrevData[field] = value;
+
+            console.log(newPrevData);
 
             return newPrevData;
         });
@@ -79857,37 +79859,36 @@ var PrimeCadastroHome = function PrimeCadastroHome() {
         return true;
     };
 
-    var handleCreateAccount = async function handleCreateAccount() {
+    // const handleCreateAccount = async () => {
+    //     const data = {
+    //         email: formData.email,
+    //         firstName: formData.name,
+    //         document: formData.cpf,
+    //         phone: formData.phone ? formData.phone.replace(/[\s()-]/g, '') : ''
+    //     };
 
-        var data = {
-            email: formData.email,
-            firstName: formData.name,
-            document: formData.cpf,
-            phone: formData.phone ? formData.phone.replace(/[\s()-]/g, '') : ''
-        };
+    //     console.log('create usr payload', { data })
 
-        console.log('create usr payload', { data: data });
+    //     setLoading(true);
 
-        setLoading(true);
+    //     try {
+    //         const response = await api.post('/CriarUsuario', data);
+    //         console.log('creating user response:', response.data);
 
-        try {
-            var response = await _api2.default.post('/CriarUsuario', data);
-            console.log('creating user response:', response.data);
+    //         return true;
+    //     } catch (error) {
+    //         console.log(error);
 
-            return true;
-        } catch (error) {
-            console.log(error);
+    //         if(error.response && error.response.data) {
+    //             alert(error.response.data);
+    //         } else {
+    //             alert(error);
+    //         }
+    //     }
 
-            if (error.response && error.response.data) {
-                alert(error.response.data);
-            } else {
-                alert(error);
-            }
-        }
-
-        setLoading(false);
-        return false;
-    };
+    //     setLoading(false);
+    //     return false;
+    // };
 
     var handleAutocomplete = function handleAutocomplete(data) {
         setFormData(function (prevData) {
@@ -79969,12 +79970,15 @@ var PrimeCadastroHome = function PrimeCadastroHome() {
         }
 
         // user can only create an account if they have less than 2 emails in the same cpf
-        if (availableAccounts.length < 2) {
-            var accountCreated = await handleCreateAccount();
-            if (!accountCreated) return;
-        };
+        // if(availableAccounts.length < 2) {
+        //     let accountCreated = await handleCreateAccount();
+        //     if(!accountCreated) return;
+        // };
+        // navigate('pagamento', { state: formData });
 
-        navigate('pagamento', { state: formData });
+        if (availableAccounts.length < 2) {
+            navigate('pagamento', { state: formData });
+        };
     };
 
     _react2.default.useEffect(function () {
@@ -79996,6 +80000,7 @@ var PrimeCadastroHome = function PrimeCadastroHome() {
     _react2.default.useEffect(function () {
         if (params) {
             setFormData(params);
+            console.log(location.state);
         }
     }, []);
 
@@ -80006,8 +80011,8 @@ var PrimeCadastroHome = function PrimeCadastroHome() {
         _react2.default.createElement(_Form2.default, { onFormChange: handleFormChange, formData: formData }),
         _react2.default.createElement(
             _Button2.default,
-            { onClick: handleSubmit, disabled: loading },
-            loading ? _react2.default.createElement(_reactLoading2.default, { type: "spinningBubbles", color: "#FFF", width: 25, height: 25 }) : 'Ir para pagamento'
+            { onClick: handleSubmit },
+            'Ir para pagamento'
         ),
         _react2.default.createElement(
             _CustomModal2.default,
@@ -80191,13 +80196,49 @@ var PaymentInfo = function PaymentInfo() {
     var submitButtonText = hasFinished ? 'Novo cadastro' : 'Confirmar';
     var insertImageText = receiptFile.name || 'Tirar foto';
 
-    var handleSubmitPayment = function handleSubmitPayment() {
+    var handleSubmitPayment = async function handleSubmitPayment() {
         if (hasFinished) {
             navigate('/cadastro-prime');
-            return;
-        }
+        } else {
+            var accountCreated = await handleCreateAccount();
 
-        setConfirmModalOpen(true);
+            if (accountCreated) {
+                setConfirmModalOpen(true);
+            } else {
+                alert('Erro ao cadastrar usuário. Verifique novamente os dados informados.');
+                return;
+            }
+        }
+    };
+
+    var handleCreateAccount = async function handleCreateAccount() {
+        setLoading(true);
+
+        var data = {
+            email: params.email,
+            firstName: params.name,
+            document: params.cpf,
+            phone: params.phone ? params.phone.replace(/[\s()-]/g, '') : ''
+        };
+        var responseStatus = false;
+
+        try {
+            var response = await _api2.default.post('/CriarUsuario', data);
+            console.log('creating user response:', response);
+            responseStatus = true;
+        } catch (error) {
+            console.log(error);
+
+            if (error.response && error.response.data) {
+                alert(error.response.data);
+            } else {
+                alert(error);
+            }
+            responseStatus = false;
+        } finally {
+            setLoading(false);
+            return responseStatus;
+        }
     };
 
     var toBase64 = function toBase64(file) {
@@ -80218,6 +80259,7 @@ var PaymentInfo = function PaymentInfo() {
 
         if (!receiptModalNotes && !receiptFile.name) {
             alert('Insira um comprovante ou uma observação!');
+            setLoading(false);
             return;
         }
 
@@ -80258,11 +80300,11 @@ var PaymentInfo = function PaymentInfo() {
         setConfirmModalOpen(false);
         setReceiptModalOpen(true);
 
-        console.log('confirmed');
+        console.log('confirmed', params);
     };
 
     var handleCorrectData = function handleCorrectData() {
-        navigate('/cadastro-prime', { state: params });
+        navigate('/cadastro-prime', { state: location.state });
     };
 
     _react2.default.useEffect(function () {
@@ -80288,115 +80330,120 @@ var PaymentInfo = function PaymentInfo() {
                     }
                 },
                 _react2.default.createElement(_Header2.default, null),
-                successfulActivation && _react2.default.createElement(
+                successfulActivation ? _react2.default.createElement(
                     _styles.Section,
                     null,
                     _react2.default.createElement(
                         'div',
                         {
                             style: {
-                                width: '50%',
+                                width: '60%',
                                 lineHeight: '1.6',
                                 display: 'flex',
                                 flexDirection: 'column',
-                                padding: '20px 0'
+                                padding: '20px 0',
+                                textAlign: 'center',
+                                color: '#25bd25'
                             }
                         },
                         _react2.default.createElement(
                             'b',
                             null,
-                            'Parab\xE9ns, agora voc\xEA \xE9 um cliente Supernosso Prime e vai ter acesso a entregas gr\xE1tis ilimitadas, ofertas exclusivas e inacredit\xE1veis e muito mais.'
+                            'Parab\xE9ns, agora voc\xEA \xE9 um cliente Supernosso Prime e vai ter acesso a entregas gr\xE1tis ilimitadas, ofertas exclusivas e inacredit\xE1veis e muito mais!'
                         )
                     )
-                ),
-                _react2.default.createElement(
-                    'span',
+                ) : _react2.default.createElement(
+                    _react.Fragment,
                     null,
                     _react2.default.createElement(
-                        'b',
+                        'span',
                         null,
-                        'Nome completo:'
+                        _react2.default.createElement(
+                            'b',
+                            null,
+                            'Nome completo:'
+                        ),
+                        ' ',
+                        params.name
                     ),
-                    ' ',
-                    params.name
-                ),
-                _react2.default.createElement(
-                    'span',
-                    null,
                     _react2.default.createElement(
-                        'b',
+                        'span',
                         null,
-                        'E-mail:'
+                        _react2.default.createElement(
+                            'b',
+                            null,
+                            'E-mail:'
+                        ),
+                        ' ',
+                        params.email
                     ),
-                    ' ',
-                    params.email
-                ),
-                _react2.default.createElement(
-                    'span',
-                    null,
                     _react2.default.createElement(
-                        'b',
+                        'span',
                         null,
-                        'CPF:'
+                        _react2.default.createElement(
+                            'b',
+                            null,
+                            'CPF:'
+                        ),
+                        ' ',
+                        params.cpf
                     ),
-                    ' ',
-                    params.cpf
-                ),
-                params.phone && _react2.default.createElement(
-                    'span',
-                    null,
+                    params.phone && _react2.default.createElement(
+                        'span',
+                        null,
+                        _react2.default.createElement(
+                            'b',
+                            null,
+                            'Celular:'
+                        ),
+                        ' ',
+                        params.phone
+                    ),
                     _react2.default.createElement(
-                        'b',
+                        'span',
                         null,
-                        'Celular:'
+                        _react2.default.createElement(
+                            'b',
+                            null,
+                            'Plano:'
+                        ),
+                        ' ',
+                        params.plan.name
                     ),
-                    ' ',
-                    params.phone
-                ),
-                _react2.default.createElement(
-                    'span',
-                    null,
                     _react2.default.createElement(
-                        'b',
+                        'span',
                         null,
-                        'Plano:'
+                        _react2.default.createElement(
+                            'b',
+                            null,
+                            'Valor:'
+                        ),
+                        ' ',
+                        params.plan.price
                     ),
-                    ' ',
-                    params.plan.name
-                ),
-                _react2.default.createElement(
-                    'span',
-                    null,
                     _react2.default.createElement(
-                        'b',
+                        'span',
                         null,
-                        'Valor:'
+                        _react2.default.createElement(
+                            'b',
+                            null,
+                            'Loja:'
+                        ),
+                        ' ',
+                        params.storeName
                     ),
-                    ' ',
-                    params.plan.price
-                ),
-                _react2.default.createElement(
-                    'span',
-                    null,
                     _react2.default.createElement(
-                        'b',
-                        null,
-                        'Loja:'
-                    ),
-                    ' ',
-                    params.storeName
-                ),
-                _react2.default.createElement(
-                    _Button2.default,
-                    { onClick: handleCorrectData, style: { background: '#2c2d42' } },
-                    'Corrigir'
+                        _Button2.default,
+                        { onClick: handleCorrectData, style: { background: '#2c2d42' } },
+                        'Corrigir'
+                    )
                 )
             )
         ),
         _react2.default.createElement(
             _Button2.default,
-            { onClick: handleSubmitPayment },
-            submitButtonText
+            { onClick: handleSubmitPayment, disabled: loading },
+            loading ? _react2.default.createElement(_reactLoading2.default, { type: "spinningBubbles", color: "#FFF", width: 25, height: 25 }) : submitButtonText
         ),
         _react2.default.createElement(
             _CustomModal2.default,
