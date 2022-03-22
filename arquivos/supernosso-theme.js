@@ -79089,62 +79089,58 @@ var Form = function Form(_ref) {
     var onFormChange = _ref.onFormChange,
         formData = _ref.formData;
     return _react2.default.createElement(
-        _react2.default.Fragment,
-        null,
-        _react2.default.createElement(
-            _styles.Container,
-            null,
-            _react2.default.createElement(_MaskedInput2.default, {
-                title: 'CPF:',
-                onChange: function onChange(e) {
-                    return onFormChange('cpf', e.target.value);
-                },
-                placeholder: 'XXX.XXX.XXX-XX',
-                value: formData.cpf,
-                mask: '000.000.000-00',
-                inputMode: 'numeric'
-            }),
-            _react2.default.createElement(_Input2.default, {
-                title: 'E-mail:',
-                onChange: function onChange(e) {
-                    return onFormChange('email', e.target.value);
-                },
-                placeholder: 'email@email.com.br',
-                value: formData.email
-            }),
-            _react2.default.createElement(_Input2.default, {
-                title: 'Nome completo:',
-                onChange: function onChange(e) {
-                    return onFormChange('name', e.target.value);
-                },
-                placeholder: 'Nome',
-                value: formData.name
-            }),
-            _react2.default.createElement(_MaskedInput2.default, {
-                title: 'Celular:',
-                onChange: function onChange(e) {
-                    return onFormChange('phone', e.target.value);
-                },
-                placeholder: '(XX) X XXXX-XXXX',
-                value: formData.phone,
-                mask: '(00) 0 0000-0000',
-                inputMode: 'numeric'
-            }),
-            _react2.default.createElement(_InputSelect2.default, {
-                title: 'Loja:',
-                onChange: function onChange(e) {
-                    return onFormChange('storeName', e.target.value);
-                },
-                placeholder: 'Escolha uma Loja',
-                value: formData.storeName
-            }),
-            _react2.default.createElement(_PlansSelector2.default, {
-                title: 'Planos:',
-                onSelectPlan: function onSelectPlan(plan) {
-                    return onFormChange('plan', plan);
-                }
-            })
-        )
+        _styles.Container,
+        { id: 'registry-form' },
+        _react2.default.createElement(_MaskedInput2.default, {
+            title: 'CPF:',
+            onChange: function onChange(e) {
+                return onFormChange('cpf', e.target.value);
+            },
+            placeholder: 'XXX.XXX.XXX-XX',
+            value: formData.cpf,
+            mask: '000.000.000-00',
+            inputMode: 'number'
+        }),
+        _react2.default.createElement(_Input2.default, {
+            title: 'E-mail:',
+            onChange: function onChange(e) {
+                return onFormChange('email', e.target.value);
+            },
+            placeholder: 'email@email.com.br',
+            value: formData.email
+        }),
+        _react2.default.createElement(_Input2.default, {
+            title: 'Nome completo:',
+            onChange: function onChange(e) {
+                return onFormChange('name', e.target.value);
+            },
+            placeholder: 'Nome',
+            value: formData.name
+        }),
+        _react2.default.createElement(_MaskedInput2.default, {
+            title: 'Celular:',
+            onChange: function onChange(e) {
+                return onFormChange('phone', e.target.value);
+            },
+            placeholder: '(XX) X XXXX-XXXX',
+            value: formData.phone,
+            mask: '(00) 0 0000-0000',
+            inputMode: 'numeric'
+        }),
+        _react2.default.createElement(_InputSelect2.default, {
+            title: 'Loja:',
+            onChange: function onChange(e) {
+                return onFormChange('storeName', e.target.value);
+            },
+            placeholder: 'Escolha uma Loja',
+            value: formData.storeName
+        }),
+        _react2.default.createElement(_PlansSelector2.default, {
+            title: 'Planos:',
+            onSelectPlan: function onSelectPlan(plan) {
+                return onFormChange('plan', plan);
+            }
+        })
     );
 };
 
@@ -79719,10 +79715,6 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = require('react-router-dom');
 
-var _reactLoading = require('react-loading');
-
-var _reactLoading2 = _interopRequireDefault(_reactLoading);
-
 var _Header = require('../../components/Header');
 
 var _Header2 = _interopRequireDefault(_Header);
@@ -79808,7 +79800,7 @@ var PrimeCadastroHome = function PrimeCadastroHome() {
     };
 
     var validateData = function validateData(data) {
-        var requiredFields = ['cpf', 'email', 'name', 'storeName', 'plan'];
+        var requiredFields = ['cpf', 'email', 'name', 'phone', 'storeName', 'plan'];
         var missingFields = [];
 
         var lackRequiredFields = requiredFields.some(function (field) {
@@ -79818,9 +79810,7 @@ var PrimeCadastroHome = function PrimeCadastroHome() {
 
                 return key === field;
             });
-
             if (lackField) missingFields.push(field);
-
             return lackField;
         });
 
@@ -79830,9 +79820,7 @@ var PrimeCadastroHome = function PrimeCadastroHome() {
                 value = _ref6[1];
 
             var isFieldNull = requiredFields.includes(key) && !value;
-
             if (isFieldNull) missingFields.push(key);
-
             return isFieldNull;
         });
 
@@ -79846,8 +79834,7 @@ var PrimeCadastroHome = function PrimeCadastroHome() {
 
     var validateEmail = function validateEmail(email) {
         // this prevents user who has 2 emails in the same CPF to buy prime to a new email
-        // obs: limit is 2 emails per cpf  
-        console.log({ availableAccounts: availableAccounts });
+        // obs: limit is 2 emails per cpf
         if (availableAccounts.length === 2) {
             var isCurrentEmailOneOfExisting = availableAccounts.some(function (account) {
                 return account.Email === email;
@@ -79858,37 +79845,6 @@ var PrimeCadastroHome = function PrimeCadastroHome() {
 
         return true;
     };
-
-    // const handleCreateAccount = async () => {
-    //     const data = {
-    //         email: formData.email,
-    //         firstName: formData.name,
-    //         document: formData.cpf,
-    //         phone: formData.phone ? formData.phone.replace(/[\s()-]/g, '') : ''
-    //     };
-
-    //     console.log('create usr payload', { data })
-
-    //     setLoading(true);
-
-    //     try {
-    //         const response = await api.post('/CriarUsuario', data);
-    //         console.log('creating user response:', response.data);
-
-    //         return true;
-    //     } catch (error) {
-    //         console.log(error);
-
-    //         if(error.response && error.response.data) {
-    //             alert(error.response.data);
-    //         } else {
-    //             alert(error);
-    //         }
-    //     }
-
-    //     setLoading(false);
-    //     return false;
-    // };
 
     var handleAutocomplete = function handleAutocomplete(data) {
         setFormData(function (prevData) {
@@ -79958,30 +79914,28 @@ var PrimeCadastroHome = function PrimeCadastroHome() {
             missingFields = _validateData.missingFields;
 
         if (!isValid) {
-            alert('Preencha todos os campos obrigat\xF3rios! Campo \'' + missingFields[0] + '\' faltando.');
+            var fields = {
+                plan: 'Plano',
+                email: 'E-mail',
+                name: 'Nome',
+                phone: 'Telefone',
+                storeName: 'Loja',
+                cpf: 'CPF'
+            };
+
+            alert('\n                Preencha todos os campos obrigat\xF3rios!\n                \n                Campo "' + fields[missingFields[0]] + '" faltando.\n            ');
             return;
         }
 
-        var isEmailValid = validateEmail(formData.email);
-
-        if (!isEmailValid) {
-            alert('Você já possui 2 emails vinculados ao mesmo CPF. Use um deles.');
+        if (availableAccounts.length > 1) {
+            alert('Você já possui 2 emails vinculados a esse CPF. Use um deles.');
             return;
         }
 
-        // user can only create an account if they have less than 2 emails in the same cpf
-        // if(availableAccounts.length < 2) {
-        //     let accountCreated = await handleCreateAccount();
-        //     if(!accountCreated) return;
-        // };
-        // navigate('pagamento', { state: formData });
-
-        if (availableAccounts.length < 2) {
-            navigate('pagamento', { state: formData });
-        };
+        navigate('pagamento', { state: formData });
     };
 
-    _react2.default.useEffect(function () {
+    (0, _react.useEffect)(function () {
         if (!formData.cpf) return;
 
         if (formData.cpf.length === 14 && !formData.cpf.includes('_')) {
@@ -79989,7 +79943,7 @@ var PrimeCadastroHome = function PrimeCadastroHome() {
         }
     }, [formData.cpf]);
 
-    _react2.default.useEffect(function () {
+    (0, _react.useEffect)(function () {
         if (!formData.email) return;
 
         if (formData.email.includes('@') && formData.email.includes('.')) {
@@ -79997,11 +79951,19 @@ var PrimeCadastroHome = function PrimeCadastroHome() {
         }
     }, [formData.email]);
 
-    _react2.default.useEffect(function () {
-        if (params) {
-            setFormData(params);
-            console.log(location.state);
-        }
+    (0, _react.useEffect)(function () {
+        setTimeout(function () {
+            if (params) {
+                setFormData(params);
+
+                window.scrollTo({
+                    top: document.querySelector('#registry-form').offsetTop - 112,
+                    behavior: 'smooth'
+                });
+            } else {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }, 400);
     }, []);
 
     return _react2.default.createElement(
@@ -80062,7 +80024,7 @@ var PrimeCadastroHome = function PrimeCadastroHome() {
 
 exports.default = PrimeCadastroHome;
 
-},{"../../components/Button":129,"../../components/CustomModal":131,"../../components/Form":133,"../../components/Header":135,"../../services/api":156,"./styles.js":153,"react":88,"react-loading":68,"react-router-dom":80}],153:[function(require,module,exports){
+},{"../../components/Button":129,"../../components/CustomModal":131,"../../components/Form":133,"../../components/Header":135,"../../services/api":156,"./styles.js":153,"react":88,"react-router-dom":80}],153:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -80304,11 +80266,16 @@ var PaymentInfo = function PaymentInfo() {
     };
 
     var handleCorrectData = function handleCorrectData() {
-        navigate('/cadastro-prime', { state: location.state });
+        navigate('/cadastro-prime', { state: location.state, edit: true });
     };
 
     _react2.default.useEffect(function () {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        setTimeout(function () {
+            window.scrollTo({
+                top: document.querySelector('#scroll-target').offsetTop - 200,
+                behavior: 'smooth'
+            });
+        }, 400);
     }, []);
 
     return _react2.default.createElement(
@@ -80353,8 +80320,8 @@ var PaymentInfo = function PaymentInfo() {
                         )
                     )
                 ) : _react2.default.createElement(
-                    _react.Fragment,
-                    null,
+                    'div',
+                    { id: 'scroll-target', style: { display: 'flex', flexDirection: 'column' } },
                     _react2.default.createElement(
                         'span',
                         null,
