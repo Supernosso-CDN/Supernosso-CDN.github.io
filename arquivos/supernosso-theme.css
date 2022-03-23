@@ -21868,11 +21868,11 @@ body#parceiro-lecupon .ofertasPrime-benefits .slick-arrow {
 }
 body.pagina-prime .ofertasPrime-benefits .slick-prev,
 body#parceiro-lecupon .ofertasPrime-benefits .slick-prev {
-  left: 0px;
+  left: -25px;
 }
 body.pagina-prime .ofertasPrime-benefits .slick-next,
 body#parceiro-lecupon .ofertasPrime-benefits .slick-next {
-  right: 0px;
+  right: -25px;
   left: auto;
 }
 body.pagina-prime .ofertasPrime-benefits h2,
