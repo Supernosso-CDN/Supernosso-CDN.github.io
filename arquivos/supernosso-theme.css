@@ -21710,6 +21710,7 @@ body#parceiro-lecupon .ofertasPrime-benefits-cards {
   gap: 10px;
   margin: 0 auto;
   padding: 0 0 15px 0;
+  align-content: flex-start;
 }
 @media (min-width: 1600px) {
   body.pagina-prime .ofertasPrime-benefits-cards,
@@ -21725,7 +21726,7 @@ body#parceiro-lecupon .ofertasPrime-benefits-cards {
     gap: 0;
     height: 120px;
     overflow-y: hidden;
-    transition: 1s ease-in-out height;
+    transition: 0.5s ease-in-out height;
   }
   body.pagina-prime .ofertasPrime-benefits-cards.open,
   body#parceiro-lecupon .ofertasPrime-benefits-cards.open {
