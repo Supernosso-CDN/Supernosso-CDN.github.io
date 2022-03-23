@@ -79048,7 +79048,7 @@ var CustomModal = function CustomModal(props) {
                     maxHeight: '85%'
                 }
             },
-            shouldCloseOnOverlayClick: true
+            shouldCloseOnOverlayClick: false
         }, props),
         _react2.default.createElement(
             _styles.ModalHeader,
@@ -79132,7 +79132,8 @@ var Form = function Form(_ref) {
             placeholder: 'XXX.XXX.XXX-XX',
             value: formData.cpf,
             mask: '000.000.000-00',
-            inputMode: 'number'
+            inputMode: 'number',
+            type: 'tel'
         }),
         _react2.default.createElement(_Input2.default, {
             title: 'E-mail:',
@@ -79158,7 +79159,8 @@ var Form = function Form(_ref) {
             placeholder: '(XX) X XXXX-XXXX',
             value: formData.phone,
             mask: '(00) 0 0000-0000',
-            inputMode: 'numeric'
+            inputMode: 'numeric',
+            type: 'tel'
         }),
         _react2.default.createElement(_InputSelect2.default, {
             title: 'Loja:',
