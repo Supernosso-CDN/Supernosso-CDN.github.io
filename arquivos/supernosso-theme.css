@@ -21670,16 +21670,26 @@ body.pagina-prime .ofertasPrime-benefits,
 body#parceiro-lecupon .ofertasPrime-benefits {
   margin: 35px 0 56px 0;
 }
+body.pagina-prime .ofertasPrime-benefits .all,
+body#parceiro-lecupon .ofertasPrime-benefits .all {
+  width: 1140px;
+  margin: 0 auto;
+}
 @media (max-width: 768px) {
   body.pagina-prime .ofertasPrime-benefits,
   body#parceiro-lecupon .ofertasPrime-benefits {
     margin: 34px 0 30px 0;
   }
+  body.pagina-prime .ofertasPrime-benefits .all,
+  body#parceiro-lecupon .ofertasPrime-benefits .all {
+    width: 98%;
+    margin: 0 auto;
+  }
 }
 @media (min-width: 1600px) {
-  body.pagina-prime .ofertasPrime-benefits .container.all,
-  body#parceiro-lecupon .ofertasPrime-benefits .container.all {
-    max-width: 1500px;
+  body.pagina-prime .ofertasPrime-benefits .all,
+  body#parceiro-lecupon .ofertasPrime-benefits .all {
+    max-width: 1140px;
   }
 }
 body.pagina-prime .ofertasPrime-benefits #expand-mobile-benefits,
