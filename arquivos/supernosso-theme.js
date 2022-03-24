@@ -80610,8 +80610,9 @@ var _axios2 = _interopRequireDefault(_axios);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var api = _axios2.default.create({
-    baseURL: 'https://mauricio.supernosso.com.br/IntegraSnc_Core/rest/PrimeLojaFisica',
+    // baseURL: 'https://mauricio.supernosso.com.br/IntegraSnc_Core/rest/PrimeLojaFisica',
     // baseURL: 'https://mali.supernosso.com.br/IntegraSnc_Core/rest/PrimeLojaFisica',
+    baseURL: 'https://mauricio.supernosso.com.br/IntegraSnc_Core/rest/PrimeFisico',
     auth: {
         username: "primefisico",
         password: 'SuperSN@321'
