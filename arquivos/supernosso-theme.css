@@ -21738,14 +21738,6 @@ body#parceiro-lecupon .ofertasPrime-benefits-cards {
     overflow-y: hidden;
     transition: 0.5s ease-in-out height;
   }
-  body.pagina-prime .ofertasPrime-benefits-cards.open,
-  body#parceiro-lecupon .ofertasPrime-benefits-cards.open {
-    height: auto;
-    /*  @media (min-width: 0px) { height: 500px; }
-                        @media (min-width: 450px) { height: 550px; }
-                        @media (min-width: 500px) { height: 650px; }
-                        @media (min-width: 550px) { height: 650px; } */
-  }
 }
 @media (max-width: 767px) and (min-width: 400px) {
   body.pagina-prime .ofertasPrime-benefits-cards,
@@ -21793,6 +21785,66 @@ body#parceiro-lecupon .ofertasPrime-benefits-cards {
   body.pagina-prime .ofertasPrime-benefits-cards,
   body#parceiro-lecupon .ofertasPrime-benefits-cards {
     height: 210px;
+  }
+}
+@media (max-width: 767px) and (min-width: 0px) {
+  body.pagina-prime .ofertasPrime-benefits-cards.open,
+  body#parceiro-lecupon .ofertasPrime-benefits-cards.open {
+    height: 420px;
+  }
+}
+@media (max-width: 767px) and (min-width: 350px) {
+  body.pagina-prime .ofertasPrime-benefits-cards.open,
+  body#parceiro-lecupon .ofertasPrime-benefits-cards.open {
+    height: 480px;
+  }
+}
+@media (max-width: 767px) and (min-width: 400px) {
+  body.pagina-prime .ofertasPrime-benefits-cards.open,
+  body#parceiro-lecupon .ofertasPrime-benefits-cards.open {
+    height: 525px;
+  }
+}
+@media (max-width: 767px) and (min-width: 450px) {
+  body.pagina-prime .ofertasPrime-benefits-cards.open,
+  body#parceiro-lecupon .ofertasPrime-benefits-cards.open {
+    height: 590px;
+  }
+}
+@media (max-width: 767px) and (min-width: 500px) {
+  body.pagina-prime .ofertasPrime-benefits-cards.open,
+  body#parceiro-lecupon .ofertasPrime-benefits-cards.open {
+    height: 650px;
+  }
+}
+@media (max-width: 767px) and (min-width: 550px) {
+  body.pagina-prime .ofertasPrime-benefits-cards.open,
+  body#parceiro-lecupon .ofertasPrime-benefits-cards.open {
+    height: 710px;
+  }
+}
+@media (max-width: 767px) and (min-width: 600px) {
+  body.pagina-prime .ofertasPrime-benefits-cards.open,
+  body#parceiro-lecupon .ofertasPrime-benefits-cards.open {
+    height: 765px;
+  }
+}
+@media (max-width: 767px) and (min-width: 650px) {
+  body.pagina-prime .ofertasPrime-benefits-cards.open,
+  body#parceiro-lecupon .ofertasPrime-benefits-cards.open {
+    height: 825px;
+  }
+}
+@media (max-width: 767px) and (min-width: 700px) {
+  body.pagina-prime .ofertasPrime-benefits-cards.open,
+  body#parceiro-lecupon .ofertasPrime-benefits-cards.open {
+    height: 890px;
+  }
+}
+@media (max-width: 767px) and (min-width: 750px) {
+  body.pagina-prime .ofertasPrime-benefits-cards.open,
+  body#parceiro-lecupon .ofertasPrime-benefits-cards.open {
+    height: 920px;
   }
 }
 body.pagina-prime .ofertasPrime-benefits-cards li,
