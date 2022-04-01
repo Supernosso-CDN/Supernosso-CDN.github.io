@@ -65868,7 +65868,7 @@ module.exports = exports["default"];
 },{"./components/Modal":69}],80:[function(require,module,exports){
 (function (process){(function (){
 /**
- * React Router DOM v6.2.2
+ * React Router DOM v6.3.0
  *
  * Copyright (c) Remix Software Inc.
  *
@@ -65890,7 +65890,7 @@ if (process.env.NODE_ENV === "production") {
 }).call(this)}).call(this,require('_process'))
 },{"./umd/react-router-dom.development.js":81,"./umd/react-router-dom.production.min.js":82,"_process":48}],81:[function(require,module,exports){
 /**
- * React Router DOM v6.2.2
+ * React Router DOM v6.3.0
  *
  * Copyright (c) Remix Software Inc.
  *
@@ -66448,7 +66448,7 @@ if (process.env.NODE_ENV === "production") {
 
 },{"history":39,"react":88,"react-router":83}],82:[function(require,module,exports){
 /**
- * React Router DOM v6.2.2
+ * React Router DOM v6.3.0
  *
  * Copyright (c) Remix Software Inc.
  *
@@ -66463,7 +66463,7 @@ if (process.env.NODE_ENV === "production") {
 },{"history":39,"react":88,"react-router":83}],83:[function(require,module,exports){
 (function (process){(function (){
 /**
- * React Router v6.2.2
+ * React Router v6.3.0
  *
  * Copyright (c) Remix Software Inc.
  *
@@ -66485,7 +66485,7 @@ if (process.env.NODE_ENV === "production") {
 }).call(this)}).call(this,require('_process'))
 },{"./umd/react-router.development.js":84,"./umd/react-router.production.min.js":85,"_process":48}],84:[function(require,module,exports){
 /**
- * React Router v6.2.2
+ * React Router v6.3.0
  *
  * Copyright (c) Remix Software Inc.
  *
@@ -66495,52 +66495,10 @@ if (process.env.NODE_ENV === "production") {
  * @license MIT
  */
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('react'), require('history')) :
-  typeof define === 'function' && define.amd ? define(['exports', 'react', 'history'], factory) :
-  (global = global || self, factory(global.ReactRouter = {}, global.React, global.HistoryLibrary));
-}(this, (function (exports, React, history) { 'use strict';
-
-  function invariant(cond, message) {
-    if (!cond) throw new Error(message);
-  }
-
-  function warning(cond, message) {
-    if (!cond) {
-      // eslint-disable-next-line no-console
-      if (typeof console !== "undefined") console.warn(message);
-
-      try {
-        // Welcome to debugging React Router!
-        //
-        // This error is thrown as a convenience so you can more easily
-        // find the source for a warning that appears in the console by
-        // enabling "pause on exceptions" in your JavaScript debugger.
-        throw new Error(message); // eslint-disable-next-line no-empty
-      } catch (e) {}
-    }
-  }
-
-  const alreadyWarned = {};
-
-  function warningOnce(key, cond, message) {
-    if (!cond && !alreadyWarned[key]) {
-      alreadyWarned[key] = true;
-       warning(false, message) ;
-    }
-  } ///////////////////////////////////////////////////////////////////////////////
-  // CONTEXT
-  ///////////////////////////////////////////////////////////////////////////////
-
-  /**
-   * A Navigator is a "location changer"; it's how you get to different locations.
-   *
-   * Every history instance conforms to the Navigator interface, but the
-   * distinction is useful primarily when it comes to the low-level <Router> API
-   * where both the location and a navigator must be provided separately in order
-   * to avoid "tearing" that may occur in a suspense-enabled app if the action
-   * and/or location were to be read directly from the history instance.
-   */
-
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('history'), require('react')) :
+  typeof define === 'function' && define.amd ? define(['exports', 'history', 'react'], factory) :
+  (global = global || self, factory(global.ReactRouter = {}, global.HistoryLibrary, global.React));
+}(this, (function (exports, history, React) { 'use strict';
 
   const NavigationContext = /*#__PURE__*/React.createContext(null);
 
@@ -66561,178 +66519,405 @@ if (process.env.NODE_ENV === "production") {
 
   {
     RouteContext.displayName = "Route";
-  } ///////////////////////////////////////////////////////////////////////////////
-  // COMPONENTS
-  ///////////////////////////////////////////////////////////////////////////////
+  }
 
+  function invariant(cond, message) {
+    if (!cond) throw new Error(message);
+  }
+  function warning(cond, message) {
+    if (!cond) {
+      // eslint-disable-next-line no-console
+      if (typeof console !== "undefined") console.warn(message);
+
+      try {
+        // Welcome to debugging React Router!
+        //
+        // This error is thrown as a convenience so you can more easily
+        // find the source for a warning that appears in the console by
+        // enabling "pause on exceptions" in your JavaScript debugger.
+        throw new Error(message); // eslint-disable-next-line no-empty
+      } catch (e) {}
+    }
+  }
+  const alreadyWarned = {};
+  function warningOnce(key, cond, message) {
+    if (!cond && !alreadyWarned[key]) {
+      alreadyWarned[key] = true;
+       warning(false, message) ;
+    }
+  }
 
   /**
-   * A <Router> that stores all entries in memory.
+   * Returns a path with params interpolated.
    *
-   * @see https://reactrouter.com/docs/en/v6/api#memoryrouter
+   * @see https://reactrouter.com/docs/en/v6/api#generatepath
    */
-  function MemoryRouter(_ref) {
-    let {
-      basename,
-      children,
-      initialEntries,
-      initialIndex
-    } = _ref;
-    let historyRef = React.useRef();
-
-    if (historyRef.current == null) {
-      historyRef.current = history.createMemoryHistory({
-        initialEntries,
-        initialIndex
-      });
+  function generatePath(path, params) {
+    if (params === void 0) {
+      params = {};
     }
 
-    let history$1 = historyRef.current;
-    let [state, setState] = React.useState({
-      action: history$1.action,
-      location: history$1.location
-    });
-    React.useLayoutEffect(() => history$1.listen(setState), [history$1]);
-    return /*#__PURE__*/React.createElement(Router, {
-      basename: basename,
-      children: children,
-      location: state.location,
-      navigationType: state.action,
-      navigator: history$1
-    });
+    return path.replace(/:(\w+)/g, (_, key) => {
+      !(params[key] != null) ?  invariant(false, "Missing \":" + key + "\" param")  : void 0;
+      return params[key];
+    }).replace(/\/*\*$/, _ => params["*"] == null ? "" : params["*"].replace(/^\/*/, "/"));
   }
+  /**
+   * A RouteMatch contains info about how a route matched a URL.
+   */
 
   /**
-   * Changes the current location.
+   * Matches the given routes to a location and returns the match data.
    *
-   * Note: This API is mostly useful in React.Component subclasses that are not
-   * able to use hooks. In functional components, we recommend you use the
-   * `useNavigate` hook instead.
-   *
-   * @see https://reactrouter.com/docs/en/v6/api#navigate
+   * @see https://reactrouter.com/docs/en/v6/api#matchroutes
    */
-  function Navigate(_ref2) {
-    let {
-      to,
-      replace,
-      state
-    } = _ref2;
-    !useInRouterContext() ?  invariant(false, // TODO: This error is probably because they somehow have 2 versions of
-    // the router loaded. We can help them understand how to avoid that.
-    "<Navigate> may be used only in the context of a <Router> component.")  : void 0;
-     warning(!React.useContext(NavigationContext).static, "<Navigate> must not be used on the initial render in a <StaticRouter>. " + "This is a no-op, but you should modify your code so the <Navigate> is " + "only ever rendered in response to some user interaction or state change.") ;
-    let navigate = useNavigate();
-    React.useEffect(() => {
-      navigate(to, {
-        replace,
-        state
-      });
-    });
-    return null;
-  }
-
-  /**
-   * Renders the child route's element, if there is one.
-   *
-   * @see https://reactrouter.com/docs/en/v6/api#outlet
-   */
-  function Outlet(props) {
-    return useOutlet(props.context);
-  }
-
-  /**
-   * Declares an element that should be rendered at a certain URL path.
-   *
-   * @see https://reactrouter.com/docs/en/v6/api#route
-   */
-  function Route(_props) {
-      invariant(false, "A <Route> is only ever to be used as the child of <Routes> element, " + "never rendered directly. Please wrap your <Route> in a <Routes>.")  ;
-  }
-
-  /**
-   * Provides location context for the rest of the app.
-   *
-   * Note: You usually won't render a <Router> directly. Instead, you'll render a
-   * router that is more specific to your environment such as a <BrowserRouter>
-   * in web browsers or a <StaticRouter> for server rendering.
-   *
-   * @see https://reactrouter.com/docs/en/v6/api#router
-   */
-  function Router(_ref3) {
-    let {
-      basename: basenameProp = "/",
-      children = null,
-      location: locationProp,
-      navigationType = history.Action.Pop,
-      navigator,
-      static: staticProp = false
-    } = _ref3;
-    !!useInRouterContext() ?  invariant(false, "You cannot render a <Router> inside another <Router>." + " You should never have more than one in your app.")  : void 0;
-    let basename = normalizePathname(basenameProp);
-    let navigationContext = React.useMemo(() => ({
-      basename,
-      navigator,
-      static: staticProp
-    }), [basename, navigator, staticProp]);
-
-    if (typeof locationProp === "string") {
-      locationProp = history.parsePath(locationProp);
+  function matchRoutes(routes, locationArg, basename) {
+    if (basename === void 0) {
+      basename = "/";
     }
 
-    let {
-      pathname = "/",
-      search = "",
-      hash = "",
-      state = null,
-      key = "default"
-    } = locationProp;
-    let location = React.useMemo(() => {
-      let trailingPathname = stripBasename(pathname, basename);
+    let location = typeof locationArg === "string" ? history.parsePath(locationArg) : locationArg;
+    let pathname = stripBasename(location.pathname || "/", basename);
 
-      if (trailingPathname == null) {
-        return null;
-      }
-
-      return {
-        pathname: trailingPathname,
-        search,
-        hash,
-        state,
-        key
-      };
-    }, [basename, pathname, search, hash, state, key]);
-     warning(location != null, "<Router basename=\"" + basename + "\"> is not able to match the URL " + ("\"" + pathname + search + hash + "\" because it does not start with the ") + "basename, so the <Router> won't render anything.") ;
-
-    if (location == null) {
+    if (pathname == null) {
       return null;
     }
 
-    return /*#__PURE__*/React.createElement(NavigationContext.Provider, {
-      value: navigationContext
-    }, /*#__PURE__*/React.createElement(LocationContext.Provider, {
-      children: children,
-      value: {
-        location,
-        navigationType
-      }
-    }));
+    let branches = flattenRoutes(routes);
+    rankRouteBranches(branches);
+    let matches = null;
+
+    for (let i = 0; matches == null && i < branches.length; ++i) {
+      matches = matchRouteBranch(branches[i], pathname);
+    }
+
+    return matches;
   }
 
-  /**
-   * A container for a nested tree of <Route> elements that renders the branch
-   * that best matches the current location.
-   *
-   * @see https://reactrouter.com/docs/en/v6/api#routes
-   */
-  function Routes(_ref4) {
+  function flattenRoutes(routes, branches, parentsMeta, parentPath) {
+    if (branches === void 0) {
+      branches = [];
+    }
+
+    if (parentsMeta === void 0) {
+      parentsMeta = [];
+    }
+
+    if (parentPath === void 0) {
+      parentPath = "";
+    }
+
+    routes.forEach((route, index) => {
+      let meta = {
+        relativePath: route.path || "",
+        caseSensitive: route.caseSensitive === true,
+        childrenIndex: index,
+        route
+      };
+
+      if (meta.relativePath.startsWith("/")) {
+        !meta.relativePath.startsWith(parentPath) ?  invariant(false, "Absolute route path \"" + meta.relativePath + "\" nested under path " + ("\"" + parentPath + "\" is not valid. An absolute child route path ") + "must start with the combined path of all its parent routes.")  : void 0;
+        meta.relativePath = meta.relativePath.slice(parentPath.length);
+      }
+
+      let path = joinPaths([parentPath, meta.relativePath]);
+      let routesMeta = parentsMeta.concat(meta); // Add the children before adding this route to the array so we traverse the
+      // route tree depth-first and child routes appear before their parents in
+      // the "flattened" version.
+
+      if (route.children && route.children.length > 0) {
+        !(route.index !== true) ?  invariant(false, "Index routes must not have child routes. Please remove " + ("all child routes from route path \"" + path + "\"."))  : void 0;
+        flattenRoutes(route.children, branches, routesMeta, path);
+      } // Routes without a path shouldn't ever match by themselves unless they are
+      // index routes, so don't add them to the list of possible branches.
+
+
+      if (route.path == null && !route.index) {
+        return;
+      }
+
+      branches.push({
+        path,
+        score: computeScore(path, route.index),
+        routesMeta
+      });
+    });
+    return branches;
+  }
+
+  function rankRouteBranches(branches) {
+    branches.sort((a, b) => a.score !== b.score ? b.score - a.score // Higher score first
+    : compareIndexes(a.routesMeta.map(meta => meta.childrenIndex), b.routesMeta.map(meta => meta.childrenIndex)));
+  }
+
+  const paramRe = /^:\w+$/;
+  const dynamicSegmentValue = 3;
+  const indexRouteValue = 2;
+  const emptySegmentValue = 1;
+  const staticSegmentValue = 10;
+  const splatPenalty = -2;
+
+  const isSplat = s => s === "*";
+
+  function computeScore(path, index) {
+    let segments = path.split("/");
+    let initialScore = segments.length;
+
+    if (segments.some(isSplat)) {
+      initialScore += splatPenalty;
+    }
+
+    if (index) {
+      initialScore += indexRouteValue;
+    }
+
+    return segments.filter(s => !isSplat(s)).reduce((score, segment) => score + (paramRe.test(segment) ? dynamicSegmentValue : segment === "" ? emptySegmentValue : staticSegmentValue), initialScore);
+  }
+
+  function compareIndexes(a, b) {
+    let siblings = a.length === b.length && a.slice(0, -1).every((n, i) => n === b[i]);
+    return siblings ? // If two routes are siblings, we should try to match the earlier sibling
+    // first. This allows people to have fine-grained control over the matching
+    // behavior by simply putting routes with identical paths in the order they
+    // want them tried.
+    a[a.length - 1] - b[b.length - 1] : // Otherwise, it doesn't really make sense to rank non-siblings by index,
+    // so they sort equally.
+    0;
+  }
+
+  function matchRouteBranch(branch, pathname) {
     let {
-      children,
-      location
-    } = _ref4;
-    return useRoutes(createRoutesFromChildren(children), location);
-  } ///////////////////////////////////////////////////////////////////////////////
-  // HOOKS
-  ///////////////////////////////////////////////////////////////////////////////
+      routesMeta
+    } = branch;
+    let matchedParams = {};
+    let matchedPathname = "/";
+    let matches = [];
+
+    for (let i = 0; i < routesMeta.length; ++i) {
+      let meta = routesMeta[i];
+      let end = i === routesMeta.length - 1;
+      let remainingPathname = matchedPathname === "/" ? pathname : pathname.slice(matchedPathname.length) || "/";
+      let match = matchPath({
+        path: meta.relativePath,
+        caseSensitive: meta.caseSensitive,
+        end
+      }, remainingPathname);
+      if (!match) return null;
+      Object.assign(matchedParams, match.params);
+      let route = meta.route;
+      matches.push({
+        params: matchedParams,
+        pathname: joinPaths([matchedPathname, match.pathname]),
+        pathnameBase: normalizePathname(joinPaths([matchedPathname, match.pathnameBase])),
+        route
+      });
+
+      if (match.pathnameBase !== "/") {
+        matchedPathname = joinPaths([matchedPathname, match.pathnameBase]);
+      }
+    }
+
+    return matches;
+  }
+  /**
+   * A PathPattern is used to match on some portion of a URL pathname.
+   */
+
+
+  /**
+   * Performs pattern matching on a URL pathname and returns information about
+   * the match.
+   *
+   * @see https://reactrouter.com/docs/en/v6/api#matchpath
+   */
+  function matchPath(pattern, pathname) {
+    if (typeof pattern === "string") {
+      pattern = {
+        path: pattern,
+        caseSensitive: false,
+        end: true
+      };
+    }
+
+    let [matcher, paramNames] = compilePath(pattern.path, pattern.caseSensitive, pattern.end);
+    let match = pathname.match(matcher);
+    if (!match) return null;
+    let matchedPathname = match[0];
+    let pathnameBase = matchedPathname.replace(/(.)\/+$/, "$1");
+    let captureGroups = match.slice(1);
+    let params = paramNames.reduce((memo, paramName, index) => {
+      // We need to compute the pathnameBase here using the raw splat value
+      // instead of using params["*"] later because it will be decoded then
+      if (paramName === "*") {
+        let splatValue = captureGroups[index] || "";
+        pathnameBase = matchedPathname.slice(0, matchedPathname.length - splatValue.length).replace(/(.)\/+$/, "$1");
+      }
+
+      memo[paramName] = safelyDecodeURIComponent(captureGroups[index] || "", paramName);
+      return memo;
+    }, {});
+    return {
+      params,
+      pathname: matchedPathname,
+      pathnameBase,
+      pattern
+    };
+  }
+
+  function compilePath(path, caseSensitive, end) {
+    if (caseSensitive === void 0) {
+      caseSensitive = false;
+    }
+
+    if (end === void 0) {
+      end = true;
+    }
+
+     warning(path === "*" || !path.endsWith("*") || path.endsWith("/*"), "Route path \"" + path + "\" will be treated as if it were " + ("\"" + path.replace(/\*$/, "/*") + "\" because the `*` character must ") + "always follow a `/` in the pattern. To get rid of this warning, " + ("please change the route path to \"" + path.replace(/\*$/, "/*") + "\".")) ;
+    let paramNames = [];
+    let regexpSource = "^" + path.replace(/\/*\*?$/, "") // Ignore trailing / and /*, we'll handle it below
+    .replace(/^\/*/, "/") // Make sure it has a leading /
+    .replace(/[\\.*+^$?{}|()[\]]/g, "\\$&") // Escape special regex chars
+    .replace(/:(\w+)/g, (_, paramName) => {
+      paramNames.push(paramName);
+      return "([^\\/]+)";
+    });
+
+    if (path.endsWith("*")) {
+      paramNames.push("*");
+      regexpSource += path === "*" || path === "/*" ? "(.*)$" // Already matched the initial /, just match the rest
+      : "(?:\\/(.+)|\\/*)$"; // Don't include the / in params["*"]
+    } else {
+      regexpSource += end ? "\\/*$" // When matching to the end, ignore trailing slashes
+      : // Otherwise, match a word boundary or a proceeding /. The word boundary restricts
+      // parent routes to matching only their own words and nothing more, e.g. parent
+      // route "/home" should not match "/home2".
+      // Additionally, allow paths starting with `.`, `-`, `~`, and url-encoded entities,
+      // but do not consume the character in the matched path so they can match against
+      // nested paths.
+      "(?:(?=[.~-]|%[0-9A-F]{2})|\\b|\\/|$)";
+    }
+
+    let matcher = new RegExp(regexpSource, caseSensitive ? undefined : "i");
+    return [matcher, paramNames];
+  }
+
+  function safelyDecodeURIComponent(value, paramName) {
+    try {
+      return decodeURIComponent(value);
+    } catch (error) {
+       warning(false, "The value for the URL param \"" + paramName + "\" will not be decoded because" + (" the string \"" + value + "\" is a malformed URL segment. This is probably") + (" due to a bad percent encoding (" + error + ").")) ;
+      return value;
+    }
+  }
+  /**
+   * Returns a resolved path object relative to the given pathname.
+   *
+   * @see https://reactrouter.com/docs/en/v6/api#resolvepath
+   */
+
+
+  function resolvePath(to, fromPathname) {
+    if (fromPathname === void 0) {
+      fromPathname = "/";
+    }
+
+    let {
+      pathname: toPathname,
+      search = "",
+      hash = ""
+    } = typeof to === "string" ? history.parsePath(to) : to;
+    let pathname = toPathname ? toPathname.startsWith("/") ? toPathname : resolvePathname(toPathname, fromPathname) : fromPathname;
+    return {
+      pathname,
+      search: normalizeSearch(search),
+      hash: normalizeHash(hash)
+    };
+  }
+
+  function resolvePathname(relativePath, fromPathname) {
+    let segments = fromPathname.replace(/\/+$/, "").split("/");
+    let relativeSegments = relativePath.split("/");
+    relativeSegments.forEach(segment => {
+      if (segment === "..") {
+        // Keep the root "" segment so the pathname starts at /
+        if (segments.length > 1) segments.pop();
+      } else if (segment !== ".") {
+        segments.push(segment);
+      }
+    });
+    return segments.length > 1 ? segments.join("/") : "/";
+  }
+
+  function resolveTo(toArg, routePathnames, locationPathname) {
+    let to = typeof toArg === "string" ? history.parsePath(toArg) : toArg;
+    let toPathname = toArg === "" || to.pathname === "" ? "/" : to.pathname; // If a pathname is explicitly provided in `to`, it should be relative to the
+    // route context. This is explained in `Note on `<Link to>` values` in our
+    // migration guide from v5 as a means of disambiguation between `to` values
+    // that begin with `/` and those that do not. However, this is problematic for
+    // `to` values that do not provide a pathname. `to` can simply be a search or
+    // hash string, in which case we should assume that the navigation is relative
+    // to the current location's pathname and *not* the route pathname.
+
+    let from;
+
+    if (toPathname == null) {
+      from = locationPathname;
+    } else {
+      let routePathnameIndex = routePathnames.length - 1;
+
+      if (toPathname.startsWith("..")) {
+        let toSegments = toPathname.split("/"); // Each leading .. segment means "go up one route" instead of "go up one
+        // URL segment".  This is a key difference from how <a href> works and a
+        // major reason we call this a "to" value instead of a "href".
+
+        while (toSegments[0] === "..") {
+          toSegments.shift();
+          routePathnameIndex -= 1;
+        }
+
+        to.pathname = toSegments.join("/");
+      } // If there are more ".." segments than parent routes, resolve relative to
+      // the root / URL.
+
+
+      from = routePathnameIndex >= 0 ? routePathnames[routePathnameIndex] : "/";
+    }
+
+    let path = resolvePath(to, from); // Ensure the pathname has a trailing slash if the original to value had one.
+
+    if (toPathname && toPathname !== "/" && toPathname.endsWith("/") && !path.pathname.endsWith("/")) {
+      path.pathname += "/";
+    }
+
+    return path;
+  }
+  function getToPathname(to) {
+    // Empty strings should be treated the same as / paths
+    return to === "" || to.pathname === "" ? "/" : typeof to === "string" ? history.parsePath(to).pathname : to.pathname;
+  }
+  function stripBasename(pathname, basename) {
+    if (basename === "/") return pathname;
+
+    if (!pathname.toLowerCase().startsWith(basename.toLowerCase())) {
+      return null;
+    }
+
+    let nextChar = pathname.charAt(basename.length);
+
+    if (nextChar && nextChar !== "/") {
+      // pathname does not start with basename/
+      return null;
+    }
+
+    return pathname.slice(basename.length) || "/";
+  }
+  const joinPaths = paths => paths.join("/").replace(/\/\/+/g, "/");
+  const normalizePathname = pathname => pathname.replace(/\/+$/, "").replace(/^\/*/, "/");
+
+  const normalizeSearch = search => !search || search === "?" ? "" : search.startsWith("?") ? search : "?" + search;
+
+  const normalizeHash = hash => !hash || hash === "#" ? "" : hash.startsWith("#") ? hash : "#" + hash;
 
   /**
    * Returns the full href for the given "to" value. This is useful for building
@@ -66794,13 +66979,13 @@ if (process.env.NODE_ENV === "production") {
     "useLocation() may be used only in the context of a <Router> component.")  : void 0;
     return React.useContext(LocationContext).location;
   }
-
   /**
    * Returns the current navigation action which describes how the router came to
    * the current location, either by a pop, push, or replace on the history stack.
    *
    * @see https://reactrouter.com/docs/en/v6/api#usenavigationtype
    */
+
   function useNavigationType() {
     return React.useContext(LocationContext).navigationType;
   }
@@ -67007,6 +67192,188 @@ if (process.env.NODE_ENV === "production") {
       pathname: joinPaths([parentPathnameBase, match.pathname]),
       pathnameBase: match.pathnameBase === "/" ? parentPathnameBase : joinPaths([parentPathnameBase, match.pathnameBase])
     })), parentMatches);
+  }
+  function _renderMatches(matches, parentMatches) {
+    if (parentMatches === void 0) {
+      parentMatches = [];
+    }
+
+    if (matches == null) return null;
+    return matches.reduceRight((outlet, match, index) => {
+      return /*#__PURE__*/React.createElement(RouteContext.Provider, {
+        children: match.route.element !== undefined ? match.route.element : outlet,
+        value: {
+          outlet,
+          matches: parentMatches.concat(matches.slice(0, index + 1))
+        }
+      });
+    }, null);
+  }
+
+  /**
+   * A <Router> that stores all entries in memory.
+   *
+   * @see https://reactrouter.com/docs/en/v6/api#memoryrouter
+   */
+  function MemoryRouter(_ref) {
+    let {
+      basename,
+      children,
+      initialEntries,
+      initialIndex
+    } = _ref;
+    let historyRef = React.useRef();
+
+    if (historyRef.current == null) {
+      historyRef.current = history.createMemoryHistory({
+        initialEntries,
+        initialIndex
+      });
+    }
+
+    let history$1 = historyRef.current;
+    let [state, setState] = React.useState({
+      action: history$1.action,
+      location: history$1.location
+    });
+    React.useLayoutEffect(() => history$1.listen(setState), [history$1]);
+    return /*#__PURE__*/React.createElement(Router, {
+      basename: basename,
+      children: children,
+      location: state.location,
+      navigationType: state.action,
+      navigator: history$1
+    });
+  }
+
+  /**
+   * Changes the current location.
+   *
+   * Note: This API is mostly useful in React.Component subclasses that are not
+   * able to use hooks. In functional components, we recommend you use the
+   * `useNavigate` hook instead.
+   *
+   * @see https://reactrouter.com/docs/en/v6/api#navigate
+   */
+  function Navigate(_ref2) {
+    let {
+      to,
+      replace,
+      state
+    } = _ref2;
+    !useInRouterContext() ?  invariant(false, // TODO: This error is probably because they somehow have 2 versions of
+    // the router loaded. We can help them understand how to avoid that.
+    "<Navigate> may be used only in the context of a <Router> component.")  : void 0;
+     warning(!React.useContext(NavigationContext).static, "<Navigate> must not be used on the initial render in a <StaticRouter>. " + "This is a no-op, but you should modify your code so the <Navigate> is " + "only ever rendered in response to some user interaction or state change.") ;
+    let navigate = useNavigate();
+    React.useEffect(() => {
+      navigate(to, {
+        replace,
+        state
+      });
+    });
+    return null;
+  }
+
+  /**
+   * Renders the child route's element, if there is one.
+   *
+   * @see https://reactrouter.com/docs/en/v6/api#outlet
+   */
+  function Outlet(props) {
+    return useOutlet(props.context);
+  }
+
+  /**
+   * Declares an element that should be rendered at a certain URL path.
+   *
+   * @see https://reactrouter.com/docs/en/v6/api#route
+   */
+  function Route(_props) {
+      invariant(false, "A <Route> is only ever to be used as the child of <Routes> element, " + "never rendered directly. Please wrap your <Route> in a <Routes>.")  ;
+  }
+
+  /**
+   * Provides location context for the rest of the app.
+   *
+   * Note: You usually won't render a <Router> directly. Instead, you'll render a
+   * router that is more specific to your environment such as a <BrowserRouter>
+   * in web browsers or a <StaticRouter> for server rendering.
+   *
+   * @see https://reactrouter.com/docs/en/v6/api#router
+   */
+  function Router(_ref3) {
+    let {
+      basename: basenameProp = "/",
+      children = null,
+      location: locationProp,
+      navigationType = history.Action.Pop,
+      navigator,
+      static: staticProp = false
+    } = _ref3;
+    !!useInRouterContext() ?  invariant(false, "You cannot render a <Router> inside another <Router>." + " You should never have more than one in your app.")  : void 0;
+    let basename = normalizePathname(basenameProp);
+    let navigationContext = React.useMemo(() => ({
+      basename,
+      navigator,
+      static: staticProp
+    }), [basename, navigator, staticProp]);
+
+    if (typeof locationProp === "string") {
+      locationProp = history.parsePath(locationProp);
+    }
+
+    let {
+      pathname = "/",
+      search = "",
+      hash = "",
+      state = null,
+      key = "default"
+    } = locationProp;
+    let location = React.useMemo(() => {
+      let trailingPathname = stripBasename(pathname, basename);
+
+      if (trailingPathname == null) {
+        return null;
+      }
+
+      return {
+        pathname: trailingPathname,
+        search,
+        hash,
+        state,
+        key
+      };
+    }, [basename, pathname, search, hash, state, key]);
+     warning(location != null, "<Router basename=\"" + basename + "\"> is not able to match the URL " + ("\"" + pathname + search + hash + "\" because it does not start with the ") + "basename, so the <Router> won't render anything.") ;
+
+    if (location == null) {
+      return null;
+    }
+
+    return /*#__PURE__*/React.createElement(NavigationContext.Provider, {
+      value: navigationContext
+    }, /*#__PURE__*/React.createElement(LocationContext.Provider, {
+      children: children,
+      value: {
+        location,
+        navigationType
+      }
+    }));
+  }
+
+  /**
+   * A container for a nested tree of <Route> elements that renders the branch
+   * that best matches the current location.
+   *
+   * @see https://reactrouter.com/docs/en/v6/api#routes
+   */
+  function Routes(_ref4) {
+    let {
+      children,
+      location
+    } = _ref4;
+    return useRoutes(createRoutesFromChildren(children), location);
   } ///////////////////////////////////////////////////////////////////////////////
   // UTILS
   ///////////////////////////////////////////////////////////////////////////////
@@ -67051,409 +67418,12 @@ if (process.env.NODE_ENV === "production") {
     return routes;
   }
   /**
-   * The parameters that were parsed from the URL path.
-   */
-
-  /**
-   * Returns a path with params interpolated.
-   *
-   * @see https://reactrouter.com/docs/en/v6/api#generatepath
-   */
-  function generatePath(path, params) {
-    if (params === void 0) {
-      params = {};
-    }
-
-    return path.replace(/:(\w+)/g, (_, key) => {
-      !(params[key] != null) ?  invariant(false, "Missing \":" + key + "\" param")  : void 0;
-      return params[key];
-    }).replace(/\/*\*$/, _ => params["*"] == null ? "" : params["*"].replace(/^\/*/, "/"));
-  }
-  /**
-   * A RouteMatch contains info about how a route matched a URL.
-   */
-
-  /**
-   * Matches the given routes to a location and returns the match data.
-   *
-   * @see https://reactrouter.com/docs/en/v6/api#matchroutes
-   */
-  function matchRoutes(routes, locationArg, basename) {
-    if (basename === void 0) {
-      basename = "/";
-    }
-
-    let location = typeof locationArg === "string" ? history.parsePath(locationArg) : locationArg;
-    let pathname = stripBasename(location.pathname || "/", basename);
-
-    if (pathname == null) {
-      return null;
-    }
-
-    let branches = flattenRoutes(routes);
-    rankRouteBranches(branches);
-    let matches = null;
-
-    for (let i = 0; matches == null && i < branches.length; ++i) {
-      matches = matchRouteBranch(branches[i], pathname);
-    }
-
-    return matches;
-  }
-
-  function flattenRoutes(routes, branches, parentsMeta, parentPath) {
-    if (branches === void 0) {
-      branches = [];
-    }
-
-    if (parentsMeta === void 0) {
-      parentsMeta = [];
-    }
-
-    if (parentPath === void 0) {
-      parentPath = "";
-    }
-
-    routes.forEach((route, index) => {
-      let meta = {
-        relativePath: route.path || "",
-        caseSensitive: route.caseSensitive === true,
-        childrenIndex: index,
-        route
-      };
-
-      if (meta.relativePath.startsWith("/")) {
-        !meta.relativePath.startsWith(parentPath) ?  invariant(false, "Absolute route path \"" + meta.relativePath + "\" nested under path " + ("\"" + parentPath + "\" is not valid. An absolute child route path ") + "must start with the combined path of all its parent routes.")  : void 0;
-        meta.relativePath = meta.relativePath.slice(parentPath.length);
-      }
-
-      let path = joinPaths([parentPath, meta.relativePath]);
-      let routesMeta = parentsMeta.concat(meta); // Add the children before adding this route to the array so we traverse the
-      // route tree depth-first and child routes appear before their parents in
-      // the "flattened" version.
-
-      if (route.children && route.children.length > 0) {
-        !(route.index !== true) ?  invariant(false, "Index routes must not have child routes. Please remove " + ("all child routes from route path \"" + path + "\"."))  : void 0;
-        flattenRoutes(route.children, branches, routesMeta, path);
-      } // Routes without a path shouldn't ever match by themselves unless they are
-      // index routes, so don't add them to the list of possible branches.
-
-
-      if (route.path == null && !route.index) {
-        return;
-      }
-
-      branches.push({
-        path,
-        score: computeScore(path, route.index),
-        routesMeta
-      });
-    });
-    return branches;
-  }
-
-  function rankRouteBranches(branches) {
-    branches.sort((a, b) => a.score !== b.score ? b.score - a.score // Higher score first
-    : compareIndexes(a.routesMeta.map(meta => meta.childrenIndex), b.routesMeta.map(meta => meta.childrenIndex)));
-  }
-
-  const paramRe = /^:\w+$/;
-  const dynamicSegmentValue = 3;
-  const indexRouteValue = 2;
-  const emptySegmentValue = 1;
-  const staticSegmentValue = 10;
-  const splatPenalty = -2;
-
-  const isSplat = s => s === "*";
-
-  function computeScore(path, index) {
-    let segments = path.split("/");
-    let initialScore = segments.length;
-
-    if (segments.some(isSplat)) {
-      initialScore += splatPenalty;
-    }
-
-    if (index) {
-      initialScore += indexRouteValue;
-    }
-
-    return segments.filter(s => !isSplat(s)).reduce((score, segment) => score + (paramRe.test(segment) ? dynamicSegmentValue : segment === "" ? emptySegmentValue : staticSegmentValue), initialScore);
-  }
-
-  function compareIndexes(a, b) {
-    let siblings = a.length === b.length && a.slice(0, -1).every((n, i) => n === b[i]);
-    return siblings ? // If two routes are siblings, we should try to match the earlier sibling
-    // first. This allows people to have fine-grained control over the matching
-    // behavior by simply putting routes with identical paths in the order they
-    // want them tried.
-    a[a.length - 1] - b[b.length - 1] : // Otherwise, it doesn't really make sense to rank non-siblings by index,
-    // so they sort equally.
-    0;
-  }
-
-  function matchRouteBranch(branch, pathname) {
-    let {
-      routesMeta
-    } = branch;
-    let matchedParams = {};
-    let matchedPathname = "/";
-    let matches = [];
-
-    for (let i = 0; i < routesMeta.length; ++i) {
-      let meta = routesMeta[i];
-      let end = i === routesMeta.length - 1;
-      let remainingPathname = matchedPathname === "/" ? pathname : pathname.slice(matchedPathname.length) || "/";
-      let match = matchPath({
-        path: meta.relativePath,
-        caseSensitive: meta.caseSensitive,
-        end
-      }, remainingPathname);
-      if (!match) return null;
-      Object.assign(matchedParams, match.params);
-      let route = meta.route;
-      matches.push({
-        params: matchedParams,
-        pathname: joinPaths([matchedPathname, match.pathname]),
-        pathnameBase: normalizePathname(joinPaths([matchedPathname, match.pathnameBase])),
-        route
-      });
-
-      if (match.pathnameBase !== "/") {
-        matchedPathname = joinPaths([matchedPathname, match.pathnameBase]);
-      }
-    }
-
-    return matches;
-  }
-  /**
    * Renders the result of `matchRoutes()` into a React element.
    */
-
 
   function renderMatches(matches) {
     return _renderMatches(matches);
   }
-
-  function _renderMatches(matches, parentMatches) {
-    if (parentMatches === void 0) {
-      parentMatches = [];
-    }
-
-    if (matches == null) return null;
-    return matches.reduceRight((outlet, match, index) => {
-      return /*#__PURE__*/React.createElement(RouteContext.Provider, {
-        children: match.route.element !== undefined ? match.route.element : outlet,
-        value: {
-          outlet,
-          matches: parentMatches.concat(matches.slice(0, index + 1))
-        }
-      });
-    }, null);
-  }
-  /**
-   * A PathPattern is used to match on some portion of a URL pathname.
-   */
-
-
-  /**
-   * Performs pattern matching on a URL pathname and returns information about
-   * the match.
-   *
-   * @see https://reactrouter.com/docs/en/v6/api#matchpath
-   */
-  function matchPath(pattern, pathname) {
-    if (typeof pattern === "string") {
-      pattern = {
-        path: pattern,
-        caseSensitive: false,
-        end: true
-      };
-    }
-
-    let [matcher, paramNames] = compilePath(pattern.path, pattern.caseSensitive, pattern.end);
-    let match = pathname.match(matcher);
-    if (!match) return null;
-    let matchedPathname = match[0];
-    let pathnameBase = matchedPathname.replace(/(.)\/+$/, "$1");
-    let captureGroups = match.slice(1);
-    let params = paramNames.reduce((memo, paramName, index) => {
-      // We need to compute the pathnameBase here using the raw splat value
-      // instead of using params["*"] later because it will be decoded then
-      if (paramName === "*") {
-        let splatValue = captureGroups[index] || "";
-        pathnameBase = matchedPathname.slice(0, matchedPathname.length - splatValue.length).replace(/(.)\/+$/, "$1");
-      }
-
-      memo[paramName] = safelyDecodeURIComponent(captureGroups[index] || "", paramName);
-      return memo;
-    }, {});
-    return {
-      params,
-      pathname: matchedPathname,
-      pathnameBase,
-      pattern
-    };
-  }
-
-  function compilePath(path, caseSensitive, end) {
-    if (caseSensitive === void 0) {
-      caseSensitive = false;
-    }
-
-    if (end === void 0) {
-      end = true;
-    }
-
-     warning(path === "*" || !path.endsWith("*") || path.endsWith("/*"), "Route path \"" + path + "\" will be treated as if it were " + ("\"" + path.replace(/\*$/, "/*") + "\" because the `*` character must ") + "always follow a `/` in the pattern. To get rid of this warning, " + ("please change the route path to \"" + path.replace(/\*$/, "/*") + "\".")) ;
-    let paramNames = [];
-    let regexpSource = "^" + path.replace(/\/*\*?$/, "") // Ignore trailing / and /*, we'll handle it below
-    .replace(/^\/*/, "/") // Make sure it has a leading /
-    .replace(/[\\.*+^$?{}|()[\]]/g, "\\$&") // Escape special regex chars
-    .replace(/:(\w+)/g, (_, paramName) => {
-      paramNames.push(paramName);
-      return "([^\\/]+)";
-    });
-
-    if (path.endsWith("*")) {
-      paramNames.push("*");
-      regexpSource += path === "*" || path === "/*" ? "(.*)$" // Already matched the initial /, just match the rest
-      : "(?:\\/(.+)|\\/*)$"; // Don't include the / in params["*"]
-    } else {
-      regexpSource += end ? "\\/*$" // When matching to the end, ignore trailing slashes
-      : // Otherwise, match a word boundary or a proceeding /. The word boundary restricts
-      // parent routes to matching only their own words and nothing more, e.g. parent
-      // route "/home" should not match "/home2".
-      // Additionally, allow paths starting with `.`, `-`, `~`, and url-encoded entities,
-      // but do not consume the character in the matched path so they can match against
-      // nested paths.
-      "(?:(?=[.~-]|%[0-9A-F]{2})|\\b|\\/|$)";
-    }
-
-    let matcher = new RegExp(regexpSource, caseSensitive ? undefined : "i");
-    return [matcher, paramNames];
-  }
-
-  function safelyDecodeURIComponent(value, paramName) {
-    try {
-      return decodeURIComponent(value);
-    } catch (error) {
-       warning(false, "The value for the URL param \"" + paramName + "\" will not be decoded because" + (" the string \"" + value + "\" is a malformed URL segment. This is probably") + (" due to a bad percent encoding (" + error + ").")) ;
-      return value;
-    }
-  }
-  /**
-   * Returns a resolved path object relative to the given pathname.
-   *
-   * @see https://reactrouter.com/docs/en/v6/api#resolvepath
-   */
-
-
-  function resolvePath(to, fromPathname) {
-    if (fromPathname === void 0) {
-      fromPathname = "/";
-    }
-
-    let {
-      pathname: toPathname,
-      search = "",
-      hash = ""
-    } = typeof to === "string" ? history.parsePath(to) : to;
-    let pathname = toPathname ? toPathname.startsWith("/") ? toPathname : resolvePathname(toPathname, fromPathname) : fromPathname;
-    return {
-      pathname,
-      search: normalizeSearch(search),
-      hash: normalizeHash(hash)
-    };
-  }
-
-  function resolvePathname(relativePath, fromPathname) {
-    let segments = fromPathname.replace(/\/+$/, "").split("/");
-    let relativeSegments = relativePath.split("/");
-    relativeSegments.forEach(segment => {
-      if (segment === "..") {
-        // Keep the root "" segment so the pathname starts at /
-        if (segments.length > 1) segments.pop();
-      } else if (segment !== ".") {
-        segments.push(segment);
-      }
-    });
-    return segments.length > 1 ? segments.join("/") : "/";
-  }
-
-  function resolveTo(toArg, routePathnames, locationPathname) {
-    let to = typeof toArg === "string" ? history.parsePath(toArg) : toArg;
-    let toPathname = toArg === "" || to.pathname === "" ? "/" : to.pathname; // If a pathname is explicitly provided in `to`, it should be relative to the
-    // route context. This is explained in `Note on `<Link to>` values` in our
-    // migration guide from v5 as a means of disambiguation between `to` values
-    // that begin with `/` and those that do not. However, this is problematic for
-    // `to` values that do not provide a pathname. `to` can simply be a search or
-    // hash string, in which case we should assume that the navigation is relative
-    // to the current location's pathname and *not* the route pathname.
-
-    let from;
-
-    if (toPathname == null) {
-      from = locationPathname;
-    } else {
-      let routePathnameIndex = routePathnames.length - 1;
-
-      if (toPathname.startsWith("..")) {
-        let toSegments = toPathname.split("/"); // Each leading .. segment means "go up one route" instead of "go up one
-        // URL segment".  This is a key difference from how <a href> works and a
-        // major reason we call this a "to" value instead of a "href".
-
-        while (toSegments[0] === "..") {
-          toSegments.shift();
-          routePathnameIndex -= 1;
-        }
-
-        to.pathname = toSegments.join("/");
-      } // If there are more ".." segments than parent routes, resolve relative to
-      // the root / URL.
-
-
-      from = routePathnameIndex >= 0 ? routePathnames[routePathnameIndex] : "/";
-    }
-
-    let path = resolvePath(to, from); // Ensure the pathname has a trailing slash if the original to value had one.
-
-    if (toPathname && toPathname !== "/" && toPathname.endsWith("/") && !path.pathname.endsWith("/")) {
-      path.pathname += "/";
-    }
-
-    return path;
-  }
-
-  function getToPathname(to) {
-    // Empty strings should be treated the same as / paths
-    return to === "" || to.pathname === "" ? "/" : typeof to === "string" ? history.parsePath(to).pathname : to.pathname;
-  }
-
-  function stripBasename(pathname, basename) {
-    if (basename === "/") return pathname;
-
-    if (!pathname.toLowerCase().startsWith(basename.toLowerCase())) {
-      return null;
-    }
-
-    let nextChar = pathname.charAt(basename.length);
-
-    if (nextChar && nextChar !== "/") {
-      // pathname does not start with basename/
-      return null;
-    }
-
-    return pathname.slice(basename.length) || "/";
-  }
-
-  const joinPaths = paths => paths.join("/").replace(/\/\/+/g, "/");
-
-  const normalizePathname = pathname => pathname.replace(/\/+$/, "").replace(/^\/*/, "/");
-
-  const normalizeSearch = search => !search || search === "?" ? "" : search.startsWith("?") ? search : "?" + search;
-
-  const normalizeHash = hash => !hash || hash === "#" ? "" : hash.startsWith("#") ? hash : "#" + hash; ///////////////////////////////////////////////////////////////////////////////
 
   Object.defineProperty(exports, 'NavigationType', {
     enumerable: true,
@@ -67507,7 +67477,7 @@ if (process.env.NODE_ENV === "production") {
 
 },{"history":39,"react":88}],85:[function(require,module,exports){
 /**
- * React Router v6.2.2
+ * React Router v6.3.0
  *
  * Copyright (c) Remix Software Inc.
  *
@@ -67516,7 +67486,7 @@ if (process.env.NODE_ENV === "production") {
  *
  * @license MIT
  */
-!function(e,t){"object"==typeof exports&&"undefined"!=typeof module?t(exports,require("react"),require("history")):"function"==typeof define&&define.amd?define(["exports","react","history"],t):t((e=e||self).ReactRouter={},e.React,e.HistoryLibrary)}(this,(function(e,t,n){"use strict";function a(e,t){if(!e)throw new Error(t)}const r=t.createContext(null),i=t.createContext(null),l=t.createContext({outlet:null,matches:[]});function o(e){a(!1)}function s(e){let{basename:l="/",children:o=null,location:s,navigationType:c=n.Action.Pop,navigator:h,static:p=!1}=e;u()&&a(!1);let f=N(l),m=t.useMemo((()=>({basename:f,navigator:h,static:p})),[f,h,p]);"string"==typeof s&&(s=n.parsePath(s));let{pathname:d="/",search:g="",hash:v="",state:y=null,key:x="default"}=s,P=t.useMemo((()=>{let e=O(d,f);return null==e?null:{pathname:e,search:g,hash:v,state:y,key:x}}),[f,d,g,v,y,x]);return null==P?null:t.createElement(r.Provider,{value:m},t.createElement(i.Provider,{children:o,value:{location:P,navigationType:c}}))}function u(){return null!=t.useContext(i)}function c(){return u()||a(!1),t.useContext(i).location}function h(){u()||a(!1);let{basename:e,navigator:n}=t.useContext(r),{matches:i}=t.useContext(l),{pathname:o}=c(),s=JSON.stringify(i.map((e=>e.pathnameBase))),h=t.useRef(!1);return t.useEffect((()=>{h.current=!0})),t.useCallback((function(t,a){if(void 0===a&&(a={}),!h.current)return;if("number"==typeof t)return void n.go(t);let r=$(t,JSON.parse(s),o);"/"!==e&&(r.pathname=M([e,r.pathname])),(a.replace?n.replace:n.push)(r,a.state)}),[e,n,s,o])}const p=t.createContext(null);function f(e){let n=t.useContext(l).outlet;return n?t.createElement(p.Provider,{value:e},n):n}function m(e){let{matches:n}=t.useContext(l),{pathname:a}=c(),r=JSON.stringify(n.map((e=>e.pathnameBase)));return t.useMemo((()=>$(e,JSON.parse(r),a)),[e,r,a])}function d(e,r){u()||a(!1);let i,{matches:o}=t.useContext(l),s=o[o.length-1],h=s?s.params:{},p=(s&&s.pathname,s?s.pathnameBase:"/"),f=(s&&s.route,c());if(r){var m;let e="string"==typeof r?n.parsePath(r):r;"/"===p||(null==(m=e.pathname)?void 0:m.startsWith(p))||a(!1),i=e}else i=f;let d=i.pathname||"/",g=v(e,{pathname:"/"===p?d:d.slice(p.length)||"/"});return E(g&&g.map((e=>Object.assign({},e,{params:Object.assign({},h,e.params),pathname:M([p,e.pathname]),pathnameBase:"/"===e.pathnameBase?p:M([p,e.pathnameBase])}))),o)}function g(e){let n=[];return t.Children.forEach(e,(e=>{if(!t.isValidElement(e))return;if(e.type===t.Fragment)return void n.push.apply(n,g(e.props.children));e.type!==o&&a(!1);let r={caseSensitive:e.props.caseSensitive,element:e.props.element,index:e.props.index,path:e.props.path};e.props.children&&(r.children=g(e.props.children)),n.push(r)})),n}function v(e,t,a){void 0===a&&(a="/");let r=O(("string"==typeof t?n.parsePath(t):t).pathname||"/",a);if(null==r)return null;let i=y(e);!function(e){e.sort(((e,t)=>e.score!==t.score?t.score-e.score:function(e,t){return e.length===t.length&&e.slice(0,-1).every(((e,n)=>e===t[n]))?e[e.length-1]-t[t.length-1]:0}(e.routesMeta.map((e=>e.childrenIndex)),t.routesMeta.map((e=>e.childrenIndex)))))}(i);let l=null;for(let e=0;null==l&&e<i.length;++e)l=b(i[e],r);return l}function y(e,t,n,r){return void 0===t&&(t=[]),void 0===n&&(n=[]),void 0===r&&(r=""),e.forEach(((e,i)=>{let l={relativePath:e.path||"",caseSensitive:!0===e.caseSensitive,childrenIndex:i,route:e};l.relativePath.startsWith("/")&&(l.relativePath.startsWith(r)||a(!1),l.relativePath=l.relativePath.slice(r.length));let o=M([r,l.relativePath]),s=n.concat(l);e.children&&e.children.length>0&&(!0===e.index&&a(!1),y(e.children,t,s,o)),(null!=e.path||e.index)&&t.push({path:o,score:C(o,e.index),routesMeta:s})})),t}const x=/^:\w+$/,P=e=>"*"===e;function C(e,t){let n=e.split("/"),a=n.length;return n.some(P)&&(a+=-2),t&&(a+=2),n.filter((e=>!P(e))).reduce(((e,t)=>e+(x.test(t)?3:""===t?1:10)),a)}function b(e,t){let{routesMeta:n}=e,a={},r="/",i=[];for(let e=0;e<n.length;++e){let l=n[e],o=e===n.length-1,s="/"===r?t:t.slice(r.length)||"/",u=R({path:l.relativePath,caseSensitive:l.caseSensitive,end:o},s);if(!u)return null;Object.assign(a,u.params);let c=l.route;i.push({params:a,pathname:M([r,u.pathname]),pathnameBase:N(M([r,u.pathnameBase])),route:c}),"/"!==u.pathnameBase&&(r=M([r,u.pathnameBase]))}return i}function E(e,n){return void 0===n&&(n=[]),null==e?null:e.reduceRight(((a,r,i)=>t.createElement(l.Provider,{children:void 0!==r.route.element?r.route.element:a,value:{outlet:a,matches:n.concat(e.slice(0,i+1))}})),null)}function R(e,t){"string"==typeof e&&(e={path:e,caseSensitive:!1,end:!0});let[n,a]=function(e,t,n){void 0===t&&(t=!1);void 0===n&&(n=!0);let a=[],r="^"+e.replace(/\/*\*?$/,"").replace(/^\/*/,"/").replace(/[\\.*+^$?{}|()[\]]/g,"\\$&").replace(/:(\w+)/g,((e,t)=>(a.push(t),"([^\\/]+)")));e.endsWith("*")?(a.push("*"),r+="*"===e||"/*"===e?"(.*)$":"(?:\\/(.+)|\\/*)$"):r+=n?"\\/*$":"(?:(?=[.~-]|%[0-9A-F]{2})|\\b|\\/|$)";return[new RegExp(r,t?void 0:"i"),a]}(e.path,e.caseSensitive,e.end),r=t.match(n);if(!r)return null;let i=r[0],l=i.replace(/(.)\/+$/,"$1"),o=r.slice(1);return{params:a.reduce(((e,t,n)=>{if("*"===t){let e=o[n]||"";l=i.slice(0,i.length-e.length).replace(/(.)\/+$/,"$1")}return e[t]=function(e,t){try{return decodeURIComponent(e)}catch(t){return e}}(o[n]||""),e}),{}),pathname:i,pathnameBase:l,pattern:e}}function S(e,t){void 0===t&&(t="/");let{pathname:a,search:r="",hash:i=""}="string"==typeof e?n.parsePath(e):e,l=a?a.startsWith("/")?a:function(e,t){let n=t.replace(/\/+$/,"").split("/");return e.split("/").forEach((e=>{".."===e?n.length>1&&n.pop():"."!==e&&n.push(e)})),n.length>1?n.join("/"):"/"}(a,t):t;return{pathname:l,search:W(r),hash:j(i)}}function $(e,t,a){let r,i="string"==typeof e?n.parsePath(e):e,l=""===e||""===i.pathname?"/":i.pathname;if(null==l)r=a;else{let e=t.length-1;if(l.startsWith("..")){let t=l.split("/");for(;".."===t[0];)t.shift(),e-=1;i.pathname=t.join("/")}r=e>=0?t[e]:"/"}let o=S(i,r);return l&&"/"!==l&&l.endsWith("/")&&!o.pathname.endsWith("/")&&(o.pathname+="/"),o}function O(e,t){if("/"===t)return e;if(!e.toLowerCase().startsWith(t.toLowerCase()))return null;let n=e.charAt(t.length);return n&&"/"!==n?null:e.slice(t.length)||"/"}const M=e=>e.join("/").replace(/\/\/+/g,"/"),N=e=>e.replace(/\/+$/,"").replace(/^\/*/,"/"),W=e=>e&&"?"!==e?e.startsWith("?")?e:"?"+e:"",j=e=>e&&"#"!==e?e.startsWith("#")?e:"#"+e:"";Object.defineProperty(e,"NavigationType",{enumerable:!0,get:function(){return n.Action}}),Object.defineProperty(e,"createPath",{enumerable:!0,get:function(){return n.createPath}}),Object.defineProperty(e,"parsePath",{enumerable:!0,get:function(){return n.parsePath}}),e.MemoryRouter=function(e){let{basename:a,children:r,initialEntries:i,initialIndex:l}=e,o=t.useRef();null==o.current&&(o.current=n.createMemoryHistory({initialEntries:i,initialIndex:l}));let u=o.current,[c,h]=t.useState({action:u.action,location:u.location});return t.useLayoutEffect((()=>u.listen(h)),[u]),t.createElement(s,{basename:a,children:r,location:c.location,navigationType:c.action,navigator:u})},e.Navigate=function(e){let{to:n,replace:r,state:i}=e;u()||a(!1);let l=h();return t.useEffect((()=>{l(n,{replace:r,state:i})})),null},e.Outlet=function(e){return f(e.context)},e.Route=o,e.Router=s,e.Routes=function(e){let{children:t,location:n}=e;return d(g(t),n)},e.UNSAFE_LocationContext=i,e.UNSAFE_NavigationContext=r,e.UNSAFE_RouteContext=l,e.createRoutesFromChildren=g,e.generatePath=function(e,t){return void 0===t&&(t={}),e.replace(/:(\w+)/g,((e,n)=>(null==t[n]&&a(!1),t[n]))).replace(/\/*\*$/,(e=>null==t["*"]?"":t["*"].replace(/^\/*/,"/")))},e.matchPath=R,e.matchRoutes=v,e.renderMatches=function(e){return E(e)},e.resolvePath=S,e.useHref=function(e){u()||a(!1);let{basename:i,navigator:l}=t.useContext(r),{hash:o,pathname:s,search:c}=m(e),h=s;if("/"!==i){let t=function(e){return""===e||""===e.pathname?"/":"string"==typeof e?n.parsePath(e).pathname:e.pathname}(e),a=null!=t&&t.endsWith("/");h="/"===s?i+(a?"/":""):M([i,s])}return l.createHref({pathname:h,search:c,hash:o})},e.useInRouterContext=u,e.useLocation=c,e.useMatch=function(e){u()||a(!1);let{pathname:n}=c();return t.useMemo((()=>R(e,n)),[n,e])},e.useNavigate=h,e.useNavigationType=function(){return t.useContext(i).navigationType},e.useOutlet=f,e.useOutletContext=function(){return t.useContext(p)},e.useParams=function(){let{matches:e}=t.useContext(l),n=e[e.length-1];return n?n.params:{}},e.useResolvedPath=m,e.useRoutes=d,Object.defineProperty(e,"__esModule",{value:!0})}));
+!function(e,t){"object"==typeof exports&&"undefined"!=typeof module?t(exports,require("history"),require("react")):"function"==typeof define&&define.amd?define(["exports","history","react"],t):t((e=e||self).ReactRouter={},e.HistoryLibrary,e.React)}(this,(function(e,t,n){"use strict";const a=n.createContext(null),r=n.createContext(null),i=n.createContext({outlet:null,matches:[]});function l(e,t){if(!e)throw new Error(t)}function o(e,n,a){void 0===a&&(a="/");let r=g(("string"==typeof n?t.parsePath(n):n).pathname||"/",a);if(null==r)return null;let i=s(e);!function(e){e.sort(((e,t)=>e.score!==t.score?t.score-e.score:function(e,t){return e.length===t.length&&e.slice(0,-1).every(((e,n)=>e===t[n]))?e[e.length-1]-t[t.length-1]:0}(e.routesMeta.map((e=>e.childrenIndex)),t.routesMeta.map((e=>e.childrenIndex)))))}(i);let l=null;for(let e=0;null==l&&e<i.length;++e)l=p(i[e],r);return l}function s(e,t,n,a){return void 0===t&&(t=[]),void 0===n&&(n=[]),void 0===a&&(a=""),e.forEach(((e,r)=>{let i={relativePath:e.path||"",caseSensitive:!0===e.caseSensitive,childrenIndex:r,route:e};i.relativePath.startsWith("/")&&(i.relativePath.startsWith(a)||l(!1),i.relativePath=i.relativePath.slice(a.length));let o=v([a,i.relativePath]),u=n.concat(i);e.children&&e.children.length>0&&(!0===e.index&&l(!1),s(e.children,t,u,o)),(null!=e.path||e.index)&&t.push({path:o,score:h(o,e.index),routesMeta:u})})),t}const u=/^:\w+$/,c=e=>"*"===e;function h(e,t){let n=e.split("/"),a=n.length;return n.some(c)&&(a+=-2),t&&(a+=2),n.filter((e=>!c(e))).reduce(((e,t)=>e+(u.test(t)?3:""===t?1:10)),a)}function p(e,t){let{routesMeta:n}=e,a={},r="/",i=[];for(let e=0;e<n.length;++e){let l=n[e],o=e===n.length-1,s="/"===r?t:t.slice(r.length)||"/",u=f({path:l.relativePath,caseSensitive:l.caseSensitive,end:o},s);if(!u)return null;Object.assign(a,u.params);let c=l.route;i.push({params:a,pathname:v([r,u.pathname]),pathnameBase:y(v([r,u.pathnameBase])),route:c}),"/"!==u.pathnameBase&&(r=v([r,u.pathnameBase]))}return i}function f(e,t){"string"==typeof e&&(e={path:e,caseSensitive:!1,end:!0});let[n,a]=function(e,t,n){void 0===t&&(t=!1);void 0===n&&(n=!0);let a=[],r="^"+e.replace(/\/*\*?$/,"").replace(/^\/*/,"/").replace(/[\\.*+^$?{}|()[\]]/g,"\\$&").replace(/:(\w+)/g,((e,t)=>(a.push(t),"([^\\/]+)")));e.endsWith("*")?(a.push("*"),r+="*"===e||"/*"===e?"(.*)$":"(?:\\/(.+)|\\/*)$"):r+=n?"\\/*$":"(?:(?=[.~-]|%[0-9A-F]{2})|\\b|\\/|$)";return[new RegExp(r,t?void 0:"i"),a]}(e.path,e.caseSensitive,e.end),r=t.match(n);if(!r)return null;let i=r[0],l=i.replace(/(.)\/+$/,"$1"),o=r.slice(1);return{params:a.reduce(((e,t,n)=>{if("*"===t){let e=o[n]||"";l=i.slice(0,i.length-e.length).replace(/(.)\/+$/,"$1")}return e[t]=function(e,t){try{return decodeURIComponent(e)}catch(t){return e}}(o[n]||""),e}),{}),pathname:i,pathnameBase:l,pattern:e}}function m(e,n){void 0===n&&(n="/");let{pathname:a,search:r="",hash:i=""}="string"==typeof e?t.parsePath(e):e,l=a?a.startsWith("/")?a:function(e,t){let n=t.replace(/\/+$/,"").split("/");return e.split("/").forEach((e=>{".."===e?n.length>1&&n.pop():"."!==e&&n.push(e)})),n.length>1?n.join("/"):"/"}(a,n):n;return{pathname:l,search:x(r),hash:P(i)}}function d(e,n,a){let r,i="string"==typeof e?t.parsePath(e):e,l=""===e||""===i.pathname?"/":i.pathname;if(null==l)r=a;else{let e=n.length-1;if(l.startsWith("..")){let t=l.split("/");for(;".."===t[0];)t.shift(),e-=1;i.pathname=t.join("/")}r=e>=0?n[e]:"/"}let o=m(i,r);return l&&"/"!==l&&l.endsWith("/")&&!o.pathname.endsWith("/")&&(o.pathname+="/"),o}function g(e,t){if("/"===t)return e;if(!e.toLowerCase().startsWith(t.toLowerCase()))return null;let n=e.charAt(t.length);return n&&"/"!==n?null:e.slice(t.length)||"/"}const v=e=>e.join("/").replace(/\/\/+/g,"/"),y=e=>e.replace(/\/+$/,"").replace(/^\/*/,"/"),x=e=>e&&"?"!==e?e.startsWith("?")?e:"?"+e:"",P=e=>e&&"#"!==e?e.startsWith("#")?e:"#"+e:"";function C(){return null!=n.useContext(r)}function b(){return C()||l(!1),n.useContext(r).location}function E(){C()||l(!1);let{basename:e,navigator:t}=n.useContext(a),{matches:r}=n.useContext(i),{pathname:o}=b(),s=JSON.stringify(r.map((e=>e.pathnameBase))),u=n.useRef(!1);return n.useEffect((()=>{u.current=!0})),n.useCallback((function(n,a){if(void 0===a&&(a={}),!u.current)return;if("number"==typeof n)return void t.go(n);let r=d(n,JSON.parse(s),o);"/"!==e&&(r.pathname=v([e,r.pathname])),(a.replace?t.replace:t.push)(r,a.state)}),[e,t,s,o])}const R=n.createContext(null);function S(e){let t=n.useContext(i).outlet;return t?n.createElement(R.Provider,{value:e},t):t}function $(e){let{matches:t}=n.useContext(i),{pathname:a}=b(),r=JSON.stringify(t.map((e=>e.pathnameBase)));return n.useMemo((()=>d(e,JSON.parse(r),a)),[e,r,a])}function O(e,a){C()||l(!1);let r,{matches:s}=n.useContext(i),u=s[s.length-1],c=u?u.params:{},h=(u&&u.pathname,u?u.pathnameBase:"/"),p=(u&&u.route,b());if(a){var f;let e="string"==typeof a?t.parsePath(a):a;"/"===h||(null==(f=e.pathname)?void 0:f.startsWith(h))||l(!1),r=e}else r=p;let m=r.pathname||"/",d=o(e,{pathname:"/"===h?m:m.slice(h.length)||"/"});return M(d&&d.map((e=>Object.assign({},e,{params:Object.assign({},c,e.params),pathname:v([h,e.pathname]),pathnameBase:"/"===e.pathnameBase?h:v([h,e.pathnameBase])}))),s)}function M(e,t){return void 0===t&&(t=[]),null==e?null:e.reduceRight(((a,r,l)=>n.createElement(i.Provider,{children:void 0!==r.route.element?r.route.element:a,value:{outlet:a,matches:t.concat(e.slice(0,l+1))}})),null)}function N(e){l(!1)}function W(e){let{basename:i="/",children:o=null,location:s,navigationType:u=t.Action.Pop,navigator:c,static:h=!1}=e;C()&&l(!1);let p=y(i),f=n.useMemo((()=>({basename:p,navigator:c,static:h})),[p,c,h]);"string"==typeof s&&(s=t.parsePath(s));let{pathname:m="/",search:d="",hash:v="",state:x=null,key:P="default"}=s,b=n.useMemo((()=>{let e=g(m,p);return null==e?null:{pathname:e,search:d,hash:v,state:x,key:P}}),[p,m,d,v,x,P]);return null==b?null:n.createElement(a.Provider,{value:f},n.createElement(r.Provider,{children:o,value:{location:b,navigationType:u}}))}function j(e){let t=[];return n.Children.forEach(e,(e=>{if(!n.isValidElement(e))return;if(e.type===n.Fragment)return void t.push.apply(t,j(e.props.children));e.type!==N&&l(!1);let a={caseSensitive:e.props.caseSensitive,element:e.props.element,index:e.props.index,path:e.props.path};e.props.children&&(a.children=j(e.props.children)),t.push(a)})),t}Object.defineProperty(e,"NavigationType",{enumerable:!0,get:function(){return t.Action}}),Object.defineProperty(e,"createPath",{enumerable:!0,get:function(){return t.createPath}}),Object.defineProperty(e,"parsePath",{enumerable:!0,get:function(){return t.parsePath}}),e.MemoryRouter=function(e){let{basename:a,children:r,initialEntries:i,initialIndex:l}=e,o=n.useRef();null==o.current&&(o.current=t.createMemoryHistory({initialEntries:i,initialIndex:l}));let s=o.current,[u,c]=n.useState({action:s.action,location:s.location});return n.useLayoutEffect((()=>s.listen(c)),[s]),n.createElement(W,{basename:a,children:r,location:u.location,navigationType:u.action,navigator:s})},e.Navigate=function(e){let{to:t,replace:a,state:r}=e;C()||l(!1);let i=E();return n.useEffect((()=>{i(t,{replace:a,state:r})})),null},e.Outlet=function(e){return S(e.context)},e.Route=N,e.Router=W,e.Routes=function(e){let{children:t,location:n}=e;return O(j(t),n)},e.UNSAFE_LocationContext=r,e.UNSAFE_NavigationContext=a,e.UNSAFE_RouteContext=i,e.createRoutesFromChildren=j,e.generatePath=function(e,t){return void 0===t&&(t={}),e.replace(/:(\w+)/g,((e,n)=>(null==t[n]&&l(!1),t[n]))).replace(/\/*\*$/,(e=>null==t["*"]?"":t["*"].replace(/^\/*/,"/")))},e.matchPath=f,e.matchRoutes=o,e.renderMatches=function(e){return M(e)},e.resolvePath=m,e.useHref=function(e){C()||l(!1);let{basename:r,navigator:i}=n.useContext(a),{hash:o,pathname:s,search:u}=$(e),c=s;if("/"!==r){let n=function(e){return""===e||""===e.pathname?"/":"string"==typeof e?t.parsePath(e).pathname:e.pathname}(e),a=null!=n&&n.endsWith("/");c="/"===s?r+(a?"/":""):v([r,s])}return i.createHref({pathname:c,search:u,hash:o})},e.useInRouterContext=C,e.useLocation=b,e.useMatch=function(e){C()||l(!1);let{pathname:t}=b();return n.useMemo((()=>f(e,t)),[t,e])},e.useNavigate=E,e.useNavigationType=function(){return n.useContext(r).navigationType},e.useOutlet=S,e.useOutletContext=function(){return n.useContext(R)},e.useParams=function(){let{matches:e}=n.useContext(i),t=e[e.length-1];return t?t.params:{}},e.useResolvedPath=$,e.useRoutes=O,Object.defineProperty(e,"__esModule",{value:!0})}));
 
 
 },{"history":39,"react":88}],86:[function(require,module,exports){
@@ -72862,11 +72832,29 @@ var Clubecerto = function () {
             $modal.find('.logo').attr('src', estabInfos.Marca);
             $modal.find('.name').text(estabInfos.Nome);
             $modal.find('.category').text(estabInfos.CategoriaNome);
-            $modal.find('.phone').text(estabInfos.Telefone);
-            $modal.find('.whatsapp').text(estabInfos.WhatsApp);
-            $modal.find('.rules').html(estabInfos.Regras);
+            $modal.find('.rules').html(this.generateRules(estabInfos.Regras, estabInfos.Beneficios));
+            $modal.find('.rules')[0].scrollTop = 0;
+
+            if (estabInfos.Telefone) {
+                $modal.find('.phone').text(estabInfos.Telefone).attr('href', 'tel:' + estabInfos.Telefone.replace(/\D/gi, '')).closest('.cc-contact').css('display', 'flex');
+            } else $modal.find('.phone').closest('.cc-contact').css('display', 'none');
+
+            if (estabInfos.WhatsApp) {
+                $modal.find('.whatsapp').text(estabInfos.WhatsApp).attr('href', 'tel:' + estabInfos.WhatsApp.replace(/\D/gi, '')).closest('.cc-contact').css('display', 'flex');
+            } else $modal.find('.whatsapp').closest('.cc-contact').css('display', 'none');
 
             SimpleModal.open('.modal-infos');
+        }
+    }, {
+        key: 'generateRules',
+        value: function generateRules(rules, benefits) {
+            var template = benefits.reduce(function (acc, cur) {
+                return acc + ('\n            <h3>' + cur.desconto + '</h3>\n            <p>' + cur.regra + '</p>\n        ');
+            }, '');
+
+            template += '<div class="divider"></div>' + rules;
+
+            return template;
         }
     }, {
         key: 'loadImageIntoCache',
@@ -72883,8 +72871,8 @@ var Clubecerto = function () {
     }, {
         key: 'importDependencies',
         value: function importDependencies() {
-            var htmlStr = '\n            <div class="modal modal-infos"style=opacity:0;visibility:hidden><div class=modal-area><header class=modal-header><button class="btn_fechar close-modal"><svg fill=none height=19 viewBox="0 0 21 19"width=21 xmlns=http://www.w3.org/2000/svg><path clip-rule=evenodd d="M20.2612 13.8668C20.5737 14.1463 20.7299 14.4857 20.7299 14.885C20.7299 15.2843 20.5737 15.6237 20.2612 15.9033L17.9844 17.9398C17.6719 18.2193 17.2924 18.359 16.846 18.359C16.3996 18.359 16.0201 18.2193 15.7076 17.9398L10.7857 13.5373L5.86387 17.9398C5.55137 18.2193 5.17191 18.359 4.72548 18.359C4.27905 18.359 3.89959 18.2193 3.58709 17.9398L1.3103 15.9033C0.997803 15.6237 0.841553 15.2843 0.841553 14.885C0.841553 14.4857 0.997803 14.1463 1.3103 13.8668L6.23218 9.4643L1.3103 5.06184C0.997803 4.78232 0.841553 4.44291 0.841553 4.04359C0.841553 3.64428 0.997803 3.30486 1.3103 3.02534L3.58709 0.98883C3.89959 0.70931 4.27906 0.56955 4.72548 0.56955C5.17191 0.56955 5.55137 0.70931 5.86387 0.98883L10.7857 5.39128L15.7076 0.98883C16.0201 0.70931 16.3996 0.56955 16.846 0.56955C17.2924 0.56955 17.6719 0.70931 17.9844 0.98883L20.2612 3.02534C20.5737 3.30486 20.7299 3.64428 20.7299 4.04359C20.7299 4.44291 20.5737 4.78232 20.2612 5.06184L15.3393 9.4643L20.2612 13.8668Z"fill=white fill-rule=evenodd /></svg></button></header><div class=modal-body><div class=clubecerto-content><div class=block_1><div class=left><div class=name></div><div class=category></div></div><div class=right><img alt=Logo class=logo></div></div><div class=block_2><div class=section-title><svg fill=none height=14 viewBox="0 0 14 14"width=14 xmlns=http://www.w3.org/2000/svg><path clip-rule=evenodd d="M9.07143 11.3035V9.96426C9.07143 9.88614 9.04631 9.82196 8.99609 9.77174C8.94587 9.72152 8.88169 9.6964 8.80357 9.6964H8V5.41069C8 5.33256 7.97489 5.26839 7.92466 5.21817C7.87444 5.16794 7.81027 5.14283 7.73214 5.14283H5.05357C4.97545 5.14283 4.91127 5.16794 4.86105 5.21817C4.81082 5.26839 4.78571 5.33256 4.78571 5.41069V6.74997C4.78571 6.8281 4.81082 6.89227 4.86105 6.9425C4.91127 6.99272 4.97545 7.01783 5.05357 7.01783H5.85714V9.6964H5.05357C4.97545 9.6964 4.91127 9.72151 4.86105 9.77174C4.81082 9.82196 4.78571 9.88613 4.78571 9.96426V11.3035C4.78571 11.3817 4.81082 11.4458 4.86105 11.4961C4.91127 11.5463 4.97545 11.5714 5.05357 11.5714H8.80357C8.8817 11.5714 8.94587 11.5463 8.99609 11.4961C9.04632 11.4458 9.07143 11.3817 9.07143 11.3035L9.07143 11.3035ZM8 3.80354V2.46426C8 2.38614 7.97488 2.32196 7.92466 2.27174C7.87444 2.22151 7.81026 2.1964 7.73214 2.1964H6.12499C6.04687 2.1964 5.98269 2.22151 5.93247 2.27174C5.88225 2.32196 5.85714 2.38614 5.85714 2.46426V3.80354C5.85714 3.88167 5.88225 3.94584 5.93247 3.99607C5.98269 4.04629 6.04687 4.0714 6.12499 4.0714H7.73214C7.81026 4.0714 7.87444 4.04629 7.92466 3.99607C7.97488 3.94584 8 3.88167 8 3.80354ZM12.495 4.06303C13.0698 5.04518 13.3571 6.11939 13.3571 7.28569C13.3571 8.45198 13.0698 9.52759 12.495 10.5125C11.9202 11.4975 11.1403 12.2773 10.1554 12.8521C9.17048 13.4269 8.09486 13.7143 6.92857 13.7143C5.76228 13.7143 4.68666 13.4269 3.70173 12.8521C2.7168 12.2773 1.93694 11.4975 1.36216 10.5125C0.787388 9.52759 0.5 8.45198 0.5 7.28569C0.5 6.11939 0.787388 5.04378 1.36216 4.05885C1.93694 3.07391 2.7168 2.29406 3.70173 1.71928C4.68666 1.14451 5.76228 0.857117 6.92857 0.857117C8.09486 0.857117 9.17048 1.14451 10.1554 1.71928C11.1403 2.29406 11.9202 3.07531 12.495 4.06303Z"fill=#E2211C fill-rule=evenodd /></svg>Detalhes</div><div class=rules></div></div></div><footer class=clubecerto-controls><div id=clubecerto-modal-msg></div><div class=clubecerto-link-wrapper><button class=clubecerto-button type=button id=clubecerto-modal-link></button></div></footer></div><form id=form-cpf name=cpf><p>Cadastre seu CPF para aproveitar os benef\xEDcios!</p><input id=form-cpf-input name=cpf placeholder="Digite seu CPF"type=tel> <button class=clubecerto-button type=submit>Salvar</button></form><div id=clubecerto-form-loading><img alt=CARREGANDO draggable=false loading=lazy src=https://supernossoemcasa.vteximg.com.br/arquivos/spinner-loading-red.gif></div></div></div>\n        ';
-            var styleStr = '\n            .clubecerto-container{position:relative}.clubecerto-container .clubecerto-arrows{position:absolute;left:0;right:0;top:30%;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between}@media (max-width:767px){.clubecerto-container .clubecerto-arrows{display:none}}.clubecerto-container .clubecerto-arrows>button{padding:0;border:none;background-color:transparent;cursor:pointer;-webkit-transition:.2s;-o-transition:.2s;transition:.2s}.clubecerto-container .clubecerto-arrows>button img{height:35px;width:35px}.clubecerto-container .clubecerto-arrows>button:hover{-webkit-transform:scale(1.1);-ms-transform:scale(1.1);transform:scale(1.1)}.clubecerto-container .clubecerto-slider{display:-webkit-box;display:-ms-flexbox;display:flex;-ms-flex-wrap:wrap;flex-wrap:wrap;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;width:calc(100% - 100px);margin:0 auto}@media (max-width:767px){.clubecerto-container .clubecerto-slider{width:100%;margin:unset}}.clubecerto-container .clubecerto-slider .clubecerto-button{width:150px;padding:0;border:none;background-color:transparent;cursor:pointer}@media (max-width:767px){.clubecerto-container .clubecerto-slider .clubecerto-button{width:110px;margin:0 4px 20px}.clubecerto-container .clubecerto-slider .clubecerto-button .clubecerto-wrapper{padding:4px;border-width:4px}.clubecerto-container .clubecerto-slider .clubecerto-button .clubecerto-wrapper .clubecerto-logo{border-width:5px;-webkit-box-shadow:0 3px 3px rgba(0,0,0,.25);box-shadow:0 3px 3px rgba(0,0,0,.25)}.clubecerto-container .clubecerto-slider .clubecerto-button .clubecerto-name{padding:10px 15px 0}}.clubecerto-container .clubecerto-slider .clubecerto-wrapper{padding:5px;border-radius:50%;border:6px solid #f9f1dd}.clubecerto-container .clubecerto-slider .clubecerto-wrapper .clubecerto-logo{width:100%;border-radius:50%;border:8px solid #e8c678;-webkit-box-shadow:0 4px 4px rgba(0,0,0,.25);box-shadow:0 4px 4px rgba(0,0,0,.25)}.clubecerto-container .clubecerto-slider .clubecerto-name{padding:20px 20px 0;color:#7f7f7d;font-family:Museo,sans-serif;font-weight:700;font-size:14px;text-align:center}.slick-dots{width:100%;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;padding-top:2rem}.slick-dots li{list-style-type:none;display:inline-block}.slick-dots li button{height:9px;width:9px;background-color:#ddd;border:1px solid #ddd;margin:0 5px;opacity:1;color:transparent;border-radius:100%;padding:0;-webkit-transition:.3s;-o-transition:.3s;transition:.3s}.slick-dots li button:before{font-size:0;line-height:20px;width:0;height:0;opacity:.25;color:#000}.slick-dots li.slick-active button{height:9px;width:17px;color:transparent;background-color:#b6116e;border:1px solid #b6116e;border-radius:10px;margin:0}.modal{position:absolute;left:0;display:block;width:100vw;height:100vh;background-color:rgba(0,0,0,.5);overflow-x:hidden;opacity:0;z-index:-1;-webkit-transition:.2s;-o-transition:.2s;transition:.2s}.modal .modal-area{position:absolute;top:0;bottom:0;left:0;right:0;margin:auto;width:-webkit-fit-content;width:-moz-fit-content;width:fit-content;height:-webkit-fit-content;height:-moz-fit-content;height:fit-content;color:#fff}.modal .modal-area .close-modal{position:absolute;top:1rem;right:10px;background-color:transparent;-webkit-filter:drop-shadow(0 0 1px rgba(0,0,0,0.4));filter:drop-shadow(0 0 1px rgba(0, 0, 0, .4));border:none;cursor:pointer;-webkit-transition:.2s;-o-transition:.2s;transition:.2s}.modal .modal-area .close-modal:hover{-webkit-transform:scale(1.2);-ms-transform:scale(1.2);transform:scale(1.2)}.modal-infos.loading>.modal-area #clubecerto-form-loading{opacity:1;visibility:visible;-webkit-transition:1s opacity;-o-transition:1s opacity;transition:1s opacity}.modal-infos.show-form>.modal-area .modal-header{background-image:url(https://supernossoemcasa.vteximg.com.br/arquivos/capa-supernosso.png)!important}.modal-infos.show-form>.modal-area .modal-body{display:none}.modal-infos.show-form>.modal-area #form-cpf{display:-webkit-box;display:-ms-flexbox;display:flex}.modal-infos .modal-area{width:90%;max-width:400px;background-color:#fff;color:#262626;border-radius:8px;overflow:hidden}@media (max-width:991px){.modal-infos .modal-area{margin-top:50px}}.modal-infos .modal-area .clubecerto-button{padding:0 16px;border:none;border-radius:4px;font-family:Museo,sans-serif;font-size:16px;line-height:34px;font-weight:600;text-decoration:none;color:#fff;background-color:#e2211c;cursor:pointer;-webkit-transition:.2s -webkit-transform;transition:.2s -webkit-transform;-o-transition:.2s transform;transition:.2s transform;transition:.2s transform,.2s -webkit-transform}.modal-infos .modal-area .clubecerto-button:hover{-webkit-transform:scale(1.05);-ms-transform:scale(1.05);transform:scale(1.05)}.modal-infos .modal-area .modal-header{z-index:0;position:relative;top:0;height:177px;background-size:cover;background-color:transparent;background-repeat:no-repeat;background-position:center;-webkit-box-shadow:none;box-shadow:none;border:none}.modal-infos .modal-area .modal-body{z-index:0;padding:0}.modal-infos .modal-area .modal-body .clubecerto-content{padding:20px 30px 0;line-height:21px}.modal-infos .modal-area .modal-body .clubecerto-content svg{margin-right:10px}.modal-infos .modal-area .modal-body .clubecerto-content .block_1{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between}.modal-infos .modal-area .modal-body .clubecerto-content .block_1 .left .name{font-family:Museo,sans-serif;font-size:24px;font-weight:600;margin-bottom:8px}@media (max-width:767px){.modal-infos .modal-area .modal-body .clubecerto-content .block_1 .left .name{font-size:20px}}.modal-infos .modal-area .modal-body .clubecerto-content .block_1 .left .category{font-family:Museo,sans-serif;font-size:16px;font-weight:300}.modal-infos .modal-area .modal-body .clubecerto-content .block_1 .right .logo{width:54px}.modal-infos .modal-area .modal-body .clubecerto-content .block_2 .section-title{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;margin:15px 0 10px;font-family:Museo,sans-serif;font-size:14px;font-weight:300}.modal-infos .modal-area .modal-body .clubecerto-content .block_2 .rules{height:150px;overflow-y:auto;font-weight:300;font-family:Museo,sans-serif;font-size:12px;line-height:16px}.modal-infos .modal-area .modal-body .clubecerto-content .block_2 .rules::-webkit-scrollbar{height:5px;width:5px;background:#ececec;border-radius:4px}@media (min-width:768px){.modal-infos .modal-area .modal-body .clubecerto-content .block_2 .rules::-webkit-scrollbar{height:8px;width:8px}}.modal-infos .modal-area .modal-body .clubecerto-content .block_2 .rules::-webkit-scrollbar-thumb{background:#c4c4c4;border-radius:4px}.modal-infos .modal-area .modal-body .clubecerto-controls{display:-webkit-box;display:-ms-flexbox;display:flex;padding:40px 30px}.modal-infos .modal-area .modal-body .clubecerto-controls #clubecerto-modal-msg{font-family:Museo,sans-serif;font-weight:700;font-size:14px;line-height:21px;text-align:left;color:#e2211c;margin-right:15px}.modal-infos .modal-area .modal-body .clubecerto-controls .clubecerto-link-wrapper{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;margin-left:auto}@media (max-width:767px){.modal-infos .modal-area .modal-body .clubecerto-controls .clubecerto-link-wrapper{margin:0}}@media (max-width:767px){.modal-infos .modal-area .modal-body .clubecerto-controls{-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column;padding:30px}.modal-infos .modal-area .modal-body .clubecerto-controls #clubecerto-modal-msg{margin:0 0 10px 0;text-align:center}.modal-infos .modal-area .modal-body .clubecerto-controls #clubecerto-modal-link{padding:0 20px;font-size:18px;line-height:38px}}.modal-infos .modal-area #form-cpf{z-index:0;display:none;-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column;padding:50px;text-align:center}.modal-infos .modal-area #form-cpf p{font-family:Museo,sans-serif;font-weight:600;font-size:20px;line-height:24px;color:#e2211c;margin:0 0 40px}.modal-infos .modal-area #form-cpf input{padding:0 15px;border:1px solid #c4c4c4;border-radius:6px;font-family:Museo,sans-serif;font-size:20px;font-weight:700;line-height:40px;letter-spacing:1px;color:#303030;margin-bottom:15px}.modal-infos .modal-area #form-cpf input::-webkit-input-placeholder{font-weight:300;color:#c4c4c4;letter-spacing:0}.modal-infos .modal-area #form-cpf input::-moz-placeholder{font-weight:300;color:#c4c4c4;letter-spacing:0}.modal-infos .modal-area #form-cpf input:-ms-input-placeholder{font-weight:300;color:#c4c4c4;letter-spacing:0}.modal-infos .modal-area #form-cpf input::-ms-input-placeholder{font-weight:300;color:#c4c4c4;letter-spacing:0}.modal-infos .modal-area #form-cpf input::placeholder{font-weight:300;color:#c4c4c4;letter-spacing:0}.modal-infos .modal-area #form-cpf button{line-height:42px}.modal-infos .modal-area #clubecerto-form-loading{z-index:1;position:absolute;top:0;left:0;right:0;bottom:0;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;background-color:rgba(255,255,255,.85);-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;opacity:0;visibility:hidden;-webkit-transition:1s opacity;-o-transition:1s opacity;transition:1s opacity}.modal-infos .modal-area #clubecerto-form-loading img{width:70px}\n        ';
+            var htmlStr = '\n            <div class="modal modal-infos"style=opacity:0;visibility:hidden><div class=modal-area><header class=modal-header><button class="btn_fechar close-modal"><svg fill=none height=19 viewBox="0 0 21 19"width=21 xmlns=http://www.w3.org/2000/svg><path d="M20.2612 13.8668C20.5737 14.1463 20.7299 14.4857 20.7299 14.885C20.7299 15.2843 20.5737 15.6237 20.2612 15.9033L17.9844 17.9398C17.6719 18.2193 17.2924 18.359 16.846 18.359C16.3996 18.359 16.0201 18.2193 15.7076 17.9398L10.7857 13.5373L5.86387 17.9398C5.55137 18.2193 5.17191 18.359 4.72548 18.359C4.27905 18.359 3.89959 18.2193 3.58709 17.9398L1.3103 15.9033C0.997803 15.6237 0.841553 15.2843 0.841553 14.885C0.841553 14.4857 0.997803 14.1463 1.3103 13.8668L6.23218 9.4643L1.3103 5.06184C0.997803 4.78232 0.841553 4.44291 0.841553 4.04359C0.841553 3.64428 0.997803 3.30486 1.3103 3.02534L3.58709 0.98883C3.89959 0.70931 4.27906 0.56955 4.72548 0.56955C5.17191 0.56955 5.55137 0.70931 5.86387 0.98883L10.7857 5.39128L15.7076 0.98883C16.0201 0.70931 16.3996 0.56955 16.846 0.56955C17.2924 0.56955 17.6719 0.70931 17.9844 0.98883L20.2612 3.02534C20.5737 3.30486 20.7299 3.64428 20.7299 4.04359C20.7299 4.44291 20.5737 4.78232 20.2612 5.06184L15.3393 9.4643L20.2612 13.8668Z"fill=white clip-rule=evenodd fill-rule=evenodd /></svg></button></header><div class=modal-body><div class=clubecerto-content><div class=block_1><div class=left><div class=name></div><div class=category></div></div><div class=right><img alt=Logo class=logo></div></div><div class=block_2><div class=contact-wrapper><div class=cc-contact><svg fill=none height=14 viewBox="0 0 14 14"width=14 xmlns=http://www.w3.org/2000/svg><path d="M13.6005 9.89309L10.538 8.58059C10.4072 8.52483 10.2618 8.51308 10.1237 8.54711C9.98562 8.58114 9.86232 8.6591 9.77238 8.76926L8.41613 10.4263C6.28762 9.42272 4.57466 7.70976 3.57109 5.58125L5.22812 4.225C5.33851 4.13523 5.41663 4.01193 5.45067 3.87378C5.48472 3.73564 5.47283 3.59016 5.4168 3.45938L4.1043 0.396876C4.0428 0.255894 3.93405 0.140787 3.79678 0.0714031C3.65951 0.00201918 3.50233 -0.0172925 3.35234 0.016798L0.508594 0.673048C0.363992 0.70644 0.234977 0.787859 0.142607 0.904016C0.0502374 1.02017 -3.33104e-05 1.16421 1.65599e-08 1.31262C1.65599e-08 8.32629 5.68477 14.0001 12.6875 14.0001C12.836 14.0002 12.9801 13.95 13.0963 13.8576C13.2125 13.7652 13.2939 13.6362 13.3273 13.4915L13.9836 10.6478C14.0175 10.4971 13.9977 10.3393 13.9278 10.2015C13.8579 10.0638 13.7422 9.9547 13.6005 9.89309V9.89309Z"fill=#262626 /></svg> <a class=phone href=""></a></div><div class=cc-contact><svg fill=none height=14 viewBox="0 0 14 14"width=14 xmlns=http://www.w3.org/2000/svg><path d="M11.9031 2.03437C10.5937 0.721875 8.85 0 6.99687 0C3.17187 0 0.059375 3.1125 0.059375 6.9375C0.059375 8.15937 0.378125 9.35312 0.984375 10.4062L0 14L3.67812 13.0344C4.69062 13.5875 5.83125 13.8781 6.99375 13.8781H6.99687C10.8187 13.8781 14 10.7656 14 6.94063C14 5.0875 13.2125 3.34687 11.9031 2.03437V2.03437ZM6.99687 12.7094C5.95937 12.7094 4.94375 12.4312 4.05937 11.9062L3.85 11.7812L1.66875 12.3531L2.25 10.225L2.1125 10.0063C1.53437 9.0875 1.23125 8.02813 1.23125 6.9375C1.23125 3.75938 3.81875 1.17188 7 1.17188C8.54062 1.17188 9.9875 1.77187 11.075 2.8625C12.1625 3.95312 12.8313 5.4 12.8281 6.94063C12.8281 10.1219 10.175 12.7094 6.99687 12.7094V12.7094ZM10.1594 8.39062C9.9875 8.30313 9.13438 7.88437 8.975 7.82812C8.81563 7.76875 8.7 7.74062 8.58438 7.91562C8.46875 8.09062 8.1375 8.47813 8.03438 8.59688C7.93438 8.7125 7.83125 8.72812 7.65938 8.64062C6.64063 8.13125 5.97188 7.73125 5.3 6.57812C5.12188 6.27187 5.47812 6.29375 5.80937 5.63125C5.86562 5.51562 5.8375 5.41562 5.79375 5.32812C5.75 5.24063 5.40313 4.3875 5.25938 4.04063C5.11875 3.70313 4.975 3.75 4.86875 3.74375C4.76875 3.7375 4.65312 3.7375 4.5375 3.7375C4.42187 3.7375 4.23437 3.78125 4.075 3.95312C3.91562 4.12812 3.46875 4.54688 3.46875 5.4C3.46875 6.25313 4.09063 7.07813 4.175 7.19375C4.2625 7.30938 5.39687 9.05937 7.1375 9.8125C8.2375 10.2875 8.66875 10.3281 9.21875 10.2469C9.55312 10.1969 10.2437 9.82812 10.3875 9.42188C10.5312 9.01562 10.5313 8.66875 10.4875 8.59688C10.4469 8.51875 10.3313 8.475 10.1594 8.39062Z"fill=#262626 /></svg> <a class=whatsapp href=""></a></div></div><div class=section-title><svg fill=none height=14 viewBox="0 0 14 14"width=14 xmlns=http://www.w3.org/2000/svg><path d="M9.07143 11.3035V9.96426C9.07143 9.88614 9.04631 9.82196 8.99609 9.77174C8.94587 9.72152 8.88169 9.6964 8.80357 9.6964H8V5.41069C8 5.33256 7.97489 5.26839 7.92466 5.21817C7.87444 5.16794 7.81027 5.14283 7.73214 5.14283H5.05357C4.97545 5.14283 4.91127 5.16794 4.86105 5.21817C4.81082 5.26839 4.78571 5.33256 4.78571 5.41069V6.74997C4.78571 6.8281 4.81082 6.89227 4.86105 6.9425C4.91127 6.99272 4.97545 7.01783 5.05357 7.01783H5.85714V9.6964H5.05357C4.97545 9.6964 4.91127 9.72151 4.86105 9.77174C4.81082 9.82196 4.78571 9.88613 4.78571 9.96426V11.3035C4.78571 11.3817 4.81082 11.4458 4.86105 11.4961C4.91127 11.5463 4.97545 11.5714 5.05357 11.5714H8.80357C8.8817 11.5714 8.94587 11.5463 8.99609 11.4961C9.04632 11.4458 9.07143 11.3817 9.07143 11.3035L9.07143 11.3035ZM8 3.80354V2.46426C8 2.38614 7.97488 2.32196 7.92466 2.27174C7.87444 2.22151 7.81026 2.1964 7.73214 2.1964H6.12499C6.04687 2.1964 5.98269 2.22151 5.93247 2.27174C5.88225 2.32196 5.85714 2.38614 5.85714 2.46426V3.80354C5.85714 3.88167 5.88225 3.94584 5.93247 3.99607C5.98269 4.04629 6.04687 4.0714 6.12499 4.0714H7.73214C7.81026 4.0714 7.87444 4.04629 7.92466 3.99607C7.97488 3.94584 8 3.88167 8 3.80354ZM12.495 4.06303C13.0698 5.04518 13.3571 6.11939 13.3571 7.28569C13.3571 8.45198 13.0698 9.52759 12.495 10.5125C11.9202 11.4975 11.1403 12.2773 10.1554 12.8521C9.17048 13.4269 8.09486 13.7143 6.92857 13.7143C5.76228 13.7143 4.68666 13.4269 3.70173 12.8521C2.7168 12.2773 1.93694 11.4975 1.36216 10.5125C0.787388 9.52759 0.5 8.45198 0.5 7.28569C0.5 6.11939 0.787388 5.04378 1.36216 4.05885C1.93694 3.07391 2.7168 2.29406 3.70173 1.71928C4.68666 1.14451 5.76228 0.857117 6.92857 0.857117C8.09486 0.857117 9.17048 1.14451 10.1554 1.71928C11.1403 2.29406 11.9202 3.07531 12.495 4.06303Z"fill=#E2211C clip-rule=evenodd fill-rule=evenodd /></svg>Detalhes</div><div class=rules></div></div></div><footer class=clubecerto-controls><div id=clubecerto-modal-msg>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</div><div class=clubecerto-link-wrapper><button class=clubecerto-button type=button id=clubecerto-modal-link>Lorem</button></div></footer></div><form id=form-cpf name=cpf><p>Cadastre seu CPF para aproveitar os benef\xEDcios!</p><input id=form-cpf-input name=cpf placeholder="Digite seu CPF"type=tel> <button class=clubecerto-button type=submit>Salvar</button></form><div id=clubecerto-form-loading><img alt=CARREGANDO draggable=false loading=lazy src=https://supernossoemcasa.vteximg.com.br/arquivos/spinner-loading-red.gif></div></div></div>\n        ';
+            var styleStr = '\n            .clubecerto-container{position:relative}.clubecerto-container .clubecerto-arrows{position:absolute;left:0;right:0;top:30%;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between}@media (max-width:767px){.clubecerto-container .clubecerto-arrows{display:none}}.clubecerto-container .clubecerto-arrows>button{padding:0;border:none;background-color:transparent;cursor:pointer;-webkit-transition:.2s;-o-transition:.2s;transition:.2s}.clubecerto-container .clubecerto-arrows>button img{height:35px;width:35px}.clubecerto-container .clubecerto-arrows>button:hover{-webkit-transform:scale(1.1);-ms-transform:scale(1.1);transform:scale(1.1)}.clubecerto-container .clubecerto-slider{display:-webkit-box;display:-ms-flexbox;display:flex;-ms-flex-wrap:wrap;flex-wrap:wrap;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;width:calc(100% - 100px);margin:0 auto}@media (max-width:767px){.clubecerto-container .clubecerto-slider{width:100%;margin:unset}}.clubecerto-container .clubecerto-slider .clubecerto-button{width:150px;padding:0;border:none;background-color:transparent;cursor:pointer}@media (max-width:767px){.clubecerto-container .clubecerto-slider .clubecerto-button{width:110px;margin:0 4px 20px}.clubecerto-container .clubecerto-slider .clubecerto-button .clubecerto-wrapper{padding:4px;border-width:4px}.clubecerto-container .clubecerto-slider .clubecerto-button .clubecerto-wrapper .clubecerto-logo{border-width:5px;-webkit-box-shadow:0 3px 3px rgba(0,0,0,.25);box-shadow:0 3px 3px rgba(0,0,0,.25)}.clubecerto-container .clubecerto-slider .clubecerto-button .clubecerto-name{padding:10px 15px 0}}.clubecerto-container .clubecerto-slider .clubecerto-wrapper{padding:5px;border-radius:50%;border:6px solid #f9f1dd}.clubecerto-container .clubecerto-slider .clubecerto-wrapper .clubecerto-logo{width:100%;border-radius:50%;border:8px solid #e8c678;-webkit-box-shadow:0 4px 4px rgba(0,0,0,.25);box-shadow:0 4px 4px rgba(0,0,0,.25)}.clubecerto-container .clubecerto-slider .clubecerto-name{padding:20px 20px 0;color:#7f7f7d;font-family:Museo,sans-serif;font-weight:700;font-size:14px;text-align:center}.slick-dots{width:100%;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;padding-top:2rem}.slick-dots li{list-style-type:none;display:inline-block}.slick-dots li button{height:9px;width:9px;background-color:#ddd;border:1px solid #ddd;margin:0 5px;opacity:1;color:transparent;border-radius:100%;padding:0;-webkit-transition:.3s;-o-transition:.3s;transition:.3s}.slick-dots li button:before{font-size:0;line-height:20px;width:0;height:0;opacity:.25;color:#000}.slick-dots li.slick-active button{height:9px;width:17px;color:transparent;background-color:#b6116e;border:1px solid #b6116e;border-radius:10px;margin:0}.modal{position:absolute;left:0;display:block;width:100vw;height:100vh;background-color:rgba(0,0,0,.5);overflow-x:hidden;opacity:0;z-index:-1;-webkit-transition:.2s;-o-transition:.2s;transition:.2s}.modal .modal-area{position:absolute;top:0;bottom:0;left:0;right:0;margin:auto;width:-webkit-fit-content;width:-moz-fit-content;width:fit-content;height:-webkit-fit-content;height:-moz-fit-content;height:fit-content;color:#fff}.modal .modal-area .close-modal{position:absolute;top:1rem;right:10px;background-color:transparent;-webkit-filter:drop-shadow(0 0 1px rgba(0,0,0,0.4));filter:drop-shadow(0 0 1px rgba(0, 0, 0, .4));border:none;cursor:pointer;-webkit-transition:.2s;-o-transition:.2s;transition:.2s}.modal .modal-area .close-modal:hover{-webkit-transform:scale(1.2);-ms-transform:scale(1.2);transform:scale(1.2)}.modal-infos.loading>.modal-area #clubecerto-form-loading{opacity:1;visibility:visible;-webkit-transition:1s opacity;-o-transition:1s opacity;transition:1s opacity}.modal-infos.show-form>.modal-area .modal-header{background-image:url(https://supernossoemcasa.vteximg.com.br/arquivos/capa-supernosso.png)!important}.modal-infos.show-form>.modal-area .modal-body{display:none}.modal-infos.show-form>.modal-area #form-cpf{display:-webkit-box;display:-ms-flexbox;display:flex}.modal-infos .modal-area{width:90%;max-width:400px;background-color:#fff;color:#262626;border-radius:8px;overflow:hidden}@media (max-width:991px){.modal-infos .modal-area{margin-top:50px}}.modal-infos .modal-area .clubecerto-button{padding:0 16px;border:none;border-radius:4px;font-family:Museo,sans-serif;font-size:16px;line-height:34px;font-weight:600;text-decoration:none;color:#fff;background-color:#e2211c;cursor:pointer;-webkit-transition:.2s -webkit-transform;transition:.2s -webkit-transform;-o-transition:.2s transform;transition:.2s transform;transition:.2s transform,.2s -webkit-transform}.modal-infos .modal-area .clubecerto-button:hover{-webkit-transform:scale(1.05);-ms-transform:scale(1.05);transform:scale(1.05)}.modal-infos .modal-area .modal-header{z-index:0;position:relative;top:0;height:140px;background-size:cover;background-color:transparent;background-repeat:no-repeat;background-position:center;-webkit-box-shadow:none;box-shadow:none;border:none}.modal-infos .modal-area .modal-body{z-index:0;padding:0}.modal-infos .modal-area .modal-body .clubecerto-content{padding:20px 30px 0;line-height:21px}.modal-infos .modal-area .modal-body .clubecerto-content svg{margin-right:10px}.modal-infos .modal-area .modal-body .clubecerto-content .block_1{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between}.modal-infos .modal-area .modal-body .clubecerto-content .block_1 .left .name{font-family:Museo,sans-serif;font-size:24px;font-weight:600;margin-bottom:8px}@media (max-width:767px){.modal-infos .modal-area .modal-body .clubecerto-content .block_1 .left .name{font-size:20px}}.modal-infos .modal-area .modal-body .clubecerto-content .block_1 .left .category{font-family:Museo,sans-serif;font-size:16px;font-weight:300}.modal-infos .modal-area .modal-body .clubecerto-content .block_1 .right .logo{width:54px}.modal-infos .modal-area .modal-body .clubecerto-content .block_2 .contact-wrapper{margin:24px 0 20px}@media (max-width:767px){.modal-infos .modal-area .modal-body .clubecerto-content .block_2 .contact-wrapper{margin:14px 0 10px}}.modal-infos .modal-area .modal-body .clubecerto-content .block_2 .contact-wrapper .cc-contact{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;padding-bottom:6px}.modal-infos .modal-area .modal-body .clubecerto-content .block_2 .contact-wrapper .cc-contact a{font-family:Museo,sans-serif;font-size:14px;font-weight:300;text-decoration:none;color:#262626;-webkit-transition:.3s;-o-transition:.3s;transition:.3s}.modal-infos .modal-area .modal-body .clubecerto-content .block_2 .contact-wrapper .cc-contact a:hover{color:#e2211c}.modal-infos .modal-area .modal-body .clubecerto-content .block_2 .section-title{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;margin:15px 0 10px;font-family:Museo,sans-serif;font-size:14px;font-weight:300}.modal-infos .modal-area .modal-body .clubecerto-content .block_2 .rules{height:150px;overflow-y:auto;padding-right:4px;font-weight:300;font-family:Museo,sans-serif;font-size:12px;line-height:16px;border-bottom:1px solid #f1f1f1}.modal-infos .modal-area .modal-body .clubecerto-content .block_2 .rules::-webkit-scrollbar{height:5px;width:5px;background:#ececec;border-radius:4px}@media (min-width:768px){.modal-infos .modal-area .modal-body .clubecerto-content .block_2 .rules::-webkit-scrollbar{height:8px;width:8px}}.modal-infos .modal-area .modal-body .clubecerto-content .block_2 .rules::-webkit-scrollbar-thumb{background:#c4c4c4;border-radius:4px}.modal-infos .modal-area .modal-body .clubecerto-content .block_2 .rules h3{margin:0 0 10px;font-size:12px;font-weight:600;color:#262626}.modal-infos .modal-area .modal-body .clubecerto-content .block_2 .rules p{margin:0 0 24px;font-size:12px;font-weight:300;color:#262626}.modal-infos .modal-area .modal-body .clubecerto-content .block_2 .rules a{font-family:Museo,sans-serif;font-size:12px;color:#b82e24}.modal-infos .modal-area .modal-body .clubecerto-content .block_2 .rules .divider{margin:32px 0 18px;border-bottom:1px solid #ccc}.modal-infos .modal-area .modal-body .clubecerto-controls{display:-webkit-box;display:-ms-flexbox;display:flex;padding:20px 30px}.modal-infos .modal-area .modal-body .clubecerto-controls #clubecerto-modal-msg{font-family:Museo,sans-serif;font-weight:700;font-size:14px;line-height:21px;text-align:left;color:#e2211c;margin-right:15px}.modal-infos .modal-area .modal-body .clubecerto-controls .clubecerto-link-wrapper{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;margin-left:auto}@media (max-width:767px){.modal-infos .modal-area .modal-body .clubecerto-controls .clubecerto-link-wrapper{margin:0}}@media (max-width:767px){.modal-infos .modal-area .modal-body .clubecerto-controls{-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column}.modal-infos .modal-area .modal-body .clubecerto-controls #clubecerto-modal-msg{margin:0 0 10px 0;text-align:center}.modal-infos .modal-area .modal-body .clubecerto-controls #clubecerto-modal-link{padding:0 20px;font-size:18px;line-height:38px}}.modal-infos .modal-area #form-cpf{z-index:0;display:none;-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column;padding:50px;text-align:center}.modal-infos .modal-area #form-cpf p{font-family:Museo,sans-serif;font-weight:600;font-size:20px;line-height:24px;color:#e2211c;margin:0 0 40px}.modal-infos .modal-area #form-cpf input{padding:0 15px;border:1px solid #c4c4c4;border-radius:6px;font-family:Museo,sans-serif;font-size:20px;font-weight:700;line-height:40px;letter-spacing:1px;color:#303030;margin-bottom:15px}.modal-infos .modal-area #form-cpf input::-webkit-input-placeholder{font-weight:300;color:#c4c4c4;letter-spacing:0}.modal-infos .modal-area #form-cpf input::-moz-placeholder{font-weight:300;color:#c4c4c4;letter-spacing:0}.modal-infos .modal-area #form-cpf input:-ms-input-placeholder{font-weight:300;color:#c4c4c4;letter-spacing:0}.modal-infos .modal-area #form-cpf input::-ms-input-placeholder{font-weight:300;color:#c4c4c4;letter-spacing:0}.modal-infos .modal-area #form-cpf input::placeholder{font-weight:300;color:#c4c4c4;letter-spacing:0}.modal-infos .modal-area #form-cpf button{line-height:42px}.modal-infos .modal-area #clubecerto-form-loading{z-index:1;position:absolute;top:0;left:0;right:0;bottom:0;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;background-color:rgba(255,255,255,.85);-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;opacity:0;visibility:hidden;-webkit-transition:1s opacity;-o-transition:1s opacity;transition:1s opacity}.modal-infos .modal-area #clubecerto-form-loading img{width:70px}\n        ';
             var scriptStr = '\n            (() => { const state = { zIndex: 11000 }; function closeAll() { document.querySelectorAll(\'.modal\').forEach(modal => { modalManager(false, modal); }) } function close(target, callback) { modalManager(false, target, callback); } function open(target, callback) { modalManager(true, target, callback); } function modalManager(show, target, callback) { let modal = {}; if (target.constructor === String) { modal = document.querySelector(target); } else if (target.__proto__ instanceof HTMLElement) { if (target.dataset.modal) { modal = document.querySelector(target.dataset.modal); } else { modal = target.closest(\'.modal\'); } } else { throw \'Invalid argument: The parameter must be a selector or an HTML element.\'; } if (show) { document.documentElement.style.overflowY = \'hidden\'; modal.closest(\'.modal\').style.top = window.scrollY+"px"; modal.style.zIndex = state.zIndex++; modal.style.opacity = 1; modal.style.visibility = \'visible\'; } else { if (document.querySelector(\'.modal-infos\').classList.contains(\'loading\')) return; document.documentElement.style.overflowY = \'auto\'; modal.style.zIndex = -1; modal.style.opacity = 0; setTimeout(() => modal.style.visibility = \'hidden\', 200); } if (callback) { callback(); } } function events() { window.addEventListener(\'keydown\', e => { if (e.key === \'Escape\') { /* Close modal on press Esc */ closeAll(); } }); window.addEventListener(\'mouseup\', e => { const elemCloseModal = e.target.closest(\'.close-modal\'); const elemOpenModal = e.target.closest(\'.open-modal\'); if (elemOpenModal) { /* Open modal */ open(elemOpenModal); } else if (elemCloseModal) { /* Close modal on click in class \'close-modal\' */ close(elemCloseModal); } else if (e.target.classList.contains(\'modal\')) { /* Close modal on click out */ close(e.target); } }); } (() => { window.SimpleModal = { open, close, closeAll }; events(); })() })();\n        ';
             var script = document.createElement('script');
             script.append(document.createTextNode(scriptStr));
@@ -72992,7 +72980,7 @@ var Clubecerto = function () {
     }, {
         key: 'updateUserCPFInMasterData',
         value: function updateUserCPFInMasterData(email, cpf) {
-            var url = 'https://mali.supernosso.com.br/IntegraSnc_Core/rest/MetodoClubeCerto/CreateUpdateCliente?';
+            var url = 'https://mauricio.supernosso.com.br/IntegraSnc_Core/rest/MetodoClubeCerto/CreateUpdateCliente?';
             url += 'Email=' + email + '&Document=' + cpf + '&IsPopup=true';
 
             try {
