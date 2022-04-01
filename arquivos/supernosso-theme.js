@@ -83687,7 +83687,7 @@ var CupomDesconto = exports.CupomDesconto = function (_React$Component) {
             return x.text.includes('Cupom') && x.text.includes('inválido');
           });
           if (errorMsg.length > 0) {
-            var html = '\n            <div class="coupon-warning">\n              <strong>desculpe, seu cupom \xE9 invalido ou foi digitado errado!</strong>\n              <p>digite novamente seu c\xF3digo de desconto para n\xE3o perder nenhuma vantagem!</p>\n            </div>\n          ';
+            var html = '\n            <div class="coupon-warning">\n              <strong>desculpe, seu cupom \xE9 inv\xE1lido ou foi digitado errado!</strong>\n              <p>digite novamente seu c\xF3digo de desconto para n\xE3o perder nenhuma vantagem!</p>\n            </div>\n          ';
             $(html).appendTo('.cart-total-info.cart-desconto');
             vtexjs.checkout.clearMessages();
           }
