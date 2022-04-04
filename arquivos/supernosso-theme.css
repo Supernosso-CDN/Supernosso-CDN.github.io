@@ -9707,6 +9707,9 @@ header .search-bar .close-search-button {
 header .search-bar .busca {
   order: -1;
 }
+.wine-2021 header {
+  position: sticky;
+}
 #nav-categories {
   display: none !important;
   position: fixed;
