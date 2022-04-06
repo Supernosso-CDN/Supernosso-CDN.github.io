@@ -76928,40 +76928,42 @@ var Home = function () {
             //apply random
             this.shuffleElements($('.country-item'));
 
-            if (window.matchMedia("(max-width:992px)").matches == false) {
-                $('.country-slider').slick({
-                    arrows: true,
-                    dots: false,
-                    centerMode: true,
-                    centerPadding: "60px",
-                    slidesToShow: 3,
-                    swipeToSlide: true,
-                    infinite: true,
-                    autoplay: true,
-                    prevArrow: '<a href="javascript:;" class="slick-prev"><img src="https://supernossoemcasa.vteximg.com.br/arquivos/slider-arrow-left.png" /></a>',
-                    nextArrow: '<a href="javascript:;" class="slick-next"><img src="https://supernossoemcasa.vteximg.com.br/arquivos/slider-arrow-right.png" /></a>'
-                    //initialSlide: rand
-                });
-            } else if (window.matchMedia("(min-width: 768px) and (max-width:992px)").matches == true) {
-                $('.country-slider').slick({
-                    arrows: false,
-                    dots: false,
-                    centerMode: false,
-                    slidesToShow: 2,
-                    swipeToSlide: true,
-                    infinite: true
-                    //initialSlide: rand
-                });
-            } else {
-                $('.country-slider').slick({
-                    arrows: false,
-                    dots: false,
-                    centerMode: false,
-                    slidesToShow: 1,
-                    infinite: true,
-                    swipeToSlide: true
-                    //initialSlide: rand
-                });
+            if ($(".country-slider .box-banner").length > 2) {
+                if (window.matchMedia("(max-width:992px)").matches == false) {
+                    $('.country-slider').slick({
+                        arrows: true,
+                        dots: false,
+                        centerMode: true,
+                        centerPadding: "60px",
+                        slidesToShow: 3,
+                        swipeToSlide: true,
+                        infinite: true,
+                        autoplay: true,
+                        prevArrow: '<a href="javascript:;" class="slick-prev"><img src="https://supernossoemcasa.vteximg.com.br/arquivos/slider-arrow-left.png" /></a>',
+                        nextArrow: '<a href="javascript:;" class="slick-next"><img src="https://supernossoemcasa.vteximg.com.br/arquivos/slider-arrow-right.png" /></a>'
+                        //initialSlide: rand
+                    });
+                } else if (window.matchMedia("(min-width: 768px) and (max-width:992px)").matches == true) {
+                    $('.country-slider').slick({
+                        arrows: false,
+                        dots: false,
+                        centerMode: false,
+                        slidesToShow: 2,
+                        swipeToSlide: true,
+                        infinite: true
+                        //initialSlide: rand
+                    });
+                } else {
+                    $('.country-slider').slick({
+                        arrows: false,
+                        dots: false,
+                        centerMode: false,
+                        slidesToShow: 1,
+                        infinite: true,
+                        swipeToSlide: true
+                        //initialSlide: rand
+                    });
+                }
             }
         }
     }, {

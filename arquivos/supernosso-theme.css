@@ -13979,6 +13979,7 @@ p.text-seo span.full {
   margin: 0;
   list-style: none;
   display: flex;
+  justify-content: center;
 }
 .home-supernosso-theme .country-menu .country-slider .country-item,
 .home-supernosso-theme .country-menu .country-slider .box-banner {
