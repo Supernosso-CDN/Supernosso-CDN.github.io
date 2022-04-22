@@ -26878,7 +26878,7 @@ module.exports = invariant;
 }).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],46:[function(require,module,exports){
 //! moment.js
-//! version : 2.29.3
+//! version : 2.29.1
 //! authors : Tim Wood, Iskren Chernev, Moment.js contributors
 //! license : MIT
 //! momentjs.com
@@ -26955,9 +26955,8 @@ module.exports = invariant;
 
     function map(arr, fn) {
         var res = [],
-            i,
-            arrLen = arr.length;
-        for (i = 0; i < arrLen; ++i) {
+            i;
+        for (i = 0; i < arr.length; ++i) {
             res.push(fn(arr[i], i));
         }
         return res;
@@ -27086,10 +27085,7 @@ module.exports = invariant;
         updateInProgress = false;
 
     function copyConfig(to, from) {
-        var i,
-            prop,
-            val,
-            momentPropertiesLen = momentProperties.length;
+        var i, prop, val;
 
         if (!isUndefined(from._isAMomentObject)) {
             to._isAMomentObject = from._isAMomentObject;
@@ -27122,8 +27118,8 @@ module.exports = invariant;
             to._locale = from._locale;
         }
 
-        if (momentPropertiesLen > 0) {
-            for (i = 0; i < momentPropertiesLen; i++) {
+        if (momentProperties.length > 0) {
+            for (i = 0; i < momentProperties.length; i++) {
                 prop = momentProperties[i];
                 val = from[prop];
                 if (!isUndefined(val)) {
@@ -27178,9 +27174,8 @@ module.exports = invariant;
                 var args = [],
                     arg,
                     i,
-                    key,
-                    argLen = arguments.length;
-                for (i = 0; i < argLen; i++) {
+                    key;
+                for (i = 0; i < arguments.length; i++) {
                     arg = '';
                     if (typeof arguments[i] === 'object') {
                         arg += '\n[' + i + '] ';
@@ -27330,8 +27325,7 @@ module.exports = invariant;
         );
     }
 
-    var formattingTokens =
-            /(\[[^\[]*\])|(\\)?([Hh]mm(ss)?|Mo|MM?M?M?|Do|DDDo|DD?D?D?|ddd?d?|do?|w[o|w]?|W[o|W]?|Qo?|N{1,5}|YYYYYY|YYYYY|YYYY|YY|y{2,4}|yo?|gg(ggg?)?|GG(GGG?)?|e|E|a|A|hh?|HH?|kk?|mm?|ss?|S{1,9}|x|X|zz?|ZZ?|.)/g,
+    var formattingTokens = /(\[[^\[]*\])|(\\)?([Hh]mm(ss)?|Mo|MM?M?M?|Do|DDDo|DD?D?D?|ddd?d?|do?|w[o|w]?|W[o|W]?|Qo?|N{1,5}|YYYYYY|YYYYY|YYYY|YY|y{2,4}|yo?|gg(ggg?)?|GG(GGG?)?|e|E|a|A|hh?|HH?|kk?|mm?|ss?|S{1,9}|x|X|zz?|ZZ?|.)/g,
         localFormattingTokens = /(\[[^\[]*\])|(\\)?(LTS|LT|LL?L?L?|l{1,4})/g,
         formatFunctions = {},
         formatTokenFunctions = {};
@@ -27635,9 +27629,8 @@ module.exports = invariant;
         if (typeof units === 'object') {
             units = normalizeObjectUnits(units);
             var prioritized = getPrioritizedUnits(units),
-                i,
-                prioritizedLen = prioritized.length;
-            for (i = 0; i < prioritizedLen; i++) {
+                i;
+            for (i = 0; i < prioritized.length; i++) {
                 this[prioritized[i].unit](units[prioritized[i].unit]);
             }
         } else {
@@ -27667,8 +27660,7 @@ module.exports = invariant;
         matchTimestamp = /[+-]?\d+(\.\d{1,3})?/, // 123456789 123456789.123
         // any word (or two) characters or numbers including two/three word month in arabic.
         // includes scottish gaelic two word and hyphenated months
-        matchWord =
-            /[0-9]{0,256}['a-z\u00A0-\u05FF\u0700-\uD7FF\uF900-\uFDCF\uFDF0-\uFF07\uFF10-\uFFEF]{1,256}|[\u0600-\u06FF\/]{1,256}(\s*?[\u0600-\u06FF]{1,256}){1,2}/i,
+        matchWord = /[0-9]{0,256}['a-z\u00A0-\u05FF\u0700-\uD7FF\uF900-\uFDCF\uFDF0-\uFF07\uFF10-\uFFEF]{1,256}|[\u0600-\u06FF\/]{1,256}(\s*?[\u0600-\u06FF]{1,256}){1,2}/i,
         regexes;
 
     regexes = {};
@@ -27694,12 +27686,15 @@ module.exports = invariant;
         return regexEscape(
             s
                 .replace('\\', '')
-                .replace(
-                    /\\(\[)|\\(\])|\[([^\]\[]*)\]|\\(.)/g,
-                    function (matched, p1, p2, p3, p4) {
-                        return p1 || p2 || p3 || p4;
-                    }
-                )
+                .replace(/\\(\[)|\\(\])|\[([^\]\[]*)\]|\\(.)/g, function (
+                    matched,
+                    p1,
+                    p2,
+                    p3,
+                    p4
+                ) {
+                    return p1 || p2 || p3 || p4;
+                })
         );
     }
 
@@ -27711,8 +27706,7 @@ module.exports = invariant;
 
     function addParseToken(token, callback) {
         var i,
-            func = callback,
-            tokenLen;
+            func = callback;
         if (typeof token === 'string') {
             token = [token];
         }
@@ -27721,8 +27715,7 @@ module.exports = invariant;
                 array[callback] = toInt(input);
             };
         }
-        tokenLen = token.length;
-        for (i = 0; i < tokenLen; i++) {
+        for (i = 0; i < token.length; i++) {
             tokens[token[i]] = func;
         }
     }
@@ -27833,12 +27826,12 @@ module.exports = invariant;
 
     // LOCALES
 
-    var defaultLocaleMonths =
-            'January_February_March_April_May_June_July_August_September_October_November_December'.split(
-                '_'
-            ),
-        defaultLocaleMonthsShort =
-            'Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec'.split('_'),
+    var defaultLocaleMonths = 'January_February_March_April_May_June_July_August_September_October_November_December'.split(
+            '_'
+        ),
+        defaultLocaleMonthsShort = 'Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec'.split(
+            '_'
+        ),
         MONTHS_IN_FORMAT = /D[oD]?(\[[^\[\]]*\]|\s)+MMMM?/,
         defaultMonthsShortRegex = matchWord,
         defaultMonthsRegex = matchWord;
@@ -28280,12 +28273,14 @@ module.exports = invariant;
     addRegexToken('W', match1to2);
     addRegexToken('WW', match1to2, match2);
 
-    addWeekParseToken(
-        ['w', 'ww', 'W', 'WW'],
-        function (input, week, config, token) {
-            week[token.substr(0, 1)] = toInt(input);
-        }
-    );
+    addWeekParseToken(['w', 'ww', 'W', 'WW'], function (
+        input,
+        week,
+        config,
+        token
+    ) {
+        week[token.substr(0, 1)] = toInt(input);
+    });
 
     // HELPERS
 
@@ -28410,8 +28405,9 @@ module.exports = invariant;
         return ws.slice(n, 7).concat(ws.slice(0, n));
     }
 
-    var defaultLocaleWeekdays =
-            'Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday'.split('_'),
+    var defaultLocaleWeekdays = 'Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday'.split(
+            '_'
+        ),
         defaultLocaleWeekdaysShort = 'Sun_Mon_Tue_Wed_Thu_Fri_Sat'.split('_'),
         defaultLocaleWeekdaysMin = 'Su_Mo_Tu_We_Th_Fr_Sa'.split('_'),
         defaultWeekdaysRegex = matchWord,
@@ -28959,11 +28955,6 @@ module.exports = invariant;
         return globalLocale;
     }
 
-    function isLocaleNameSane(name) {
-        // Prevent names that look like filesystem paths, i.e contain '/' or '\'
-        return name.match('^[^/\\\\]*$') != null;
-    }
-
     function loadLocale(name) {
         var oldLocale = null,
             aliasedRequire;
@@ -28972,8 +28963,7 @@ module.exports = invariant;
             locales[name] === undefined &&
             typeof module !== 'undefined' &&
             module &&
-            module.exports &&
-            isLocaleNameSane(name)
+            module.exports
         ) {
             try {
                 oldLocale = globalLocale._abbr;
@@ -29190,10 +29180,8 @@ module.exports = invariant;
 
     // iso 8601 regex
     // 0000-00-00 0000-W00 or 0000-W00-0 + T + 00 or 00:00 or 00:00:00 or 00:00:00.000 + +00:00 or +0000 or +00)
-    var extendedIsoRegex =
-            /^\s*((?:[+-]\d{6}|\d{4})-(?:\d\d-\d\d|W\d\d-\d|W\d\d|\d\d\d|\d\d))(?:(T| )(\d\d(?::\d\d(?::\d\d(?:[.,]\d+)?)?)?)([+-]\d\d(?::?\d\d)?|\s*Z)?)?$/,
-        basicIsoRegex =
-            /^\s*((?:[+-]\d{6}|\d{4})(?:\d\d\d\d|W\d\d\d|W\d\d|\d\d\d|\d\d|))(?:(T| )(\d\d(?:\d\d(?:\d\d(?:[.,]\d+)?)?)?)([+-]\d\d(?::?\d\d)?|\s*Z)?)?$/,
+    var extendedIsoRegex = /^\s*((?:[+-]\d{6}|\d{4})-(?:\d\d-\d\d|W\d\d-\d|W\d\d|\d\d\d|\d\d))(?:(T| )(\d\d(?::\d\d(?::\d\d(?:[.,]\d+)?)?)?)([+-]\d\d(?::?\d\d)?|\s*Z)?)?$/,
+        basicIsoRegex = /^\s*((?:[+-]\d{6}|\d{4})(?:\d\d\d\d|W\d\d\d|W\d\d|\d\d\d|\d\d|))(?:(T| )(\d\d(?:\d\d(?:\d\d(?:[.,]\d+)?)?)?)([+-]\d\d(?::?\d\d)?|\s*Z)?)?$/,
         tzRegex = /Z|[+-]\d\d(?::?\d\d)?/,
         isoDates = [
             ['YYYYYY-MM-DD', /[+-]\d{6}-\d\d-\d\d/],
@@ -29224,8 +29212,7 @@ module.exports = invariant;
         ],
         aspNetJsonRegex = /^\/?Date\((-?\d+)/i,
         // RFC 2822 regex: For details see https://tools.ietf.org/html/rfc2822#section-3.3
-        rfc2822 =
-            /^(?:(Mon|Tue|Wed|Thu|Fri|Sat|Sun),?\s)?(\d{1,2})\s(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s(\d{2,4})\s(\d\d):(\d\d)(?::(\d\d))?\s(?:(UT|GMT|[ECMP][SD]T)|([Zz])|([+-]\d{4}))$/,
+        rfc2822 = /^(?:(Mon|Tue|Wed|Thu|Fri|Sat|Sun),?\s)?(\d{1,2})\s(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s(\d{2,4})\s(\d\d):(\d\d)(?::(\d\d))?\s(?:(UT|GMT|[ECMP][SD]T)|([Zz])|([+-]\d{4}))$/,
         obsOffsets = {
             UT: 0,
             GMT: 0,
@@ -29248,13 +29235,12 @@ module.exports = invariant;
             allowTime,
             dateFormat,
             timeFormat,
-            tzFormat,
-            isoDatesLen = isoDates.length,
-            isoTimesLen = isoTimes.length;
+            tzFormat;
 
         if (match) {
             getParsingFlags(config).iso = true;
-            for (i = 0, l = isoDatesLen; i < l; i++) {
+
+            for (i = 0, l = isoDates.length; i < l; i++) {
                 if (isoDates[i][1].exec(match[1])) {
                     dateFormat = isoDates[i][0];
                     allowTime = isoDates[i][2] !== false;
@@ -29266,7 +29252,7 @@ module.exports = invariant;
                 return;
             }
             if (match[3]) {
-                for (i = 0, l = isoTimesLen; i < l; i++) {
+                for (i = 0, l = isoTimes.length; i < l; i++) {
                     if (isoTimes[i][1].exec(match[3])) {
                         // match[2] should be 'T' or space
                         timeFormat = (match[2] || ' ') + isoTimes[i][0];
@@ -29646,13 +29632,12 @@ module.exports = invariant;
             skipped,
             stringLength = string.length,
             totalParsedInputLength = 0,
-            era,
-            tokenLen;
+            era;
 
         tokens =
             expandFormat(config._f, config._locale).match(formattingTokens) || [];
-        tokenLen = tokens.length;
-        for (i = 0; i < tokenLen; i++) {
+
+        for (i = 0; i < tokens.length; i++) {
             token = tokens[i];
             parsedInput = (string.match(getParseRegexForToken(token, config)) ||
                 [])[0];
@@ -29747,16 +29732,15 @@ module.exports = invariant;
             i,
             currentScore,
             validFormatFound,
-            bestFormatIsValid = false,
-            configfLen = config._f.length;
+            bestFormatIsValid = false;
 
-        if (configfLen === 0) {
+        if (config._f.length === 0) {
             getParsingFlags(config).invalidFormat = true;
             config._d = new Date(NaN);
             return;
         }
 
-        for (i = 0; i < configfLen; i++) {
+        for (i = 0; i < config._f.length; i++) {
             currentScore = 0;
             validFormatFound = false;
             tempConfig = copyConfig({}, config);
@@ -29997,8 +29981,7 @@ module.exports = invariant;
     function isDurationValid(m) {
         var key,
             unitHasDecimal = false,
-            i,
-            orderLen = ordering.length;
+            i;
         for (key in m) {
             if (
                 hasOwnProp(m, key) &&
@@ -30011,7 +29994,7 @@ module.exports = invariant;
             }
         }
 
-        for (i = 0; i < orderLen; ++i) {
+        for (i = 0; i < ordering.length; ++i) {
             if (m[ordering[i]]) {
                 if (unitHasDecimal) {
                     return false; // only allow non-integers for smallest unit
@@ -30336,8 +30319,7 @@ module.exports = invariant;
         // from http://docs.closure-library.googlecode.com/git/closure_goog_date_date.js.source.html
         // somewhat more in line with 4.4.3.2 2004 spec, but allows decimal anywhere
         // and further modified to allow for strings containing both week and day
-        isoRegex =
-            /^(-|\+)?P(?:([-+]?[0-9,.]*)Y)?(?:([-+]?[0-9,.]*)M)?(?:([-+]?[0-9,.]*)W)?(?:([-+]?[0-9,.]*)D)?(?:T(?:([-+]?[0-9,.]*)H)?(?:([-+]?[0-9,.]*)M)?(?:([-+]?[0-9,.]*)S)?)?$/;
+        isoRegex = /^(-|\+)?P(?:([-+]?[0-9,.]*)Y)?(?:([-+]?[0-9,.]*)M)?(?:([-+]?[0-9,.]*)W)?(?:([-+]?[0-9,.]*)D)?(?:T(?:([-+]?[0-9,.]*)H)?(?:([-+]?[0-9,.]*)M)?(?:([-+]?[0-9,.]*)S)?)?$/;
 
     function createDuration(input, key) {
         var duration = input,
@@ -30558,10 +30540,9 @@ module.exports = invariant;
                 'ms',
             ],
             i,
-            property,
-            propertyLen = properties.length;
+            property;
 
-        for (i = 0; i < propertyLen; i += 1) {
+        for (i = 0; i < properties.length; i += 1) {
             property = properties[i];
             propertyTest = propertyTest || hasOwnProp(input, property);
         }
@@ -31184,17 +31165,19 @@ module.exports = invariant;
     addRegexToken('NNNN', matchEraName);
     addRegexToken('NNNNN', matchEraNarrow);
 
-    addParseToken(
-        ['N', 'NN', 'NNN', 'NNNN', 'NNNNN'],
-        function (input, array, config, token) {
-            var era = config._locale.erasParse(input, token, config._strict);
-            if (era) {
-                getParsingFlags(config).era = era;
-            } else {
-                getParsingFlags(config).invalidEra = input;
-            }
+    addParseToken(['N', 'NN', 'NNN', 'NNNN', 'NNNNN'], function (
+        input,
+        array,
+        config,
+        token
+    ) {
+        var era = config._locale.erasParse(input, token, config._strict);
+        if (era) {
+            getParsingFlags(config).era = era;
+        } else {
+            getParsingFlags(config).invalidEra = input;
         }
-    );
+    });
 
     addRegexToken('y', matchUnsigned);
     addRegexToken('yy', matchUnsigned);
@@ -31486,12 +31469,14 @@ module.exports = invariant;
     addRegexToken('GGGGG', match1to6, match6);
     addRegexToken('ggggg', match1to6, match6);
 
-    addWeekParseToken(
-        ['gggg', 'ggggg', 'GGGG', 'GGGGG'],
-        function (input, week, config, token) {
-            week[token.substr(0, 2)] = toInt(input);
-        }
-    );
+    addWeekParseToken(['gggg', 'ggggg', 'GGGG', 'GGGGG'], function (
+        input,
+        week,
+        config,
+        token
+    ) {
+        week[token.substr(0, 2)] = toInt(input);
+    });
 
     addWeekParseToken(['gg', 'GG'], function (input, week, config, token) {
         week[token] = hooks.parseTwoDigitYear(input);
@@ -32514,7 +32499,7 @@ module.exports = invariant;
 
     //! moment.js
 
-    hooks.version = '2.29.3';
+    hooks.version = '2.29.1';
 
     setHookCallback(createLocal);
 
@@ -71003,7 +70988,7 @@ module.exports = warning;
           var g, h, i, j, k, l, m, n, o, p;if (401 !== d.status && 403 !== d.status && 0 !== d.readyState && 0 !== d.status) return k = window.i18n ? window.i18n.t("global.unkownError") : "An unexpected error ocurred.", j = window.i18n ? window.i18n.t("global.error") : "Error", i = window.i18n ? window.i18n.t("global.close") : "Close", d.getResponseHeader("x-vtex-operation-id") && (j += ' <small class="vtex-operation-id-container">(Operation ID ', j += '<span class="vtex-operation-id">', j += decodeURIComponent(d.getResponseHeader("x-vtex-operation-id")), j += "</span>", j += ")</small>"), d.getResponseHeader("x-vtex-error-message") ? (m = -1 !== (null != (o = d.getResponseHeader("Content-Type")) ? o.indexOf("application/json") : void 0), m && null != (null != (p = d.responseText.error) ? p.message : void 0) ? h = decodeURIComponent(d.responseText.error.message) : (h = decodeURIComponent(d.getResponseHeader("x-vtex-error-message")), "Value=1" === c("ShowFullError") && (h += '<div class="vtex-error-detail-container">\n  <a href="javascript:void(0);" class="vtex-error-detail-link" onClick="$(\'.vtex-error-detail\').show()">\n    <small>Details</small>\n  </a>\n  <div class="vtex-error-detail" style="display: none;"></div>\n</div>', l = document.createElement("iframe"), l.src = "data:text/html;charset=utf-8," + decodeURIComponent(d.responseText), $(l).css("width", "100%"), $(l).css("height", "900px"), g = !0))) : h = k, n = { type: "fatal", content: { title: j, detail: h, html: !0 }, close: i }, a.addMessage(n), g ? ($(".vtex-error-detail").html(l), g = null) : void 0;
         });
       }, b.prototype.buildPlaceholderTemplate = function () {
-        return $(".vtex-front-messages-placeholder").append('<button type="button" class="vtex-front-messages-close-all close"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 16 16" xml:space="preserve" width="22" height="22"><g class="nc-icon-wrapper" fill="#111111"><line fill="none" stroke="#111111" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="11.5" y1="4.5" x2="4.5" y2="11.5"></line> <line fill="none" stroke="#111111" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="4.5" y1="4.5" x2="11.5" y2="11.5"></line></g></svg></button>');
+        return $(".vtex-front-messages-placeholder").append('<button type="button" class="vtex-front-messages-close-all close" style="top: 15px;"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 16 16" xml:space="preserve" width="22" height="22"><g class="nc-icon-wrapper" fill="#111111"><line fill="none" stroke="#111111" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="11.5" y1="4.5" x2="4.5" y2="11.5"></line> <line fill="none" stroke="#111111" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="4.5" y1="4.5" x2="11.5" y2="11.5"></line></g></svg></button>');
       }, b.prototype.registerEventListeners = function () {
         var a = this;if (window) return $(window).on("addMessage.vtex", function (b, c) {
           return a.addMessage(c);
@@ -83627,7 +83612,7 @@ exports.default = ConfigurableShipping;
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 exports.CupomDesconto = undefined;
 
@@ -83646,213 +83631,230 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var CupomDesconto = exports.CupomDesconto = function (_React$Component) {
-  _inherits(CupomDesconto, _React$Component);
+    _inherits(CupomDesconto, _React$Component);
 
-  function CupomDesconto(props) {
-    _classCallCheck(this, CupomDesconto);
+    function CupomDesconto(props) {
+        _classCallCheck(this, CupomDesconto);
 
-    var _this = _possibleConstructorReturn(this, (CupomDesconto.__proto__ || Object.getPrototypeOf(CupomDesconto)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (CupomDesconto.__proto__ || Object.getPrototypeOf(CupomDesconto)).call(this, props));
 
-    _this.state = {
-      input: '',
-      add: false,
-      loading: false
-    };
-    return _this;
-  }
-
-  _createClass(CupomDesconto, [{
-    key: 'inputChange',
-    value: function inputChange(e) {
-      this.setState({
-        input: e.target.value
-      });
-    }
-  }, {
-    key: 'showCupomInput',
-    value: function showCupomInput() {
-      if ($('.cart-total-info.cart-desconto').find('.coupon-warning').length > 0) {
-        $('.coupon-warning').detach();
-      }
-      this.setState({
-        add: true
-      });
-    }
-  }, {
-    key: 'getCartAddCoupon',
-    value: function getCartAddCoupon(coupon) {
-      var _this2 = this;
-
-      window.vtexjs.checkout.getOrderForm().then(function (orderForm) {
-        var marketingData = {
-          attachmentId: 'marketingData',
-          coupon: coupon,
-          utmCampaign: orderForm && orderForm.marketingData ? orderForm.marketingData.utmCampaign : "",
-          utmMedium: orderForm && orderForm.marketingData ? orderForm.marketingData.utmMedium : "",
-          utmSource: orderForm && orderForm.marketingData ? orderForm.marketingData.utmSource : "",
-          utmiCampaign: orderForm && orderForm.marketingData ? orderForm.marketingData.utmiCampaign : "",
-          utmiPart: "",
-          utmipage: ""
+        _this.state = {
+            input: '',
+            add: false,
+            loading: false
         };
-
-        vtexjs.checkout.sendAttachment('marketingData', marketingData).done(function (orderForm) {
-          _this2.setState({
-            loading: false,
-            add: false
-          });
-          var errorMsg = orderForm.messages.filter(function (x) {
-            return x.text.includes('Cupom') && x.text.includes('inválido');
-          });
-          if (errorMsg.length > 0) {
-            var html = '\n            <div class="coupon-warning">\n              <strong>desculpe, seu cupom \xE9 inv\xE1lido ou foi digitado errado!</strong>\n              <p>digite novamente seu c\xF3digo de desconto para n\xE3o perder nenhuma vantagem!</p>\n            </div>\n          ';
-            $(html).appendTo('.cart-total-info.cart-desconto');
-            vtexjs.checkout.clearMessages();
-          }
-          _this2.props.updateOrderForm(orderForm);
-        });
-      });
+        return _this;
     }
-  }, {
-    key: 'addCupom',
-    value: function addCupom(e) {
-      e.preventDefault();
-      this.setState({
-        loading: true
-      });
-      this.getCartAddCoupon(this.state.input);
-    }
-  }, {
-    key: 'removeCupom',
-    value: function removeCupom(e) {
-      e.preventDefault();
 
-      var t = this;
-      vtexjs.checkout.removeDiscountCoupon().done(function (orderForm) {
-        console.log(this);
-        t.setState({
-          loading: false,
-          add: false
-        });
-        t.props.updateOrderForm(orderForm);
-      });
-    }
-  }, {
-    key: 'renderInputCupom',
-    value: function renderInputCupom() {
-      return _react2.default.createElement(
-        'div',
-        { className: 'cart-cupom' },
-        _react2.default.createElement(
-          'strong',
-          { className: 'total-title' },
-          'cupom de desconto'
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: 'cart-total-info cart-desconto' },
-          _react2.default.createElement(
-            'div',
-            { className: 'form-group' },
-            this.state.loading && _react2.default.createElement('i', { className: 'fa fa-spin fa-spinner' }),
-            _react2.default.createElement('input', { className: 'form-control', onChange: this.inputChange.bind(this) }),
-            _react2.default.createElement(
-              'a',
-              { href: '#', onClick: this.addCupom.bind(this) },
-              _react2.default.createElement(
-                'svg',
-                { width: '40', height: '40', viewBox: '0 0 40 40', fill: 'none', xmlns: 'http://www.w3.org/2000/svg' },
-                _react2.default.createElement('rect', { width: '40', height: '40', rx: '6', fill: '#841F27' }),
-                _react2.default.createElement('path', { d: 'M30.6968 20.6111C30.997 20.2689 30.9967 19.7316 30.697 19.3889L26.8808 15.028C26.739 14.8662 26.4936 14.8498 26.3318 14.9913C26.1699 15.1333 26.1538 15.3785 26.2951 15.5406L29.8571 19.6111L10.2859 19.6111C10.0711 19.6111 9.89678 19.7851 9.89678 20C9.89678 20.2148 10.0711 20.3889 10.2859 20.3889L29.8569 20.3889L26.2951 24.4599C26.2308 24.5339 26.1988 24.6251 26.1988 24.716C26.1988 24.8243 26.244 24.9321 26.3315 25.0091C26.4933 25.1504 26.739 25.1338 26.8805 24.9725L30.6968 20.6111Z', fill: '#FAFAFA' })
-              )
-            )
-          )
-        )
-      );
-    }
-  }, {
-    key: 'renderAddCupom',
-    value: function renderAddCupom() {
-      return _react2.default.createElement(
-        'div',
-        { className: 'cart-cupom' },
-        _react2.default.createElement(
-          'strong',
-          { className: 'total-title' },
-          'cupom de desconto'
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: 'cart-total-info cart-desconto' },
-          _react2.default.createElement(
-            'span',
-            { className: 'cart-total-label' },
-            'desconto'
-          ),
-          _react2.default.createElement(
-            'span',
-            { className: 'cart-total-value' },
-            _react2.default.createElement(
-              'a',
-              { onClick: this.showCupomInput.bind(this) },
-              '+adicionar cupom'
-            )
-          )
-        )
-      );
-    }
-  }, {
-    key: 'renderSelectedCupom',
-    value: function renderSelectedCupom() {
-      return _react2.default.createElement(
-        'div',
-        { className: 'cart-cupom' },
-        _react2.default.createElement(
-          'strong',
-          { className: 'total-title' },
-          'cupom de desconto'
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: 'cart-total-info cart-desconto' },
-          _react2.default.createElement(
-            'span',
-            { className: 'cart-total-label' },
-            this.props.cupom
-          ),
-          _react2.default.createElement(
-            'span',
-            { className: 'cart-total-value' },
-            _react2.default.createElement(
-              'a',
-              { onClick: this.removeCupom.bind(this) },
-              'remover'
-            )
-          )
-        )
-      );
-    }
-  }, {
-    key: 'render',
-    value: function render() {
+    _createClass(CupomDesconto, [{
+        key: 'inputChange',
+        value: function inputChange(e) {
+            this.setState({
+                input: e.target.value
+            });
+        }
+    }, {
+        key: 'showCupomInput',
+        value: function showCupomInput() {
+            if ($('.cart-desconto > .coupon-warning').length) $('.coupon-warning').detach();
+            this.setState({ add: true });
+        }
+    }, {
+        key: 'showToastyMessage',
+        value: function showToastyMessage(title, detail, type) {
+            if (!$('.vtex-front-messages-placeholder').length) {
+                $('body').prepend('<div class="vtex-front-messages-placeholder"></div>');
+                new window.vtex.Messages.getInstance({ ajaxError: true });
+            }
 
-      var cupom = this.props.cupom;
-      cupom = cupom == '-' || cupom == null ? "" : cupom;
+            $(window).trigger('addMessage', {
+                timeout: 5000,
+                content: { title: title, detail: detail },
+                type: type // success, error, warning, info, default
+            });
+        }
+    }, {
+        key: 'addCupom',
+        value: function addCupom(e) {
+            var _this2 = this;
 
-      if (cupom == "" && !this.state.add) {
-        return this.renderAddCupom();
-      }
+            e.preventDefault();
+            this.setState({ loading: true });
 
-      if (cupom == "" && this.state.add) {
-        return this.renderInputCupom();
-      }
+            vtexjs.checkout.getOrderForm().then(function () {
+                return vtexjs.checkout.addDiscountCoupon(_this2.state.input);
+            }).then(function (orderForm) {
+                _this2.setState({ loading: false, add: false });
+                var message = orderForm.messages[0];
 
-      if (cupom != "" && !this.state.add) {
-        return this.renderSelectedCupom();
-      }
-    }
-  }]);
+                if (message) {
+                    if (message.code === 'couponNotFound') {
+                        // Inexistente
+                        _this2.showToastyMessage('', 'Esse cupom de desconto não existe.', 'warning');
 
-  return CupomDesconto;
+                        $('.cart-total-info.cart-desconto').append( /*html*/'\n                        <div class="coupon-warning">\n                            <strong>desculpe, seu cupom \xE9 inv\xE1lido ou foi digitado errado!</strong>\n                            <p>digite novamente seu c\xF3digo de desconto para n\xE3o perder nenhuma vantagem!</p>\n                        </div>\n                    ');
+                    } else if (message.code === 'couponExpired') {
+                        // Expirado
+                        _this2.showToastyMessage('', 'Esse cupom de desconto expirou.', 'warning');
+                    }
+                } else {
+                    if (orderForm.totalizers.find(function (f) {
+                        return f.id === 'Discounts';
+                    })) {
+                        // Aplicado
+                        _this2.showToastyMessage('', 'Cupom adicionado com sucesso!', 'success');
+                    } else {
+                        // Cupom não aplicável
+                        _this2.showToastyMessage('', 'Esse cupom de desconto é inválido.', 'warning');
+                    }
+                }
+
+                vtexjs.checkout.clearMessages();
+                _this2.props.updateOrderForm(orderForm);
+            });
+        }
+    }, {
+        key: 'removeCupom',
+        value: function removeCupom(e) {
+            var _this3 = this;
+
+            e.preventDefault();
+
+            vtexjs.checkout.removeDiscountCoupon().done(function (orderForm) {
+                _this3.setState({
+                    loading: false,
+                    add: false
+                });
+
+                _this3.showToastyMessage('', 'Cupom removido.', 'warning');
+                _this3.props.updateOrderForm(orderForm);
+            });
+        }
+    }, {
+        key: 'renderInputCupom',
+        value: function renderInputCupom() {
+            var _this4 = this;
+
+            return _react2.default.createElement(
+                'div',
+                { className: 'cart-cupom' },
+                _react2.default.createElement(
+                    'strong',
+                    { className: 'total-title' },
+                    'cupom de desconto'
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'cart-total-info cart-desconto' },
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'form-group' },
+                        this.state.loading && _react2.default.createElement('i', { className: 'fa fa-spin fa-spinner' }),
+                        _react2.default.createElement('input', {
+                            className: 'form-control',
+                            onChange: this.inputChange.bind(this),
+                            onKeyUp: function onKeyUp(e) {
+                                if (e.key === "Enter") _this4.addCupom(e);
+                            }
+                        }),
+                        _react2.default.createElement(
+                            'a',
+                            { href: '#', onClick: this.addCupom.bind(this) },
+                            _react2.default.createElement(
+                                'svg',
+                                { width: '40', height: '40', viewBox: '0 0 40 40', fill: 'none', xmlns: 'http://www.w3.org/2000/svg' },
+                                _react2.default.createElement('rect', { width: '40', height: '40', rx: '6', fill: '#841F27' }),
+                                _react2.default.createElement('path', { d: 'M30.6968 20.6111C30.997 20.2689 30.9967 19.7316 30.697 19.3889L26.8808 15.028C26.739 14.8662 26.4936 14.8498 26.3318 14.9913C26.1699 15.1333 26.1538 15.3785 26.2951 15.5406L29.8571 19.6111L10.2859 19.6111C10.0711 19.6111 9.89678 19.7851 9.89678 20C9.89678 20.2148 10.0711 20.3889 10.2859 20.3889L29.8569 20.3889L26.2951 24.4599C26.2308 24.5339 26.1988 24.6251 26.1988 24.716C26.1988 24.8243 26.244 24.9321 26.3315 25.0091C26.4933 25.1504 26.739 25.1338 26.8805 24.9725L30.6968 20.6111Z', fill: '#FAFAFA' })
+                            )
+                        )
+                    )
+                )
+            );
+        }
+    }, {
+        key: 'renderAddCupom',
+        value: function renderAddCupom() {
+            return _react2.default.createElement(
+                'div',
+                { className: 'cart-cupom' },
+                _react2.default.createElement(
+                    'strong',
+                    { className: 'total-title' },
+                    'cupom de desconto'
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'cart-total-info cart-desconto' },
+                    _react2.default.createElement(
+                        'span',
+                        { className: 'cart-total-label' },
+                        'desconto'
+                    ),
+                    _react2.default.createElement(
+                        'span',
+                        { className: 'cart-total-value' },
+                        _react2.default.createElement(
+                            'a',
+                            { onClick: this.showCupomInput.bind(this) },
+                            '+adicionar cupom'
+                        )
+                    )
+                )
+            );
+        }
+    }, {
+        key: 'renderSelectedCupom',
+        value: function renderSelectedCupom() {
+            return _react2.default.createElement(
+                'div',
+                { className: 'cart-cupom' },
+                _react2.default.createElement(
+                    'strong',
+                    { className: 'total-title' },
+                    'cupom de desconto'
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'cart-total-info cart-desconto' },
+                    _react2.default.createElement(
+                        'span',
+                        { className: 'cart-total-label' },
+                        this.props.cupom
+                    ),
+                    _react2.default.createElement(
+                        'span',
+                        { className: 'cart-total-value' },
+                        _react2.default.createElement(
+                            'a',
+                            { onClick: this.removeCupom.bind(this) },
+                            'remover'
+                        )
+                    )
+                )
+            );
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+
+            var cupom = this.props.cupom;
+            cupom = cupom == '-' || cupom == null ? "" : cupom;
+
+            if (cupom == "" && !this.state.add) {
+                return this.renderAddCupom();
+            }
+
+            if (cupom == "" && this.state.add) {
+                return this.renderInputCupom();
+            }
+
+            if (cupom != "" && !this.state.add) {
+                return this.renderSelectedCupom();
+            }
+        }
+    }]);
+
+    return CupomDesconto;
 }(_react2.default.Component);
 
 },{"react":88}],184:[function(require,module,exports){
@@ -85617,7 +85619,7 @@ if (mobcart) {
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -85625,60 +85627,49 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var ProductLimit = exports.ProductLimit = function () {
-  function ProductLimit() {
-    _classCallCheck(this, ProductLimit);
-  }
-
-  _createClass(ProductLimit, [{
-    key: 'showToastyMessage',
-    value: function showToastyMessage(title, message, type) {
-
-      var $messagePlaceholder = $('.vtex-front-messages-placeholder');
-      if (!$messagePlaceholder.length) {
-        $('body').prepend('<div class="vtex-front-messages-placeholder"></div>');
-      }
-
-      var messages, message;
-      messages = new window.vtex.Messages.getInstance({ ajaxError: true });
-
-      message = {
-        timeout: 5000,
-        content: {
-          title: title,
-          detail: message
-        },
-        type: type
-      };
-
-      $(window).trigger('addMessage', message);
+    function ProductLimit() {
+        _classCallCheck(this, ProductLimit);
     }
-  }, {
-    key: 'init',
-    value: function init() {
-      var that = this;
-      $(document).ajaxStop(function (e) {
-        //show messages
-        if (vtexjs.checkout.orderForm.messages && vtexjs.checkout.orderForm.messages.length) {
-          //show message toasty
-          var messages = vtexjs.checkout.orderForm.messages;
 
-          $.each(messages, function (key, value) {
-            if (value.text.indexOf("frete") < 0 && value.code !== "cannotBeDelivered" && value.text !== "O tipo de entrega foi alterado" && value.text.indexOf("Você só pode") == -1) {
-              // ignore
-              that.showToastyMessage('', value.text, value.status);
+    _createClass(ProductLimit, [{
+        key: 'showToastyMessage',
+        value: function showToastyMessage(title, detail, type) {
+            if (!$('.vtex-front-messages-placeholder').length) {
+                $('body').prepend('<div class="vtex-front-messages-placeholder"></div>');
+                new window.vtex.Messages.getInstance({ ajaxError: true });
             }
-          });
-          vtexjs.checkout.getOrderForm().then(function (orderForm) {
-            return vtexjs.checkout.clearMessages();
-          }).then(function () {
-            console.log("mensagens excluidas");
-          });
-        }
-      });
-    }
-  }]);
 
-  return ProductLimit;
+            $(window).trigger('addMessage', {
+                timeout: 5000,
+                content: { title: title, detail: detail },
+                type: type // success, error, warning, info, default
+            });
+        }
+    }, {
+        key: 'init',
+        value: function init() {
+            var that = this;
+
+            $(document).ajaxStop(function (e) {
+                //show messages
+                if (vtexjs.checkout.orderForm.messages && vtexjs.checkout.orderForm.messages.length) {
+                    //show message toasty
+                    var messages = vtexjs.checkout.orderForm.messages;
+
+                    $.each(messages, function (i, message) {
+                        if (message.text.indexOf('frete') < 0 && message.text.indexOf('Você só pode') == -1 && message.text !== 'O tipo de entrega foi alterado' && message.text !== 'O valor dos itens foi alterado' && 'couponExpired|couponNotFound|cannotBeDelivered'.indexOf(message.code) === -1) {
+                            // ignore
+                            that.showToastyMessage('', message.text, message.status);
+                        }
+                    });
+
+                    vtexjs.checkout.getOrderForm().then(vtexjs.checkout.clearMessages);
+                }
+            });
+        }
+    }]);
+
+    return ProductLimit;
 }();
 
 },{}],187:[function(require,module,exports){

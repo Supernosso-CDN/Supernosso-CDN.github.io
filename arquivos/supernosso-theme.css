@@ -9476,6 +9476,7 @@ body {
 }
 .vtex-front-messages-placeholder.vtex-front-messages-placeholder-opened {
   display: block;
+  z-index: 1000000;
 }
 .vtex-front-messages-placeholder .vtex-front-messages-close-all {
   position: absolute;
@@ -9564,7 +9565,6 @@ body {
 .vtex-front-messages-placeholder span {
   font-family: 'Roboto', sans-serif;
   font-size: 12px;
-  text-transform: lowercase;
 }
 .vtex-front-messages-placeholder .vtex-front-messages-close-all svg line {
   stroke: #FFF;
@@ -10489,7 +10489,7 @@ header .search-bar .busca {
 #minicart-wrapper .minicart-inner .minicart-body .cart-cupom .form-group a {
   position: absolute;
   top: 2px;
-  right: 2px;
+  right: 3px;
 }
 @media screen and (min-width: 552px) {
   #minicart-wrapper {
