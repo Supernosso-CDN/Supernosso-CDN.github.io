@@ -23844,6 +23844,9 @@ body#parceiro-lecupon .popup-partner-coupon-code-container .copy-code {
 .pagina-sushi #content {
   display: none;
 }
+.pagina-sushi li.last {
+  display: none;
+}
 @media screen and (max-width: 991px) {
   .pagina-sushi .header-slider-inner-desktop {
     display: none;
