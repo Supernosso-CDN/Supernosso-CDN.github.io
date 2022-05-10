@@ -73538,199 +73538,203 @@ var Header = function () {
 exports.default = Header;
 
 },{}],104:[function(require,module,exports){
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var _ = require("lodash");
+var _ = require('lodash');
 
 var Nav = function () {
-  function Nav() {
-    var _this = this;
+    function Nav() {
+        var _this = this;
 
-    _classCallCheck(this, Nav);
+        _classCallCheck(this, Nav);
 
-    getMobileCategories(function (categories) {
-      _this.renderOptions(categories);
-    });
-
-    function getMobileCategories(callback) {
-      var infos = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-
-      if (!infos.url) {
-        infos = {
-          url: location.protocol + "//" + location.hostname + "/api/dataentities/CT/search?_fields=id,name,url,image,order",
-          index: 15,
-          allResponses: []
-        };
-      }
-      $.ajax({
-        type: "GET",
-        url: infos.url
-      }).then(function (res) {
-        if (res.length) {
-          infos.index++;
-          infos = {
-            index: infos.index,
-            url: infos.url.replace(/\&order=\d+/, "") + "&order=" + infos.index,
-            allResponses: infos.allResponses.concat(res)
-          };
-          getMobileCategories(callback, infos);
-        } else {
-          infos.allResponses = _.sortBy(infos.allResponses, function (obj) {
-            return obj.order;
-          });
-          callback(infos.allResponses);
-        }
-      });
-    }
-
-    this.currentUrl = window.location.href;
-  }
-
-  _createClass(Nav, [{
-    key: "navToggle",
-    value: function navToggle() {
-      var _this2 = this;
-
-      $("body").toggleClass("overflow-hidden");
-      $("#nav-categories").toggleClass("nav-cat-opened");
-
-      if ($("#nav-categories").hasClass("nav-cat-opened")) {
-        window.history.pushState({}, "", "#");
-
-        window.onpopstate = function (t) {
-          _this2.navToggle();
-        };
-      } else {
-        window.onpopstate = null;
-      }
-    }
-  }, {
-    key: "catNavToggle",
-    value: function catNavToggle() {
-      var _this3 = this;
-
-      $("#nav-wrapper").toggleClass("nav-opened");
-
-      if ($("#nav-wrapper").hasClass("nav-opened")) {
-        window.history.pushState({}, "", "#");
-
-        window.onpopstate = function (t) {
-          _this3.catNavToggle();
-        };
-      } else {
-        window.onpopstate = null;
-      }
-    }
-  }, {
-    key: "navTrigger",
-    value: function navTrigger() {
-      var that = this;
-      $(".nav-cat-toggle").click(function (e) {
-        e.preventDefault();
-        that.catNavToggle();
-      });
-      $(".close-nav-cat").click(function (e) {
-        e.preventDefault();
-        that.navToggle();
-      });
-      $(".mobile-nav-category").click(function (e) {
-        e.preventDefault();
-        var modal = $("#sellerModal");
-        modal.removeClass("opened");
-        $(window).trigger("close-inactive-nav");
-        that.navToggle();
-      });
-    }
-  }, {
-    key: "renderOptions",
-    value: function renderOptions(categories) {
-      $("#nav-categories").find(".nav-cat-body").children(".row").children().detach();
-      if (categories != null) {
-        var $navCategoriesInner = $("#nav-categories").find(".nav-cat-body .row");
-        categories.forEach(function (result) {
-          var template = "\n                <div class=\"col-6 col-md-4 col-lg-2 col-xl-3\">\n                    <div class=\"nav-cat-card\">\n                        <a href=" + result.url + " class=\"nav-cat-link\">\n                            <img src=\"//supernossoemcasa.vtexcrm.com.br/DynamicForm/GetFile?dataEntityInstanceId=CT-" + result.id + "&fileName=" + result.image + "\" alt=\"" + result.name.toLowerCase() + "\">\n                        <strong>" + result.name.toLowerCase() + "</strong>\n                        </a>\n                    </div>\n                </div>";
-          $navCategoriesInner.append(template);
+        getMobileCategories(function (categories) {
+            _this.renderOptions(categories);
         });
-      }
-    }
-  }, {
-    key: "getCategories",
-    value: function getCategories() {
-      var _this4 = this;
 
-      if (!window.matchMedia("(max-width: 700px)").matches) {
-        // se for desktop
-        fetch("/api/catalog_system/pub/category/tree/4/").then(function (res) {
-          return res.json();
-        }).then(function (res) {
-          _this4.subCategories(res);
-        });
-      }
-    }
-  }, {
-    key: "subCategories",
-    value: function subCategories(categories) {
-      var _this5 = this;
+        function getMobileCategories(callback) {
+            var infos = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-      categories.map(function (x) {
-        if (x.id != 3249 && x.id != 3250 && x.id != 3251) {
-          if (x.children.length > 0) {
-            _this5.renderSubCategories(x);
-            x.children.map(function (y) {
-              if (y.children.length > 0) {
-                _this5.renderSubCategories(y);
-              }
+            if (!infos.url) {
+                infos = {
+                    url: location.protocol + '//' + location.hostname + '/api/dataentities/CT/search?_fields=id,name,url,image,order',
+                    index: 15,
+                    allResponses: []
+                };
+            };
+            $.ajax({
+                type: 'GET',
+                url: infos.url
+            }).then(function (res) {
+                if (res.length) {
+                    infos.index++;
+                    infos = {
+                        index: infos.index,
+                        url: infos.url.replace(/\&order=\d+/, '') + '&order=' + infos.index,
+                        allResponses: infos.allResponses.concat(res)
+                    };
+                    getMobileCategories(callback, infos);
+                } else {
+                    infos.allResponses = _.sortBy(infos.allResponses, function (obj) {
+                        return obj.order;
+                    });
+                    callback(infos.allResponses);
+                };
             });
-          }
-        }
-      });
-    }
-  }, {
-    key: "renderSubCategories",
-    value: function renderSubCategories(categorie) {
-      var subcategories = categorie.children;
-      var catId = categorie.id;
-      var subNavWrapper = "\n            <ul class=\"subcategories-list\">\n                <li class=\"nav-title\">" + categorie.name + "</li>\n            </ul>\n        ";
-      $(subNavWrapper).appendTo(".categories-list .category-" + catId);
-      subcategories.map(function (x, k) {
-        var temp = "\n                <li class=\"category-item category-" + x.id + " " + (x.children.length > 0 ? "has-children" : "no-children") + "\">\n                    <a href=" + x.url + " class=\"category-link\">\n                        <span class=\"nav-text\">" + x.name + "</span>\n                    </a>\n                </li>\n            ";
+        };
 
-        if (categorie.id == 2051) {
-          if (k <= 10) {
-            $(temp).appendTo(".categories-list .category-" + catId + " .subcategories-list");
-          }
-        } else {
-          if (k <= 11) {
-            $(temp).appendTo(".categories-list .category-" + catId + " .subcategories-list");
-          }
-        }
-        if (categorie.id == 1002 && x.id == 3253) {
-          var subcategoriaDrinksProntos = "\n                    <li class=\"category-item category-drinksprontos no-children}\">\n                        <a href=\"https://www.supernossoemcasa.com.br/busca?fq=H:731\" class=\"category-link\">\n                            <span class=\"nav-text\">Drinks Prontos</span>\n                        </a>\n                    </li>\n                ";
-          $(subcategoriaDrinksProntos).appendTo(".categories-list .category-" + catId + " .subcategories-list");
-        }
-      });
-      if (subcategories.length > 11) {
-        var seeMore = "\n                <li class=\"see-more\">\n                    <a href=" + categorie.url + " class=\"see-more-link\">ver todos</a>\n                </li>\n            ";
-        $(seeMore).appendTo(".categories-list .category-" + catId + " .subcategories-list");
-      }
+        this.currentUrl = window.location.href;
     }
-  }, {
-    key: "init",
-    value: function init() {
-      this.getCategories();
-      this.navTrigger();
-    }
-  }]);
 
-  return Nav;
+    _createClass(Nav, [{
+        key: 'navToggle',
+        value: function navToggle() {
+            var _this2 = this;
+
+            $('body').toggleClass('overflow-hidden');
+            $('#nav-categories').toggleClass('nav-cat-opened');
+
+            if ($('#nav-categories').hasClass('nav-cat-opened')) {
+
+                window.history.pushState({}, '', '#');
+
+                window.onpopstate = function (t) {
+                    _this2.navToggle();
+                };
+            } else {
+                window.onpopstate = null;
+            }
+        }
+    }, {
+        key: 'catNavToggle',
+        value: function catNavToggle() {
+            var _this3 = this;
+
+            $('#nav-wrapper').toggleClass('nav-opened');
+
+            if ($('#nav-wrapper').hasClass('nav-opened')) {
+
+                window.history.pushState({}, '', '#');
+
+                window.onpopstate = function (t) {
+                    _this3.catNavToggle();
+                };
+            } else {
+                window.onpopstate = null;
+            }
+        }
+    }, {
+        key: 'navTrigger',
+        value: function navTrigger() {
+            var that = this;
+            $('.nav-cat-toggle').click(function (e) {
+                e.preventDefault();
+                that.catNavToggle();
+            });
+            $('.close-nav-cat').click(function (e) {
+                e.preventDefault();
+                that.navToggle();
+            });
+            $('.mobile-nav-category').click(function (e) {
+                e.preventDefault();
+                var modal = $('#sellerModal');
+                modal.removeClass('opened');
+                $(window).trigger('close-inactive-nav');
+                that.navToggle();
+            });
+        }
+    }, {
+        key: 'renderOptions',
+        value: function renderOptions(categories) {
+            $('#nav-categories').find('.nav-cat-body').children('.row').children().detach();
+            if (categories != null) {
+                var $navCategoriesInner = $('#nav-categories').find('.nav-cat-body .row');
+                categories.forEach(function (result) {
+                    var template = '\n                <div class="col-6 col-md-4 col-lg-2 col-xl-3">\n                    <div class="nav-cat-card">\n                        <a href=' + result.url + ' class="nav-cat-link">\n                            <img src="//supernossoemcasa.vtexcrm.com.br/DynamicForm/GetFile?dataEntityInstanceId=CT-' + result.id + '&fileName=' + result.image + '" alt="' + result.name.toLowerCase() + '">\n                        <strong>' + result.name.toLowerCase() + '</strong>\n                        </a>\n                    </div>\n                </div>';
+                    $navCategoriesInner.append(template);
+                });
+            }
+        }
+    }, {
+        key: 'getCategories',
+        value: function getCategories() {
+            var _this4 = this;
+
+            if (!window.matchMedia("(max-width: 700px)").matches) {
+                // se for desktop
+                fetch('/api/catalog_system/pub/category/tree/4/').then(function (res) {
+                    return res.json();
+                }).then(function (res) {
+                    _this4.subCategories(res);
+                });
+            }
+        }
+    }, {
+        key: 'subCategories',
+        value: function subCategories(categories) {
+            var _this5 = this;
+
+            categories.map(function (x) {
+
+                if (x.id != 3249 && x.id != 3250 && x.id != 3251) {
+
+                    if (x.children.length > 0) {
+                        _this5.renderSubCategories(x);
+                        x.children.map(function (y) {
+                            if (y.children.length > 0) {
+                                _this5.renderSubCategories(y);
+                            }
+                        });
+                    }
+                }
+            });
+        }
+    }, {
+        key: 'renderSubCategories',
+        value: function renderSubCategories(categorie) {
+            var subcategories = categorie.children;
+            var catId = categorie.id;
+            var subNavWrapper = '\n            <ul class="subcategories-list">\n                <li class="nav-title">' + categorie.name + '</li>\n            </ul>\n        ';
+            $(subNavWrapper).appendTo('.categories-list .category-' + catId);
+            subcategories.map(function (x, k) {
+                var temp = '\n                <li class="category-item category-' + x.id + ' ' + (x.children.length > 0 ? 'has-children' : 'no-children') + '">\n                    <a href=' + x.url + ' class="category-link">\n                        <span class="nav-text">' + x.name + '</span>\n                    </a>\n                </li>\n            ';
+
+                if (categorie.id == 2051) {
+                    if (k <= 10) {
+                        $(temp).appendTo('.categories-list .category-' + catId + ' .subcategories-list');
+                    }
+                } else {
+                    if (k <= 11) {
+                        $(temp).appendTo('.categories-list .category-' + catId + ' .subcategories-list');
+                    }
+                }
+                if (categorie.id == 1002 && x.id == 3253) {
+                    var subcategoriaDrinksProntos = '\n                    <li class="category-item category-drinksprontos no-children}">\n                        <a href="https://www.supernossoemcasa.com.br/busca?fq=H:731" class="category-link">\n                            <span class="nav-text">Drinks Prontos</span>\n                        </a>\n                    </li>\n                ';
+                    $(subcategoriaDrinksProntos).appendTo('.categories-list .category-' + catId + ' .subcategories-list');
+                }
+            });
+            if (subcategories.length > 11) {
+                var seeMore = '\n                <li class="see-more">\n                    <a href=' + categorie.url + ' class="see-more-link">ver todos</a>\n                </li>\n            ';
+                $(seeMore).appendTo('.categories-list .category-' + catId + ' .subcategories-list');
+            }
+        }
+    }, {
+        key: 'init',
+        value: function init() {
+            this.getCategories();
+            this.navTrigger();
+        }
+    }]);
+
+    return Nav;
 }();
 
 exports.default = Nav;
@@ -75400,33 +75404,40 @@ var Shelf = function () {
   }, {
     key: "syncShelfNoProduct",
     value: function syncShelfNoProduct() {
-      $(".item-shelf").each(function (e) {
+      var toNumber = function toNumber($node) {
+        return Number($node.text().replace(/[R$,\s]/g, ''));
+      };
+
+      $('.item-shelf').each(function (e) {
         var $item = $(this);
 
-        // Confere se existe um preço de e por
-        var listPrice = $(this).find(".old-price").text().replace(/ /g, "").replace("R$", "").replace(",", ".");
-        var bestPrice = $(this).find(".best-price").text().replace(/ /g, "").replace("R$", "").replace(",", ".");
+        if (!$item.find('.flag.-10').length) {
+          // Checa se já há uma flag de desconto
+          var $priceFrom = $item.find('.old-price');
+          var priceFrom = toNumber($priceFrom);
 
-        if (listPrice && listPrice != "") {
-          listPrice = parseFloat(listPrice);
-          bestPrice = parseFloat(bestPrice);
+          if (priceFrom > 0) {
+            var $priceTo = $item.find('.best-price');
+            var priceTo = toNumber($priceTo);
+            var discount = 1 - priceTo / priceFrom;
 
-          var flag = Math.floor(100 - bestPrice * 100 / listPrice);
-
-          if (!$item.find(".flag.-10").length) {
-            $item.append("<p class=\"flag -10\">-" + flag.toString().replace(".", ",") + "%</p>");
+            if (discount >= 0.2) {
+              $item.append("<p class=\"flag -10\">-" + discount.toLocaleString('pt-BR', { style: 'percent' }) + "</p>");
+            } else {
+              $priceFrom.hide();
+            }
           }
         }
-        if ($item.find(".buy-button-normal").is(":hidden")) {
-          var productId = $item.attr("data-product-id");
 
-          var index = vtexjs.checkout.orderForm.items.findIndex(function (o) {
-            return o.productId == productId;
+        if ($item.find('.buy-button-normal').is(':hidden')) {
+          var productId = $item.attr('data-product-id');
+          var index = vtexjs.checkout.orderForm.items.findIndex(function (item) {
+            return item.productId == productId;
           });
 
           if (index < 0) {
-            $item.find(".buy-button-normal").show();
-            $item.find(".product-qty").detach();
+            $item.find('.buy-button-normal').show();
+            $item.find('.product-qty').detach();
           }
         }
       });
@@ -83708,13 +83719,13 @@ var CupomDesconto = exports.CupomDesconto = function (_React$Component) {
                         // Inexistente
                         _this2.showToastyMessage('', 'Esse cupom de desconto não existe.', 'warning');
 
-                        $('.cart-total-info.cart-desconto').append( /*html*/'\n                        <div class="coupon-warning">\n                            <strong>desculpe, seu cupom \xE9 inv\xE1lido ou foi digitado errado!</strong>\n                            <p>digite novamente seu c\xF3digo de desconto para n\xE3o perder nenhuma vantagem!</p>\n                        </div>\n                    ');
+                        $('.cart-total-info.cart-desconto').append('\n                        <div class="coupon-warning">\n                            <strong>desculpe, seu cupom \xE9 inv\xE1lido ou foi digitado errado!</strong>\n                            <p>digite novamente seu c\xF3digo de desconto para n\xE3o perder nenhuma vantagem!</p>\n                        </div>\n                    ');
                     } else if (message.code === 'couponExpired') {
                         // Expirado
                         _this2.showToastyMessage('', 'Esse cupom de desconto expirou.', 'warning');
                     }
                 } else {
-                    if (orderForm.totalizers.find(function (f) {
+                    if (orderForm.marketingData.coupon && orderForm.totalizers.find(function (f) {
                         return f.id === 'Discounts';
                     })) {
                         // Aplicado
@@ -83737,11 +83748,7 @@ var CupomDesconto = exports.CupomDesconto = function (_React$Component) {
             e.preventDefault();
 
             vtexjs.checkout.removeDiscountCoupon().done(function (orderForm) {
-                _this3.setState({
-                    loading: false,
-                    add: false
-                });
-
+                _this3.setState({ loading: false, add: false });
                 _this3.showToastyMessage('', 'Cupom removido.', 'warning');
                 _this3.props.updateOrderForm(orderForm);
             });
