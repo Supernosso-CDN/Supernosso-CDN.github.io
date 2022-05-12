@@ -83713,13 +83713,16 @@ var CupomDesconto = exports.CupomDesconto = function (_React$Component) {
             }).then(function (orderForm) {
                 _this2.setState({ loading: false, add: false });
                 var message = orderForm.messages[0];
+                var $couponWrapper = $('.cart-total-info.cart-desconto');
+
+                $couponWrapper.find('.coupon-warning').remove();
 
                 if (message) {
                     if (message.code === 'couponNotFound') {
                         // Inexistente
                         _this2.showToastyMessage('', 'Esse cupom de desconto não existe.', 'warning');
 
-                        $('.cart-total-info.cart-desconto').append('\n                        <div class="coupon-warning">\n                            <strong>desculpe, seu cupom \xE9 inv\xE1lido ou foi digitado errado!</strong>\n                            <p>digite novamente seu c\xF3digo de desconto para n\xE3o perder nenhuma vantagem!</p>\n                        </div>\n                    ');
+                        $couponWrapper.append('\n                        <div class="coupon-warning">\n                            <strong>desculpe, seu cupom \xE9 inv\xE1lido ou foi digitado errado!</strong>\n                            <p>digite novamente seu c\xF3digo de desconto para n\xE3o perder nenhuma vantagem!</p>\n                        </div>\n                    ');
                     } else if (message.code === 'couponExpired') {
                         // Expirado
                         _this2.showToastyMessage('', 'Esse cupom de desconto expirou.', 'warning');
@@ -83774,11 +83777,12 @@ var CupomDesconto = exports.CupomDesconto = function (_React$Component) {
                         { className: 'form-group' },
                         this.state.loading && _react2.default.createElement('i', { className: 'fa fa-spin fa-spinner' }),
                         _react2.default.createElement('input', {
-                            className: 'form-control',
+                            className: 'form-control coupon-placeholder',
                             onChange: this.inputChange.bind(this),
                             onKeyUp: function onKeyUp(e) {
                                 if (e.key === "Enter") _this4.addCupom(e);
-                            }
+                            },
+                            placeholder: 'insira aqui seu cupom de desconto'
                         }),
                         _react2.default.createElement(
                             'a',
@@ -83789,37 +83793,6 @@ var CupomDesconto = exports.CupomDesconto = function (_React$Component) {
                                 _react2.default.createElement('rect', { width: '40', height: '40', rx: '6', fill: '#841F27' }),
                                 _react2.default.createElement('path', { d: 'M30.6968 20.6111C30.997 20.2689 30.9967 19.7316 30.697 19.3889L26.8808 15.028C26.739 14.8662 26.4936 14.8498 26.3318 14.9913C26.1699 15.1333 26.1538 15.3785 26.2951 15.5406L29.8571 19.6111L10.2859 19.6111C10.0711 19.6111 9.89678 19.7851 9.89678 20C9.89678 20.2148 10.0711 20.3889 10.2859 20.3889L29.8569 20.3889L26.2951 24.4599C26.2308 24.5339 26.1988 24.6251 26.1988 24.716C26.1988 24.8243 26.244 24.9321 26.3315 25.0091C26.4933 25.1504 26.739 25.1338 26.8805 24.9725L30.6968 20.6111Z', fill: '#FAFAFA' })
                             )
-                        )
-                    )
-                )
-            );
-        }
-    }, {
-        key: 'renderAddCupom',
-        value: function renderAddCupom() {
-            return _react2.default.createElement(
-                'div',
-                { className: 'cart-cupom' },
-                _react2.default.createElement(
-                    'strong',
-                    { className: 'total-title' },
-                    'cupom de desconto'
-                ),
-                _react2.default.createElement(
-                    'div',
-                    { className: 'cart-total-info cart-desconto' },
-                    _react2.default.createElement(
-                        'span',
-                        { className: 'cart-total-label' },
-                        'desconto'
-                    ),
-                    _react2.default.createElement(
-                        'span',
-                        { className: 'cart-total-value' },
-                        _react2.default.createElement(
-                            'a',
-                            { onClick: this.showCupomInput.bind(this) },
-                            '+adicionar cupom'
                         )
                     )
                 )
@@ -83859,21 +83832,10 @@ var CupomDesconto = exports.CupomDesconto = function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
-
             var cupom = this.props.cupom;
-            cupom = cupom == '-' || cupom == null ? "" : cupom;
+            cupom = cupom == '-' || cupom == null ? '' : cupom;
 
-            if (cupom == "" && !this.state.add) {
-                return this.renderAddCupom();
-            }
-
-            if (cupom == "" && this.state.add) {
-                return this.renderInputCupom();
-            }
-
-            if (cupom != "" && !this.state.add) {
-                return this.renderSelectedCupom();
-            }
+            return cupom ? this.renderSelectedCupom() : this.renderInputCupom();
         }
     }]);
 
