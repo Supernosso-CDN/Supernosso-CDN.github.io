@@ -75416,7 +75416,7 @@ var Shelf = function () {
         var discount = 1 - toNumber($priceTo) / toNumber($priceFrom);
 
         if (discount < 0.2) {
-          $productDetails.find('.discount-highlight').hide();
+          $productDetails.find('.flag.-10').hide();
           $priceFrom.hide();
         }
       }
