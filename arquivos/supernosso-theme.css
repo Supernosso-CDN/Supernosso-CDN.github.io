@@ -10186,6 +10186,10 @@ header .search-bar .busca {
   color: #3155B6;
   cursor: pointer;
 }
+#minicart-wrapper .minicart-inner .minicart-body .cart-content .cart-top-content .cart-total-inner .cart-total-info.cart-desconto .cart-total-value > a {
+  color: #841F27;
+  font-weight: 700;
+}
 #minicart-wrapper .minicart-inner .minicart-body .cart-content .cart-top-content .cart-total-inner .cart-total-info.cart-desconto .coupon-warning {
   width: 100%;
   background: #FFFFFF;
@@ -10485,6 +10489,9 @@ header .search-bar .busca {
   box-sizing: border-box;
   border-radius: 6px;
   height: 44px;
+}
+#minicart-wrapper .minicart-inner .minicart-body .cart-cupom .form-group input::placeholder {
+  font-size: 12px;
 }
 #minicart-wrapper .minicart-inner .minicart-body .cart-cupom .form-group a {
   position: absolute;
