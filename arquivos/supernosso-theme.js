@@ -75408,23 +75408,36 @@ var Shelf = function () {
         return Number($node.text().replace(/[R$,\s]/g, ''));
       };
 
+      // Esconde a flag de desconto na pág. de produto quando é menor que 20%.
+      if ($('body').hasClass('produto')) {
+        var $productDetails = $('.product-details');
+        var $priceFrom = $productDetails.find('.skuListPrice');
+        var $priceTo = $productDetails.find('.skuBestPrice');
+        var discount = 1 - toNumber($priceTo) / toNumber($priceFrom);
+
+        if (discount < 0.2) {
+          $productDetails.find('.discount-highlight').hide();
+          $priceFrom.hide();
+        }
+      }
+
       $('.item-shelf').each(function (e) {
         var $item = $(this);
 
         if (!$item.find('.flag.-10').length) {
           // Checa se já há uma flag de desconto
-          var $priceFrom = $item.find('.old-price');
-          var priceFrom = toNumber($priceFrom);
+          var _$priceFrom = $item.find('.old-price');
+          var priceFrom = toNumber(_$priceFrom);
 
           if (priceFrom > 0) {
-            var $priceTo = $item.find('.best-price');
-            var priceTo = toNumber($priceTo);
-            var discount = 1 - priceTo / priceFrom;
+            var _$priceTo = $item.find('.best-price');
+            var priceTo = toNumber(_$priceTo);
+            var _discount = 1 - priceTo / priceFrom;
 
-            if (discount >= 0.2) {
-              $item.append("<p class=\"flag -10\">-" + discount.toLocaleString('pt-BR', { style: 'percent' }) + "</p>");
+            if (_discount >= 0.2) {
+              $item.append("<p class=\"flag -10\">-" + _discount.toLocaleString('pt-BR', { style: 'percent' }) + "</p>");
             } else {
-              $priceFrom.hide();
+              _$priceFrom.hide();
             }
           }
         }
