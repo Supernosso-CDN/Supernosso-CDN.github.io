@@ -9370,28 +9370,28 @@ html {
   font-style: normal;
   font-weight: 300;
   font-display: swap;
-  src: url(https://fonts.gstatic.com/s/roboto/v29/KFOlCnqEu92Fr1MmSU5fBBc9.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/roboto/v30/KFOlCnqEu92Fr1MmSU5fBBc9.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url(https://fonts.gstatic.com/s/roboto/v29/KFOmCnqEu92Fr1Mu4mxP.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/roboto/v30/KFOmCnqEu92Fr1Mu4mxP.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 500;
   font-display: swap;
-  src: url(https://fonts.gstatic.com/s/roboto/v29/KFOlCnqEu92Fr1MmEU9fBBc9.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/roboto/v30/KFOlCnqEu92Fr1MmEU9fBBc9.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url(https://fonts.gstatic.com/s/roboto/v29/KFOlCnqEu92Fr1MmWUlfBBc9.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/roboto/v30/KFOlCnqEu92Fr1MmWUlfBBc9.ttf) format('truetype');
 }
 @font-face {
   font-family: Museo;
@@ -11360,36 +11360,35 @@ footer .institutional-section .dev-nav span img {
   font-size: 12px;
 }
 .prateleira.supernossoshelf ul li .item-shelf .buy-button-shelf a {
-  color: #841F27;
+  display: block;
+  color: #fff;
   font-family: 'Roboto', sans-serif;
   font-style: normal;
   font-weight: bold;
   font-size: 14px;
-  background: #fff;
-  border: 1px solid #cfcfcf;
+  background-color: #841F27;
   border-radius: 6px;
   padding: 12px 20px;
-  display: block;
   overflow: hidden;
   text-align: center;
   text-transform: lowercase;
-  transition: all 0.2s ease-in-out;
+  transition: 0.2s;
 }
 .prateleira.supernossoshelf ul li .item-shelf .buy-button-shelf a:hover {
-  border-color: #681A24;
+  filter: brightness(1.2);
 }
 .prateleira.supernossoshelf ul li .item-shelf .buy-button-shelf a:focus,
 .prateleira.supernossoshelf ul li .item-shelf .buy-button-shelf a:active {
   border-color: #9D4C52;
 }
 .prateleira.supernossoshelf ul li .item-shelf .buy-button-shelf .product-qty {
-  width: 100%;
   display: flex;
-  overflow: hidden;
   align-items: center;
   justify-content: center;
-  padding: 4px;
+  width: 100%;
   margin: 15px 0 0px;
+  padding: 0 4px;
+  overflow: hidden;
 }
 .prateleira.supernossoshelf ul li .item-shelf .buy-button-shelf .product-qty.loading-qty::before {
   content: '';
@@ -11400,30 +11399,48 @@ footer .institutional-section .dev-nav span img {
   width: 20px;
   height: 20px;
 }
+.prateleira.supernossoshelf ul li .item-shelf .buy-button-shelf .product-qty:hover .shelf-less-qty,
+.prateleira.supernossoshelf ul li .item-shelf .buy-button-shelf .product-qty:hover .shelf-more-qty {
+  background-color: #CFD4D8;
+}
 .prateleira.supernossoshelf ul li .item-shelf .buy-button-shelf .product-qty .shelf-less-qty,
 .prateleira.supernossoshelf ul li .item-shelf .buy-button-shelf .product-qty .shelf-more-qty {
+  height: 45px;
+  width: 68px;
+  border: 1px solid #CFD4D8;
+  text-align: center;
+  line-height: 33px;
+  padding-top: 5px;
+  background-color: #F2F3F5;
   cursor: pointer;
+  transition: 0.2s;
+}
+.prateleira.supernossoshelf ul li .item-shelf .buy-button-shelf .product-qty .shelf-less-qty {
+  border-radius: 7px 0 0 7px;
+}
+.prateleira.supernossoshelf ul li .item-shelf .buy-button-shelf .product-qty .shelf-more-qty {
+  border-radius: 0 7px 7px 0;
 }
 .prateleira.supernossoshelf ul li .item-shelf .buy-button-shelf .product-qty .shelf-input-qty {
-  border: 1px solid #f2f2f2;
-  border-radius: 80px;
+  border-top: 1px solid #CFD4D8;
+  border-bottom: 1px solid #CFD4D8;
+  border-radius: 0;
   padding: 5px;
   width: 100%;
-  margin-right: 10px;
-  margin-left: 10px;
+  margin: 0;
   display: flex;
   justify-content: center;
 }
 .prateleira.supernossoshelf ul li .item-shelf .buy-button-shelf .product-qty .shelf-input-qty input {
-  border: 0;
-  background: transparent;
-  text-align: center;
-  font-family: 'Roboto', sans-serif;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 14px;
-  color: #8F000F;
   width: 100%;
+  border: 0;
+  color: #841F27;
+  font-size: 14px;
+  text-align: center;
+  font-weight: 700;
+  line-height: 31px;
+  font-family: 'Roboto', sans-serif;
+  background-color: transparent;
   /* Chrome, Safari, Edge, Opera */
   /* Firefox */
 }
@@ -11591,7 +11608,8 @@ footer .institutional-section .dev-nav span img {
   width: 20px;
   height: 20px;
   left: 50%;
-  transform: translateX(-50%);
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 .mz-front-messages-placeholder {
   font-size: 12px;
@@ -15302,6 +15320,7 @@ p.text-seo span.full {
 #product-page #product-content .product-info .buy-button-box {
   display: flex !important;
   align-items: center;
+  user-select: none;
 }
 @media (max-width: 992px) {
   #product-page #product-content .product-info .buy-button-box {
@@ -15313,33 +15332,84 @@ p.text-seo span.full {
   max-width: 174px;
   display: flex;
   overflow: hidden;
-  border: 1px solid #f2f2f2;
-  border-radius: 80px;
   align-items: center;
   justify-content: space-between;
-  padding: 4px;
-  margin: 3px 0 2px;
+  padding: 0 4px;
+  margin: 0;
 }
 @media (max-width: 992px) {
   #product-page #product-content .product-info .buy-button-box .product-qty {
     max-width: unset;
-    margin: 3px 0 10px;
+    margin-bottom: 10px;
   }
+}
+#product-page #product-content .product-info .buy-button-box .product-qty.loading-qty {
+  position: relative;
+}
+#product-page #product-content .product-info .buy-button-box .product-qty.loading-qty::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: block;
+  background: url('https://supernossoemcasa.vteximg.com.br/arquivos/loading-supernosso.gif');
+  background-size: 20px,20px;
+  width: 20px;
+  height: 20px;
+}
+#product-page #product-content .product-info .buy-button-box .product-qty:hover .shelf-less-qty,
+#product-page #product-content .product-info .buy-button-box .product-qty:hover .shelf-more-qty {
+  background-color: #CFD4D8;
 }
 #product-page #product-content .product-info .buy-button-box .product-qty .shelf-less-qty,
 #product-page #product-content .product-info .buy-button-box .product-qty .shelf-more-qty {
+  height: 45px;
+  width: 68px;
+  border: 1px solid #CFD4D8;
+  text-align: center;
+  line-height: 33px;
+  padding-top: 5px;
+  background-color: #F2F3F5;
   cursor: pointer;
+  transition: 0.2s;
+}
+#product-page #product-content .product-info .buy-button-box .product-qty .shelf-less-qty {
+  border-radius: 7px 0 0 7px;
+}
+#product-page #product-content .product-info .buy-button-box .product-qty .shelf-more-qty {
+  border-radius: 0 7px 7px 0;
+}
+#product-page #product-content .product-info .buy-button-box .product-qty .shelf-input-qty {
+  border-top: 1px solid #CFD4D8;
+  border-bottom: 1px solid #CFD4D8;
+  border-radius: 0;
+  padding: 5px;
+  width: 100%;
+  margin: 0;
+  display: flex;
+  justify-content: center;
 }
 #product-page #product-content .product-info .buy-button-box .product-qty .shelf-input-qty input {
+  width: 100%;
   border: 0;
-  background: transparent;
-  text-align: center;
-  font-family: 'Roboto', sans-serif;
-  font-style: normal;
-  font-weight: bold;
+  color: #841F27;
   font-size: 14px;
-  color: #8F000F;
-  width: 70px;
+  text-align: center;
+  font-weight: 700;
+  line-height: 31px;
+  font-family: 'Roboto', sans-serif;
+  background-color: transparent;
+  /* Chrome, Safari, Edge, Opera */
+  /* Firefox */
+}
+#product-page #product-content .product-info .buy-button-box .product-qty .shelf-input-qty input::-webkit-outer-spin-button,
+#product-page #product-content .product-info .buy-button-box .product-qty .shelf-input-qty input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+#product-page #product-content .product-info .buy-button-box .product-qty .shelf-input-qty input[type=number] {
+  -moz-appearance: textfield;
 }
 #product-page #product-content .product-info .buy-button-box .favorite-this {
   margin-left: 24px;
@@ -15352,25 +15422,26 @@ p.text-seo span.full {
   fill: #8F000F;
 }
 #product-page #product-content .product-info .buy-button-box .buy-button {
-  background-color: #841F27;
+  display: block;
   color: #fff;
   font-family: 'Roboto', sans-serif;
-  font-style: normal;
   font-weight: bold;
   font-size: 14px;
+  background-color: #841F27;
   border-radius: 6px;
   padding: 12px 20px;
-  display: inline-block;
-  transition: all 0.2s ease-in-out;
-  width: 184px;
+  overflow: hidden;
   text-align: center;
+  text-transform: lowercase;
+  transition: 0.2s;
+  width: 184px;
 }
 #product-page #product-content .product-info .buy-button-box .buy-button:hover {
-  background-color: #681A24;
+  filter: brightness(1.2);
 }
 #product-page #product-content .product-info .buy-button-box .buy-button:focus,
 #product-page #product-content .product-info .buy-button-box .buy-button:active {
-  background-color: #9D4C52;
+  border-color: #9D4C52;
 }
 @media screen and (max-width: 992px) {
   #product-page #product-content .product-info .buy-button-box .buy-button {
