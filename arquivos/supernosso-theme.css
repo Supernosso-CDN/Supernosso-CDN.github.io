@@ -11375,7 +11375,7 @@ footer .institutional-section .dev-nav span img {
   transition: 0.2s;
 }
 .prateleira.supernossoshelf ul li .item-shelf .buy-button-shelf a:hover {
-  filter: brightness(1.2);
+  background-color: #DBA529;
 }
 .prateleira.supernossoshelf ul li .item-shelf .buy-button-shelf a:focus,
 .prateleira.supernossoshelf ul li .item-shelf .buy-button-shelf a:active {
@@ -15423,6 +15423,7 @@ p.text-seo span.full {
 }
 #product-page #product-content .product-info .buy-button-box .buy-button {
   display: block;
+  width: 184px;
   color: #fff;
   font-family: 'Roboto', sans-serif;
   font-weight: bold;
@@ -15434,10 +15435,9 @@ p.text-seo span.full {
   text-align: center;
   text-transform: lowercase;
   transition: 0.2s;
-  width: 184px;
 }
 #product-page #product-content .product-info .buy-button-box .buy-button:hover {
-  filter: brightness(1.2);
+  background-color: #DBA529;
 }
 #product-page #product-content .product-info .buy-button-box .buy-button:focus,
 #product-page #product-content .product-info .buy-button-box .buy-button:active {
