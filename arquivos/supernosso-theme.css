@@ -21872,61 +21872,61 @@ body#parceiro-lecupon .ofertasPrime-benefits-cards {
 @media (max-width: 767px) and (min-width: 0px) {
   body.pagina-prime .ofertasPrime-benefits-cards.open,
   body#parceiro-lecupon .ofertasPrime-benefits-cards.open {
-    height: 420px;
+    height: 625px;
   }
 }
 @media (max-width: 767px) and (min-width: 350px) {
   body.pagina-prime .ofertasPrime-benefits-cards.open,
   body#parceiro-lecupon .ofertasPrime-benefits-cards.open {
-    height: 480px;
+    height: 750px;
   }
 }
 @media (max-width: 767px) and (min-width: 400px) {
   body.pagina-prime .ofertasPrime-benefits-cards.open,
   body#parceiro-lecupon .ofertasPrime-benefits-cards.open {
-    height: 525px;
+    height: 815px;
   }
 }
 @media (max-width: 767px) and (min-width: 450px) {
   body.pagina-prime .ofertasPrime-benefits-cards.open,
   body#parceiro-lecupon .ofertasPrime-benefits-cards.open {
-    height: 590px;
+    height: 890px;
   }
 }
 @media (max-width: 767px) and (min-width: 500px) {
   body.pagina-prime .ofertasPrime-benefits-cards.open,
   body#parceiro-lecupon .ofertasPrime-benefits-cards.open {
-    height: 650px;
+    height: 980px;
   }
 }
 @media (max-width: 767px) and (min-width: 550px) {
   body.pagina-prime .ofertasPrime-benefits-cards.open,
   body#parceiro-lecupon .ofertasPrime-benefits-cards.open {
-    height: 710px;
+    height: 1085px;
   }
 }
 @media (max-width: 767px) and (min-width: 600px) {
   body.pagina-prime .ofertasPrime-benefits-cards.open,
   body#parceiro-lecupon .ofertasPrime-benefits-cards.open {
-    height: 765px;
+    height: 1145px;
   }
 }
 @media (max-width: 767px) and (min-width: 650px) {
   body.pagina-prime .ofertasPrime-benefits-cards.open,
   body#parceiro-lecupon .ofertasPrime-benefits-cards.open {
-    height: 825px;
+    height: 1265px;
   }
 }
 @media (max-width: 767px) and (min-width: 700px) {
   body.pagina-prime .ofertasPrime-benefits-cards.open,
   body#parceiro-lecupon .ofertasPrime-benefits-cards.open {
-    height: 890px;
+    height: 1325px;
   }
 }
 @media (max-width: 767px) and (min-width: 750px) {
   body.pagina-prime .ofertasPrime-benefits-cards.open,
   body#parceiro-lecupon .ofertasPrime-benefits-cards.open {
-    height: 920px;
+    height: 1335px;
   }
 }
 body.pagina-prime .ofertasPrime-benefits-cards li,
