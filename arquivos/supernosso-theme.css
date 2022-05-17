@@ -21872,6 +21872,12 @@ body#parceiro-lecupon .ofertasPrime-benefits-cards {
 @media (max-width: 767px) and (min-width: 0px) {
   body.pagina-prime .ofertasPrime-benefits-cards.open,
   body#parceiro-lecupon .ofertasPrime-benefits-cards.open {
+    height: 825px;
+  }
+}
+@media (max-width: 767px) and (min-width: 307px) {
+  body.pagina-prime .ofertasPrime-benefits-cards.open,
+  body#parceiro-lecupon .ofertasPrime-benefits-cards.open {
     height: 625px;
   }
 }
