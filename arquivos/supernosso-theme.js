@@ -74203,13 +74203,11 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _utils = require("../pages/utils/utils");
-
 var _moment = require("moment");
 
 var _moment2 = _interopRequireDefault(_moment);
 
-var _lodash = require("lodash");
+var _utils = require("../pages/utils/utils");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -74368,25 +74366,46 @@ var StorePicker = function () {
       return sc;
     }
   }, {
+    key: "addToCart",
+    value: function addToCart() {
+      var href = window.shelfPendingAdd;
+      var sc = href.match(/sc\=([0-9]+)/i)[1];
+      var id = href.match(/sku\=([0-9]+)/i)[1];
+      var seller = href.match(/seller\=([0-9]+)/i)[1];
+      var product = { id: id, seller: seller, quantity: 1 };
+
+      return vtexjs.checkout.addToCart([product], null, sc);
+    }
+  }, {
     key: "insertParam",
     value: function insertParam(key, value) {
       if (window.location.pathname == "/login") return;
+
       key = escape(key);
       value = escape(value);
       var kvp = document.location.search.substr(1).split('?');
-      if (kvp == '') {
-        document.location.search = '?' + key + '=' + value;
+      var searchStr = '';
+
+      if (kvp === '') {
+        searchStr = document.location.search = '?' + key + '=' + value;
       } else {
         if (document.location.search.indexOf(key) > -1) {
+          var firstParam = document.location.search.split(key)[0] ? document.location.search.split(key)[0] : '';
+          var secondParam = document.location.search.split(key)[1].split('&')[1] ? '&' + document.location.search.split(key)[1].split('&')[1] : '';
 
-          var firstParamSection = document.location.search.split(key)[0] ? document.location.search.split(key)[0] : '';
-          var seccondParamSection = document.location.search.split(key)[1].split('&')[1] ? '&' + document.location.search.split(key)[1].split('&')[1] : '';
-
-          document.location.search = firstParamSection + key + '=' + value + seccondParamSection;
+          searchStr = document.location.search = firstParam + key + '=' + value + secondParam;
         } else {
-          document.location.search = document.location.search + '&' + key + '=' + value;
+          searchStr = document.location.search = document.location.search + '&' + key + '=' + value;
         }
       }
+
+      this.addToCart().then(function () {
+        delete window.shelfPendingAdd;
+        window.Shelf.updateMinicart();
+        window.Shelf.showHideQtyPickerForOrderFormItems();
+
+        document.location.search = searchStr;
+      });
     }
   }, {
     key: "changeSeller",
@@ -75345,659 +75364,569 @@ var StorePicker = function () {
 
 exports.default = StorePicker;
 
-},{"../pages/utils/utils":128,"lodash":45,"moment":46}],110:[function(require,module,exports){
-"use strict";
+},{"../pages/utils/utils":128,"moment":46}],110:[function(require,module,exports){
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _quickview = require("./quickview");
-
-var _checkProductInventoryAvailability = require("../react/minicart/check-product-inventory-availability");
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var _ = require("lodash");
+var _quickview = require('./quickview');
 
 var Shelf = function () {
-  function Shelf() {
-    _classCallCheck(this, Shelf);
-  }
-
-  _createClass(Shelf, [{
-    key: "initQuickview",
-    value: function initQuickview() {
-      var quickView = new _quickview.QuickView();
-
-      quickView.init();
-
-      $(document).on("click", ".item-shelf a", function (e) {
-        e.preventDefault();
-
-        var className = $(this).attr("class");
-        var productNameLink = $(this).parent().attr("class");
-        var url = $(this).attr("href");
-
-        // Link da imagem e link do nome serao por quickview
-        if (productNameLink.indexOf("product-name") > -1 || className.indexOf("product-image") > -1) {
-
-          if (window.matchMedia("(min-width:768px)").matches == true) {
-            quickView.shelf($(this));
-          } else {
-            window.location.href = url;
-          }
-        } else {
-          // Link do botao comprar será normal
-          return true;
+    var $body = $('body');
+    var $window = $(window);
+    var $document = $(document);
+    var quickView = new _quickview.QuickView();
+    var productPage = $body.hasClass('produto');
+    var primeIds = ['7952', '7953', '7954', '7955'];
+    var state = {
+        tasks: {
+            busy: false,
+            queue: [],
+            lastTaskSchedule: null
         }
-      });
+    };
+
+    function getUserEmail() {
+        var user = vtexjs.checkout.orderForm.clientProfileData;
+
+        var email = user && user.email ? user.email : null;
+
+        return email;
     }
-  }, {
-    key: "qtyLayout",
-    value: function qtyLayout(qty, el, id, sku) {
-      var html = "\n        <div class=\"product-qty\" data-product-id=\"" + id + "\" data-product-sku=\"" + sku + "\">\n            <div class=\"shelf-less-qty\">\n                <svg width=\"14\" height=\"2\" viewBox=\"0 0 14 2\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n                    <path d=\"M1 1H13\" stroke=\"#841F27\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n                </svg>\n            </div>\n            <div class=\"shelf-input-qty\">\n                <input\n                type=\"number\"\n                inputmode=\"numeric\"\n                min=\"0\"\n                pattern=\"^[0-9]*$\"\n                class=\"shelf-input-qty-control\"\n                value=\"" + (qty == 0 ? "-" : qty) + "\"\n            />\n            </div>\n            <div class=\"shelf-more-qty\">\n                <svg width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n                    <path d=\"M7 7V13M1 7H7H1ZM13 7H7H13ZM7 7V1V7Z\" stroke=\"#841F27\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n                </svg>\n            </div>\n        </div>\n    ";
 
-      $(html).prependTo($(el).parents(".buy-button-shelf"));
-    }
-  }, {
-    key: "syncShelfNoProduct",
-    value: function syncShelfNoProduct() {
-      var toNumber = function toNumber($node) {
-        return Number($node.text().replace(/[R$,\s]/g, ''));
-      };
-
-      // Esconde a flag de desconto na pág. de produto quando é menor que 20%.
-      if ($('body').hasClass('produto')) {
-        var $productDetails = $('.product-details');
-        var $priceFrom = $productDetails.find('.skuListPrice');
-        var $priceTo = $productDetails.find('.skuBestPrice');
-        var discount = 1 - toNumber($priceTo) / toNumber($priceFrom);
-
-        if (discount < 0.2) {
-          $productDetails.find('.flag.-10').hide();
-          $priceFrom.hide();
-        }
-      }
-
-      $('.item-shelf').each(function (e) {
-        var $item = $(this);
-
-        if (!$item.find('.flag.-10').length) {
-          // Checa se já há uma flag de desconto
-          var _$priceFrom = $item.find('.old-price');
-          var priceFrom = toNumber(_$priceFrom);
-
-          if (priceFrom > 0) {
-            var _$priceTo = $item.find('.best-price');
-            var priceTo = toNumber(_$priceTo);
-            var _discount = 1 - priceTo / priceFrom;
-
-            if (_discount >= 0.2) {
-              $item.append("<p class=\"flag -10\">-" + _discount.toLocaleString('pt-BR', { style: 'percent' }) + "</p>");
-            } else {
-              _$priceFrom.hide();
-            }
-          }
-        }
-
-        if ($item.find('.buy-button-normal').is(':hidden')) {
-          var productId = $item.attr('data-product-id');
-          var index = vtexjs.checkout.orderForm.items.findIndex(function (item) {
-            return item.productId == productId;
-          });
-
-          if (index < 0) {
-            $item.find('.buy-button-normal').show();
-            $item.find('.product-qty').detach();
-          }
-        }
-      });
-    }
-  }, {
-    key: "syncShelf",
-    value: function syncShelf() {
-      var that = this;
-      window.vtexjs.checkout.getOrderForm().then(function (res) {
-        // Update shelf
-        var items = {};
-
-        res.items.forEach(function (item) {
-          if (!items[item.productId]) {
-            items[item.productId] = {};
-            items[item.productId].quantity = 0;
-          }
-
-          items[item.productId].quantity += item.quantity;
-          items[item.productId].id = item.id;
-        });
-
-        Object.keys(items).forEach(function (key) {
-          var $btn = $(".item-shelf[data-product-id=" + key + "]").find(".buy-button-shelf .buy-button-normal a");
-          $btn.parent(".buy-button-normal").hide();
-          $btn.parents(".buy-button-shelf").find(".product-qty").detach();
-
-          that.qtyLayout(items[key].quantity, $btn, key, items[key].id);
-        });
-      });
-    }
-  }, {
-    key: "syncFlags",
-    value: function syncFlags() {
-      $(".item-shelf").each(function () {
-        var that = this;
-        var productId = $(this).data("product-id");
-
-        if (productId == undefined || isNaN(productId) == false) {
-          return;
-        }
-
-        if ($(this).find(".promo-flags p").length) {
-          fetch("/api/catalog_system/pub/products/search?fq=productId:" + productId).then(function (res) {
-            return res.json();
-          }).then(function (res) {
-            var product = res[0];
-
-            $(that).find(".promo-flags p").each(function (e) {
-              var thisFlag = this;
-
-              if (!$(thisFlag).data("link")) {
-                var flag = $(thisFlag).text().toLowerCase();
-
-                $(thisFlag).attr("data-link", "/178?PS=24&map=productClusterIds&O=OrderByBestDiscountDESC");
-
-                Object.keys(product.clusterHighlights).forEach(function (key) {
-                  if (product.clusterHighlights[key].toLowerCase() == flag) {
-                    $(thisFlag).attr("data-link", "/" + key + "?PS=24&map=productClusterIds&O=OrderByBestDiscountDESC");
-                  }
-                });
-              }
-            });
-          });
-        }
-      });
-    }
-  }, {
-    key: "addQuantityLoading",
-    value: function addQuantityLoading(el) {
-      $(el).css("display", "none");
-      $('<div id="loadingComprar" style="display:flex;justify-content:center;"><img src="https://supernossoemcasa.vteximg.com.br/arquivos/loading-supernosso.gif"/ width="20" height="20"></div>').insertAfter(el);
-    }
-  }, {
-    key: "init",
-    value: function init() {
-      var that = this;
-
-      //that.syncFlags();
-      if (!$("body").hasClass("produto")) {
-        that.initQuickview();
-      }
-
-      that.syncShelf();
-
-      $(window).on("sync-shelf", function (e) {
-        that.syncShelf();
-      });
-
-      $(document).on("click", ".flag", function (e) {
-        e.preventDefault();
-        var link = $(this).data("link");
-
-        if ($(this).hasClass("-10")) {
-          link = "/178?PS=24&map=productClusterIds&O=OrderByBestDiscountDESC";
-        }
-
-        if (window.self !== window.top) {
-          window.parent.openUrl(link);
-        } else {
-          window.location.href = link;
-        }
-      });
-
-      $(document).ajaxStop(function (e) {
-        that.syncFlags();
-      });
-
-      $(window).on("orderFormUpdated.vtex", function (evt, orderForm) {
-        if (vtexjs.checkout.orderForm && vtexjs.checkout.orderForm.items) {
-          $(".badge.badge-secondary, .badge.badge-cart").text(vtexjs.checkout.orderForm.items.length);
-
-          if ($("body").hasClass("produto")) {
-            var pdpProductId = skuJson.productId;
-            orderForm.items.forEach(function (item) {
-              if (pdpProductId == item.productId) {
-                $("body#product-page .product-qty .shelf-input-qty-control").val(item.quantity);
-              }
-            });
-          }
-        }
-        if (that.ignore) {
-          return;
-        }
-        that.syncShelfNoProduct();
-      });
-
-      var isUpdating = false;
-
-      var updateTimeout = false;
-
-      var update = _.debounce(function (id, el, val, sku) {
-        $("#minicart-wrapper").trigger("update-qty-item", [id, el, val, sku]);
-      }, 0);
-
-      window.cartUpdated = function () {
-        window.vtexjs.checkout.getOrderForm().then(function (res) {
-          isUpdating = false;
-          window.isLoading = false;
-        });
-      };
-
-      window.shelfUpdate = update;
-
-      $("#minicart-wrapper").on("product-update", function (e, id, el, val, sku) {
-        that.ignore = true;
-
-        setTimeout(function () {
-          that.ignore = false;
-        }, 4000);
-
-        if (window.self !== window.top) {
-          window.parent.isLoading = true;
-          window.isLoading = true;
-
-          if (that.updateTimeout) {
-            clearTimeout(that.updateTimeout);
-          }
-
-          that.updateTimeout = setTimeout(function () {
-            window.parent.isLoading = false;
-            window.isLoading = false;
-          }, 3000);
-        }
-        update(id, el, val, sku);
-      });
-
-      var findItemInCart = function findItemInCart(id, value) {
-        var orderForm = vtexjs.checkout.orderForm;
-        var itemArr = [];
-        var indexIncart = void 0;
-        var counter = 0;
-
-        var find = function find(orderForm) {
-          orderForm.items.forEach(function (item, index) {
-            if (id === item.productId) {
-              indexIncart = index;
-              itemArr.push({
-                id: item.id,
-                index: index,
-                quantity: counter == 0 ? value : 0,
-                seller: item.seller
-              });
-              counter++;
-            }
-          });
-        };
-
-        find(orderForm);
-        if (vtexjs.checkout.orderForm.items.length == 0 || indexIncart == undefined) {
-          vtexjs.checkout.getOrderForm().done(function (ordForm) {
-            orderForm = ordForm;
-            find(orderForm);
-          });
-        } else {
-          // checking max limit of items in order
-          var url = "/api/catalog_system/pub/products/search?fq=productId:" + id;
-          fetch(url).then(function (res) {
-            return res.json();
-          }).then(function (res) {
-
-            if (res[0]["Limite Oferta"]) {
-              var limit = parseInt(res[0]["Limite Oferta"][0]);
-              if (limit < itemArr[0].quantity) {
-                $("body").prepend('<div class="mz-front-messages-placeholder" >você só pode ter no máximo ' + limit + ' itens do produto ' + res[0].productName + ' no carrinho</div>');
-                setTimeout(function () {
-                  $(".mz-front-messages-placeholder").remove();
-                }, 5000);
-                itemArr[0].quantity = itemArr[0].quantity > limit ? limit : itemArr[0].quantity;
-              }
-              itemsChanged(false, {}, value, indexIncart, itemArr);
-            } else {
-              itemsChanged(false, {}, value, indexIncart, itemArr);
-            }
-          });
-        }
-      };
-
-      // debounce function
-      function debounce(func, wait, immediate) {
-        var timeout;
-        return function () {
-          var context = this,
-              args = arguments;
-          var later = function later() {
-            timeout = null;
-            if (!immediate) func.apply(context, args);
-          };
-          var callNow = immediate && !timeout;
-          clearTimeout(timeout);
-          timeout = setTimeout(later, wait);
-          if (callNow) func.apply(context, args);
-        };
-      };
-
-      //force pickup
-      function forcePickup(orderForm) {
-        var pickupforce = false;
-        var shippingData = orderForm.shippingData;
-
-        orderForm.shippingData.logisticsInfo.forEach(function (item, index) {
-          // console.log("logisticsInfo item", item)
-          // console.log("logisticsInfo item", item.selectedSla)
-          if (!item.selectedSla) return;
-
-          if (window.localStorage.mzShippingSelected == "pickup" && item.selectedSla.indexOf("Agendada") > -1) {
-            // console.log("try to change to pickup")
-            shippingData.logisticsInfo[index].selectedSla = item.slas[1].id;
-            shippingData.logisticsInfo[index].selectedDeliveryChannel = item.slas[1].deliveryChannel;
-            pickupforce = true;
-          }
-        });
-        if (pickupforce) {
-          // console.log("pickupForce")
-          vtexjs.checkout.sendAttachment("shippingData", shippingData);
-        }
-      }
-
-      window.addEventListener("load", function (event) {
-        var checkExist = setInterval(function () {
-          if (vtexjs.checkout.orderForm.shippingData && vtexjs.checkout.orderForm.shippingData.logisticsInfo) {
-            clearInterval(checkExist);
-            forcePickup(vtexjs.checkout.orderForm);
-          }
-        }, 1000);
-      });
-
-      // main function when items change
-      var itemsChanged = debounce(function (add, item, itemsQuantity, itemIndex, itemArr) {
-        if (add || itemIndex == undefined) {
-          item = itemAdded;
-          item.quantity = add ? 1 : itemsQuantity;
-
-          var url = "/api/checkout/pub/orderForm/" + vtexjs.checkout.orderForm.orderFormId + "/items";
-          var body = {
-            orderItems: [{
-              id: item.id,
-              quantity: add ? 1 : itemsQuantity,
-              seller: "1",
-              salesChannel: item.salesChannel
-            }]
-            // add
-            // vtexjs.checkout.addToCart([item], item.salesChannel).then((orderForm) => {
-
-            // if (window.localStorage.mzShippingSelected && window.localStorage.mzShippingSelected == "pickup" && orderForm.totalizers[1] && orderForm.totalizers[1].value != 0) {
-            //   console.log("wrong sla")
-            //   var postalCode = localStorage.mzZipcode;
-            //   var country = "BRA";
-            //   var address = {
-            //     "postalCode": postalCode,
-            //     "country": country
-            //   };
-            //   return vtexjs.checkout.calculateShipping(address)
-            // }
-
-          };$.ajax({
-            type: "POST",
-            url: url,
-            dataType: "json",
+    async function getUserData(email) {
+        var fields = 'createdIn,document,documentType,email,firstName,gender,homePhone,lastName,Prime,userId';
+        var url = '/api/dataentities/CL/search?email=' + email + '&_fields=' + fields;
+        var user = await fetch(url, {
+            method: 'get',
             headers: {
-              Accept: "application/vnd.vtex.ds.v10+json",
-              "Content-Type": "application/json; charset=utf-8"
-            }, data: JSON.stringify(body)
-          }).then(function (orderForm) {
-            try {
-              forcePickup(orderForm);
-            } catch (error) {
-              console.log(error);
+                Accept: 'application/vnd.vtex.ds.v10+json',
+                'Content-Type': 'application/json; charset=utf-8'
             }
-          }).done(function (orderForm) {
-            updateEvent();
-            setTimeout(function () {
-              var $buyBtns = $(".product-qty, .buy-button-normal");
-              $buyBtns.removeClass("disabled-qty");
-              var $productsQty = $(".product-qty");
-              $productsQty.removeClass("disabled-qty loading-qty");
-              $('[data-product-id="' + lastClicked + '"] .product-qty .shelf-input-qty-control').eq(0).focus();
-            }, 500);
-            openSellerPicker();
-          });
-        } else {
-          // update
-          vtexjs.checkout.getOrderForm().then(function () {
-            try {
-              var updateItem = [];
-              itemArr.forEach(function (item) {
-                updateItem.push({
-                  index: item.index,
-                  quantity: parseInt(item.quantity) <= 0 ? "0" : item.quantity
-                });
-              });
-
-              return vtexjs.checkout.updateItems(updateItem, null, false);
-            } catch (error) {
-              console.error(error);
-              toastr.error("Ops.. Ocorreu um erro.", "", { timeOut: 2000, preventDuplicates: true });
-            }
-          }).then(function (orderForm) {
-            try {
-              if (item.quantity > 0) forcePickup(orderForm);
-            } catch (error) {
-              console.error(error);
-              toastr.error("Ops.. Ocorreu um erro.", "", { timeOut: 2000, preventDuplicates: true });
-            }
-          }).done(function () {
-            updateEvent();
-
-            var $buyBtns = $(".product-qty, .buy-button-normal");
-            $buyBtns.removeClass("disabled-qty");
-            $(".shelf-input-qty").removeClass("loading-qty");
-
-            var $productsQty = $(".product-qty");
-            $productsQty.removeClass("disabled-qty loading-qty");
-
-            $('[data-product-id="' + lastClicked + '"] .shelf-input-qty-control').val(itemArr[0].quantity);
-            $('[data-product-id="' + lastClicked + '"] .product-qty .shelf-input-qty-control').eq(0).focus();
-
-            openSellerPicker();
-          });
-        }
-      }, 1000);
-
-      var openSellerPicker = async function openSellerPicker() {
-        // check if there is postalcode or seller chosen 
-
-        var orderForm = await vtexjs.checkout.getOrderForm();
-
-        if (orderForm && (orderForm.shippingData == null || orderForm.shippingData.address == null || !localStorage.getItem("rightSC"))) {
-          $(".seller-modal").addClass("opened");
-        }
-      };
-
-      // get values
-      var getValues = function getValues(target) {
-        var obj = {
-          id: null,
-          el: null,
-          value: null
-        };
-        var id = $(target).parents(".item-shelf").attr("data-product-id") || $(target).parent().parent().attr("data-product-id") || $(target).parent().attr("data-product-id");
-        var el = $(target).parent().find("input.shelf-input-qty-control");
-        var value = $(el).val();
-
-        lastClicked = id;
-        obj.id = id;
-        obj.el = el;
-        obj.value = value;
-        return obj;
-      };
-
-      // buy button
-      var itemAdded = void 0,
-          lastClicked = void 0;
-      var primeIds = ["7952", "7953", "7954", "7955"];
-
-      $(document).on("click", ".buy-button-shelf a", async function (e) {
-        // not this one
-        e.preventDefault();
-        if ($(this).is(".be-prime")) return;
-
-        var itemId = $(this).parent().attr("id");
-        if (primeIds.includes(itemId)) {
-          var hrefPrime = $(this).attr("href");
-          launchPrimeConditions(hrefPrime, this, e);
-          return;
-        }
-        var href = $(this).attr("href");
-        var item = {
-          id: parseInt(href.split("sku=")[1].split("&")[0]),
-          quantity: 1,
-          seller: href.split("&seller=")[1].split("&")[0],
-          salesChannel: href.split("&sc=")[1].split("&")[0]
-        };
-
-        lastClicked = $(e.target).parents(".item-shelf").attr("data-product-id") || $(e.target).parent().parent().attr("data-product-id") || $(e.target).parent().attr("data-product-id");
-
-        // adds flag
-        $(e.target).parents(".item-shelf").append('<span class="flag-adicionado">Adicionado</span>');
-        itemsChanged(true, item);
-        itemAdded = item;
-        $(this).hide();
-        that.qtyLayout(1, $(this), item.id, item.id);
-      });
-
-      var debouncedQty = debounce(function (id, value) {
-        var $buyBtns = $(".buy-button-normal a");
-        $buyBtns.addClass("disabled-qty");
-
-        var $products = $(".product-qty");
-        $products.addClass("disabled-qty loading-qty");
-
-        findItemInCart(id, value);
-      }, 700);
-
-      // less qty
-      $(document).on("click", ".shelf-less-qty", function () {
-        var obj = getValues(this);
-        if (obj.value - 1 >= 0) obj.value--;
-        $(obj.el).val(obj.value);
-        if (obj.value == 0) {
-          shelfZero(this, obj.id);
-        }
-
-        debouncedQty(obj.id, obj.value);
-      });
-
-      // more qty
-      $(document).on("click", ".shelf-more-qty", function () {
-        var obj = getValues(this);
-        obj.value++;
-        $(obj.el).val(obj.value);
-
-        debouncedQty(obj.id, obj.value);
-      });
-
-      var keyup = debounce(function (element) {
-        var obj = getValues(element);
-        if (element.value == "") {
-          obj.value = 0;
-        }
-        if (obj.value == 0) {
-          shelfZero(element, obj.id);
-        }
-        var $products = $(".product-qty");
-        $(".buy-button-normal").addClass("disabled-qty");
-        $products.addClass("disabled-qty loading-qty");
-        findItemInCart(obj.id, obj.value);
-      }, 1500);
-
-      // keyup
-      $(document).on("keyup", ".shelf-input-qty-control", function (e) {
-        e.target.focus();
-        if (parseInt(e.key) == NaN) {
-          return;
-        }
-        keyup(this);
-      });
-
-      // when goes zero
-      var shelfZero = function shelfZero(el, id) {
-        var $itemShelf = $(el).parents(".item-shelf");
-        $itemShelf.find(".flag-adicionado").remove();
-        $itemShelf.find(".buy-button-ref").show();
-        $itemShelf.find(".buy-button-shelf a").show();
-        $itemShelf.find(".product-qty").remove();
-      };
-
-      // update cart
-      var updateEvent = function updateEvent() {
-        var updateCartEvt = new Event("updateCartEvt");
-        window.dispatchEvent(updateCartEvt);
-      };
-
-      var launchPrimeConditions = function launchPrimeConditions(hrefPrime, element, event) {
-        var $element = $(element);
-        var popupTerms = "";
-
-        popupTerms = "<section class=\"popup-terms-prime\">\n        <div class=\"popup-terms-prime-inner\">\n        <div class=\"popup-terms-prime-header\">\n        <img src=\"https://supernossoemcasa.vteximg.com.br/arquivos/snc-logo@2x.png\" alt=\"super nosso marca\"/>\n        <button class=\"icon-close\">\n        <img src=\"https://supernossoemcasa.vteximg.com.br/arquivos/icon-close-gray@2x.png\" alt=\"icone de fechar\"/>\n        </button>\n        </div>\n        <div class=\"popup-terms-prime-content\">\n        <h2>termos e condi\xE7\xF5es</h2>\n        <p class=\"warnning-msg\">*compras acima de R$ 49,90</p>\n        <p class=\"warnning-msg2\">*pagamento somente com cart\xE3o de cr\xE9dito</p>\n        <p>clicando em comprar voc\xEA aceita e concorda com nossos <a class=\"link-toggle-terms-primepg\" href=\"#termosCondicoesPrime\">termos e condi\xE7\xF5es.</a></p>\n        <div class=\"terms-text\">\n        <p>O supernosso prime \xE9 um programa de ades\xE3o opcional para o usu\xE1rio, e a compra pode ser para participa\xE7\xE3o mensal, trimestral ou semestral, atrav\xE9s do qual o servi\xE7o de entrega \xE9 gratuito e oferecido para os clientes do site supernosso.com. Os presentes Termos e Condi\xE7\xF5es s\xE3o entre o cliente e o supernosso.com e devem ser lidos atentamente antes de o cliente comprar a sua participa\xE7\xE3o As condi\xE7\xF5es do supernosso prime s\xE3o v\xE1lidas para todos os produtos vendidos pelo site. O valor da filia\xE7\xE3o ao programa varia de acordo com o plano escolhido e estes valores podem ser encontrados na p\xE1gina espec\xEDfica do programa. O benef\xEDcio do servi\xE7o gratuito de entrega do supernosso.com se aplica a pedidos de no m\xEDnimo R$ 49,90 (sem valor de entrega) e limitado a 1 pedido por dia. Para pedidos com um valor menor que o citado anteriormente ou no caso de realizar mais de 1 pedido por dia, o valor do servi\xE7o da entrega ser\xE1 cobrado do usu\xE1rio em cada pedido, n\xE3o sendo v\xE1lidas as condi\xE7\xF5es do supernosso prime. A taxa e as condi\xE7\xF5es do supernosso prime podem ser modificadas unilateralmente pelo supernosso.com a qualquer momento e comunicadas na renova\xE7\xE3o da filia\xE7\xE3o. Ap\xF3s comprar sua ades\xE3o ao programa voc\xEA pode solicitar o cancelamento em at\xE9 7 (sete) dias ap\xF3s a data da efetiva\xE7\xE3o da compra. A utiliza\xE7\xE3o dos benef\xEDcios do supernosso prime tem sua vig\xEAncia a partir da compra de algum dos per\xEDodos do supernosso prime. A ades\xE3o ao supernosso prime \xE9 realizada apenas para o per\xEDodo contratado n\xE3o sendo renovada automaticamente. Caso queira continuar fazendo parte do programa, voc\xEA deve realizar uma nova compra de algum dos planos. Qualquer ades\xE3o ao supernosso prime estar\xE1 sujeita aos termos e condi\xE7\xF5es em vigor naquele momento. A participa\xE7\xE3o no supernosso prime \xE9 pessoal e intransfer\xEDvel e utiliz\xE1vel apenas pelo comprador da participa\xE7\xE3o e estar\xE1 vinculada ao cadastro, portanto, n\xE3o pode ser transferida, atribu\xEDda ou utilizada por outro usu\xE1rio. Caso o pagamento da compra do supernosso prime n\xE3o tenha sido aprovada ou identificado pelo site supernosso.com, a participa\xE7\xE3o ser\xE1 automaticamente cancelada. O supernosso.com reserva-se o direito de aceitar, rejeitar ou cancelar a participa\xE7\xE3o do supernosso prime a qualquer momento, a seu crit\xE9rio. Se o supernosso.com cancelar uma participa\xE7\xE3o ao supernosso prime, o usu\xE1rio receber\xE1 um reembolso, correspondente ao valor proporcional da taxa de filia\xE7\xE3o para os dias restantes do per\xEDodo ap\xF3s o cancelamento. Em caso de cancelamento pelo cliente, ap\xF3s o prazo de arrependimento, este n\xE3o ter\xE1 direito ao reembolso, tendo em vista, n\xE3o ser assinatura recorrente. O participante que violar essas condi\xE7\xF5es ou mantiver qualquer outra conduta que, ao razo\xE1vel crit\xE9rio do supernosso.com, seja considerada fraudulenta, ilegal ou prejudicial a outros clientes, ter\xE1 sua participa\xE7\xE3o cancelada imediatamente e n\xE3o receber\xE1 reembolso. O supernosso.com pode decidir em n\xE3o aceitar novas compras do supernosso prime a qualquer momento. A participa\xE7\xE3o ao supernosso prime \xE9 regido por estes termos especiais, bem como pelos termos e condi\xE7\xF5es gerais do supernosso.com e sua Pol\xEDtica de Privacidade.</p>\n        </div>\n        <div class=\"popup-terms-prime-button\">\n        <button class=\"button-primary button\">cancelar</button>\n        <button class=\"button-secondary button\"><span>comprar</span></button>\n        </div></div></div></section>";
-
-        $("body").append(popupTerms);
-        $(".popup-terms-prime").addClass("active");
-        $(".popup-terms-prime .button-primary, button.icon-close").click(function () {
-          $("section.popup-terms-prime").removeClass("active");
-          $("section.popup-terms-prime").remove();
+        }).then(function (res) {
+            return res.json();
+        }).then(function (data) {
+            return data[0];
         });
 
-        $(".link-toggle-terms-primepg").click(function (e) {
-          e.preventDefault();
-          $(".terms-text").toggle(".show-terms");
-        });
-
-        $(".popup-terms-prime .button-secondary").click(async function () {
-          var item = {
-            id: parseInt(hrefPrime.split("sku=")[1].split("&")[0]),
-            quantity: 1,
-            seller: hrefPrime.split("&seller=")[1].split("&")[0],
-            salesChannel: hrefPrime.split("&sc=")[1].split("&")[0]
-          };
-          var $btn = $(event.target);
-
-          lastClicked = $btn.parents(".item-shelf").attr("data-product-id") || $btn.parent().parent().attr("data-product-id") || $btn.parent().attr("data-product-id");
-
-          try {
-            // adds flag
-            $btn.parents(".item-shelf").append('<span class="flag-adicionado">Adicionado</span>');
-            itemsChanged(true, item);
-            itemAdded = item;
-            $element.hide();
-            that.qtyLayout(1, $element, item.id, item.id);
-
-            $("section.popup-terms-prime").removeClass("active");
-            $("section.popup-terms-prime").remove();
-          } catch (error) {
-            console.log(error);
-          }
-        });
-      };
+        return user;
     }
-  }]);
 
-  return Shelf;
+    function insertQtyPicker($container, id, quantity, sku) {
+        $container.find('.buy-button, .buy-button-normal').hide();
+        $container.find('.product-qty').remove();
+
+        $container.prepend('\n            <div class="product-qty" data-product-id="' + id + '" data-product-sku="' + sku + '">\n                <div class="shelf-less-qty">\n                    <svg width="14" height="2" viewBox="0 0 14 2" fill="none" xmlns="http://www.w3.org/2000/svg">\n                        <path d="M1 1H13" stroke="#841F27" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>\n                    </svg>\n                </div>\n                <div class="shelf-input-qty">\n                    <input\n                        type="number"\n                        inputmode="numeric"\n                        min="0"\n                        pattern="^[0-9]*$"\n                        class="shelf-input-qty-control"\n                        value="' + (quantity === 0 ? '-' : quantity) + '"\n                    />\n                </div>\n                <div class="shelf-more-qty">\n                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">\n                        <path d="M7 7V13M1 7H7H1ZM13 7H7H13ZM7 7V1V7Z" stroke="#841F27" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>\n                    </svg>\n                </div>\n            </div>\n        ');
+    }
+
+    function toNumber($node) {
+        return Number($node.text().replace(',', '.').replace(/[R$\s]/g, ''));
+    }
+
+    function addDiscountFlagToCards() {
+        $('.item-shelf').each(function (i, card) {
+            var $card = $(card);
+            var $priceFrom = $card.find('.old-price');
+            var priceFrom = toNumber($priceFrom);
+
+            // Esconde a flag de desconto na pág. quando é menor que 20%
+            if (priceFrom > 0) {
+                var $priceTo = $card.find('.best-price');
+                var priceTo = toNumber($priceTo);
+                var discount = 1 - priceTo / priceFrom;
+
+                if (discount >= 0.2) {
+                    var discountFormated = String(Math.floor(discount * 100)).replace('.', ',');
+
+                    $card.append('<p class="flag -10">-' + discountFormated + '%</p>');
+                } else {
+                    $priceFrom.hide();
+                }
+            }
+        });
+
+        // Esconde a flag de desconto na pág. de produto quando é menor que 20%
+        if (productPage) {
+            var $productDetails = $('.product-details');
+            var $priceFrom = $productDetails.find('.skuListPrice');
+            var $priceTo = $productDetails.find('.skuBestPrice');
+            var discount = 1 - toNumber($priceTo) / toNumber($priceFrom);
+
+            if (discount < 0.2) {
+                $productDetails.find('.flag.-10').hide();
+                $priceFrom.hide();
+            }
+        }
+    }
+
+    function syncFlags() {
+        var _this = this;
+
+        $(".item-shelf").each(function () {
+            var that = _this;
+            var productId = $(_this).data("product-id");
+
+            if (productId == undefined || isNaN(productId) == false) {
+                return;
+            }
+
+            if ($(_this).find('.promo-flags p').length) {
+                fetch('/api/catalog_system/pub/products/search?fq=productId:' + productId).then(function (res) {
+                    return res.json();
+                }).then(function (res) {
+                    var product = res[0];
+
+                    $(that).find('.promo-flags p').each(function (i, element) {
+                        var $element = $(element);
+
+                        if (!$element.data('link')) {
+                            var flag = $element.text().toLowerCase();
+
+                            $element.attr('data-link', '/178?PS=24&map=productClusterIds&O=OrderByBestDiscountDESC');
+
+                            Object.keys(product.clusterHighlights).forEach(function (key) {
+                                if (product.clusterHighlights[key].toLowerCase() == flag) {
+                                    $element.attr('data-link', '/' + key + '?PS=24&map=productClusterIds&O=OrderByBestDiscountDESC');
+                                }
+                            });
+                        }
+                    });
+                });
+            }
+        });
+    }
+
+    function removeWithoutStockItems() {
+        // Na inicialização, ocorrem mts requisições e o Vtex bloqueia repetidas,
+        // por isso a necessidade de essa função ficar rodando até funcionar.
+        setTimeout(function () {
+            var withoutStockItems = vtexjs.checkout.orderForm.items.filter(function (f) {
+                return f.availability === 'withoutStock';
+            }).reduce(function (acc, cur) {
+                acc.push({ index: cur.productId, quantity: 0 });
+                return acc;
+            }, []);
+
+            if (withoutStockItems.length) {
+                vtexjs.checkout.removeItems(withoutStockItems).then(function () {
+                    updateMinicart();
+                    removeWithoutStockItems();
+                });
+            }
+        }, 2000);
+    }
+
+    function updateMinicart() {
+        // Esse evento é usado pela aplicação para atualizar o minicart.
+        window.dispatchEvent(new Event('updateCartEvt'));
+    }
+
+    function getProductIndexInCart(sku) {
+        var items = vtexjs.checkout.orderForm.items;
+
+        sku = String(sku);
+
+        return items.findIndex(function (f) {
+            return f.productId === sku;
+        });
+    }
+
+    function showHideQtyPickerForOrderFormItems() {
+        var $productCards = $('.item-shelf');
+        var items = vtexjs.checkout.orderForm && vtexjs.checkout.orderForm.items ? vtexjs.checkout.orderForm.items : [];
+
+        if (productPage) {
+            var $container = $('.product-details .buy-button-box');
+
+            // Remove o seletor quando o produto não está no carrinho
+            if ($container.find('.buy-button').is(':hidden') && getProductIndexInCart(skuJson.productId) === -1) {
+                $container.find('.product-qty').remove();
+                $container.find('.buy-button').show();
+            }
+        }
+
+        // Remove seletores de cards de produtos removidos do carrinho
+        $productCards.each(function (i, productCard) {
+            var $productCard = $(productCard);
+
+            if ($productCard.find('.buy-button-normal').is(':hidden')) {
+                var sku = $productCard.data('productId');
+
+                if (getProductIndexInCart(sku) === -1) {
+                    $productCard.find('.product-qty, .flag-adicionado').remove();
+                    $productCard.find('.buy-button-normal').show();
+                    return;
+                }
+
+                // Quando ocorre uma falha ao remover ou atualizar um produto.
+                $productCard.find('.shelf-input-qty-control').val(1);
+                $productCard.find('.buy-button-normal > a, .buy-button-ref, .product-qty').removeClass('loading');
+            }
+        });
+
+        // Adiciona o seletor quando o produto está no carrinho e não está na fila de execução
+        items.forEach(function (_ref) {
+            var id = _ref.id,
+                quantity = _ref.quantity,
+                productId = _ref.productId;
+            var queue = state.tasks.queue;
+
+            if (queue.find(function (f) {
+                return f.data === Number(productId);
+            })) return;
+
+            var condition = productPage && skuJson.productId === Number(productId);
+            var $productCard = condition ? $('.product-details') : $('.item-shelf[data-product-id=' + productId + ']');
+            var $container = $productCard.find('.buy-button-' + (condition ? 'box' : 'shelf'));
+
+            !condition && $productCard.append('<span class="flag-adicionado">Adicionado</span>');
+            insertQtyPicker($container, id, quantity, productId);
+            $container.find('*').removeClass('loading');
+        });
+    }
+
+    async function addToCart() {
+        var tasks = state.tasks.queue.filter(function (f) {
+            return f.type === 'add';
+        });
+        var idList = tasks.map(function (m) {
+            return m.id;
+        });
+        var productList = [];
+        var scList = [];
+
+        tasks.forEach(function (task) {
+            var sc = task.data.match(/sc\=([0-9]+)/i)[1];
+
+            if (!scList.includes(sc)) scList.push(sc);
+
+            productList.push({
+                id: task.data.match(/sku\=([0-9]+)/i)[1],
+                sc: sc,
+                seller: task.data.match(/seller\=([0-9]+)/i)[1],
+                quantity: 1
+            });
+        });
+
+        await scList.forEach(async function (sc) {
+            await vtexjs.checkout.addToCart(productList.filter(function (f) {
+                return f.sc === sc;
+            }), null, sc).fail(function (e) {
+                console.error(e);
+
+                toastr.error('Falha ao adicionar o(s) produto(s).');
+                showHideQtyPickerForOrderFormItems();
+
+                state.tasks.queue = state.tasks.queue.filter(function (task) {
+                    return !idList.includes(task.id);
+                });
+                state.tasks.busy = false;
+            });
+        });
+
+        state.tasks.queue = state.tasks.queue.filter(function (task) {
+            return !idList.includes(task.id);
+        });
+    }
+
+    async function updateCart() {
+        var tasks = state.tasks.queue.filter(function (f) {
+            return f.type === 'update';
+        });
+        var idList = tasks.map(function (m) {
+            return m.id;
+        });
+        var productList = [];
+
+        tasks.forEach(function (task) {
+            var items = vtexjs.checkout.orderForm.items;
+            var _task$data = task.data,
+                sku = _task$data.sku,
+                quantity = _task$data.quantity;
+
+            var index = getProductIndexInCart(sku);
+            var $container = productPage && skuJson.productId === sku ? $('.product-details .product-qty') : $('.item-shelf .product-qty[data-product-sku="' + sku + '"]');
+
+            $container.addClass('loading');
+
+            productList.push({ index: index, quantity: quantity });
+
+            // Quando tem uma promoção pague-leve (tipo "pague 2 leve 1"), a Vtex coloca o mesmo produto
+            // 2 vezes no carrinho. E para evitar problemas, sempre removo o segundo item (o da promoção).
+            if (!!items[index + 1] && items[index + 1].productId === String(sku)) {
+                productList.push({ index: index + 1, quantity: 0 });
+            }
+        });
+
+        await vtexjs.checkout.updateItems(productList, null, false).fail(function (e) {
+            console.error(e);
+
+            toastr.error('Falha ao atualizar o(s) produto(s).');
+            showHideQtyPickerForOrderFormItems();
+            state.tasks.busy = false;
+        }).always(function () {
+            state.tasks.queue = state.tasks.queue.filter(function (task) {
+                return !idList.includes(task.id);
+            });
+        });
+    }
+
+    async function removeFromCart() {
+        var tasks = state.tasks.queue.filter(function (f) {
+            return f.type === 'remove';
+        });
+        var idList = tasks.map(function (m) {
+            return m.id;
+        });
+        var productList = [];
+
+        tasks.forEach(function (task) {
+            productList.push({
+                index: getProductIndexInCart(task.data),
+                quantity: 0
+            });
+        });
+
+        await vtexjs.checkout.removeItems(productList).fail(function (e) {
+            console.error(e);
+
+            toastr.error('Falha ao remover o(s) produto(s).');
+            showHideQtyPickerForOrderFormItems();
+            state.tasks.busy = false;
+        }).always(function () {
+            state.tasks.queue = state.tasks.queue.filter(function (task) {
+                return !idList.includes(task.id);
+            });
+        });
+    }
+
+    function initTaskWorker(millisseconds) {
+        setInterval(async function () {
+            // Um novo trabalho só inicia quando:
+            // 1: Não há trabalhos em andamento;
+            // 2: Há pelo menos uma tarefa na fila de execução;
+            // 3: Se passou pelo menos 1 seg desde o último agendamento (debounce).
+            if (state.tasks.busy || !state.tasks.queue.length || state.tasks.lastTaskSchedule > Date.now() - millisseconds) return;
+
+            state.tasks.busy = true;
+            var queue = state.tasks.queue;
+
+
+            if (queue.find(function (f) {
+                return f.type === 'add';
+            })) await addToCart();
+            if (queue.find(function (f) {
+                return f.type === 'update';
+            })) await updateCart();
+            if (queue.find(function (f) {
+                return f.type === 'remove';
+            })) await removeFromCart();
+
+            showHideQtyPickerForOrderFormItems();
+            checkIfZipCodeWasInformed();
+            updateMinicart();
+            state.tasks.busy = false;
+        }, 100);
+    }
+
+    function scheduleTask(type, data) {
+        var timeStamp = Date.now();
+        var queue = state.tasks.queue;
+        var task = null;
+
+        // Remove tarefas repetidas para o mesmo produto
+        if (queue.length) {
+            task = type === 'update' ? queue.find(function (task) {
+                return task.data.sku === data.sku;
+            }) : queue.find(function (task) {
+                return task.data === data;
+            });
+        }
+
+        if (task) {
+            task.type = type;
+            task.data = data;
+        } else {
+            queue.push({ id: timeStamp, type: type, data: data });
+        }
+
+        state.tasks.lastTaskSchedule = timeStamp;
+    }
+
+    function createPrimeConditionsPopup() {
+        $body.append('\n            <section class="popup-terms-prime">\n                <div class="popup-terms-prime-inner">\n                    <div class="popup-terms-prime-header">\n                        <img src="https://supernossoemcasa.vteximg.com.br/arquivos/snc-logo@2x.png" alt="super nosso marca"/>\n                        <button class="icon-close">\n                            <img src="https://supernossoemcasa.vteximg.com.br/arquivos/icon-close-gray@2x.png" alt="icone de fechar"/>\n                        </button>\n                    </div>\n                    <div class="popup-terms-prime-content">\n                        <h2>termos e condi\xE7\xF5es</h2>\n                        <p class="warnning-msg">*compras acima de R$ 49,90</p>\n                        <p class="warnning-msg2">*pagamento somente com cart\xE3o de cr\xE9dito</p>\n                        <p>clicando em comprar voc\xEA aceita e concorda com nossos \n                            <a class="link-toggle-terms-primepg" href="#termosCondicoesPrime">termos e condi\xE7\xF5es.</a>\n                        </p>\n                        <div class="terms-text">\n                            <p>O supernosso prime \xE9 um programa de ades\xE3o opcional para o usu\xE1rio, e a compra pode ser para participa\xE7\xE3o mensal, trimestral ou semestral, atrav\xE9s do qual o servi\xE7o de entrega \xE9 gratuito e oferecido para os clientes do site supernosso.com. Os presentes Termos e Condi\xE7\xF5es s\xE3o entre o cliente e o supernosso.com e devem ser lidos atentamente antes de o cliente comprar a sua participa\xE7\xE3o As condi\xE7\xF5es do supernosso prime s\xE3o v\xE1lidas para todos os produtos vendidos pelo site. O valor da filia\xE7\xE3o ao programa varia de acordo com o plano escolhido e estes valores podem ser encontrados na p\xE1gina espec\xEDfica do programa. O benef\xEDcio do servi\xE7o gratuito de entrega do supernosso.com se aplica a pedidos de no m\xEDnimo R$ 49,90 (sem valor de entrega) e limitado a 1 pedido por dia. Para pedidos com um valor menor que o citado anteriormente ou no caso de realizar mais de 1 pedido por dia, o valor do servi\xE7o da entrega ser\xE1 cobrado do usu\xE1rio em cada pedido, n\xE3o sendo v\xE1lidas as condi\xE7\xF5es do supernosso prime. A taxa e as condi\xE7\xF5es do supernosso prime podem ser modificadas unilateralmente pelo supernosso.com a qualquer momento e comunicadas na renova\xE7\xE3o da filia\xE7\xE3o. Ap\xF3s comprar sua ades\xE3o ao programa voc\xEA pode solicitar o cancelamento em at\xE9 7 (sete) dias ap\xF3s a data da efetiva\xE7\xE3o da compra. A utiliza\xE7\xE3o dos benef\xEDcios do supernosso prime tem sua vig\xEAncia a partir da compra de algum dos per\xEDodos do supernosso prime. A ades\xE3o ao supernosso prime \xE9 realizada apenas para o per\xEDodo contratado n\xE3o sendo renovada automaticamente. Caso queira continuar fazendo parte do programa, voc\xEA deve realizar uma nova compra de algum dos planos. Qualquer ades\xE3o ao supernosso prime estar\xE1 sujeita aos termos e condi\xE7\xF5es em vigor naquele momento. A participa\xE7\xE3o no supernosso prime \xE9 pessoal e intransfer\xEDvel e utiliz\xE1vel apenas pelo comprador da participa\xE7\xE3o e estar\xE1 vinculada ao cadastro, portanto, n\xE3o pode ser transferida, atribu\xEDda ou utilizada por outro usu\xE1rio. Caso o pagamento da compra do supernosso prime n\xE3o tenha sido aprovada ou identificado pelo site supernosso.com, a participa\xE7\xE3o ser\xE1 automaticamente cancelada. O supernosso.com reserva-se o direito de aceitar, rejeitar ou cancelar a participa\xE7\xE3o do supernosso prime a qualquer momento, a seu crit\xE9rio. Se o supernosso.com cancelar uma participa\xE7\xE3o ao supernosso prime, o usu\xE1rio receber\xE1 um reembolso, correspondente ao valor proporcional da taxa de filia\xE7\xE3o para os dias restantes do per\xEDodo ap\xF3s o cancelamento. Em caso de cancelamento pelo cliente, ap\xF3s o prazo de arrependimento, este n\xE3o ter\xE1 direito ao reembolso, tendo em vista, n\xE3o ser assinatura recorrente. O participante que violar essas condi\xE7\xF5es ou mantiver qualquer outra conduta que, ao razo\xE1vel crit\xE9rio do supernosso.com, seja considerada fraudulenta, ilegal ou prejudicial a outros clientes, ter\xE1 sua participa\xE7\xE3o cancelada imediatamente e n\xE3o receber\xE1 reembolso. O supernosso.com pode decidir em n\xE3o aceitar novas compras do supernosso prime a qualquer momento. A participa\xE7\xE3o ao supernosso prime \xE9 regido por estes termos especiais, bem como pelos termos e condi\xE7\xF5es gerais do supernosso.com e sua Pol\xEDtica de Privacidade.</p>\n                        </div>\n                        <div class="popup-terms-prime-button">\n                            <button class="button button-primary">cancelar</button>\n                            <button class="button button-secondary">comprar</button>\n                        </div>\n                    </div>\n                </div>\n            </section>\n        ');
+    }
+
+    function hasAddress() {
+        var data = vtexjs.checkout.orderForm.shippingData;
+
+        return data && data.address ? true : false;
+    }
+
+    function insideQuickview() {
+        return window.location !== window.parent.location;
+    }
+
+    function checkIfZipCodeWasInformed() {
+        if (!hasAddress() || !localStorage['rightSC']) {
+            if (!insideQuickview()) $('.seller-modal').addClass('opened');
+        }
+    }
+
+    function events() {
+        $('.link-toggle-terms-primepg').on('click', function (e) {
+            e.preventDefault();
+            $('.terms-text').toggle('.show-terms');
+        });
+
+        $('.popup-terms-prime .button-primary, button.icon-close').on('click', function () {
+            $('.popup-terms-prime').removeClass('active');
+        });
+
+        $('.popup-terms-prime .button-secondary').on('click', function (e) {
+            var $button = $(e.target);
+            var hrefPrime = $button.data('hrefPrime');
+
+            scheduleTask('add', hrefPrime);
+            $('.popup-terms-prime').removeClass('active');
+            $('[href="' + hrefPrime + '"]').blur().addClass('loading');
+        });
+
+        $document.on('click tap', '.buy-button-normal > a, .buy-button-ref', async function (e) {
+            e.preventDefault();
+            var $button = $(e.target);
+            var sku = $button.parent().attr('id');
+            var href = $button.attr('href');
+
+            // Quando se seleciona um Prime pela prateleira, deve 
+            // sempre aparecer uma tela com os termos e condições.
+            if (primeIds.includes(sku) && !$button.is('.be-prime')) {
+                $('.popup-terms-prime .button-secondary').data('hrefPrime', href);
+                $('.popup-terms-prime').addClass('active');
+            } else {
+                // Na pág. de Prime a prateleira só permite adicionar
+                // um produto ao carrinho se o usuário for Prime.
+                if (location.pathname === '/prime') {
+                    var user = await getUserData(getUserEmail());
+
+                    if (!user || !user.Prime) return;
+                }
+
+                if (!hasAddress() || !localStorage['rightSC']) {
+                    checkIfZipCodeWasInformed();
+
+                    if (insideQuickview()) window.parent.shelfPendingAdd = href;else window.shelfPendingAdd = href;
+
+                    return;
+                }
+
+                $button.blur().addClass('loading');
+                scheduleTask('add', href);
+            }
+        });
+
+        $document.on('input', '.shelf-input-qty-control', function (e) {
+            var $input = $(e.target);
+            var quantity = $input.val().replace(/\D/g, '');
+
+            $input.val(quantity);
+        });
+
+        $document.on('change', '.shelf-input-qty-control', function (e) {
+            var $input = $(e.target);
+            var quantity = Number($input.val());
+            var id = String($input.closest('.product-qty').data('productId'));
+            var sku = $input.parents('.product-details').length ? skuJson.productId : $input.closest('.product-qty').data('productSku');
+
+            if (quantity > 0) {
+                if (primeIds.includes(id)) {
+                    toastr.info('Você pode ter no máximo 1 Plano Prime no carrinho!', '', { timeOut: 5000 });
+                    $input.val(1);
+                } else {
+                    scheduleTask('update', { sku: sku, quantity: quantity });
+                }
+            } else {
+                $input.val(0);
+                $input.closest('.product-qty').addClass('loading');
+                scheduleTask('remove', sku);
+            }
+        });
+
+        $document.on('click tap', '.shelf-more-qty, .shelf-less-qty', function (e) {
+            var $target = $(e.currentTarget);
+            var $input = $target.parent().find('.shelf-input-qty-control');
+            var quantity = Number($input.val());
+
+            if ($target.hasClass('shelf-more-qty')) quantity++;else quantity--;
+
+            $input.val(quantity);
+            $input.trigger('change');
+        });
+
+        $window.on('orderFormUpdated.vtex', function (e, orderForm) {
+            if (orderForm && orderForm.items) {
+                // Atualizar quantidade mostrada no carrinho desktop e mobile
+                $('.badge.badge-secondary, .badge.badge-cart').text(orderForm.items.length);
+            }
+        });
+
+        $document.on('click tap', '.item-shelf a', function (e) {
+            e.preventDefault();
+            var $link = $(e.currentTarget);
+            var className = $link.attr('class');
+            var productNameLink = $link.parent().attr('class');
+            var url = $link.attr('href');
+
+            // Link da imagem e do nome abrirão no quickview, já o botao COMPRAR adicionará ao carrinho
+            if (productNameLink.indexOf('product-name') > -1 || className.indexOf('product-image') > -1) {
+                if (window.matchMedia('(min-width:768px)').matches == true) quickView.shelf($link);else window.location.href = url;
+            }
+        });
+
+        $document.on('click tap', '.flag', function (e) {
+            e.preventDefault();
+            var $flag = $(e.target);
+            var link = !$flag.hasClass('-10') ? $flag.data('link') : '/178?PS=24&map=productClusterIds&O=OrderByBestDiscountDESC';
+
+            if (window.self !== window.top) window.parent.openUrl(link);else window.location.href = link;
+        });
+
+        // updateShelf é disparado no minicart para indicar q ele mudou
+        $window.on('sync-shelf updateShelf', showHideQtyPickerForOrderFormItems);
+
+        $document.ajaxStop(function () {
+            return syncFlags();
+        });
+    } // events
+
+
+    function init() {
+        if (!productPage) quickView.init();
+
+        createPrimeConditionsPopup();
+        addDiscountFlagToCards();
+        initTaskWorker(1000);
+        events();
+
+        vtexjs.checkout.getOrderForm().then(function () {
+            removeWithoutStockItems();
+            showHideQtyPickerForOrderFormItems();
+        });
+    }
+
+    return {
+        init: init,
+        updateMinicart: updateMinicart,
+        showHideQtyPickerForOrderFormItems: showHideQtyPickerForOrderFormItems
+    };
 }();
 
+window.Shelf = Shelf;
 exports.default = Shelf;
 
-},{"../react/minicart/check-product-inventory-availability":181,"./quickview":106,"lodash":45}],111:[function(require,module,exports){
+},{"./quickview":106}],111:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -77555,17 +77484,36 @@ var Product = function () {
         });
       }
     }
-  }, {
-    key: "qtyLayout",
-    value: function qtyLayout(qty, el, id, sku) {
-      $(".buy-button-box .product-qty").remove();
+    //   qtyLayout(qty, el, id, sku) {
+    //     $(".buy-button-box .product-qty").remove();
 
-      var html = "\n            <div class=\"product-qty\" data-product-id=\"" + id + "\" data-product-sku=\"" + sku + "\">\n                <div class=\"shelf-less-qty\">\n                    <svg width=\"14\" height=\"2\" viewBox=\"0 0 14 2\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n                        <path d=\"M1 1H13\" stroke=\"#841F27\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n                    </svg>                                      \n                </div>\n                <div class=\"shelf-input-qty\">\n                    <input type=\"text\" class=\"shelf-input-qty-control\" value=\"" + (qty == 0 ? "-" : qty) + "\" />\n                </div>\n                <div class=\"shelf-more-qty\">\n                    <svg width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n                        <path d=\"M7 7V13M1 7H7H1ZM13 7H7H13ZM7 7V1V7Z\" stroke=\"#841F27\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n                    </svg>               \n                </div>\n            </div>\n        ";
-      if (vtexjs.checkout.orderForm.shippingData && vtexjs.checkout.orderForm.shippingData.address && vtexjs.checkout.orderForm.shippingData.address.postalCode) {
-        $(html).prependTo($(el).parents(".buy-button-box"));
-        $('.buy-button-ref').addClass('d-none');
-      }
-    }
+    //     let html = `
+    //             <div class="product-qty" data-product-id="${id}" data-product-sku="${sku}">
+    //                 <div class="shelf-less-qty">
+    //                     <svg width="14" height="2" viewBox="0 0 14 2" fill="none" xmlns="http://www.w3.org/2000/svg">
+    //                         <path d="M1 1H13" stroke="#841F27" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    //                     </svg>                                      
+    //                 </div>
+    //                 <div class="shelf-input-qty">
+    //                     <input type="text" class="shelf-input-qty-control" value="${qty == 0 ? "-" : qty}" />
+    //                 </div>
+    //                 <div class="shelf-more-qty">
+    //                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+    //                         <path d="M7 7V13M1 7H7H1ZM13 7H7H13ZM7 7V1V7Z" stroke="#841F27" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    //                     </svg>               
+    //                 </div>
+    //             </div>
+    //         `;
+    //     if (
+    //       vtexjs.checkout.orderForm.shippingData &&
+    //       vtexjs.checkout.orderForm.shippingData.address &&
+    //       vtexjs.checkout.orderForm.shippingData.address.postalCode
+    //     ) {
+    //       $(html).prependTo($(el).parents(".buy-button-box"));
+    //       $('.buy-button-ref').addClass('d-none')
+    //     }
+    //   }
+
   }, {
     key: "mainImage",
     value: function mainImage() {
@@ -77760,37 +77708,40 @@ var Product = function () {
         console.error("error defineProductStockSchema", error);
       }
     }
-  }, {
-    key: "syncCart",
-    value: function syncCart() {
-      var that = this;
-      vtexjs.checkout.getOrderForm().then(function (r) {
-        var item = r.items.filter(function (x) {
-          return x.productId == skuJson_0.productId;
-        });
 
-        // Update shelf
-        var items = {};
+    //   syncCart() {
+    //     let that = this;
+    //     vtexjs.checkout.getOrderForm().then((r) => {
+    //       let item = r.items.filter((x) => x.productId == skuJson_0.productId);
 
-        r.items.forEach(function (item) {
-          if (item.productId == skuJson_0.productId) {
-            if (!items[item.productId]) {
-              items[item.productId] = {};
-              items[item.productId].quantity = 0;
-            }
-            items[item.productId].quantity += item.quantity;
-          }
-        });
+    //       // Update shelf
+    //       let items = {};
 
-        if (Object.keys(items).length > 0) {
-          var buyBtn = $(".buy-button-ref");
-          $(buyBtn).addClass("d-none");
-          $(buyBtn).hide();
-          $(buyBtn).parents(".buy-button-shelf").find(".product-qty").detach();
-          that.qtyLayout(items[skuJson_0.productId].quantity, $(buyBtn), skuJson_0.productId, skuJson_0.skus[0].sku);
-        }
-      });
-    }
+    //       r.items.forEach((item) => {
+    //         if (item.productId == skuJson_0.productId) {
+    //           if (!items[item.productId]) {
+    //             items[item.productId] = {};
+    //             items[item.productId].quantity = 0;
+    //           }
+    //           items[item.productId].quantity += item.quantity;
+    //         }
+    //       });
+
+    //       if (Object.keys(items).length > 0) {
+    //         let buyBtn = $(".buy-button-ref");
+    //         $(buyBtn).addClass("d-none");
+    //         $(buyBtn).hide();
+    //         $(buyBtn).parents(".buy-button-shelf").find(".product-qty").detach();
+    //         that.qtyLayout(
+    //           items[skuJson_0.productId].quantity,
+    //           $(buyBtn),
+    //           skuJson_0.productId,
+    //           skuJson_0.skus[0].sku
+    //         );
+    //       }
+    //     });
+    //   }
+
   }, {
     key: "placeholder",
     value: function placeholder() {
@@ -77840,17 +77791,20 @@ var Product = function () {
   }, {
     key: "flagDiscount",
     value: function flagDiscount() {
-      // Confere se existe um preço de e por
-      var listPrice = $(".skuListPrice").text().replace(/ /g, "").replace("R$", "").replace(",", ".");
-      var bestPrice = $(".skuBestPrice").text().replace(/ /g, "").replace("R$", "").replace(",", ".");
+      var toNumber = function toNumber($node) {
+        return Number($node.text().replace(',', '.').replace(/[R$\s]/g, ''));
+      };
+      var $productDetails = $('.product-details');
+      var $priceFrom = $productDetails.find('.skuListPrice');
+      var $priceTo = $productDetails.find('.skuBestPrice');
+      var discount = 1 - toNumber($priceTo) / toNumber($priceFrom);
 
-      if (listPrice && listPrice != "") {
-        listPrice = parseFloat(listPrice);
-        bestPrice = parseFloat(bestPrice);
+      if (discount >= 0.2) {
+        var discountFormated = String(Math.floor(discount * 100)).replace('.', ',');
 
-        var flag = Math.floor(100 - bestPrice * 100 / listPrice);
-
-        $(".product-info .discount-highlight").prepend("<p class=\"flag -10\">-" + flag.toString().replace(".", ",") + "%</p>");
+        $(".product-info .discount-highlight").prepend("\n                <p class=\"flag -10\">-" + discountFormated + "%</p>\n            ");
+      } else {
+        $priceFrom.hide();
       }
     }
   }, {
@@ -77927,7 +77881,7 @@ var Product = function () {
             document.querySelectorAll("#product-content")[1].classList.add("quickviewProduct");
           }
         }
-        this.syncCart();
+        //   this.syncCart();
         this.defineProductStockSchema();
         this.showBuyTogether();
         this.cleanInfos();
@@ -77970,64 +77924,62 @@ var Product = function () {
           }
         });
 
-        $(document).on("click", ".buy-button-ref", async function (e) {
-          e.preventDefault();
+        //   $(document).on("click", ".buy-button-ref", async function (e) {
+        //     e.preventDefault();
 
-          var id = skuJson_0.productId;
-          var $products = $(".product-qty");
+        //     let id = skuJson_0.productId;
+        //     let $products = $(".product-qty");
 
-          that.qtyLayout(1, $(this), id, skuJson_0.skus[0].sku);
+        //     that.qtyLayout(1, $(this), id, skuJson_0.skus[0].sku);
 
-          var href = $(this).attr("href");
-          var item = {
-            id: parseInt(href.split("sku=")[1].split("&")[0]),
-            quantity: 1,
-            seller: href.split("&seller=")[1].split("&")[0]
-          };
+        //     const href = $(this).attr("href")
+        //     const item = {
+        //       id: parseInt(href.split("sku=")[1].split("&")[0]),
+        //       quantity: 1,
+        //       seller: href.split("&seller=")[1].split("&")[0]
+        //     }
 
-          $(".buy-button-normal").addClass("disabled-qty");
-          $products.addClass("disabled-qty loading-qty");
-          $("#product-page .product-qty .shelf-input-qty").addClass("loading-qty");
+        //     // add
+        //     vtexjs.checkout.addToCart([item], null, jssalesChannel).done(function (orderForm) {
+        //       const updateCartEvt = new Event("updateCartEvt");
+        //       window.dispatchEvent(updateCartEvt);
+        //       if (orderForm.shippingData.address == null) {
+        //         if ($("body.product-modal, body.wine-modal-2021").length == 0) {
+        //           $(".seller-modal").addClass("opened")
+        //         }
+        //       }
+        //     });
 
-          // add
-          vtexjs.checkout.addToCart([item], null, jssalesChannel).done(function (orderForm) {
-            $(".buy-button-normal").removeClass("disabled-qty");
-            $products.removeClass("disabled-qty loading-qty");
-            $("#product-page .product-qty .shelf-input-qty").removeClass("loading-qty");
-            var updateCartEvt = new Event("updateCartEvt");
-            window.dispatchEvent(updateCartEvt);
-            if (orderForm.shippingData.address == null) {
-              if ($("body.product-modal, body.wine-modal-2021").length == 0) {
-                $(".seller-modal").addClass("opened");
-              }
-            }
-          });
-        });
+        //   });
 
         // Sync button
-        $(window).on("orderFormUpdated.vtex", function (evt, orderForm) {
-          if (that.ignore) {
-            return;
-          }
+        //   $(window).on("orderFormUpdated.vtex", function (evt, orderForm) {
+        //     if (that.ignore) {
+        //       return;
+        //     }
 
-          var item = orderForm.items.filter(function (x) {
-            return x.productId == skuJson_0.productId;
-          });
 
-          var quantity = item[0] ? item[0].quantity : 0;
+        //     let item = orderForm.items.filter(
+        //       (x) => x.productId == skuJson_0.productId
+        //     );
 
-          if (quantity == 0) {
-            $(".buy-button-box .product-qty").remove();
-            $(".buy-button-ref").show();
-            $(".buy-button-ref").removeClass("d-none");
-          } else {
-            if (orderForm.shippingData.address != null) {
-              $(".buy-button-ref").addClass("d-none");
-            }
-          }
+        //     let quantity = item[0] ? item[0].quantity : 0;
 
-          // $('.badge-secondary').text(quantity)
-        });
+        //     if (quantity == 0) {
+        //       $(".buy-button-box .product-qty").remove();
+        //       $(".buy-button-ref").show();
+        //       $(".buy-button-ref").removeClass("d-none");
+        //     } else {
+        //       if (orderForm.shippingData.address != null) {
+        //         $(".buy-button-ref").addClass("d-none");
+        //       }
+        //     }
+
+
+        //     // $('.badge-secondary').text(quantity)
+
+        //   });
+
       }
     }
   }]);
@@ -86188,6 +86140,8 @@ var ProductList = exports.ProductList = function (_React$Component) {
     value: function componentDidUpdate() {
       var _this3 = this;
 
+      window.dispatchEvent(new Event('updateShelf'));
+
       this.props.items.forEach(function (o, index) {
         var $miniCartInput = $("#input-" + o.id + "-" + o.index, '#minicart-wrapper');
 
@@ -86225,7 +86179,7 @@ var ProductList = exports.ProductList = function (_React$Component) {
               items[key].map(function (item, index) {
                 return _react2.default.createElement(
                   "li",
-                  { className: "product-item ", id: 'cartItemId-' + item.id, key: index },
+                  { className: "product-item", id: 'cartItemId-' + item.id, key: index },
                   _react2.default.createElement(
                     "span",
                     { className: "product-remove", name: item.productId, id: "" + item.id, onClick: function onClick() {
@@ -87836,7 +87790,7 @@ var home = new _home2.default();
 var category = new _category2.default();
 var header = new _header2.default();
 var searchbox = new _search2.default();
-var shelf = new _shelf2.default();
+// let shelf = new Shelf;
 var nav = new _nav2.default();
 // let newsletter = new Newsletter
 var faleconosco = new _faleconosco2.default();
@@ -87866,7 +87820,7 @@ nav.init();
 header.init();
 searchbox.init();
 faleconosco.init();
-shelf.init();
+_shelf2.default.init();
 storepicker.init();
 // newsletter.init();
 wineFair.init();

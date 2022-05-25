@@ -11349,6 +11349,7 @@ footer .institutional-section .dev-nav span img {
   color: #999;
 }
 .prateleira.supernossoshelf ul li .item-shelf .buy-button-shelf {
+  position: relative;
   height: 47px;
 }
 .prateleira.supernossoshelf ul li .item-shelf .buy-button-shelf #counter a {
@@ -11594,6 +11595,27 @@ footer .institutional-section .dev-nav span img {
 }
 .disabled-qty * {
   pointer-events: none !important;
+}
+.loading {
+  position: relative;
+  user-select: none;
+  pointer-events: none;
+}
+.loading::before {
+  content: '';
+  z-index: 1;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 102%;
+  height: 102%;
+  min-height: 30px;
+  background-color: rgba(255, 255, 255, 0.7);
+  background-image: url(https://supernossoemcasa.vteximg.com.br/arquivos/loading-supernosso-2.gif);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 20px;
 }
 #product-page .shelf-input-qty {
   position: relative;
@@ -15074,10 +15096,6 @@ p.text-seo span.full {
   opacity: 0;
   padding-top: 0px;
   overflow-x: hidden;
-}
-#product-page.remove-loading .loading {
-  display: none !important;
-  z-index: 0 !important;
 }
 #product-page .quickviewProduct {
   margin-top: 40px !important;
@@ -26966,12 +26984,6 @@ body#recipes-page .top-chefs .chef-list .list .list-item .recipes {
   }
   #product-page #product-content .product-info {
     padding: 16px;
-  }
-  #product-page #product-content .product-info .buy-button-box .buy-button {
-    display: block !important;
-  }
-  #product-page #product-content .product-info .buy-button-box .buy-button.d-none {
-    display: none !important;
   }
   #product-page #product-content .product-info .buy-button-box .giftlist-insertsku-wrapper {
     width: 100%;
